@@ -1,0 +1,201 @@
+<project name="DEG Orange Spain / HPE CMS Iberia, 2017-2018" default="build" basedir=".">
+
+  <description>
+  </description>
+
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+    <classpath>
+      <pathelement location="lib/ant-contrib-0.6.jar"/>
+    </classpath>
+  </taskdef>
+
+  <target name="build"
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prodA1|prodA2|prodB1|prodB2 [-Duser=d01|d02|...|d30] [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
+          depends="prepare">
+    <switch value="${env}">
+      <case value="prodA1">
+        <property name="build.profiles.deg">
+          profiles/common/default.prfl
+          profiles/env/prod/default.prfl
+          profiles/env/prodA1/default.prfl
+          profiles/env/prod/deg.prfl
+          profiles/env/prodA1/deg.prfl
+          profiles/users/default.${user}.prfl
+        </property>
+      </case>
+      <case value="prodA2">
+        <property name="build.profiles.deg">
+          profiles/common/default.prfl
+          profiles/env/prod/default.prfl
+          profiles/env/prodA2/default.prfl
+          profiles/env/prod/deg.prfl
+          profiles/env/prodA2/deg.prfl
+          profiles/users/default.${user}.prfl
+        </property>
+      </case>
+      <case value="prodB1">
+        <property name="build.profiles.deg">
+          profiles/common/default.prfl
+          profiles/env/prod/default.prfl
+          profiles/env/prodB1/default.prfl
+          profiles/env/prod/deg.prfl
+          profiles/env/prodB1/deg.prfl
+          profiles/users/default.${user}.prfl
+        </property>
+      </case>
+      <case value="prodB2">
+        <property name="build.profiles.deg">
+          profiles/common/default.prfl
+          profiles/env/prod/default.prfl
+          profiles/env/prodB2/default.prfl
+          profiles/env/prod/deg.prfl
+          profiles/env/prodB2/deg.prfl
+          profiles/users/default.${user}.prfl
+        </property>
+      </case>
+      <default>
+        <property name="build.profiles.deg">
+          profiles/common/default.prfl
+          profiles/env/${env}/default.prfl
+          profiles/env/${env}/deg.prfl
+          profiles/users/default.${user}.prfl
+        </property>
+      </default>
+    </switch>
+
+    <echo></echo>
+    <echo>Building for environment '${env}'</echo>
+    <echo></echo>
+
+    <exec executable="perl"
+          dir="."
+          failonerror="true">
+      <arg line="-w scripts/build.pl"/>
+      <arg line="-p ${build.profiles.deg}"/>
+      <arg line="-t .build/${env}/tmp/to_build"/>
+      <arg value="-R"/>
+      <arg line="-d .build/${env}/built"/>
+      <arg line="-l ${buildloglevel}"/>
+    </exec>
+  </target>
+
+  <target name="prepare"
+          depends="check,clean">
+    <mkdir dir=".build/${env}/tmp/to_build/deg"/>
+    <mkdir dir=".build/${env}/built/deg"/>
+    <copy todir=".build/${env}/tmp/to_build/deg">
+      <fileset dir="../deployment/deg"/>
+    </copy>
+  </target>
+
+  <target name="clean"
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prodA1|prodA2|prodB1|prodB2"
+          depends="check">
+
+    <delete dir=".build/${env}/tmp" includeemptydirs="true"/>
+    <delete dir=".build/${env}/built/deg" includeemptydirs="true"/>
+  </target>
+
+  <target name="check">
+    <fail message="Missing parameter 'env'">
+      <condition>
+        <not>
+          <isset property="env"/>
+        </not>
+      </condition>
+    </fail>
+
+    <fail message="Bad value '${env}' for parameter 'env'. Expected values: lab1|lab2|prepro|prodA1|prodA2|prodB1|prodB2">
+      <condition>
+        <not>
+          <or>
+            <equals arg1="${env}" arg2="lab1"/>
+            <equals arg1="${env}" arg2="lab2"/>
+            <equals arg1="${env}" arg2="prepro"/>
+            <equals arg1="${env}" arg2="prodA1"/>
+            <equals arg1="${env}" arg2="prodA2"/>
+            <equals arg1="${env}" arg2="prodB1"/>
+            <equals arg1="${env}" arg2="prodB2"/>
+          </or>
+        </not>
+      </condition>
+    </fail>
+
+    <condition property="user" value="com">
+      <or>
+        <not>
+          <isset property="user"/>
+        </not>
+        <not>
+          <equals arg1="${env}" arg2="dev"/>
+        </not>
+      </or>
+    </condition>
+
+    <fail message="Bad value '${user}' for parameter user">
+      <condition>
+        <not>
+          <resourceexists>
+            <file file="profiles/users/default.${user}.prfl"/>
+          </resourceexists>
+        </not>
+      </condition>
+    </fail>
+
+    <condition property="loglevel" value="INFO">
+      <not>
+        <isset property="loglevel"/>
+      </not>
+    </condition>
+
+    <fail message="Bad value '${loglevel}' for parameter 'loglevel'. Expected values: CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4">
+      <condition>
+        <not>
+          <or>
+            <equals arg1="${loglevel}" arg2="CRITICAL"/>
+            <equals arg1="${loglevel}" arg2="ERROR"/>
+            <equals arg1="${loglevel}" arg2="WARNING"/>
+            <equals arg1="${loglevel}" arg2="INFO"/>
+            <equals arg1="${loglevel}" arg2="DEBUG"/>
+            <equals arg1="${loglevel}" arg2="DEBUG2"/>
+            <equals arg1="${loglevel}" arg2="DEBUG3"/>
+            <equals arg1="${loglevel}" arg2="DEBUG4"/>
+          </or>
+        </not>
+      </condition>
+    </fail>
+
+    <condition property="buildloglevel" value="1">
+      <equals arg1="${loglevel}" arg2="CRITICAL"/>
+    </condition>
+
+    <condition property="buildloglevel" value="2">
+      <equals arg1="${loglevel}" arg2="ERROR"/>
+    </condition>
+
+    <condition property="buildloglevel" value="3">
+      <equals arg1="${loglevel}" arg2="WARNING"/>
+    </condition>
+
+    <condition property="buildloglevel" value="4">
+      <equals arg1="${loglevel}" arg2="INFO"/>
+    </condition>
+
+    <condition property="buildloglevel" value="5">
+      <equals arg1="${loglevel}" arg2="DEBUG"/>
+    </condition>
+
+    <condition property="buildloglevel" value="6">
+      <equals arg1="${loglevel}" arg2="DEBUG2"/>
+    </condition>
+
+    <condition property="buildloglevel" value="7">
+      <equals arg1="${loglevel}" arg2="DEBUG3"/>
+    </condition>
+
+    <condition property="buildloglevel" value="8">
+      <equals arg1="${loglevel}" arg2="DEBUG4"/>
+    </condition>
+  </target>
+
+</project>
