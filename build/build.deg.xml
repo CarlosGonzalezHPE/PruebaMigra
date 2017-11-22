@@ -10,58 +10,14 @@
   </taskdef>
 
   <target name="build"
-          description="Expected parameters: -Denv=lab1|lab2|prepro|prodA1|prodA2|prodB1|prodB2 [-Duser=d01|d02|...|d30] [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 [-Duser=d01|d02|...|d30] [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
           depends="prepare">
-    <switch value="${env}">
-      <case value="prodA1">
-        <property name="build.profiles.deg">
-          profiles/common/default.prfl
-          profiles/env/prod/default.prfl
-          profiles/env/prodA1/default.prfl
-          profiles/env/prod/deg.prfl
-          profiles/env/prodA1/deg.prfl
-          profiles/users/default.${user}.prfl
-        </property>
-      </case>
-      <case value="prodA2">
-        <property name="build.profiles.deg">
-          profiles/common/default.prfl
-          profiles/env/prod/default.prfl
-          profiles/env/prodA2/default.prfl
-          profiles/env/prod/deg.prfl
-          profiles/env/prodA2/deg.prfl
-          profiles/users/default.${user}.prfl
-        </property>
-      </case>
-      <case value="prodB1">
-        <property name="build.profiles.deg">
-          profiles/common/default.prfl
-          profiles/env/prod/default.prfl
-          profiles/env/prodB1/default.prfl
-          profiles/env/prod/deg.prfl
-          profiles/env/prodB1/deg.prfl
-          profiles/users/default.${user}.prfl
-        </property>
-      </case>
-      <case value="prodB2">
-        <property name="build.profiles.deg">
-          profiles/common/default.prfl
-          profiles/env/prod/default.prfl
-          profiles/env/prodB2/default.prfl
-          profiles/env/prod/deg.prfl
-          profiles/env/prodB2/deg.prfl
-          profiles/users/default.${user}.prfl
-        </property>
-      </case>
-      <default>
-        <property name="build.profiles.deg">
-          profiles/common/default.prfl
-          profiles/env/${env}/default.prfl
-          profiles/env/${env}/deg.prfl
-          profiles/users/default.${user}.prfl
-        </property>
-      </default>
-    </switch>
+    <property name="build.profiles.deg">
+      profiles/common/default.prfl
+      profiles/env/${env}/default.prfl
+      profiles/env/${env}/deg.prfl
+      profiles/users/default.${user}.prfl
+    </property>
 
     <echo></echo>
     <echo>Building for environment '${env}'</echo>
@@ -89,7 +45,7 @@
   </target>
 
   <target name="clean"
-          description="Expected parameters: -Denv=lab1|lab2|prepro|prodA1|prodA2|prodB1|prodB2"
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2"
           depends="check">
 
     <delete dir=".build/${env}/tmp" includeemptydirs="true"/>
@@ -105,17 +61,15 @@
       </condition>
     </fail>
 
-    <fail message="Bad value '${env}' for parameter 'env'. Expected values: lab1|lab2|prepro|prodA1|prodA2|prodB1|prodB2">
+    <fail message="Bad value '${env}' for parameter 'env'. Expected values: lab1|lab2|prepro|prod1|prod2">
       <condition>
         <not>
           <or>
             <equals arg1="${env}" arg2="lab1"/>
             <equals arg1="${env}" arg2="lab2"/>
             <equals arg1="${env}" arg2="prepro"/>
-            <equals arg1="${env}" arg2="prodA1"/>
-            <equals arg1="${env}" arg2="prodA2"/>
-            <equals arg1="${env}" arg2="prodB1"/>
-            <equals arg1="${env}" arg2="prodB2"/>
+            <equals arg1="${env}" arg2="prod1"/>
+            <equals arg1="${env}" arg2="prod2"/>
           </or>
         </not>
       </condition>
