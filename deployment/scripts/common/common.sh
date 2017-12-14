@@ -11,10 +11,15 @@
 # Variables
 #
 
+MYSQL_PATH=/usr/bin/mysql
+export MYSQL_PATH
+
 # Default log file path
 LOG_FILEPATH=/tmp/scripts.log
 export LOG_FILEPATH
 
+SITE_INDEX=00
+export SITE_INDEX
 
 #
 # Functions
