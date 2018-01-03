@@ -13,7 +13,7 @@
           description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
           depends="check">
     <echo></echo>
-    <echo>Building DEG files for '${env}'</echo>
+    <echo>Building Scripts files for '${env}'</echo>
     <echo></echo>
 
     <antcall target="build-node">
@@ -30,37 +30,36 @@
   </target>
 
   <target name="build-node"
-          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|app1|app2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]">
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|app1|app2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
           depends="prepare-node">
-    <property name="build.profiles.deg">
-      profiles/common/default.prfl
-      profiles/env/${env}/default.prfl
-      profiles/env/${env}/deg.prfl
-      profiles/env/${env}/${node}/deg.prfl
+    <property name="build.profiles.scripts">
+      profiles/common/profile.cfg
+      profiles/env/${env}/profile.cfg
+      profiles/env/${env}/profile.${node}.cfg
     </property>
 
     <echo></echo>
-    <echo>Building DEG files for '${env}/${node}'</echo>
+    <echo>Building Scripts files for '${env}/${node}'</echo>
     <echo></echo>
 
     <exec executable="perl"
           dir="."
           failonerror="true">
       <arg line="-w scripts/build.pl"/>
-      <arg line="-p ${build.profiles.deg}"/>
-      <arg line="-t .build/${env}/${node}/tmp/to_build"/>
+      <arg line="-p ${build.profiles.scripts}"/>
+      <arg line="-t .built/${env}/${node}/tmp/to_build"/>
       <arg value="-R"/>
-      <arg line="-d .build/${env}/${node}/built"/>
+      <arg line="-d .built/${env}/${node}/built"/>
       <arg line="-l ${buildloglevel}"/>
     </exec>
   </target>
 
   <target name="prepare-node"
           depends="check-node,clean-node">
-    <mkdir dir=".build/${env}/${node}/tmp/to_build/deg"/>
-    <mkdir dir=".build/${env}/${node}/built/deg"/>
-    <copy todir=".build/${env}/${node}/tmp/to_build/deg">
-      <fileset dir="../deployment/deg"/>
+    <mkdir dir=".built/${env}/${node}/tmp/to_build/scripts"/>
+    <mkdir dir=".built/${env}/${node}/built/scripts"/>
+    <copy todir=".built/${env}/${node}/tmp/to_build/scripts">
+      <fileset dir="../deployment/scripts"/>
     </copy>
   </target>
 
@@ -84,8 +83,8 @@
           description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|app1|app2"
           depends="check-node">
 
-    <delete dir=".build/${env}/${node}/tmp" includeemptydirs="true"/>
-    <delete dir=".build/${env}/${node}/built/deg" includeemptydirs="true"/>
+    <delete dir=".built/${env}/${node}/tmp" includeemptydirs="true"/>
+    <delete dir=".built/${env}/${node}/built/scripts" includeemptydirs="true"/>
   </target>
 
   <target name="check">
@@ -180,9 +179,9 @@
       <condition>
         <not>
           <or>
-            <equals arg1="${env}" arg2="mngr"/>
-            <equals arg1="${env}" arg2="app1"/>
-            <equals arg1="${env}" arg2="app2"/>
+            <equals arg1="${node}" arg2="mngr"/>
+            <equals arg1="${node}" arg2="app1"/>
+            <equals arg1="${node}" arg2="app2"/>
           </or>
         </not>
       </condition>

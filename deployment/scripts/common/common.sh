@@ -125,12 +125,6 @@ function getConfigParam
 }
 
 
-function getCommonConfigParam
-{
-  getConfigParam ${1} ${2} COMMON
-}
-
-
 function getConfigSection
 {
   typeset local SECTION
@@ -199,19 +193,13 @@ function getConfigSection
 }
 
 
-function getCommonConfigSection
-{
-  getConfigSection ${1} COMMON
-}
-
-
 function exitIfNotEnabled
 {
   typeset local ENABLED=$(getConfigParam GENERAL ENABLED)
   if [ ${?} -ne 0 ] || [ "${ENABLED}" = "" ]
   then
     logWarning "No se ha podido obtener el parametro 'ENABLED' de la seccion de configuracion 'GENERAL'"
-    endOfExecution -1
+    endOfExecution 1
   fi
 
   if [ "${ENABLED}" != "TRUE" ]
@@ -256,7 +244,7 @@ function exitIfExecutionConflict
   if [ $? -ne 0 ]
   then
     logError "No se ha podido crear el fichero '${CONTROL_FILEPATH}'"
-    endOfExecution -1
+    endOfExecution 1
   fi
 
   logDebug "El fichero de control '${CONTROL_FILEPATH}' ha sido creado"
@@ -274,43 +262,50 @@ function beginingOfExecution
   SCRIPT_NAME=$(basename ${SCRIPT_BASEDIR})
   export SCRIPT_NAME
 
-  LOG_DIR=${SCRIPT_BASEDIR}/log
+  if [ -z ${RUN_LABEL} ]
+  then
+    RUN_DIR=${SCRIPT_BASEDIR}
+    export RUN_DIR
+  else
+    RUN_DIR=${SCRIPT_BASEDIR}/run/${RUN_LABEL}
+    export RUN_DIR
+  fi
+
+  LOG_DIR=${RUN_DIR}/log
   export LOG_DIR
 
-  cd ${LOG_DIR} >/dev/null 2>&1
-  if [ $? -ne 0 ]
-  then
-    logError "No se puede acceder al directorio '${LOG_DIR}'"
-    endOfExecution -1
-  fi
-  cd - >/dev/null 2>&1
-  logDebug "Se puede acceder al directorio '${LOG_DIR}'"
-
-  LOG_FILEPATH=${SCRIPT_BASEDIR}/log/${SCRIPT_NAME}-$(date "+%Y%m%d").log
-  export LOG_FILEPATH
-
-  logInfo "Inicio de ejecucion"
-
-  TMP_DIR=${SCRIPT_BASEDIR}/tmp
+  TMP_DIR=${RUN_DIR}/tmp
   export TMP_DIR
 
-  CTRL_DIR=${SCRIPT_BASEDIR}/ctrl
+  CTRL_DIR=${RUN_DIR}/ctrl
   export CTRL_DIR
+
+  for DIR in ${LOG_DIR} ${TMP_DIR} ${CTRL_DIR}
+  do
+    mkdir -p ${DIR}
+
+    >/dev/null 2>&1 cd ${DIR}
+    if [ $? -ne 0 ]
+    then
+      logError "Unable to access to directory '${DIR}'"
+      >/dev/null 2>&1 cd -
+      endOfExecution 1
+    fi
+  done
 
   CONTROL_FILEPATH=${CTRL_DIR}/current_exec
   export CONTROL_FILEPATH
 
-  INPUT_DIR=${SCRIPT_BASEDIR}/input
-  export INPUT_DIR
+  LOG_FILEPATH=${LOG_DIR}/${SCRIPT_NAME}-$(date "+%Y%m%d").log
+  export LOG_FILEPATH
 
-  OUTPUT_DIR=${SCRIPT_BASEDIR}/output
-  export OUTPUT_DIR
+  logInfo "Inicio de ejecucion"
 
   CFG_FILEPATH=${SCRIPT_BASEDIR}/cfg/${SCRIPT_NAME}.cfg
   if [ ! -f ${CFG_FILEPATH} ]
   then
     logError "El fichero '${CFG_FILEPATH}' no existe"
-    endOfExecution -1
+    endOfExecution 1
   fi
   export CFG_FILEPATH
 
@@ -464,4 +459,3 @@ then
 fi
 
 beginingOfExecution
-
