@@ -156,7 +156,7 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/generateAutoprovCDRs
+SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/provisioning/generateAutoprovisioningFiles
 export SCRIPT_BASEDIR
 
 . /opt/<%SIU_INSTANCE%>/scripts/common/common.sh

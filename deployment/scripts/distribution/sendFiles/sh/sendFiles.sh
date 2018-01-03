@@ -256,7 +256,7 @@ do
   esac
 done
 
-SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/sendFiles
+SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles
 export SCRIPT_BASEDIR
 
 . /opt/<%SIU_INSTANCE%>/scripts/common/common.sh
