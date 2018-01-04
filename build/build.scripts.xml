@@ -10,8 +10,7 @@
   </taskdef>
 
   <target name="build"
-          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
-          depends="check">
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]">
     <echo></echo>
     <echo>Building Scripts files for '${env}'</echo>
     <echo></echo>
@@ -31,7 +30,7 @@
 
   <target name="build-node"
           description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|app1|app2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
-          depends="prepare-node">
+          depends="check,prepare-node">
     <property name="build.profiles.scripts">
       profiles/common/profile.cfg
       profiles/env/${env}/profile.cfg

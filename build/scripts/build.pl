@@ -458,7 +458,7 @@ foreach $x (0..@templates-1) {
             $section=$section.".".$1;
             $section_level{$level}=$section;
 
-            logDebug2("TEMPLATE[$lineno] =>     Section begins. Current level $level. Current section $section");
+            logInfo("TEMPLATE[$lineno] =>     Section begins. Current level $level. Current section $section");
 
             if(!$section_enabled{$level-1}){
               logDebug2("TEMPLATE[$lineno] =>     Section not enabled because of previous section");
@@ -469,7 +469,7 @@ foreach $x (0..@templates-1) {
               if(lc($enabled) eq "true"){
                 logDebug2("TEMPLATE[$lineno] =>     Section enabled: TRUE");
                 $section_enabled{$level}=1;
-              }elsif(uc $enabled eq "FALSE"){
+              }elsif(lc $enabled eq "false"){
                 logDebug2("TEMPLATE[$lineno] =>     Section enabled: FALSE");
                 $section_enabled{$level}=0;
               }else{
@@ -500,11 +500,11 @@ foreach $x (0..@templates-1) {
               $section_iteration_id{$level}=$iteration_id_2;
               $replaces{$section.'.'.$iteration_id_2}=1;
               $section_begin{$level}=$lineno;
-              
+
               if($section_enabled{$level} && $section_iteration{$level}==0){
                 $section_enabled{$level}=0;
               }
-              
+
             }
           }elsif($1 =~ /^SECTION_END$/){
 

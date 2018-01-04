@@ -68,6 +68,11 @@ function process
     if [ ${IDLE_TIME} -le ${IDLE_TIME_LIMIT} ]
     then
       addAlarm "$(hostname | cut -d "." -f 1) cpu idle time" "${IDLE_TIME_ALARM_SEVERITY}" "${IDLE_TIME_ALARM_DESCRIPTION}" "${IDLE_TIME_ALARM_ADDITIONAL_INFO}"
+      if [ $? -ne 0 ]
+      then
+        logError "Unable to add alarm"
+        return 1
+      fi
     fi
   else
     logWarning "Unable to get CPU idle time"

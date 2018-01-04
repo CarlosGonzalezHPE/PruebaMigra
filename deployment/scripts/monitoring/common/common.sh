@@ -49,6 +49,8 @@ function addAlarm
   TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 
   echo "${TIMESTAMP}#${ELEMENT}#${SEVERITY}#${DESCRIPTION}#${ADDITIONAL_INFO}" >> ${TMP_DIR}/alarms
+
+  logWarning "Alarm condition detected: ${TIMESTAMP}#${ELEMENT}#${SEVERITY}#${DESCRIPTION}#${ADDITIONAL_INFO}"
 }
 
 

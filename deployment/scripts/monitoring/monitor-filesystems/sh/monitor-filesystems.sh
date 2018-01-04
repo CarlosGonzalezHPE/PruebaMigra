@@ -12,6 +12,65 @@
 function process
 {
   logDebug "Executing function 'process'"
+
+  getConfigSection FILESYSTEMS > ${TMP_DIR}/filesystems
+  if [ $? -lt 0 ]
+  then
+    logError "Unable to get mandatory section 'FILESYSTEMS'"
+    return 1
+  fi
+
+  ALARM_DESCRIPTION="$(getConfigParam IDLE_TIME ALARM_DESCRIPTION)"
+  if [ $? -lt 0 ] || [ -z ${IDLE_TIME_ALARM_DESCRIPTION} ]
+  then
+    logError "Unable to get mandatory parameter 'ALARM_DESCRIPTION' in section 'IDLE_TIME'"
+    return 1
+  fi
+  logDebug "IDLE_TIME_ALARM_DESCRIPTION = ${IDLE_TIME_ALARM_DESCRIPTION}"
+
+  ALARM_ADDITIONAL_INFO="$(getConfigParam IDLE_TIME ALARM_ADDITIONAL_INFO)"
+  if [ $? -lt 0 ] || [ -z ${IDLE_TIME_ALARM_ADDITIONAL_INFO} ]
+  then
+    logError "Unable to get mandatory parameter 'ALARM_ADDITIONAL_INFO' in section 'IDLE_TIME'"
+    return 1
+  fi
+  logDebug "IDLE_TIME_ALARM_ADDITIONAL_INFO = ${IDLE_TIME_ALARM_ADDITIONAL_INFO}"
+
+  while read LINE
+  do
+    MOUNT_POINT=$(echo ${LINE} | cut -d ":" -f 1)
+
+    logInfo "Checking usage of Filesystem '${MOUNT_POINT}'"
+
+    if [ $(mount | grep ${MOUNT_POINT} | wc -l) -lt 1 ]
+    then
+      logWarning "Filesystem '${MOUNT_POINT}' is not mounted"
+      continue
+    fi
+
+    let USAGE=$(df -h ${FS} | awk -v fs="${MOUNT_POINT}" '{ if ($6 ~ fs) { print $5 } else if ($5 ~ fs) { print $4 }}' | tr -d "%")
+
+    echo ${LINE} | cut -d ":" -f 2 | sed -e "s|,| |g" | while read ENTRY
+    do
+      let LIMIT=$(echo ${ENTRY} | cut -d "-" -f 1)
+      SEVERITY=$(echo ${ENTRY} | cut -d "-" -f 2)
+
+      if [ ${USAGE} -ge ${LIMIT} ]
+      then
+        ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
+        ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
+
+        addAlarm "$(hostname | cut -d "." -f 1) filesystem ${MOUNT_POINT}" "${SEVERITY}" "${ALARM_DESCRIPTION}" "${ALARM_ADDITIONAL_INFO}"
+        if [ $? -ne 0 ]
+        then
+          logError "Unable to add alarm"
+          return 1
+        fi
+
+        break
+      fi
+    done
+  done < ${TMP_DIR}/filesystems
 }
 
 
