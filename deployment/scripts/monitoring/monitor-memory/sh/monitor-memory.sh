@@ -83,7 +83,7 @@ function process
       LIMIT=${MEMORY_LOW_LIMIT}
       SEVERITY=${MEMORY_LOW_SEVERITY}
     else
-      logInfo "No alarm condition detected"
+      logDebug "No alarm condition detected for memory usage"
       return 0
     fi
   fi

@@ -68,6 +68,8 @@ function process
         fi
 
         break
+      else
+        logDebug "No alarm condition detected for filesystem '${MOUNT_POINT}'"
       fi
     done
   done < ${TMP_DIR}/filesystems
