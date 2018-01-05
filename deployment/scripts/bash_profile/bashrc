@@ -1,0 +1,28 @@
+#-------------------------------------------------------------------------------
+# Orange Spain DEG
+#
+# HPE CMS Iberia, 2017
+#-------------------------------------------------------------------------------
+# .bashrc
+#-------------------------------------------------------------------------------
+
+# User specific environment and startup programs
+
+# DEG aliases
+alias cdo='cd /opt/${SIU_INSTANCE}'
+alias cde='cd /etc/opt/${SIU_INSTANCE}'
+alias cdd='cd /opt/deg/IUM'
+alias cdv='cd /var/opt/${SIU_INSTANCE}'
+alias cdl='cd /var/opt/${SIU_INSTANCE}/log'
+alias cdoam='cd ${OAM_HOME}'
+[#SECTION_BEGIN:MANAGER#]
+
+[#SECTION_END#]
+
+function lf
+{
+  for FILE_PATH in $@
+  do
+    /opt/${SIU_INSTANCE}/bin/loadconfig -f ${FILE_PATH}
+  done
+}

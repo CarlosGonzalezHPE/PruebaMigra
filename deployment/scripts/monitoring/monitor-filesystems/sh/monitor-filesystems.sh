@@ -20,6 +20,12 @@ function process
     return 1
   fi
 
+  if [ ! -s ${TMP_DIR}/filesystems ]
+  then
+    logWarning "No filesystems to be monitorized"
+    return 0
+  fi
+
   ALARM_DESCRIPTION="$(getConfigParam ALARM ALARM_DESCRIPTION)"
   if [ $? -lt 0 ] || [ -z ${ALARM_DESCRIPTION} ]
   then
@@ -80,11 +86,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/monitoring/monitor-filesystems
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/monitoring/monitor-filesystems
 export SCRIPT_BASEDIR
 
-. /opt/<%SIU_INSTANCE%>/scripts/monitoring/common/common.sh
-
+. <%SCRIPTS_DIR%>/monitoring/common/common.sh
 
 process
 if [ $? -ne 0 ]

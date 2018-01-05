@@ -20,6 +20,12 @@ function process
     return 1
   fi
 
+  if [ ! -s ${TMP_DIR}/processes ]
+  then
+    logWarning "No processes to be monitorized"
+    return 0
+  fi
+
   ALARM_DESCRIPTION="$(getConfigParam ALARM ALARM_DESCRIPTION)"
   if [ $? -lt 0 ] || [ -z ${ALARM_DESCRIPTION} ]
   then
@@ -70,10 +76,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/monitoring/monitor-network
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/monitoring/monitor-processes
 export SCRIPT_BASEDIR
 
-. /opt/<%SIU_INSTANCE%>/scripts/monitoring/common/common.sh
+. <%SCRIPTS_DIR%>/monitoring/common/common.sh
 
 
 process

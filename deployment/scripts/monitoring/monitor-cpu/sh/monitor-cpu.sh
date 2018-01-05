@@ -110,10 +110,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/monitoring/monitor-cpu
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/monitoring/monitor-cpu
 export SCRIPT_BASEDIR
 
-. /opt/<%SIU_INSTANCE%>/scripts/monitoring/common/common.sh
+. <%SCRIPTS_DIR%>/monitoring/common/common.sh
 
 
 process

@@ -38,9 +38,9 @@ function process
 
   while read MONITOR
   do
-    if [ -f /opt/<%SIU_INSTANCE%>/scripts/monitoring/monitor-${MONITOR}/tmp/alarms ]
+    if [ -f <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ]
     then
-      mv /opt/<%SIU_INSTANCE%>/scripts/monitoring/monitor-${MONITOR}/tmp/alarms ${TMP_DIR}/alarms.${MONITOR}
+      mv <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ${TMP_DIR}/alarms.${MONITOR}
 
       cat ${TMP_DIR}/alarms.${MONITOR} >> ${TMP_DIR}/alarms.tmp
     fi

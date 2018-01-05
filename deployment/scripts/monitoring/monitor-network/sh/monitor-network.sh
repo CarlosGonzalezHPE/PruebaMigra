@@ -20,6 +20,12 @@ function process
     return 1
   fi
 
+  if [ ! -s ${TMP_DIR}/interfaces ]
+  then
+    logWarning "No network interfaces to be monitorized"
+    return 0
+  fi
+
   ALARM_DESCRIPTION="$(getConfigParam ALARM ALARM_DESCRIPTION)"
   if [ $? -lt 0 ] || [ -z ${ALARM_DESCRIPTION} ]
   then
@@ -38,38 +44,30 @@ function process
 
   while read LINE
   do
-    INTERFACE=$(echo ${LINE} | cut -d "," -f 1)
+    INTERFACE=$(echo ${LINE} | cut -d ":" -f 1)
+    IP_ADDRESS=$(echo ${LINE} | cut -d ":" -f 2)
 
-    logInfo "Checking status of Network Interface '${INTERFACE}'"
+    logInfo "Checking status of Network Interface '${INTERFACE} (${IP_ADDRESS})'"
 
-    echo ${LINE} | cut -d ":" -f 2 | sed -e "s|,| |g" | while read ENTRY
-    do
-      HOSTNAME=$(echo ${ENTRY} | cut -d "-" -f 1)
-      IP_ADDRESS=$(echo ${ENTRY} | cut -d "-" -f 2)
+    set +e
+    ping -c 4 -w 10 ${IP_ADDRESS} >> ${LOG_FILEPATH} 2>&1
+    PING_RESULT=$?
+    set -e
 
-      if [ "${HOSTNAME}" == "$(hostname | cut -d "." -f 1)" ]
+    if [ "${PING_RESULT}" -ne "0" ]
+    then
+      ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
+      ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
+
+      addAlarm "$(hostname | cut -d "." -f 1) network ${INTERFACE}" "${SEVERITY}" "${ALARM_DESCRIPTION}" "${ALARM_ADDITIONAL_INFO}"
+      if [ $? -ne 0 ]
       then
-        set +e
-        ping -c 4 -w 10 ${IP_ADDRESS} >> ${LOG_FILEPATH} 2>&1
-        PING_RESULT=$?
-        set -e
-
-        if [ "${PING_RESULT}" -ne "0" ]
-        then
-          ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
-          ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
-
-          addAlarm "$(hostname | cut -d "." -f 1) network ${INTERFACE}" "${SEVERITY}" "${ALARM_DESCRIPTION}" "${ALARM_ADDITIONAL_INFO}"
-          if [ $? -ne 0 ]
-          then
-            logError "Unable to add alarm"
-            return 1
-          fi
-
-           logDebug "No alarm condition detected for Network Interface '${INTERFACE}' (${IP_ADDRESS})"
-        fi
+        logError "Unable to add alarm"
+        return 1
       fi
-    done
+
+       logDebug "No alarm condition detected for Network Interface '${INTERFACE}' (${IP_ADDRESS})"
+    fi
   done < ${TMP_DIR}/interfaces
 }
 
@@ -78,10 +76,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/monitoring/monitor-network
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/monitoring/monitor-network
 export SCRIPT_BASEDIR
 
-. /opt/<%SIU_INSTANCE%>/scripts/monitoring/common/common.sh
+. <%SCRIPTS_DIR%>/monitoring/common/common.sh
 
 
 process
