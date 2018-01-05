@@ -16,15 +16,23 @@
     <echo></echo>
 
     <antcall target="build-node">
-      <param name="node" value="mngr"/>
-    </antcall>
-
-    <antcall target="build-node">
       <param name="node" value="app1"/>
     </antcall>
 
     <antcall target="build-node">
       <param name="node" value="app2"/>
+    </antcall>
+
+    <antcall target="build-node">
+      <param name="node" value="mngr1"/>
+    </antcall>
+
+    <antcall target="build-node">
+      <param name="node" value="mngr2"/>
+    </antcall>
+
+    <antcall target="build-node">
+      <param name="node" value="mngr"/>
     </antcall>
   </target>
 
