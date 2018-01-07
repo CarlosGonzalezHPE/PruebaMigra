@@ -13,7 +13,7 @@ function process
 {
   logDebug "Executing function 'process'"
 
-  ALARMS_DIR="$(getConfigParam ALARM DIR)"
+  ALARMS_DIR="$(getConfigParam ALARMS DIR)"
   if [ $? -lt 0 ] || [ -z ${ALARMS_DIR} ]
   then
     logError "Unable to get mandatory parameter 'DIR' in section 'ALARMS'"
@@ -22,7 +22,7 @@ function process
   logDebug "ALARMS_DIR = ${ALARMS_DIR}"
 
   ALARMS_FILENAME="$(getConfigParam ALARMS FILENAME)"
-  if [ $? -lt 0 ] || [ -z ${ALARMS_FILENAME} ]
+  if [ $? -lt 0 ] || [ -z "${ALARMS_FILENAME}" ]
   then
     logError "Unable to get mandatory parameter 'FILENAME' in section 'ALARMS'"
     return 1
@@ -38,13 +38,30 @@ function process
 
   while read MONITOR
   do
+    logInfo "Fetching alarm file for monitor '${MONITOR}'"
+
+    logDebug "Looking for file '<%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms'"
+
     if [ -f <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ]
     then
       mv <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ${TMP_DIR}/alarms.${MONITOR}
-
+      if [ $? -ne 0 ]
+      then
+        logError "Command 'mv <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ${TMP_DIR}/alarms.${MONITOR}' failed"
+      fi
       cat ${TMP_DIR}/alarms.${MONITOR} >> ${TMP_DIR}/alarms.tmp
+
+      logWarning "Fetched alarm file for monitor '${MONITOR}'"
+    else
+      logInfo "No alarm file available for monitor '${MONITOR}'"
     fi
   done < ${TMP_DIR}/monitors
+
+  if [ ! -s ${TMP_DIR}/alarms.tmp ]
+  then
+    logWarning "No alarms reported"
+    return 0
+  fi
 
   while read ALARM_DATA
   do
@@ -52,17 +69,11 @@ function process
     if [ $? -ne 0 ]
     then
       logError "Unable to get next Alarm Id"
-    return 1
+      return 1
     fi
 
     echo ${ALARM_ID}"#"${ALARM_DATA} >> ${TMP_DIR}/alarms
-  done < ${TMP_DIR}/alarms
-
-  if [ ! -s ${TMP_DIR}/alarms ]
-  then
-    logWarning "No alarms reported"
-    return 0
-  fi
+  done < ${TMP_DIR}/alarms.tmp
 
   ACTUAL_ALARMS_FILENAME=$(eval echo "${ALARMS_FILENAME}")
   logDebug "ACTUAL_ALARMS_FILENAME = ${ACTUAL_ALARMS_FILENAME}"
@@ -82,10 +93,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/monitoring/monitor
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/monitoring/monitor
 export SCRIPT_BASEDIR
 
-. /opt/<%SIU_INSTANCE%>/scripts/monitoring/common/common.sh
+. <%SCRIPTS_DIR%>/monitoring/common/common.sh
 
 
 process

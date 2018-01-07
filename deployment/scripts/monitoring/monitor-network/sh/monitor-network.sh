@@ -59,14 +59,14 @@ function process
       ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
       ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
 
-      addAlarm "$(hostname | cut -d "." -f 1) network ${INTERFACE}" "${SEVERITY}" "${ALARM_DESCRIPTION}" "${ALARM_ADDITIONAL_INFO}"
+      addAlarm "$(hostname | cut -d "." -f 1) network ${INTERFACE}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
       if [ $? -ne 0 ]
       then
         logError "Unable to add alarm"
         return 1
       fi
-
-       logDebug "No alarm condition detected for Network Interface '${INTERFACE}' (${IP_ADDRESS})"
+    else
+      logDebug "No alarm condition detected for Network Interface '${INTERFACE}' (${IP_ADDRESS})"
     fi
   done < ${TMP_DIR}/interfaces
 }

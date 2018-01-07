@@ -59,7 +59,7 @@ function process
   {
     ratio = (100 * $3) / $2;
     if (ratio > 0) {
-      print "OK|" ratio
+      print ratio;
     }
   }' > ${TMP_DIR}/ratio
 
@@ -90,7 +90,7 @@ function process
   ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
   ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
 
-  addAlarm "$(hostname | cut -d "." -f 1) memory" "${SEVERITY}" "${ALARM_DESCRIPTION}" "${ALARM_ADDITIONAL_INFO}"
+  addAlarm "$(hostname | cut -d "." -f 1) memory" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
   if [ $? -ne 0 ]
   then
     logError "Unable to add alarm"

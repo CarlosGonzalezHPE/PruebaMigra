@@ -20,22 +20,21 @@ function getNextAlarmId
   logDebug "Execution function 'getNewAlarmId'"
 
   typeset local SOURCE=$1
-  if [ -s ${COMMON_CTRL_DIR}/nextAlarmId ]
+  if [ ! -s ${COMMON_CTRL_DIR}/nextAlarmId ]
   then
-    ALARM_ID=$(head -n 1 ${COMMON_CTRL_DIR}/nextAlarmId )
-    if [ ${ALARM_ID} -ge 99999 ]
-    then
-      let NEXT_ALARM_ID=0
-    else
-      let NEXT_ALARM_ID=${ALARM_ID}+1
-    fi
-    echo ${NEXT_ALARM_ID} > ${COMMON_CTRL_DIR}/nextAlarmId
-    echo ${NEXT_ALARM_ID}
-    return 0
-  else
-    logError "Unable to get next Alarm Id"
-    return 1
+    echo 1 > ${COMMON_CTRL_DIR}/nextAlarmId
+    logWarning "File '${COMMON_CTRL_DIR}/nextAlarmId' created. Next Alarm Id reset to 1"
   fi
+
+  ALARM_ID=$(head -n 1 ${COMMON_CTRL_DIR}/nextAlarmId )
+  if [ ${ALARM_ID} -ge 99999 ]
+  then
+    let NEXT_ALARM_ID=0
+  else
+    let NEXT_ALARM_ID=${ALARM_ID}+1
+  fi
+  echo ${NEXT_ALARM_ID} > ${COMMON_CTRL_DIR}/nextAlarmId
+  echo ${NEXT_ALARM_ID}
 }
 
 

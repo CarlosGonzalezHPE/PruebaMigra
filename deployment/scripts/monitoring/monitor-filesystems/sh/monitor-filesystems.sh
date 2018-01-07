@@ -55,18 +55,29 @@ function process
     fi
 
     let USAGE=$(df -h ${FS} | awk -v fs="${MOUNT_POINT}" '{ if ($6 ~ fs) { print $5 } else if ($5 ~ fs) { print $4 }}' | tr -d "%")
+    logDebug "USAGE = ${USAGE}"
 
-    echo ${LINE} | cut -d ":" -f 2 | sed -e "s|,| |g" | while read ENTRY
+    echo ${LINE} | cut -d ":" -f 2 | awk -F \, '{ for (i = 1; i <= NF; i++) { print($i); } }' > ${TMP_DIR}/entries
+
+    while read ENTRY
     do
+      logDebug "ENTRY = ${ENTRY}"
+
       let LIMIT=$(echo ${ENTRY} | cut -d "-" -f 1)
       SEVERITY=$(echo ${ENTRY} | cut -d "-" -f 2)
+
+      logDebug "LIMIT = ${LIMIT}"
+      logDebug "SEVERITY = ${SEVERITY}"
 
       if [ ${USAGE} -ge ${LIMIT} ]
       then
         ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
         ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
 
-        addAlarm "$(hostname | cut -d "." -f 1) filesystem ${MOUNT_POINT}" "${SEVERITY}" "${ALARM_DESCRIPTION}" "${ALARM_ADDITIONAL_INFO}"
+        logDebug "ACTUAL_ALARM_DESCRIPTION = ${ACTUAL_ALARM_DESCRIPTION}"
+        logDebug "ACTUAL_ALARM_ADDITIONAL_INFO"
+
+        addAlarm "$(hostname | cut -d "." -f 1) filesystem '${MOUNT_POINT}'" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
         if [ $? -ne 0 ]
         then
           logError "Unable to add alarm"
@@ -77,7 +88,7 @@ function process
       else
         logDebug "No alarm condition detected for filesystem '${MOUNT_POINT}'"
       fi
-    done
+    done < ${TMP_DIR}/entries
   done < ${TMP_DIR}/filesystems
 }
 
