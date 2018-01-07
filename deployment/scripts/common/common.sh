@@ -71,7 +71,7 @@ function getConfigParam
       SCOPE=${3}
       ;;
     *)
-      logError "Numero de argumentos incorrecto. Uso: getConfigParam <SECTION> <PARAMETER> [<SCOPE>(SELF|COMMON)]"
+      logError "Usage: getConfigParam <SECTION> <PARAMETER> [<SCOPE>(SELF|COMMON)]"
       return 1
       ;;
   esac
@@ -89,12 +89,12 @@ function getConfigParam
       fi
       ;;
     *)
-      logError "Valor '${AMBITO}' incorrecto para el campo 'SCOPE'. Uso: getConfigParam <SECTION> <PARAMETER> [<SCOPE>(SELF|COMMON)]"
+      logError "Unsupported value '${AMBITO}' for argument 'SCOPE'. Usage: getConfigParam <SECTION> <PARAMETER> [<SCOPE>(SELF|COMMON)]"
       return 1
       ;;
   esac
 
-  logDebug "Obteniendo parametro '${PARAM}' de la seccion de configuracion '${SECTION}' en el fichero '${FILEPATH}'"
+  logDebug "Get parameter '${PARAM}' in configuration section '${SECTION}' in file '${FILEPATH}'"
 
   awk -F= -v seccion="${SECTION}" -v param="${PARAM}" '
     BEGIN {
@@ -109,7 +109,7 @@ function getConfigParam
       }
       else if (( substr( $0, 0, length( end ) ) == end ) && ( searching == 1 )) {
         searching = 0;
-        print ""; # No se ha encontrado la cadena
+        print "";
         if ( sectionFound == 0 ) {
           exit 1;
         }
@@ -118,8 +118,8 @@ function getConfigParam
         }
       }
       else if (( searching ) && ( substr( $0, 0, 1 ) != "#" ) && ( $1 == param )) {
-        print $2; # Valor asociado a la variable de configuracion
-        exit 0;  # Nos paramos en el primer valor encontrado
+        print $2;
+        exit 0;
       }
     } ' ${FILEPATH}
 }
@@ -141,7 +141,7 @@ function getConfigSection
       SCOPE=${2}
       ;;
     *)
-      logError "Numero de argumentos incorrecto. Uso: getConfigSeccion <SECTION> [<SCOPE>(SELF|COMMON)]"
+      logError "Usage: getConfigSeccion <SECTION> [<SCOPE>(SELF|COMMON)]"
       return 1
       ;;
   esac
@@ -156,12 +156,12 @@ function getConfigSection
       fi
       ;;
     *)
-      logError "Valor '${AMBITO}' incorrecto para el campo 'SCOPE'. Uso: getConfigSeccion <SECTION> [<SCOPE>(SELF|COMMON)]"
+      logError "Unsupported value '${AMBITO}' for argument 'SCOPE'. Usage: getConfigSeccion <SECTION> [<SCOPE>(SELF|COMMON)]"
       return 1
       ;;
   esac
 
-  logDebug "Obteniendo seccion de configuracion '${SECTION}' del fichero '${FILEPATH}"
+  logDebug "Getting configuration section '${SECTION}' in file '${FILEPATH}"
 
   awk -v seccion="${SECTION}" '
     BEGIN {
@@ -198,17 +198,17 @@ function exitIfNotEnabled
   typeset local ENABLED=$(getConfigParam GENERAL ENABLED)
   if [ ${?} -ne 0 ] || [ "${ENABLED}" = "" ]
   then
-    logWarning "No se ha podido obtener el parametro 'ENABLED' de la seccion de configuracion 'GENERAL'"
+    logError "Unable to get configuration parameter 'ENABLED' in section 'GENERAL'"
     endOfExecution 1
   fi
 
   if [ "${ENABLED}" != "TRUE" ]
   then
-    logWarning "El script '${SCRIPT_NAME}' no esta activado"
+    logWarning "Script '${SCRIPT_NAME}' is disabled"
     endOfExecution
   fi
 
-  logDebug "El script '${SCRIPT_NAME}' esta activado"
+  logDebug "Script '${SCRIPT_NAME}' is enabled"
 }
 
 
@@ -217,7 +217,7 @@ function exitIfExecutionConflict
   typeset local CONCURRENT_EXECUTIONS_ALLOWED=$(getConfigParam GENERAL CONCURRENT_EXECUTIONS_ALLOWED)
   if [ ${?} -eq 0 ] && [ "${CONCURRENT_EXECUTIONS_ALLOWED}" = "TRUE" ]
   then
-    logInfo "Ejecuciones concurrentes permitidas"
+    logInfo "Concurent executios allowed"
     return
   fi
 
@@ -231,23 +231,23 @@ function exitIfExecutionConflict
     ID_EN_EJECUCION=$(ps -ef | awk '{ $1=$4=$5=$6=$7=""; print $0; }' | sed 's/^ *//g' | sed 's/  */ /g' | grep "^${AUX_PID} ${AUX_PPID} ${AUX_COMMAND}")
     if [ "${ID_EN_EJECUCION}" != "" ]
     then
-      logWarning "La ultima ejecucion del script '${SCRIPT_NAME}' no ha finalizado y no se permiten ejecuciones concurrentes"
+      logWarning "Last execution of script '${SCRIPT_NAME}' has not finished and concurrent executiosn are not allowed"
       endOfExecution -2
     fi
   fi
 
-  logDebug "El fichero de control '${CONTROL_FILEPATH}' ha sido comprobado. No hay ejecucion en curso"
+  logDebug "Control file '${CONTROL_FILEPATH}' has been checked. No current execution detectewd."
 
   # ID = PID + PPID + COMANDO
   ID=$(ps -p ${$} -f | tail -n 1 | awk '{ $1=$4=$5=$6=$7=""; print $0; }' | sed 's/^ *//g' | sed 's/  */ /g')
   echo "${ID}" > ${CONTROL_FILEPATH}
   if [ $? -ne 0 ]
   then
-    logError "No se ha podido crear el fichero '${CONTROL_FILEPATH}'"
+    logError "Unable to create control file '${CONTROL_FILEPATH}'"
     endOfExecution 1
   fi
 
-  logDebug "El fichero de control '${CONTROL_FILEPATH}' ha sido creado"
+  logDebug "Control file '${CONTROL_FILEPATH}' has been created"
 }
 
 
@@ -299,12 +299,12 @@ function beginingOfExecution
   LOG_FILEPATH=${LOG_DIR}/${SCRIPT_NAME}-$(date "+%Y%m%d").log
   export LOG_FILEPATH
 
-  logInfo "Inicio de ejecucion"
+  logInfo "Begining of execution"
 
   CFG_FILEPATH=${SCRIPT_BASEDIR}/cfg/${SCRIPT_NAME}.cfg
   if [ ! -f ${CFG_FILEPATH} ]
   then
-    logError "El fichero '${CFG_FILEPATH}' no existe"
+    logError "File '${CFG_FILEPATH}' does not exists"
     endOfExecution 1
   fi
   export CFG_FILEPATH
@@ -315,12 +315,12 @@ function beginingOfExecution
   LOG_LEVEL=$(getConfigParam GENERAL LOG_LEVEL)
   if [ ${?} -ne 0 ] || [ "${LOG_LEVEL}" = "" ]
   then
-    logWarning "No se ha podido obtener el parametro 'LOG_LEVEL' de la seccion de configuracion 'GENERAL'"
+    logWarning "Unable to get configuration parameter 'LOG_LEVEL' in section 'GENERAL'"
     LOG_LEVEL=INFO
   fi
   export LOG_LEVEL
 
-  logInfo "El nivel de log se establece a '${LOG_LEVEL}'"
+  logInfo "Log level set to '${LOG_LEVEL}'"
 
   exitIfNotEnabled
 
@@ -333,24 +333,24 @@ function beginingOfExecution
    mv ${TMP_DIR}/* ${SCRIPT_BASEDIR}/${COPY_NAME}
    if [ $? -ne 0 ]
    then
-     logError "Ha fallado el comando 'mv ${TMP_DIR}/* ${SCRIPT_BASEDIR}/${COPY_NAME}'"
+     logError "Command 'mv ${TMP_DIR}/* ${SCRIPT_BASEDIR}/${COPY_NAME}' failed"
    else
      cd ${SCRIPT_BASEDIR}
      if [ $? -ne 0 ]
      then
-       logError "No se ha podido acceder al directorio '${RUN_DIR}'"
+       logError "Unable to access directory '${RUN_DIR}'"
      else
 
        if [ $? -ne 0 ]
        then
-         logError "Ha fallado el comando 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}'"
+         logError "Command 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}' failed"
        else
          rm -fr ${COPY_NAME}
 
          gzip ${COPY_NAME}.tar
          if [ $? -ne 0 ]
          then
-           logError "Ha fallado el comando 'gzip ${COPY_NAME}.tar'"
+           logError "Command 'gzip ${COPY_NAME}.tar' failed"
          fi
        fi
        cd -
@@ -374,24 +374,24 @@ function endOfExecution
     cp -r ${TMP_DIR} ${SCRIPT_BASEDIR}/${COPY_NAME}
     if [ $? -ne 0 ]
     then
-      logError "Ha fallado el comando 'cp -r ${TMP_DIR} ${RUN_DIR}/${COPY_NAME}'"
+      logError "Command 'cp -r ${TMP_DIR} ${RUN_DIR}/${COPY_NAME}' failed"
     else
       cd ${SCRIPT_BASEDIR}
       if [ $? -ne 0 ]
       then
-        logError "No se ha podido acceder al directorio '${RUN_DIR}'"
+        logError "Unable to access directory '${RUN_DIR}'"
       else
         >/dev/null tar cvf ${COPY_NAME}.tar ${COPY_NAME}
         if [ $? -ne 0 ]
         then
-          logError "Ha fallado el comando 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}'"
+          logError "Command 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}' failed"
         else
           rm -fr ${COPY_NAME}
 
           gzip ${COPY_NAME}.tar
           if [ $? -ne 0 ]
           then
-            logError "Ha fallado el comando 'gzip ${COPY_NAME}.tar'"
+            logError "Command 'gzip ${COPY_NAME}.tar' failed"
           fi
         fi
         cd - >/dev/null 2>&1
@@ -403,7 +403,7 @@ function endOfExecution
 
   deleteControlFile
 
-  logInfo "Fin de ejecucion -- CODIGO DE RETORNO = ${CODE}"
+  logInfo "End of execution -- RETURN CODE = ${CODE}"
 
   exit ${CODE}
 }
@@ -414,32 +414,32 @@ function purgeLogFiles
   LOG_PURGE_DELETE_DAYS=$(getConfigParam GENERAL LOG_PURGE_DELETE_DAYS)
   if [ ${?} -ne 0 ] || [ "${LOG_PURGE_DELETE_DAYS}" = "" ]
   then
-    logWarning "No se ha podido obtener el parametro 'LOG_PURGE_DELETE_DAYS' de la seccion de configuracion 'GENERAL'. Se establece al valor por defecto '32'"
+    logWarning "Unable to get configuration parameter 'LOG_PURGE_DELETE_DAYS' in section 'GENERAL'. Set to default value '32'"
     LOG_PURGE_DELETE_DAYS=32
   fi
   logDebug "LOG_PURGE_DELETE_DAYS = '${LOG_PURGE_DELETE_DAYS}'"
 
-  logInfo "Borrando los ficheros de log con antiguedad superior a ${LOG_PURGE_DELETE_DAYS} dias"
+  logInfo "Deleting files older than ${LOG_PURGE_DELETE_DAYS} days"
   find $(dirname ${LOG_FILEPATH}) -type f -mtime +${LOG_PURGE_DELETE_DAYS} | while read FILEPATH
   do
     rm -f ${FILEPATH}
-    logInfo "El fichero '${FILEPATH}' ha sido borrado"
+    logInfo "File '${FILEPATH}' has been deleted"
   done
 
   LOG_PURGE_COMPRESS_DAYS=$(getConfigParam GENERAL LOG_PURGE_COMPRESS_DAYS)
   if [ ${?} -ne 0 ] || [ "${LOG_PURGE_COMPRESS_DAYS}" = "" ]
   then
-    logWarning "No se ha podido obtener el parametro 'LOG_PURGE_COMPRESS_DAYS' de la seccion de configuracion 'GENERAL'. Se establece al valor por defecto '8'"
+    logWarning "Unable to get configuration parameter 'LOG_PURGE_COMPRESS_DAYS' in section 'GENERAL'. Set to default value '8'"
     LOG_PURGE_COMPRESS_DAYS=8
   fi
 
   logDebug "LOG_PURGE_COMPRESS_DAYS = '${LOG_PURGE_COMPRESS_DAYS}'"
 
-  logInfo "Comprimiendo los ficheros de log con antiguedad superior a ${LOG_PURGE_COMPRESS_DAYS} dias"
+  logInfo "Compressing files older than ${LOG_PURGE_COMPRESS_DAYS} days"
   find $(dirname ${LOG_FILEPATH}) -type f -mtime +${LOG_PURGE_COMPRESS_DAYS} | grep -v ".gz$" | while read FILEPATH
   do
     gzip -f ${FILEPATH}
-    logInfo "El fichero '${FILEPATH}' ha sido comprimido"
+    logInfo "File '${FILEPATH}' has been comptressed"
   done
 }
 
@@ -452,9 +452,9 @@ COMMAND=$(basename $0)
 
 if [ -z ${SCRIPT_BASEDIR} ]
 then
-  logInfo "${COMMAND} - Inicio de ejecucion"
-  logError "${COMMAND} - La variable obligatoria 'SCRIPT_BASEDIR' no esta definida"
-  logInfo "${COMMAND} - Fin de ejecucion"
+  logInfo "${COMMAND} - Begining of execution"
+  logError "${COMMAND} - Mandatory environment variable 'SCRIPT_BASEDIR' is not defined"
+  logInfo "${COMMAND} - End of execution"
   exit -1
 fi
 

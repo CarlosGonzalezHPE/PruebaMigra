@@ -48,9 +48,10 @@ function addAlarm
 
   TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 
-  echo "${TIMESTAMP}#${ELEMENT}#${SEVERITY}#${DESCRIPTION}#${ADDITIONAL_INFO}" >> ${TMP_DIR}/alarms
+  ALARM_TEXT=$(eval echo "${TIMESTAMP}#${ELEMENT}#${SEVERITY}#${DESCRIPTION}#${ADDITIONAL_INFO}")
+  echo ${ALARM_TEXT} >> ${TMP_DIR}/alarms
 
-  logWarning "Alarm condition detected: ${TIMESTAMP}#${ELEMENT}#${SEVERITY}#${DESCRIPTION}#${ADDITIONAL_INFO}"
+  logWarning "Alarm condition detected: ${ALARM_TEXT}"
 }
 
 
@@ -58,9 +59,9 @@ function addAlarm
 # Main
 #
 
-. /opt/<%SIU_INSTANCE%>/scripts/common/common.sh
+. <%SCRIPTS_DIR%>/common/common.sh
 
-COMMON_CTRL_DIR=/opt/<%SIU_INSTANCE%>/scripts/monitoring/ctrl
+COMMON_CTRL_DIR=<%SCRIPTS_DIR%>/monitoring/ctrl
 export COMMON_CTRL_DIR
 
 mkdir -p ${COMMON_CTRL_DIR}

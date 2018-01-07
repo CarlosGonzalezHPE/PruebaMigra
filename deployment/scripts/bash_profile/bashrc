@@ -23,8 +23,8 @@ alias cdd='cd /opt/deg/IUM'
 alias cdv='cd /var/opt/${SIU_INSTANCE}'
 alias cdl='cd /var/opt/${SIU_INSTANCE}/log'
 alias cdoam='cd ${OAM_HOME}'
+alias cdmon='cd /opt/scripts/monitoring'
 [#SECTION_BEGIN:MANAGER#]
-
 [#SECTION_END#]
 
 function lf

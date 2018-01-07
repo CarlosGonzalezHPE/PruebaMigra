@@ -56,7 +56,7 @@ function process
   logDebug "CPU_LOW_SEVERITY = ${CPU_LOW_SEVERITY}"
 
   ALARM_DESCRIPTION="$(getConfigParam ALARM DESCRIPTION)"
-  if [ $? -lt 0 ] || [ -z ${ALARM_DESCRIPTION} ]
+  if [ $? -lt 0 ] || [ -z "${ALARM_DESCRIPTION}" ]
   then
     logError "Unable to get mandatory parameter 'DESCRIPTION' in section 'ALARM'"
     return 1
@@ -64,43 +64,62 @@ function process
   logDebug "ALARM_DESCRIPTION = ${ALARM_DESCRIPTION}"
 
   ALARM_ADDITIONAL_INFO="$(getConfigParam ALARM ADDITIONAL_INFO)"
-  if [ $? -lt 0 ] || [ -z ${ALARM_ADDITIONAL_INFO} ]
+  if [ $? -lt 0 ]
   then
     logError "Unable to get mandatory parameter 'ADDITIONAL_INFO' in section 'ALARM'"
     return 1
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
 
-  let IDLE_TIME=$(mpstat ${CHECK_INTERVAL} ${CHECK_NUMBER} | tail -n 1 | awk '{print $11}' | cut -d "." -f 1)
+  mpstat ${CHECK_INTERVAL} ${CHECK_NUMBER} | awk '
+  BEGIN { T = 0; N = 0; }
+  {
+    split($13, v, "%");
+    T = T + v[1];
+    N = N + 1;
+  }
+  END { printf("%f", T / N); }' > ${TMP_DIR}/idle_time
 
-  if [ -n "${IDLE_TIME}" ]
+  if [ ! -s ${TMP_DIR}/idle_time ]
   then
-    if [ ${IDLE_TIME} -le ${CPU_HIGH_LIMIT} ]
-    then
-      LIMIT=${CPU_HIGH_LIMIT}
-      SEVERITY=${CPU_HIGH_SEVERITY}
-    else
-      if [ ${IDLE_TIME} -le ${CPU_HIGH_LOW} ]
-      then
-        LIMIT=${CPU_LOW_LIMIT}
-        SEVERITY=${CPU_LOW_SEVERITY}
-      else
-        logDebug "No alarma condition detected for CPU usage"
-        return 0
-      fi
-    fi
+     logError "Unable to compute idle time"
+     return 1
+  fi
 
-    ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
-    ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
+  let IDLE_TIME=$(cat ${TMP_DIR}/idle_time | head -n 1 | cut -d "." -f 1)
+  logDebug "IDLE_TIME = ${IDLE_TIME}"
 
-    addAlarm "$(hostname | cut -d "." -f 1) memory" "${SEVERITY}" "${ALARM_DESCRIPTION}" "${ALARM_ADDITIONAL_INFO}"
-    if [ $? -ne 0 ]
-    then
-      logError "Unable to add alarm"
-      return 1
-    fi
+  if [ ! -n "${IDLE_TIME}" ]
+  then
+    logError "Unable to compute idle time"
+    return 1
+  fi
+
+  if [ ${IDLE_TIME} -le ${CPU_HIGH_LIMIT} ]
+  then
+    LIMIT=${CPU_HIGH_LIMIT}
+    SEVERITY=${CPU_HIGH_SEVERITY}
   else
-    logError "Unable to get CPU idle time"
+    if [ ${IDLE_TIME} -le ${CPU_LOW_LIMIT} ]
+    then
+      LIMIT=${CPU_LOW_LIMIT}
+      SEVERITY=${CPU_LOW_SEVERITY}
+    else
+      logDebug "No alarm condition detected for CPU usage"
+      return 0
+    fi
+  fi
+
+  ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
+  ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
+
+  logDebug "ACTUAL_ALARM_DESCRIPTION = ${ACTUAL_ALARM_DESCRIPTION}"
+  logDebug "ACTUAL_ALARM_ADDITIONAL_INFO = ${ACTUAL_ALARM_ADDITIONAL_INFO}"
+
+  addAlarm "$(hostname | cut -d "." -f 1) cpu" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+  if [ $? -ne 0 ]
+  then
+    logError "Unable to add alarm"
     return 1
   fi
 }

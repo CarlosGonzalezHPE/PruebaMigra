@@ -26,18 +26,18 @@ function process
     return 0
   fi
 
-  ALARM_DESCRIPTION="$(getConfigParam ALARM ALARM_DESCRIPTION)"
-  if [ $? -lt 0 ] || [ -z ${ALARM_DESCRIPTION} ]
+  ALARM_DESCRIPTION="$(getConfigParam ALARM DESCRIPTION)"
+  if [ $? -lt 0 ] || [ -z "${ALARM_DESCRIPTION}" ]
   then
-    logError "Unable to get mandatory parameter 'ALARM_DESCRIPTION' in section 'ALARM'"
+    logError "Unable to get mandatory parameter 'DESCRIPTION' in section 'ALARM'"
     return 1
   fi
   logDebug "ALARM_DESCRIPTION = ${ALARM_DESCRIPTION}"
 
-  ALARM_ADDITIONAL_INFO="$(getConfigParam ALARM ALARM_ADDITIONAL_INFO)"
-  if [ $? -lt 0 ] || [ -z ${ALARM_ADDITIONAL_INFO} ]
+  ALARM_ADDITIONAL_INFO="$(getConfigParam ALARM ADDITIONAL_INFO)"
+  if [ $? -lt 0 ]
   then
-    logError "Unable to get mandatory parameter 'ALARM_ADDITIONAL_INFO' in section 'ALARM'"
+    logError "Unable to get mandatory parameter 'ADDITIONAL_INFO' in section 'ALARM'"
     return 1
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
