@@ -13,47 +13,34 @@ function process
 {
   logDebug "Executing function 'process'"
 
-  CHECK_NUMBER="$(getConfigParam CPU CHECK_NUMBER)"
+  CHECK_NUMBER="$(getConfigParam GENERAL CHECK_NUMBER)"
   if [ $? -lt 0 ] || [ -z ${CHECK_NUMBER} ]
   then
-    logError "Unable to get mandatory parameter 'CHECK_NUMBER' in section 'CPU'"
+    logError "Unable to get mandatory parameter 'CHECK_NUMBER' in section 'GENERAL'"
     return 1
   fi
   logDebug "CHECK_NUMBER = ${CHECK_NUMBER}"
 
-  CHECK_INTERVAL="$(getConfigParam CPU CHECK_INTERVAL)"
+  CHECK_INTERVAL="$(getConfigParam GENERAL CHECK_INTERVAL)"
   if [ $? -lt 0 ] || [ -z ${CHECK_INTERVAL} ]
   then
-    logError "Unable to get mandatory parameter 'CHECK_INTERVAL' in section 'CPU'"
+    logError "Unable to get mandatory parameter 'CHECK_INTERVAL' in section 'GENERAL'"
     return 1
   fi
   logDebug "CHECK_INTERVAL = ${CHECK_INTERVAL}"
 
-  CPU_HIGH_DATA="$(getConfigParam CPU HIGH_LIMIT)"
-  if [ $? -lt 0 ] || [ -z ${CPU_HIGH_DATA} ]
+  getConfigSection LIMITS > ${TMP_DIR}/limits
+  if [ $? -lt 0 ]
   then
-    logError "Unable to get mandatory parameter 'HIGH_LIMIT' in section 'CPU'"
+    logError "Unable to get section 'LIMITS'"
     return 1
   fi
-  logDebug "CPU_HIGH_DATA = ${CPU_HIGH_DATA}"
 
-  let CPU_HIGH_LIMIT=$(echo ${CPU_HIGH_DATA} | cut -d "-" -f 1)
-  CPU_HIGH_SEVERITY=$(echo ${CPU_HIGH_DATA} | cut -d "-" -f 2)
-  logDebug "CPU_HIGH_LIMIT = ${CPU_HIGH_LIMIT}"
-  logDebug "CPU_HIGH_SEVERITY = ${CPU_HIGH_SEVERITY}"
-
-  CPU_LOW_DATA="$(getConfigParam CPU LOW_LIMIT)"
-  if [ $? -lt 0 ] || [ -z ${CPU_LOW_DATA} ]
+  if [ ! -s ${TMP_DIR}/limits ]
   then
-    logError "Unable to get mandatory parameter 'LOW_LIMIT' in section 'CPU'"
-    return 1
+    logWarning "No CPU usage limits defined"
+    return 0
   fi
-  logDebug "CPU_LOW_DATA = ${CPU_LOW_DATA}"
-
-  let CPU_LOW_LIMIT=$(echo ${CPU_LOW_DATA} | cut -d "-" -f 1)
-  CPU_LOW_SEVERITY=$(echo ${CPU_LOW_DATA} | cut -d "-" -f 2)
-  logDebug "CPU_LOW_LIMIT = ${CPU_LOW_LIMIT}"
-  logDebug "CPU_LOW_SEVERITY = ${CPU_LOW_SEVERITY}"
 
   ALARM_DESCRIPTION="$(getConfigParam ALARM DESCRIPTION)"
   if [ $? -lt 0 ] || [ -z "${ALARM_DESCRIPTION}" ]
@@ -70,6 +57,8 @@ function process
     return 1
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
+
+  logInfo "Checking CPU usage"
 
   mpstat ${CHECK_INTERVAL} ${CHECK_NUMBER} | awk '
   BEGIN { T = 0; N = 0; }
@@ -95,33 +84,44 @@ function process
     return 1
   fi
 
-  if [ ${IDLE_TIME} -le ${CPU_HIGH_LIMIT} ]
-  then
-    LIMIT=${CPU_HIGH_LIMIT}
-    SEVERITY=${CPU_HIGH_SEVERITY}
-  else
-    if [ ${IDLE_TIME} -le ${CPU_LOW_LIMIT} ]
+  while read LIMIT
+  do
+    THRESHOLD="$(getConfigParam ${LIMIT} THRESHOLD)"
+    if [ $? -lt 0 ] || [ -z ${THRESHOLD} ]
     then
-      LIMIT=${CPU_LOW_LIMIT}
-      SEVERITY=${CPU_LOW_SEVERITY}
-    else
-      logDebug "No alarm condition detected for CPU usage"
+      logError "Unable to get mandatory parameter 'THRESHOLD' in section '${LIMIT}'"
+      return 1
+    fi
+    logDebug "THRESHOLD = ${THRESHOLD}"
+
+    SEVERITY="$(getConfigParam ${LIMIT} SEVERITY)"
+    if [ $? -lt 0 ] || [ -z ${SEVERITY} ]
+    then
+      logError "Unable to get mandatory parameter 'SEVERITY' in section '${LIMIT}'"
+      return 1
+    fi
+    logDebug "SEVERITY = ${SEVERITY}"
+
+    if [ ${IDLE_TIME} -le ${THRESHOLD} ]
+    then
+      ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
+      ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
+
+      logDebug "ACTUAL_ALARM_DESCRIPTION = ${ACTUAL_ALARM_DESCRIPTION}"
+      logDebug "ACTUAL_ALARM_ADDITIONAL_INFO = ${ACTUAL_ALARM_ADDITIONAL_INFO}"
+
+      addAlarm "$(hostname | cut -d "." -f 1)-cpu" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+      if [ $? -ne 0 ]
+      then
+        logError "Unable to add alarm"
+        return 1
+      fi
+
       return 0
     fi
-  fi
+  done < ${TMP_DIR}/limits
 
-  ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
-  ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
-
-  logDebug "ACTUAL_ALARM_DESCRIPTION = ${ACTUAL_ALARM_DESCRIPTION}"
-  logDebug "ACTUAL_ALARM_ADDITIONAL_INFO = ${ACTUAL_ALARM_ADDITIONAL_INFO}"
-
-  addAlarm "$(hostname | cut -d "." -f 1) cpu" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
-  if [ $? -ne 0 ]
-  then
-    logError "Unable to add alarm"
-    return 1
-  fi
+  logInfo "No alarm condition detected for CPU usage"
 }
 
 

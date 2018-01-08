@@ -66,7 +66,7 @@ function process
         return 1
       fi
     else
-      logDebug "No alarm condition detected for Network Interface '${INTERFACE}' (${IP_ADDRESS})"
+      logInfo "No alarm condition detected for Network Interface '${INTERFACE}' (${IP_ADDRESS})"
     fi
   done < ${TMP_DIR}/interfaces
 }

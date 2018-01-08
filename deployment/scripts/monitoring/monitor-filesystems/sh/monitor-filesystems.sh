@@ -42,11 +42,24 @@ function process
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
 
-  while read LINE
+  while read FILESYSTEM
   do
-    MOUNT_POINT=$(echo ${LINE} | cut -d ":" -f 1)
+    MOUNT_POINT="$(getConfigParam ${FILESYSTEM} MOUNT_POINT)"
+    if [ $? -lt 0 ] || [ -z "${ALARM_DESCRIPTION}" ]
+    then
+      logError "Unable to get mandatory parameter 'MOUNT_POINT' in section '${FILESYSTEM}'"
+      return 1
+    fi
+    logDebug "MOUNT_POINT = ${MOUNT_POINT}"
 
     logInfo "Checking usage of Filesystem '${MOUNT_POINT}'"
+
+    getConfigSection ${FILESYSTEM}_LIMITS > ${TMP_DIR}/${FILESYSTEM}.limits
+    if [ $? -lt 0 ]
+    then
+      logError "Unable to get mandatory section '${FILESYSTEM}_LIMITS'"
+      return 1
+    fi
 
     if [ $(mount | grep ${MOUNT_POINT} | wc -l) -lt 1 ]
     then
@@ -57,19 +70,25 @@ function process
     let USAGE=$(df -h ${FS} | awk -v fs="${MOUNT_POINT}" '{ if ($6 ~ fs) { print $5 } else if ($5 ~ fs) { print $4 }}' | tr -d "%")
     logDebug "USAGE = ${USAGE}"
 
-    echo ${LINE} | cut -d ":" -f 2 | awk -F \, '{ for (i = 1; i <= NF; i++) { print($i); } }' > ${TMP_DIR}/entries
-
-    while read ENTRY
+    while read LIMIT
     do
-      logDebug "ENTRY = ${ENTRY}"
+      THRESHOLD="$(getConfigParam ${FILESYSTEM}_${LIMIT} THRESHOLD)"
+      if [ $? -lt 0 ] || [ -z ${THRESHOLD} ]
+      then
+        logError "Unable to get mandatory parameter 'THRESHOLD' in section '${FILESYSTEM}_${LIMIT}'"
+        return 1
+      fi
+      logDebug "THRESHOLD = ${THRESHOLD}"
 
-      let LIMIT=$(echo ${ENTRY} | cut -d "-" -f 1)
-      SEVERITY=$(echo ${ENTRY} | cut -d "-" -f 2)
-
-      logDebug "LIMIT = ${LIMIT}"
+      SEVERITY="$(getConfigParam ${FILESYSTEM}_${LIMIT} SEVERITY)"
+      if [ $? -lt 0 ] || [ -z ${SEVERITY} ]
+      then
+        logError "Unable to get mandatory parameter 'SEVERITY' in section '${FILESYSTEM}_${LIMIT}'"
+        return 1
+      fi
       logDebug "SEVERITY = ${SEVERITY}"
 
-      if [ ${USAGE} -ge ${LIMIT} ]
+      if [ ${USAGE} -ge ${THRESHOLD} ]
       then
         ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
         ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
@@ -77,7 +96,7 @@ function process
         logDebug "ACTUAL_ALARM_DESCRIPTION = ${ACTUAL_ALARM_DESCRIPTION}"
         logDebug "ACTUAL_ALARM_ADDITIONAL_INFO"
 
-        addAlarm "$(hostname | cut -d "." -f 1) filesystem '${MOUNT_POINT}'" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+        addAlarm "$(hostname | cut -d "." -f 1)-filesystem-${MOUNT_POINT}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
         if [ $? -ne 0 ]
         then
           logError "Unable to add alarm"
@@ -85,10 +104,10 @@ function process
         fi
 
         break
-      else
-        logDebug "No alarm condition detected for filesystem '${MOUNT_POINT}'"
       fi
-    done < ${TMP_DIR}/entries
+
+      logInfo "No alarm condition detected for filesystem '${MOUNT_POINT}'"
+    done < ${TMP_DIR}/${FILESYSTEM}.limits
   done < ${TMP_DIR}/filesystems
 }
 

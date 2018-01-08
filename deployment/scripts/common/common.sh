@@ -419,11 +419,11 @@ function purgeLogFiles
   fi
   logDebug "LOG_PURGE_DELETE_DAYS = '${LOG_PURGE_DELETE_DAYS}'"
 
-  logInfo "Deleting files older than ${LOG_PURGE_DELETE_DAYS} days"
+  logDebug "Deleting files older than ${LOG_PURGE_DELETE_DAYS} days"
   find $(dirname ${LOG_FILEPATH}) -type f -mtime +${LOG_PURGE_DELETE_DAYS} | while read FILEPATH
   do
     rm -f ${FILEPATH}
-    logInfo "File '${FILEPATH}' has been deleted"
+    logInfo "File '${FILEPATH}' has been purged"
   done
 
   LOG_PURGE_COMPRESS_DAYS=$(getConfigParam GENERAL LOG_PURGE_COMPRESS_DAYS)
@@ -435,11 +435,11 @@ function purgeLogFiles
 
   logDebug "LOG_PURGE_COMPRESS_DAYS = '${LOG_PURGE_COMPRESS_DAYS}'"
 
-  logInfo "Compressing files older than ${LOG_PURGE_COMPRESS_DAYS} days"
+  logDebug "Compressing files older than ${LOG_PURGE_COMPRESS_DAYS} days"
   find $(dirname ${LOG_FILEPATH}) -type f -mtime +${LOG_PURGE_COMPRESS_DAYS} | grep -v ".gz$" | while read FILEPATH
   do
     gzip -f ${FILEPATH}
-    logInfo "File '${FILEPATH}' has been comptressed"
+    logInfo "File '${FILEPATH}' has been compressed"
   done
 }
 

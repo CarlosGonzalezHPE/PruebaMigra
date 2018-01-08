@@ -13,31 +13,18 @@ function process
 {
   logDebug "Executing function 'process'"
 
-  MEMORY_HIGH_DATA="$(getConfigParam MEMORY HIGH_LIMIT)"
-  if [ $? -lt 0 ] || [ -z ${MEMORY_HIGH_DATA} ]
+  getConfigSection LIMITS > ${TMP_DIR}/limits
+  if [ $? -lt 0 ]
   then
-    logError "Unable to get mandatory parameter 'HIGH_LIMIT' in section 'MEMORY'"
+    logError "Unable to get section 'LIMITS'"
     return 1
   fi
-  logDebug "MEMORY_HIGH_DATA = ${MEMORY_HIGH_DATA}"
 
-  let MEMORY_HIGH_LIMIT=$(echo ${MEMORY_HIGH_DATA} | cut -d "-" -f 1)
-  MEMORY_HIGH_SEVERITY=$(echo ${MEMORY_HIGH_DATA} | cut -d "-" -f 2)
-  logDebug "MEMORY_HIGH_LIMIT = ${MEMORY_HIGH_LIMIT}"
-  logDebug "MEMORY_HIGH_SEVERITY = ${MEMORY_HIGH_SEVERITY}"
-
-  MEMORY_LOW_DATA="$(getConfigParam MEMORY LOW_LIMIT)"
-  if [ $? -lt 0 ] || [ -z ${MEMORY_LOW_DATA} ]
+  if [ ! -s ${TMP_DIR}/limits ]
   then
-    logError "Unable to get mandatory parameter 'LOW_LIMIT' in section 'MEMORY'"
-    return 1
+    logWarning "No Memory usage limits defined"
+    return 0
   fi
-  logDebug "MEMORY_LOW_DATA = ${MEMORY_LOW_DATA}"
-
-  let MEMORY_LOW_LIMIT=$(echo ${MEMORY_LOW_DATA} | cut -d "-" -f 1)
-  MEMORY_LOW_SEVERITY=$(echo ${MEMORY_LOW_DATA} | cut -d "-" -f 2)
-  logDebug "MEMORY_LOW_LIMIT = ${MEMORY_LOW_LIMIT}"
-  logDebug "MEMORY_LOW_SEVERITY = ${MEMORY_LOW_SEVERITY}"
 
   ALARM_DESCRIPTION="$(getConfigParam ALARM DESCRIPTION)"
   if [ $? -lt 0 ] || [ -z "${ALARM_DESCRIPTION}" ]
@@ -55,6 +42,8 @@ function process
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
 
+  logInfo "Checking Memory usage"
+
   free -m | egrep "Mem:|-/+" | awk '
   {
     ratio = (100 * $3) / $2;
@@ -63,39 +52,59 @@ function process
     }
   }' > ${TMP_DIR}/ratio
 
-  if [ -s ${TMP_DIR}/ratio ]
+  if [ ! -s ${TMP_DIR}/ratio ]
   then
-    let RATIO=$(cat ${TMP_DIR}/ratio | head -n 1 | cut -d "." -f 1)
-    logDebug "RATIO = ${RATIO}"
-
-    if [ ${RATIO} -ge ${MEMORY_HIGH_LIMIT} ]
-    then
-      LIMIT=${MEMORY_HIGH_LIMIT}
-      SEVERITY=${MEMORY_HIGH_SEVERITY}
-    else
-      if [ ${RATIO} -ge ${MEMORY_LOW_LIMIT} ]
-      then
-        LIMIT=${MEMORY_LOW_LIMIT}
-        SEVERITY=${MEMORY_LOW_SEVERITY}
-      else
-        logDebug "No alarm condition detected for memory usage"
-        return 0
-      fi
-    fi
-  else
     logError "Unable to compute memory usage ratio"
     return 1
   fi
 
-  ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
-  ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
+  let RATIO=$(cat ${TMP_DIR}/ratio | head -n 1 | cut -d "." -f 1)
+  logDebug "RATIO = ${RATIO}"
 
-  addAlarm "$(hostname | cut -d "." -f 1) memory" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
-  if [ $? -ne 0 ]
+  if [ ! -n "${RATIO}" ]
   then
-    logError "Unable to add alarm"
+    logError "Unable to compute memory usage ratio"
     return 1
   fi
+
+  while read LIMIT
+  do
+    THRESHOLD="$(getConfigParam ${LIMIT} THRESHOLD)"
+    if [ $? -lt 0 ] || [ -z ${THRESHOLD} ]
+    then
+      logError "Unable to get mandatory parameter 'THRESHOLD' in section '${LIMIT}'"
+      return 1
+    fi
+    logDebug "THRESHOLD = ${THRESHOLD}"
+
+    SEVERITY="$(getConfigParam ${LIMIT} SEVERITY)"
+    if [ $? -lt 0 ] || [ -z ${SEVERITY} ]
+    then
+      logError "Unable to get mandatory parameter 'SEVERITY' in section '${LIMIT}'"
+      return 1
+    fi
+    logDebug "SEVERITY = ${SEVERITY}"
+
+    if [ ${RATIO} -ge ${THRESHOLD} ]
+    then
+      ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
+      ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
+
+      logDebug "ACTUAL_ALARM_DESCRIPTION = ${ACTUAL_ALARM_DESCRIPTION}"
+      logDebug "ACTUAL_ALARM_ADDITIONAL_INFO = ${ACTUAL_ALARM_ADDITIONAL_INFO}"
+
+      addAlarm "$(hostname | cut -d "." -f 1)-memory" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+      if [ $? -ne 0 ]
+      then
+        logError "Unable to add alarm"
+        return 1
+      fi
+
+      return 0
+    fi
+  done < ${TMP_DIR}/limits
+
+  logInfo "No alarm condition detected for memory usage"
 }
 
 
