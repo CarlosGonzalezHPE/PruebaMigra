@@ -1,0 +1,14 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_helloworld_to_XFD_helloworld">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/helloworld" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/helloworld" />
+
+    <transformer id="SNME_Message_to_XFD_Message" from="snme:Message" to="xfd:Message">
+        <transform input="data" output="data">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+</transformations>

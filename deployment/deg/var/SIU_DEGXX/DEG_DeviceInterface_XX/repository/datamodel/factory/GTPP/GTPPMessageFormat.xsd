@@ -1,0 +1,206 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/GTPPMessageFormat"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/GTPPMessageFormat"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema"
+    xmlns:cdrns="http://www.hp.com/usage/nme/nmeschema/IMSCdr">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+    <import namespace="http://www.hp.com/usage/nme/nmeschema/IMSCdr" schemaLocation="IMSCdr.xsd"/>
+
+    <complexType name="GTPPMessage">
+        <sequence>
+            <element name="version" type="nme:byte" />
+            <element name="protocolType" type="nme:byte" />
+            <element name="spareBit" type="nme:byte" />
+            <element name="extensionHeader" type="nme:byte" />
+            <element name="messageType" type="nme:short" />
+            <element name="length" type="nme:int" />
+            <element name="sequenceNumber" type="nme:int" />
+            <element name="echoRequest" type="this:EchoRequest" />
+            <element name="echoResponse" type="this:EchoResponse" />
+            <element name="nodeAliveRequest" type="this:NodeAliveRequest" />
+            <element name="nodeAliveResponse" type="this:NodeAliveResponse" />
+            <element name="redirectionRequest" type="this:RedirectionRequest" />
+            <element name="redirectionResponse" type="this:RedirectionResponse" />
+            <element name="dataRecordTransferRequest" type="this:DataRecordTransferRequest" />
+            <element name="dataRecordTransferResponse" type="this:DataRecordTransferResponse" />
+        </sequence>
+    </complexType>
+
+    <complexType name="EchoRequest">
+        <sequence>
+            <element name="privateExtension" type="this:PrivateExtension" />
+        </sequence>
+    </complexType>
+
+    <complexType name="EchoResponse">
+        <sequence>
+            <element name="recoveryType" type="nme:short" />
+            <element name="recovery" type="nme:short" />
+            <element name="echoResponseTlvs" type="this:EchoResponseTlvsType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="EchoResponseTlvsType">
+        <sequence>
+            <element name="privateExtension" type="this:PrivateExtension" />
+        </sequence>
+    </complexType>
+
+    <complexType name="NodeAliveRequest">
+        <sequence>
+            <element name="nodeAddress" type="this:NodeAddressType" />
+            <element name="privateExtension" type="this:PrivateExtension" />
+        </sequence>
+    </complexType>
+
+    <complexType name="NodeAddressType">
+        <sequence>
+            <element name="nodeAddressVal" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="NodeAliveResponse">
+        <sequence>
+            <element name="privateExtension" type="this:PrivateExtension" />
+        </sequence>
+    </complexType>
+
+    <complexType name="RedirectionRequest">
+        <sequence>
+            <element name="causeType" type="nme:short" />
+            <element name="cause" type="nme:short" />
+            <element name="redirectionRequestTlvs" type="this:RedirectionRequestTlvsType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="RedirectionRequestTlvsType">
+        <sequence>
+            <element name="addressOfRecommendedNode" type="this:NodeAddressType" />
+            <element name="privateExtension" type="this:PrivateExtension" />
+        </sequence>
+    </complexType>
+
+    <complexType name="RedirectionResponse">
+        <sequence>
+            <element name="causeType" type="nme:short" />
+            <element name="cause" type="nme:short" />
+            <element name="redirectionResponseTlvs" type="this:RedirectionResponseTlvsType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="RedirectionResponseTlvsType">
+        <sequence>
+            <element name="privateExtension" type="this:PrivateExtension" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DataRecordTransferRequest">
+        <sequence>
+            <element name="packetTransferCommandType" type="nme:short" />
+            <element name="packetTransferCommand" type="nme:short" />
+            <element name="dataRecordPacket" type="this:DataRecordPacket" />
+            <element name="possiblyDuplicatedDataRecordPacket" type="this:DataRecordPacket" />
+            <element name="sequenceNumbersOfCancelledPackets" type="this:SequenceNumbersOfCancelledPackets" />
+            <element name="sequenceNumbersOfReleasedPackets" type="this:SequenceNumbersOfReleasedPackets" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DataRecordPacket">
+        <sequence>
+            <element name="dataRecordPacketType" type="this:DataRecordPacketType" />
+            <element name="dataRecTransferReqPvtExt" type="this:DataRecTransferReqPvtExt" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DataRecordPacketType">
+        <sequence>
+            <element name="numberOfDataRecords" type="nme:short" />
+            <element name="dataRecordFormat" type="nme:short" />
+            <element name="dataRecordFormatVersion" type="this:DataRecordFormatVersion" />
+            <element name="cdrs">
+                <complexType>
+                    <sequence>
+                        <element type="this:CDR" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="CDR">
+        <sequence>
+            <element name="lengthOfDataRecord" type="nme:int" />
+            <element name="cdr" type="nme:byte-array" />
+            <element name="metadata" type="cdrns:MetaData" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SequenceNumbersOfCancelledPackets">
+        <sequence>
+            <element name="sequenceNumbersRequestType" type="this:SequenceNumbersRequestType" />
+            <element name="dataRecTransferReqPvtExt" type="this:DataRecTransferReqPvtExt" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SequenceNumbersOfReleasedPackets">
+        <sequence>
+            <element name="sequenceNumbersRequestType" type="this:SequenceNumbersRequestType" />
+            <element name="dataRecTransferReqPvtExt" type="this:DataRecTransferReqPvtExt" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SequenceNumbersRequestType">
+        <sequence>
+            <element name="sequenceNumbers" type="nme:int-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DataRecTransferReqPvtExt">
+        <sequence>
+            <element name="pvtExt" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DataRecordFormatVersion">
+        <sequence>
+            <element name="applicationIdentifier" type="nme:byte" />
+            <element name="releaseIdentifier" type="nme:byte" />
+            <element name="versionIdentifier" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SequenceNumbers">
+        <sequence>
+            <element name="sequenceNumbers" type="nme:int-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DataRecordTransferResponse">
+        <sequence>
+            <element name="causeType" type="nme:short" />
+            <element name="cause" type="nme:short" />
+            <element name="dataRecordTransferResponseTlvs" type="this:DataRecordTransferResponseTlvsType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DataRecordTransferResponseTlvsType">
+        <sequence>
+            <element name="requestsResponded" type="this:SequenceNumbers" />
+            <element name="privateExtension" type="this:PrivateExtension" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PrivateExtension">
+        <sequence>
+            <element name="pvtExt" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="TLVHeader">
+        <sequence>
+            <element name="type" type="nme:short" />
+            <element name="length" type="nme:int" />
+        </sequence>
+    </complexType>
+</schema>

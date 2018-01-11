@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+  targetNamespace="http://www.hp.com/usage/datastruct/xfd/helloworld">
+
+  <type id="Message"  EOR="true">
+    <codec> <raw/> </codec>
+    <sequence>
+      <!--  <field id="length" type="int" codec="UInt2"/> -->
+            
+      <field id="data" type="string">
+        <codec>
+    		<raw type="string" charset="UTF8" size="6" padding="0x41"/>
+  		</codec>
+      </field>
+    </sequence>
+  </type>
+  <codec id="UInt2">
+    <raw type="int" size="2" unit="Byte" order="big-endian" unsigned="true" />
+  </codec>
+</format>

@@ -1,0 +1,1693 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_PacketCableCopsFormat_to_XFD_PacketCableCopsFormat">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+    <import prefix="tnme" ns="http://www.hp.com/usage/datastruct/transform/nme" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/PacketCableCopsFormat" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/PacketCableCopsFormat" />
+    <import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+
+    <transformer id="SNME_PacketCableMessage_to_XFD_PacketCableMessage" from="snme:PacketCableMessage" to="xfd:PacketCableMessage">
+        <transform input="version" output="version">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="flags" output="flags">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="opCode" output="opCode">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="clientType" output="clientType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="length" output="length">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="request" output="request">
+            <use-transformer from="snme:Request" to="xfd:Request" class="SNME_Request_to_XFD_Request" />
+        </transform>
+        <transform input="decision" output="decision">
+            <use-transformer from="snme:Decision" to="xfd:Decision" class="SNME_Decision_to_XFD_Decision" />
+        </transform>
+        <transform input="reportState" output="reportState">
+            <use-transformer from="snme:ReportState" to="xfd:ReportState" class="SNME_ReportState_to_XFD_ReportState" />
+        </transform>
+        <transform input="deleteRequestState" output="deleteRequestState">
+            <use-transformer from="snme:DeleteRequestState" to="xfd:DeleteRequestState" class="SNME_DeleteRequestState_to_XFD_DeleteRequestState" />
+        </transform>
+        <transform input="clientOpen" output="clientOpen">
+            <use-transformer from="snme:ClientOpen" to="xfd:ClientOpen" class="SNME_ClientOpen_to_XFD_ClientOpen" />
+        </transform>
+        <transform input="clientAccept" output="clientAccept">
+            <use-transformer from="snme:ClientAccept" to="xfd:ClientAccept" class="SNME_ClientAccept_to_XFD_ClientAccept" />
+        </transform>
+        <transform input="clientClose" output="clientClose">
+            <use-transformer from="snme:ClientClose" to="xfd:ClientClose" class="SNME_ClientClose_to_XFD_ClientClose" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Request_to_XFD_Request" from="snme:Request" to="xfd:Request">
+        <transform input="handle" output="handle">
+            <use-transformer from="snme:Handle" to="xfd:Handle" class="SNME_Handle_to_XFD_Handle" />
+        </transform>
+        <transform input="context" output="context">
+            <use-transformer from="snme:Context" to="xfd:Context" class="SNME_Context_to_XFD_Context" />
+        </transform>
+        <transform input="csiCType1" output="csiCType1">
+            <use-transformer from="snme:GateControlResponse" to="xfd:GateControlResponse" class="SNME_GateControlResponse_to_XFD_GateControlResponse" />
+        </transform>
+        <transform input="csiCType2" output="csiCType2">
+            <use-transformer from="snme:CSICType2" to="xfd:CSICType2" class="SNME_CSICType2_to_XFD_CSICType2" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Decision_to_XFD_Decision" from="snme:Decision" to="xfd:Decision">
+        <transform input="handle" output="handle">
+            <use-transformer from="snme:Handle" to="xfd:Handle" class="SNME_Handle_to_XFD_Handle" />
+        </transform>
+        <transform input="context" output="context">
+            <use-transformer from="snme:Context" to="xfd:Context" class="SNME_Context_to_XFD_Context" />
+        </transform>
+        <transform input="decisionCType1" output="decisionCType1">
+            <use-transformer from="snme:DecisionCType1" to="xfd:DecisionCType1" class="SNME_DecisionCType1_to_XFD_DecisionCType1" />
+        </transform>
+        <transform input="decisionCType4" output="decisionCType4">
+            <use-transformer from="snme:GateControlCommand" to="xfd:GateControlCommand" class="SNME_GateControlCommand_to_XFD_GateControlCommand" />
+        </transform>
+        <transform input="error" output="error">
+            <use-transformer from="snme:Error" to="xfd:Error" class="SNME_Error_to_XFD_Error" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ReportState_to_XFD_ReportState" from="snme:ReportState" to="xfd:ReportState">
+        <transform input="handle" output="handle">
+            <use-transformer from="snme:Handle" to="xfd:Handle" class="SNME_Handle_to_XFD_Handle" />
+        </transform>
+        <transform input="reportType" output="reportType">
+            <use-transformer from="snme:ReportType" to="xfd:ReportType" class="SNME_ReportType_to_XFD_ReportType" />
+        </transform>
+        <transform input="csiCType1" output="csiCType1">
+            <use-transformer from="snme:GateControlResponse" to="xfd:GateControlResponse" class="SNME_GateControlResponse_to_XFD_GateControlResponse" />
+        </transform>
+        <transform input="csiCType2" output="csiCType2">
+            <use-transformer from="snme:CSICType2" to="xfd:CSICType2" class="SNME_CSICType2_to_XFD_CSICType2" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_DeleteRequestState_to_XFD_DeleteRequestState" from="snme:DeleteRequestState" to="xfd:DeleteRequestState">
+        <transform input="handle" output="handle">
+            <use-transformer from="snme:Handle" to="xfd:Handle" class="SNME_Handle_to_XFD_Handle" />
+        </transform>
+        <transform input="reason" output="reason">
+            <use-transformer from="snme:Reason" to="xfd:Reason" class="SNME_Reason_to_XFD_Reason" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ClientOpen_to_XFD_ClientOpen" from="snme:ClientOpen" to="xfd:ClientOpen">
+        <transform input="pepId" output="pepId">
+            <use-transformer from="snme:PEPID" to="xfd:PEPID" class="SNME_PEPID_to_XFD_PEPID" />
+        </transform>
+        <transform input="versionInfo" output="versionInfo">
+            <use-transformer from="snme:PacketCableVersionInfo" to="xfd:PacketCableVersionInfo" class="SNME_PacketCableVersionInfo_to_XFD_PacketCableVersionInfo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ClientAccept_to_XFD_ClientAccept" from="snme:ClientAccept" to="xfd:ClientAccept">
+        <transform input="keepAliveTimer" output="keepAliveTimer">
+            <use-transformer from="snme:KeepAliveTimer" to="xfd:KeepAliveTimer" class="SNME_KeepAliveTimer_to_XFD_KeepAliveTimer" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ClientClose_to_XFD_ClientClose" from="snme:ClientClose" to="xfd:ClientClose">
+        <transform input="error" output="error">
+            <use-transformer from="snme:Error" to="xfd:Error" class="SNME_Error_to_XFD_Error" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_PacketCableVersionInfo_to_XFD_PacketCableVersionInfo" from="snme:PacketCableVersionInfo" to="xfd:PacketCableVersionInfo">
+        <transform input="versionInfo" output="versionInfo">
+            <use-transformer from="snme:VersionInfo" to="xfd:VersionInfo" class="SNME_VersionInfo_to_XFD_VersionInfo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AMID_to_XFD_AMID" from="snme:AMID" to="xfd:AMID">
+        <transform input="applicationType" output="applicationType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="applicationManagerTag" output="applicationManagerTag">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SubIDIPV4_to_XFD_SubIDIPV4" from="snme:SubIDIPV4" to="xfd:SubIDIPV4">
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SubIDIPV6_to_XFD_SubIDIPV6" from="snme:SubIDIPV6" to="xfd:SubIDIPV6">
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateID_to_XFD_GateID" from="snme:GateID" to="xfd:GateID">
+        <transform input="gateID" output="gateID">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateSpec_to_XFD_GateSpec" from="snme:GateSpec" to="xfd:GateSpec">
+        <transform input="flagsDirectionBit" output="flagsDirectionBit">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="flagsDscpTosBit" output="flagsDscpTosBit">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="flagsReservedBits" output="flagsReservedBits">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="dscpTosOverwrite" output="dscpTosOverwrite">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="dscpTosMask" output="dscpTosMask">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="sessionClassIDPriority" output="sessionClassIDPriority">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="sessionClassIDPreemption" output="sessionClassIDPreemption">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="sessionClassIDConfigurable" output="sessionClassIDConfigurable">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="timerT1" output="timerT1">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="timerT2" output="timerT2">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="timerT3" output="timerT3">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="timerT4" output="timerT4">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Classifier_to_XFD_Classifier" from="snme:Classifier" to="xfd:Classifier">
+        <transform input="protocolID" output="protocolID">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="dscpTosField" output="dscpTosField">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="dscpTosMask" output="dscpTosMask">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="iPSourceAddress" output="iPSourceAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="iPDestinationAddress" output="iPDestinationAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="sourcePort" output="sourcePort">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="destinationPort" output="destinationPort">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="priority" output="priority">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reservedEnd" output="reservedEnd">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ExtendedClassifier_to_XFD_ExtendedClassifier" from="snme:ExtendedClassifier" to="xfd:ExtendedClassifier">
+        <transform input="protocolID" output="protocolID">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="dscpTosField" output="dscpTosField">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="dscpTosMask" output="dscpTosMask">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="iPSourceAddress" output="iPSourceAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="iPSourceMask" output="iPSourceMask">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="iPDestinationAddress" output="iPDestinationAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="iPDestinationMask" output="iPDestinationMask">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="sourcePortStart" output="sourcePortStart">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="sourcePortEnd" output="sourcePortEnd">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="destinationPortStart" output="destinationPortStart">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="destinationPortEnd" output="destinationPortEnd">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="classifierID" output="classifierID">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="priority" output="priority">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="activationState" output="activationState">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="action" output="action">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reservedEnd" output="reservedEnd">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_IPV6Classifier_to_XFD_IPV6Classifier" from="snme:IPV6Classifier" to="xfd:IPV6Classifier">
+        <transform input="reserved" output="reserved">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="flags" output="flags">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="tcLow" output="tcLow">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="tcHigh" output="tcHigh">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="tcMask" output="tcMask">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="flowLabel" output="flowLabel">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="nextHeaderType" output="nextHeaderType">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="sourcePrefixLength" output="sourcePrefixLength">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="destinationPrefixLength" output="destinationPrefixLength">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="iPV6SourceAddress" output="iPV6SourceAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="iPV6DestinationAddress" output="iPV6DestinationAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="sourcePortStart" output="sourcePortStart">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="sourcePortEnd" output="sourcePortEnd">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="destinationPortStart" output="destinationPortStart">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="destinationPortEnd" output="destinationPortEnd">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="classifierID" output="classifierID">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="priority" output="priority">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="activationState" output="activationState">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="action" output="action">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reservedEnd" output="reservedEnd">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_FlowSpec_to_XFD_FlowSpec" from="snme:FlowSpec" to="xfd:FlowSpec">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="serviceNumber" output="serviceNumber">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserveFirst" output="reserveFirst">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserveSecond" output="reserveSecond">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="authEnvelope" output="authEnvelope">
+            <use-transformer from="snme:FlowSpecEnvelope" to="xfd:FlowSpecEnvelope" class="SNME_FlowSpecEnvelope_to_XFD_FlowSpecEnvelope" />
+        </transform>
+        <transform input="authReservedEnvelope" output="authReservedEnvelope">
+            <use-transformer from="snme:AuthReservedEnvelope" to="xfd:AuthReservedEnvelope" class="SNME_AuthReservedEnvelope_to_XFD_AuthReservedEnvelope" />
+        </transform>
+        <transform input="authReservedCommittedEnvelope" output="authReservedCommittedEnvelope">
+            <use-transformer from="snme:AuthReservedCommittedEnvelope" to="xfd:AuthReservedCommittedEnvelope" class="SNME_AuthReservedCommittedEnvelope_to_XFD_AuthReservedCommittedEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedEnvelope_to_XFD_AuthReservedEnvelope" from="snme:AuthReservedEnvelope" to="xfd:AuthReservedEnvelope">
+        <transform input="authorizedEnvelope" output="authorizedEnvelope">
+            <use-transformer from="snme:FlowSpecEnvelope" to="xfd:FlowSpecEnvelope" class="SNME_FlowSpecEnvelope_to_XFD_FlowSpecEnvelope" />
+        </transform>
+        <transform input="reservedEnvelope" output="reservedEnvelope">
+            <use-transformer from="snme:FlowSpecEnvelope" to="xfd:FlowSpecEnvelope" class="SNME_FlowSpecEnvelope_to_XFD_FlowSpecEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedCommittedEnvelope_to_XFD_AuthReservedCommittedEnvelope" from="snme:AuthReservedCommittedEnvelope" to="xfd:AuthReservedCommittedEnvelope">
+        <transform input="authorizedEnvelope" output="authorizedEnvelope">
+            <use-transformer from="snme:FlowSpecEnvelope" to="xfd:FlowSpecEnvelope" class="SNME_FlowSpecEnvelope_to_XFD_FlowSpecEnvelope" />
+        </transform>
+        <transform input="reservedEnvelope" output="reservedEnvelope">
+            <use-transformer from="snme:FlowSpecEnvelope" to="xfd:FlowSpecEnvelope" class="SNME_FlowSpecEnvelope_to_XFD_FlowSpecEnvelope" />
+        </transform>
+        <transform input="committedEnvelope" output="committedEnvelope">
+            <use-transformer from="snme:FlowSpecEnvelope" to="xfd:FlowSpecEnvelope" class="SNME_FlowSpecEnvelope_to_XFD_FlowSpecEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_FlowSpecEnvelope_to_XFD_FlowSpecEnvelope" from="snme:FlowSpecEnvelope" to="xfd:FlowSpecEnvelope">
+        <transform input="tokenBucketRate" output="tokenBucketRate">
+            <use-transformer from="nme:float" to="byte[]" class="t:FloatToByteArray" />
+        </transform>
+        <transform input="tokenBucketSize" output="tokenBucketSize">
+            <use-transformer from="nme:float" to="byte[]" class="t:FloatToByteArray" />
+        </transform>
+        <transform input="peakDataRate" output="peakDataRate">
+            <use-transformer from="nme:float" to="byte[]" class="t:FloatToByteArray" />
+        </transform>
+        <transform input="minPolicedUnit" output="minPolicedUnit">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="maxPacketSize" output="maxPacketSize">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="rate" output="rate">
+            <use-transformer from="nme:float" to="byte[]" class="t:FloatToByteArray" />
+        </transform>
+        <transform input="slackTerm" output="slackTerm">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_DocSisServiceClass_to_XFD_DocSisServiceClass" from="snme:DocSisServiceClass" to="xfd:DocSisServiceClass">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+        <transform input="serviceClassName" output="serviceClassName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes">
+        <transform input="reserveFirst" output="reserveFirst">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserveSecond" output="reserveSecond">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserveThird" output="reserveThird">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_BestEffortService_to_XFD_BestEffortService" from="snme:BestEffortService" to="xfd:BestEffortService">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+        <transform input="authBESEnvelope" output="authBESEnvelope">
+            <use-transformer from="snme:BestEffortServiceEnvelope" to="xfd:BestEffortServiceEnvelope" class="SNME_BestEffortServiceEnvelope_to_XFD_BestEffortServiceEnvelope" />
+        </transform>
+        <transform input="authReservedBESEnvelope" output="authReservedBESEnvelope">
+            <use-transformer from="snme:AuthReservedBESEnvelope" to="xfd:AuthReservedBESEnvelope" class="SNME_AuthReservedBESEnvelope_to_XFD_AuthReservedBESEnvelope" />
+        </transform>
+        <transform input="authReservedCommittedBESEnvelope" output="authReservedCommittedBESEnvelope">
+            <use-transformer from="snme:AuthReservedCommittedBESEnvelope" to="xfd:AuthReservedCommittedBESEnvelope" class="SNME_AuthReservedCommittedBESEnvelope_to_XFD_AuthReservedCommittedBESEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedBESEnvelope_to_XFD_AuthReservedBESEnvelope" from="snme:AuthReservedBESEnvelope" to="xfd:AuthReservedBESEnvelope">
+        <transform input="authorizedBESEnvelope" output="authorizedBESEnvelope">
+            <use-transformer from="snme:BestEffortServiceEnvelope" to="xfd:BestEffortServiceEnvelope" class="SNME_BestEffortServiceEnvelope_to_XFD_BestEffortServiceEnvelope" />
+        </transform>
+        <transform input="reservedBESEnvelope" output="reservedBESEnvelope">
+            <use-transformer from="snme:BestEffortServiceEnvelope" to="xfd:BestEffortServiceEnvelope" class="SNME_BestEffortServiceEnvelope_to_XFD_BestEffortServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedCommittedBESEnvelope_to_XFD_AuthReservedCommittedBESEnvelope" from="snme:AuthReservedCommittedBESEnvelope" to="xfd:AuthReservedCommittedBESEnvelope">
+        <transform input="authorizedBESEnvelope" output="authorizedBESEnvelope">
+            <use-transformer from="snme:BestEffortServiceEnvelope" to="xfd:BestEffortServiceEnvelope" class="SNME_BestEffortServiceEnvelope_to_XFD_BestEffortServiceEnvelope" />
+        </transform>
+        <transform input="reservedBESEnvelope" output="reservedBESEnvelope">
+            <use-transformer from="snme:BestEffortServiceEnvelope" to="xfd:BestEffortServiceEnvelope" class="SNME_BestEffortServiceEnvelope_to_XFD_BestEffortServiceEnvelope" />
+        </transform>
+        <transform input="committedBESEnvelope" output="committedBESEnvelope">
+            <use-transformer from="snme:BestEffortServiceEnvelope" to="xfd:BestEffortServiceEnvelope" class="SNME_BestEffortServiceEnvelope_to_XFD_BestEffortServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_BestEffortServiceEnvelope_to_XFD_BestEffortServiceEnvelope" from="snme:BestEffortServiceEnvelope" to="xfd:BestEffortServiceEnvelope">
+        <transform input="trafficPriority" output="trafficPriority">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="commonServiceEnvelopePartOne" output="commonServiceEnvelopePartOne">
+            <use-transformer from="snme:CommonServiceEnvelopePartOne" to="xfd:CommonServiceEnvelopePartOne" class="SNME_CommonServiceEnvelopePartOne_to_XFD_CommonServiceEnvelopePartOne" />
+        </transform>
+        <transform input="commonServiceEnvelopePartTwo" output="commonServiceEnvelopePartTwo">
+            <use-transformer from="snme:CommonServiceEnvelopePartTwo" to="xfd:CommonServiceEnvelopePartTwo" class="SNME_CommonServiceEnvelopePartTwo_to_XFD_CommonServiceEnvelopePartTwo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_CommonServiceEnvelopePartOne_to_XFD_CommonServiceEnvelopePartOne" from="snme:CommonServiceEnvelopePartOne" to="xfd:CommonServiceEnvelopePartOne">
+        <transform input="requestTransmissionPolicy" output="requestTransmissionPolicy">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="maxSustainedTrafficRate" output="maxSustainedTrafficRate">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="maxTrafficBurst" output="maxTrafficBurst">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="minReservedTrafficRate" output="minReservedTrafficRate">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="assumedMinResTrafRatePktSize" output="assumedMinResTrafRatePktSize">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="maxConcatenatedBurst" output="maxConcatenatedBurst">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_CommonServiceEnvelopePartTwo_to_XFD_CommonServiceEnvelopePartTwo" from="snme:CommonServiceEnvelopePartTwo" to="xfd:CommonServiceEnvelopePartTwo">
+        <transform input="streamPeakTrafficRate" output="streamPeakTrafficRate">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="reqAttrMask" output="reqAttrMask">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="forbiddenAttrMask" output="forbiddenAttrMask">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="attrAggregationRuleMask" output="attrAggregationRuleMask">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="minBuffer" output="minBuffer">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="targetBuffer" output="targetBuffer">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="maxBuffer" output="maxBuffer">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_NRTPollingService_to_XFD_NRTPollingService" from="snme:NRTPollingService" to="xfd:NRTPollingService">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+        <transform input="authNRTEnvelope" output="authNRTEnvelope">
+            <use-transformer from="snme:NRTPollingServiceEnvelope" to="xfd:NRTPollingServiceEnvelope" class="SNME_NRTPollingServiceEnvelope_to_XFD_NRTPollingServiceEnvelope" />
+        </transform>
+        <transform input="authReservedNRTEnvelope" output="authReservedNRTEnvelope">
+            <use-transformer from="snme:AuthReservedNRTEnvelope" to="xfd:AuthReservedNRTEnvelope" class="SNME_AuthReservedNRTEnvelope_to_XFD_AuthReservedNRTEnvelope" />
+        </transform>
+        <transform input="authReservedCommittedNRTEnvelope" output="authReservedCommittedNRTEnvelope">
+            <use-transformer from="snme:AuthReservedCommittedNRTEnvelope" to="xfd:AuthReservedCommittedNRTEnvelope" class="SNME_AuthReservedCommittedNRTEnvelope_to_XFD_AuthReservedCommittedNRTEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedNRTEnvelope_to_XFD_AuthReservedNRTEnvelope" from="snme:AuthReservedNRTEnvelope" to="xfd:AuthReservedNRTEnvelope">
+        <transform input="authorizedNRTEnvelope" output="authorizedNRTEnvelope">
+            <use-transformer from="snme:NRTPollingServiceEnvelope" to="xfd:NRTPollingServiceEnvelope" class="SNME_NRTPollingServiceEnvelope_to_XFD_NRTPollingServiceEnvelope" />
+        </transform>
+        <transform input="reservedNRTEnvelope" output="reservedNRTEnvelope">
+            <use-transformer from="snme:NRTPollingServiceEnvelope" to="xfd:NRTPollingServiceEnvelope" class="SNME_NRTPollingServiceEnvelope_to_XFD_NRTPollingServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedCommittedNRTEnvelope_to_XFD_AuthReservedCommittedNRTEnvelope" from="snme:AuthReservedCommittedNRTEnvelope" to="xfd:AuthReservedCommittedNRTEnvelope">
+        <transform input="authorizedNRTEnvelope" output="authorizedNRTEnvelope">
+            <use-transformer from="snme:NRTPollingServiceEnvelope" to="xfd:NRTPollingServiceEnvelope" class="SNME_NRTPollingServiceEnvelope_to_XFD_NRTPollingServiceEnvelope" />
+        </transform>
+        <transform input="reservedNRTEnvelope" output="reservedNRTEnvelope">
+            <use-transformer from="snme:NRTPollingServiceEnvelope" to="xfd:NRTPollingServiceEnvelope" class="SNME_NRTPollingServiceEnvelope_to_XFD_NRTPollingServiceEnvelope" />
+        </transform>
+        <transform input="committedNRTEnvelope" output="committedNRTEnvelope">
+            <use-transformer from="snme:NRTPollingServiceEnvelope" to="xfd:NRTPollingServiceEnvelope" class="SNME_NRTPollingServiceEnvelope_to_XFD_NRTPollingServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_NRTPollingServiceEnvelope_to_XFD_NRTPollingServiceEnvelope" from="snme:NRTPollingServiceEnvelope" to="xfd:NRTPollingServiceEnvelope">
+        <transform input="trafficPriority" output="trafficPriority">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="commonServiceEnvelopePartOne" output="commonServiceEnvelopePartOne">
+            <use-transformer from="snme:CommonServiceEnvelopePartOne" to="xfd:CommonServiceEnvelopePartOne" class="SNME_CommonServiceEnvelopePartOne_to_XFD_CommonServiceEnvelopePartOne" />
+        </transform>
+        <transform input="nominalPollingInterval" output="nominalPollingInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="commonServiceEnvelopePartTwo" output="commonServiceEnvelopePartTwo">
+            <use-transformer from="snme:CommonServiceEnvelopePartTwo" to="xfd:CommonServiceEnvelopePartTwo" class="SNME_CommonServiceEnvelopePartTwo_to_XFD_CommonServiceEnvelopePartTwo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_RTPollingService_to_XFD_RTPollingService" from="snme:RTPollingService" to="xfd:RTPollingService">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+        <transform input="authRTEnvelope" output="authRTEnvelope">
+            <use-transformer from="snme:RTPollingServiceEnvelope" to="xfd:RTPollingServiceEnvelope" class="SNME_RTPollingServiceEnvelope_to_XFD_RTPollingServiceEnvelope" />
+        </transform>
+        <transform input="authReservedRTEnvelope" output="authReservedRTEnvelope">
+            <use-transformer from="snme:AuthReservedRTEnvelope" to="xfd:AuthReservedRTEnvelope" class="SNME_AuthReservedRTEnvelope_to_XFD_AuthReservedRTEnvelope" />
+        </transform>
+        <transform input="authReservedCommittedRTEnvelope" output="authReservedCommittedRTEnvelope">
+            <use-transformer from="snme:AuthReservedCommittedRTEnvelope" to="xfd:AuthReservedCommittedRTEnvelope" class="SNME_AuthReservedCommittedRTEnvelope_to_XFD_AuthReservedCommittedRTEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedRTEnvelope_to_XFD_AuthReservedRTEnvelope" from="snme:AuthReservedRTEnvelope" to="xfd:AuthReservedRTEnvelope">
+        <transform input="authorizedRTEnvelope" output="authorizedRTEnvelope">
+            <use-transformer from="snme:RTPollingServiceEnvelope" to="xfd:RTPollingServiceEnvelope" class="SNME_RTPollingServiceEnvelope_to_XFD_RTPollingServiceEnvelope" />
+        </transform>
+        <transform input="reservedRTEnvelope" output="reservedRTEnvelope">
+            <use-transformer from="snme:RTPollingServiceEnvelope" to="xfd:RTPollingServiceEnvelope" class="SNME_RTPollingServiceEnvelope_to_XFD_RTPollingServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedCommittedRTEnvelope_to_XFD_AuthReservedCommittedRTEnvelope" from="snme:AuthReservedCommittedRTEnvelope" to="xfd:AuthReservedCommittedRTEnvelope">
+        <transform input="authorizedRTEnvelope" output="authorizedRTEnvelope">
+            <use-transformer from="snme:RTPollingServiceEnvelope" to="xfd:RTPollingServiceEnvelope" class="SNME_RTPollingServiceEnvelope_to_XFD_RTPollingServiceEnvelope" />
+        </transform>
+        <transform input="reservedRTEnvelope" output="reservedRTEnvelope">
+            <use-transformer from="snme:RTPollingServiceEnvelope" to="xfd:RTPollingServiceEnvelope" class="SNME_RTPollingServiceEnvelope_to_XFD_RTPollingServiceEnvelope" />
+        </transform>
+        <transform input="committedRTEnvelope" output="committedRTEnvelope">
+            <use-transformer from="snme:RTPollingServiceEnvelope" to="xfd:RTPollingServiceEnvelope" class="SNME_RTPollingServiceEnvelope_to_XFD_RTPollingServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_RTPollingServiceEnvelope_to_XFD_RTPollingServiceEnvelope" from="snme:RTPollingServiceEnvelope" to="xfd:RTPollingServiceEnvelope">
+        <transform input="commonServiceEnvelopePartOne" output="commonServiceEnvelopePartOne">
+            <use-transformer from="snme:CommonServiceEnvelopePartOne" to="xfd:CommonServiceEnvelopePartOne" class="SNME_CommonServiceEnvelopePartOne_to_XFD_CommonServiceEnvelopePartOne" />
+        </transform>
+        <transform input="nominalPollingInterval" output="nominalPollingInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="toleratedPollingJitter" output="toleratedPollingJitter">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="commonServiceEnvelopePartTwo" output="commonServiceEnvelopePartTwo">
+            <use-transformer from="snme:CommonServiceEnvelopePartTwo" to="xfd:CommonServiceEnvelopePartTwo" class="SNME_CommonServiceEnvelopePartTwo_to_XFD_CommonServiceEnvelopePartTwo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UnsolicitedGrantService_to_XFD_UnsolicitedGrantService" from="snme:UnsolicitedGrantService" to="xfd:UnsolicitedGrantService">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+        <transform input="authUGCEnvelope" output="authUGCEnvelope">
+            <use-transformer from="snme:UGCServiceEnvelope" to="xfd:UGCServiceEnvelope" class="SNME_UGCServiceEnvelope_to_XFD_UGCServiceEnvelope" />
+        </transform>
+        <transform input="authReservedUGCEnvelope" output="authReservedUGCEnvelope">
+            <use-transformer from="snme:AuthReservedUGCEnvelope" to="xfd:AuthReservedUGCEnvelope" class="SNME_AuthReservedUGCEnvelope_to_XFD_AuthReservedUGCEnvelope" />
+        </transform>
+        <transform input="authReservedCommittedUGCEnvelope" output="authReservedCommittedUGCEnvelope">
+            <use-transformer from="snme:AuthReservedCommittedUGCEnvelope" to="xfd:AuthReservedCommittedUGCEnvelope" class="SNME_AuthReservedCommittedUGCEnvelope_to_XFD_AuthReservedCommittedUGCEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedUGCEnvelope_to_XFD_AuthReservedUGCEnvelope" from="snme:AuthReservedUGCEnvelope" to="xfd:AuthReservedUGCEnvelope">
+        <transform input="authorizedUGCEnvelope" output="authorizedUGCEnvelope">
+            <use-transformer from="snme:UGCServiceEnvelope" to="xfd:UGCServiceEnvelope" class="SNME_UGCServiceEnvelope_to_XFD_UGCServiceEnvelope" />
+        </transform>
+        <transform input="reservedUGCEnvelope" output="reservedUGCEnvelope">
+            <use-transformer from="snme:UGCServiceEnvelope" to="xfd:UGCServiceEnvelope" class="SNME_UGCServiceEnvelope_to_XFD_UGCServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedCommittedUGCEnvelope_to_XFD_AuthReservedCommittedUGCEnvelope" from="snme:AuthReservedCommittedUGCEnvelope" to="xfd:AuthReservedCommittedUGCEnvelope">
+        <transform input="authorizedUGCEnvelope" output="authorizedUGCEnvelope">
+            <use-transformer from="snme:UGCServiceEnvelope" to="xfd:UGCServiceEnvelope" class="SNME_UGCServiceEnvelope_to_XFD_UGCServiceEnvelope" />
+        </transform>
+        <transform input="reservedUGCEnvelope" output="reservedUGCEnvelope">
+            <use-transformer from="snme:UGCServiceEnvelope" to="xfd:UGCServiceEnvelope" class="SNME_UGCServiceEnvelope_to_XFD_UGCServiceEnvelope" />
+        </transform>
+        <transform input="committedUGCEnvelope" output="committedUGCEnvelope">
+            <use-transformer from="snme:UGCServiceEnvelope" to="xfd:UGCServiceEnvelope" class="SNME_UGCServiceEnvelope_to_XFD_UGCServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UGCServiceEnvelope_to_XFD_UGCServiceEnvelope" from="snme:UGCServiceEnvelope" to="xfd:UGCServiceEnvelope">
+        <transform input="requestTransmissionPolicy" output="requestTransmissionPolicy">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="unsolicitedGrantSize" output="unsolicitedGrantSize">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="grantsPerInterval" output="grantsPerInterval">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reserved" output="reserved">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="nominalGrantInterval" output="nominalGrantInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="toleratedGrantJitter" output="toleratedGrantJitter">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="commonServiceEnvelopePartTwo" output="commonServiceEnvelopePartTwo">
+            <use-transformer from="snme:CommonServiceEnvelopePartTwo" to="xfd:CommonServiceEnvelopePartTwo" class="SNME_CommonServiceEnvelopePartTwo_to_XFD_CommonServiceEnvelopePartTwo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UnsolicitedGrantServiceAD_to_XFD_UnsolicitedGrantServiceAD" from="snme:UnsolicitedGrantServiceAD" to="xfd:UnsolicitedGrantServiceAD">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+        <transform input="authUGCADEnvelope" output="authUGCADEnvelope">
+            <use-transformer from="snme:UGCADServiceEnvelope" to="xfd:UGCADServiceEnvelope" class="SNME_UGCADServiceEnvelope_to_XFD_UGCADServiceEnvelope" />
+        </transform>
+        <transform input="authReservedUGCADEnvelope" output="authReservedUGCADEnvelope">
+            <use-transformer from="snme:AuthReservedUGCADEnvelope" to="xfd:AuthReservedUGCADEnvelope" class="SNME_AuthReservedUGCADEnvelope_to_XFD_AuthReservedUGCADEnvelope" />
+        </transform>
+        <transform input="authReservedCommittedUGCADEnvelope" output="authReservedCommittedUGCADEnvelope">
+            <use-transformer from="snme:AuthReservedCommittedUGCADEnvelope" to="xfd:AuthReservedCommittedUGCADEnvelope" class="SNME_AuthReservedCommittedUGCADEnvelope_to_XFD_AuthReservedCommittedUGCADEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedUGCADEnvelope_to_XFD_AuthReservedUGCADEnvelope" from="snme:AuthReservedUGCADEnvelope" to="xfd:AuthReservedUGCADEnvelope">
+        <transform input="authorizedUGCADEnvelope" output="authorizedUGCADEnvelope">
+            <use-transformer from="snme:UGCADServiceEnvelope" to="xfd:UGCADServiceEnvelope" class="SNME_UGCADServiceEnvelope_to_XFD_UGCADServiceEnvelope" />
+        </transform>
+        <transform input="reservedUGCADEnvelope" output="reservedUGCADEnvelope">
+            <use-transformer from="snme:UGCADServiceEnvelope" to="xfd:UGCADServiceEnvelope" class="SNME_UGCADServiceEnvelope_to_XFD_UGCADServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedCommittedUGCADEnvelope_to_XFD_AuthReservedCommittedUGCADEnvelope" from="snme:AuthReservedCommittedUGCADEnvelope" to="xfd:AuthReservedCommittedUGCADEnvelope">
+        <transform input="authorizedUGCADEnvelope" output="authorizedUGCADEnvelope">
+            <use-transformer from="snme:UGCADServiceEnvelope" to="xfd:UGCADServiceEnvelope" class="SNME_UGCADServiceEnvelope_to_XFD_UGCADServiceEnvelope" />
+        </transform>
+        <transform input="reservedUGCADEnvelope" output="reservedUGCADEnvelope">
+            <use-transformer from="snme:UGCADServiceEnvelope" to="xfd:UGCADServiceEnvelope" class="SNME_UGCADServiceEnvelope_to_XFD_UGCADServiceEnvelope" />
+        </transform>
+        <transform input="committedUGCADEnvelope" output="committedUGCADEnvelope">
+            <use-transformer from="snme:UGCADServiceEnvelope" to="xfd:UGCADServiceEnvelope" class="SNME_UGCADServiceEnvelope_to_XFD_UGCADServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UGCADServiceEnvelope_to_XFD_UGCADServiceEnvelope" from="snme:UGCADServiceEnvelope" to="xfd:UGCADServiceEnvelope">
+        <transform input="requestTransmissionPolicy" output="requestTransmissionPolicy">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="unsolicitedGrantSize" output="unsolicitedGrantSize">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="grantsPerInterval" output="grantsPerInterval">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reserved" output="reserved">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="nominalGrantInterval" output="nominalGrantInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="toleratedGrantJitter" output="toleratedGrantJitter">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="nominalPollingInterval" output="nominalPollingInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="toleratedPollingJitter" output="toleratedPollingJitter">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="commonServiceEnvelopePartTwo" output="commonServiceEnvelopePartTwo">
+            <use-transformer from="snme:CommonServiceEnvelopePartTwo" to="xfd:CommonServiceEnvelopePartTwo" class="SNME_CommonServiceEnvelopePartTwo_to_XFD_CommonServiceEnvelopePartTwo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_DownstreamService_to_XFD_DownstreamService" from="snme:DownstreamService" to="xfd:DownstreamService">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+        <transform input="authDSEnvelope" output="authDSEnvelope">
+            <use-transformer from="snme:DSServiceEnvelope" to="xfd:DSServiceEnvelope" class="SNME_DSServiceEnvelope_to_XFD_DSServiceEnvelope" />
+        </transform>
+        <transform input="authReservedDSEnvelope" output="authReservedDSEnvelope">
+            <use-transformer from="snme:AuthReservedDSEnvelope" to="xfd:AuthReservedDSEnvelope" class="SNME_AuthReservedDSEnvelope_to_XFD_AuthReservedDSEnvelope" />
+        </transform>
+        <transform input="authReservedCommittedDSEnvelope" output="authReservedCommittedDSEnvelope">
+            <use-transformer from="snme:AuthReservedCommittedDSEnvelope" to="xfd:AuthReservedCommittedDSEnvelope" class="SNME_AuthReservedCommittedDSEnvelope_to_XFD_AuthReservedCommittedDSEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedDSEnvelope_to_XFD_AuthReservedDSEnvelope" from="snme:AuthReservedDSEnvelope" to="xfd:AuthReservedDSEnvelope">
+        <transform input="authorizedDSEnvelope" output="authorizedDSEnvelope">
+            <use-transformer from="snme:DSServiceEnvelope" to="xfd:DSServiceEnvelope" class="SNME_DSServiceEnvelope_to_XFD_DSServiceEnvelope" />
+        </transform>
+        <transform input="reservedDSEnvelope" output="reservedDSEnvelope">
+            <use-transformer from="snme:DSServiceEnvelope" to="xfd:DSServiceEnvelope" class="SNME_DSServiceEnvelope_to_XFD_DSServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_AuthReservedCommittedDSEnvelope_to_XFD_AuthReservedCommittedDSEnvelope" from="snme:AuthReservedCommittedDSEnvelope" to="xfd:AuthReservedCommittedDSEnvelope">
+        <transform input="authorizedDSEnvelope" output="authorizedDSEnvelope">
+            <use-transformer from="snme:DSServiceEnvelope" to="xfd:DSServiceEnvelope" class="SNME_DSServiceEnvelope_to_XFD_DSServiceEnvelope" />
+        </transform>
+        <transform input="reservedDSEnvelope" output="reservedDSEnvelope">
+            <use-transformer from="snme:DSServiceEnvelope" to="xfd:DSServiceEnvelope" class="SNME_DSServiceEnvelope_to_XFD_DSServiceEnvelope" />
+        </transform>
+        <transform input="committedDSEnvelope" output="committedDSEnvelope">
+            <use-transformer from="snme:DSServiceEnvelope" to="xfd:DSServiceEnvelope" class="SNME_DSServiceEnvelope_to_XFD_DSServiceEnvelope" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_DSServiceEnvelope_to_XFD_DSServiceEnvelope" from="snme:DSServiceEnvelope" to="xfd:DSServiceEnvelope">
+        <transform input="trafficPriority" output="trafficPriority">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="downstreamReSeq" output="downstreamReSeq">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reserved2Bytes" output="reserved2Bytes">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="maxSustainedTrafficRate" output="maxSustainedTrafficRate">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="maxTrafficBurst" output="maxTrafficBurst">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="minReservedTrafficRate" output="minReservedTrafficRate">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="assumedMinResTrafRatePktSize" output="assumedMinResTrafRatePktSize">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="reserved" output="reserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="maxDownTimeLatency" output="maxDownTimeLatency">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="commonServiceEnvelopePartTwo" output="commonServiceEnvelopePartTwo">
+            <use-transformer from="snme:CommonServiceEnvelopePartTwo" to="xfd:CommonServiceEnvelopePartTwo" class="SNME_CommonServiceEnvelopePartTwo_to_XFD_CommonServiceEnvelopePartTwo" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UpstreamDrop_to_XFD_UpstreamDrop" from="snme:UpstreamDrop" to="xfd:UpstreamDrop">
+        <transform input="envelope" output="envelope">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reserved3Bytes" output="reserved3Bytes">
+            <use-transformer from="snme:Reserved3Bytes" to="xfd:Reserved3Bytes" class="SNME_Reserved3Bytes_to_XFD_Reserved3Bytes" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_EventGenInfoIPv4_to_XFD_EventGenInfoIPv4" from="snme:EventGenInfoIPv4" to="xfd:EventGenInfoIPv4">
+        <transform input="primaryRKSIPAddress" output="primaryRKSIPAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="primaryRKSIPPort" output="primaryRKSIPPort">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="primaryReserved" output="primaryReserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="secondaryRKSIPAddress" output="secondaryRKSIPAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="secondaryRKSIPPort" output="secondaryRKSIPPort">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="secondaryReserved" output="secondaryReserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="billingCorrelationID" output="billingCorrelationID">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_EventGenInfoIPv6_to_XFD_EventGenInfoIPv6" from="snme:EventGenInfoIPv6" to="xfd:EventGenInfoIPv6">
+        <transform input="primaryRKSIPAddress" output="primaryRKSIPAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="primaryRKSIPPort" output="primaryRKSIPPort">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="primaryReserved" output="primaryReserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="secondaryRKSIPAddress" output="secondaryRKSIPAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="secondaryRKSIPPort" output="secondaryRKSIPPort">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="secondaryReserved" output="secondaryReserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="billingCorrelationID" output="billingCorrelationID">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_VolumeBasedUsageLimit_to_XFD_VolumeBasedUsageLimit" from="snme:VolumeBasedUsageLimit" to="xfd:VolumeBasedUsageLimit">
+        <transform input="usageLimit" output="usageLimit">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_TimeBasedUsageLimit_to_XFD_TimeBasedUsageLimit" from="snme:TimeBasedUsageLimit" to="xfd:TimeBasedUsageLimit">
+        <transform input="timeLimit" output="timeLimit">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_OpaqueData_to_XFD_OpaqueData" from="snme:OpaqueData" to="xfd:OpaqueData">
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateTimeInfo_to_XFD_GateTimeInfo" from="snme:GateTimeInfo" to="xfd:GateTimeInfo">
+        <transform input="timeCommitted" output="timeCommitted">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateUsageInfo_to_XFD_GateUsageInfo" from="snme:GateUsageInfo" to="xfd:GateUsageInfo">
+        <transform input="octetCount" output="octetCount">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_PacketCableError_to_XFD_PacketCableError" from="snme:PacketCableError" to="xfd:PacketCableError">
+        <transform input="errorCode" output="errorCode">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="errorSubCode" output="errorSubCode">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateState_to_XFD_GateState" from="snme:GateState" to="xfd:GateState">
+        <transform input="state" output="state">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="reason" output="reason">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_VersionInfo_to_XFD_VersionInfo" from="snme:VersionInfo" to="xfd:VersionInfo">
+        <transform input="majorVersionNumber" output="majorVersionNumber">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="minorVersionNumber" output="minorVersionNumber">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_PSID_to_XFD_PSID" from="snme:PSID" to="xfd:PSID">
+        <transform input="pSID" output="pSID">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SynchOptions_to_XFD_SynchOptions" from="snme:SynchOptions" to="xfd:SynchOptions">
+        <transform input="reserved" output="reserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reportType" output="reportType">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="synchType" output="synchType">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey">
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UserID_to_XFD_UserID" from="snme:UserID" to="xfd:UserID">
+        <transform input="userID" output="userID">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SharedResourceID_to_XFD_SharedResourceID" from="snme:SharedResourceID" to="xfd:SharedResourceID">
+        <transform input="sharedResourceID" output="sharedResourceID">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Handle_to_XFD_Handle" from="snme:Handle" to="xfd:Handle">
+        <transform input="clientHandle" output="clientHandle">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Context_to_XFD_Context" from="snme:Context" to="xfd:Context">
+        <transform input="rType" output="rType">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="mType" output="mType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Reason_to_XFD_Reason" from="snme:Reason" to="xfd:Reason">
+        <transform input="reasonCode" output="reasonCode">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reasonSubcode" output="reasonSubcode">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_DecisionCType1_to_XFD_DecisionCType1" from="snme:DecisionCType1" to="xfd:DecisionCType1">
+        <transform input="commandCode" output="commandCode">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="flags" output="flags">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Error_to_XFD_Error" from="snme:Error" to="xfd:Error">
+        <transform input="errorCode" output="errorCode">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="errorSubCode" output="errorSubCode">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_CSICType2_to_XFD_CSICType2" from="snme:CSICType2" to="xfd:CSICType2">
+        <transform input="csiNamedClient" output="csiNamedClient">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_KeepAliveTimer_to_XFD_KeepAliveTimer" from="snme:KeepAliveTimer" to="xfd:KeepAliveTimer">
+        <transform input="reserved" output="reserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="kaTimerValue" output="kaTimerValue">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_PEPID_to_XFD_PEPID" from="snme:PEPID" to="xfd:PEPID">
+        <transform input="pepID" output="pepID">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ReportType_to_XFD_ReportType" from="snme:ReportType" to="xfd:ReportType">
+        <transform input="reportType" output="reportType">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reserved" output="reserved">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateControlCommand_to_XFD_GateControlCommand" from="snme:GateControlCommand" to="xfd:GateControlCommand">
+        <transform input="length" output="length">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="sNum" output="sNum">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="sType" output="sType">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="transactionIdentifier" output="transactionIdentifier">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="gateCommandType" output="gateCommandType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="gateSet" output="gateSet">
+            <use-transformer from="snme:GateSet" to="xfd:GateSet" class="SNME_GateSet_to_XFD_GateSet" />
+        </transform>
+        <transform input="gateInfo" output="gateInfo">
+            <use-transformer from="snme:GateInfo" to="xfd:GateInfo" class="SNME_GateInfo_to_XFD_GateInfo" />
+        </transform>
+        <transform input="gateDelete" output="gateDelete">
+            <use-transformer from="snme:GateDelete" to="xfd:GateDelete" class="SNME_GateDelete_to_XFD_GateDelete" />
+        </transform>
+        <transform input="pdpConfig" output="pdpConfig">
+            <use-transformer from="snme:PdpConfig" to="xfd:PdpConfig" class="SNME_PdpConfig_to_XFD_PdpConfig" />
+        </transform>
+        <transform input="synchRequest" output="synchRequest">
+            <use-transformer from="snme:SynchRequest" to="xfd:SynchRequest" class="SNME_SynchRequest_to_XFD_SynchRequest" />
+        </transform>
+        <transform input="msgReceipt" output="msgReceipt">
+            <use-transformer from="snme:MsgReceipt" to="xfd:MsgReceipt" class="SNME_MsgReceipt_to_XFD_MsgReceipt" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateSet_to_XFD_GateSet" from="snme:GateSet" to="xfd:GateSet">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="gateSpec" output="gateSpec">
+            <use-transformer from="snme:GateSpec" to="xfd:GateSpec" class="SNME_GateSpec_to_XFD_GateSpec" />
+        </transform>
+        <transform input="flowSpec" output="flowSpec">
+            <use-transformer from="snme:FlowSpec" to="xfd:FlowSpec" class="SNME_FlowSpec_to_XFD_FlowSpec" />
+        </transform>
+        <transform input="docSisServiceClass" output="docSisServiceClass">
+            <use-transformer from="snme:DocSisServiceClass" to="xfd:DocSisServiceClass" class="SNME_DocSisServiceClass_to_XFD_DocSisServiceClass" />
+        </transform>
+        <transform input="bestEffortService" output="bestEffortService">
+            <use-transformer from="snme:BestEffortService" to="xfd:BestEffortService" class="SNME_BestEffortService_to_XFD_BestEffortService" />
+        </transform>
+        <transform input="nrtPollingService" output="nrtPollingService">
+            <use-transformer from="snme:NRTPollingService" to="xfd:NRTPollingService" class="SNME_NRTPollingService_to_XFD_NRTPollingService" />
+        </transform>
+        <transform input="rtPollingService" output="rtPollingService">
+            <use-transformer from="snme:RTPollingService" to="xfd:RTPollingService" class="SNME_RTPollingService_to_XFD_RTPollingService" />
+        </transform>
+        <transform input="unsolicitedGrantService" output="unsolicitedGrantService">
+            <use-transformer from="snme:UnsolicitedGrantService" to="xfd:UnsolicitedGrantService" class="SNME_UnsolicitedGrantService_to_XFD_UnsolicitedGrantService" />
+        </transform>
+        <transform input="unsolicitedGrantServiceAD" output="unsolicitedGrantServiceAD">
+            <use-transformer from="snme:UnsolicitedGrantServiceAD" to="xfd:UnsolicitedGrantServiceAD" class="SNME_UnsolicitedGrantServiceAD_to_XFD_UnsolicitedGrantServiceAD" />
+        </transform>
+        <transform input="downstreamService" output="downstreamService">
+            <use-transformer from="snme:DownstreamService" to="xfd:DownstreamService" class="SNME_DownstreamService_to_XFD_DownstreamService" />
+        </transform>
+        <transform input="upstreamDrop" output="upstreamDrop">
+            <use-transformer from="snme:UpstreamDrop" to="xfd:UpstreamDrop" class="SNME_UpstreamDrop_to_XFD_UpstreamDrop" />
+        </transform>
+        <transform input="classifierArray" output="classifierArray">
+            <transformer from="snme:Classifier[]" to="xfd:Classifier[]">
+                <array>
+                    <use-transformer from="snme:Classifier" to="xfd:Classifier" class="SNME_Classifier_to_XFD_Classifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="extendedClassifierArray" output="extendedClassifierArray">
+            <transformer from="snme:ExtendedClassifier[]" to="xfd:ExtendedClassifier[]">
+                <array>
+                    <use-transformer from="snme:ExtendedClassifier" to="xfd:ExtendedClassifier" class="SNME_ExtendedClassifier_to_XFD_ExtendedClassifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="ipV6ClassifierArray" output="ipV6ClassifierArray">
+            <transformer from="snme:IPV6Classifier[]" to="xfd:IPV6Classifier[]">
+                <array>
+                    <use-transformer from="snme:IPV6Classifier" to="xfd:IPV6Classifier" class="SNME_IPV6Classifier_to_XFD_IPV6Classifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="eventGenInfoIPv4" output="eventGenInfoIPv4">
+            <use-transformer from="snme:EventGenInfoIPv4" to="xfd:EventGenInfoIPv4" class="SNME_EventGenInfoIPv4_to_XFD_EventGenInfoIPv4" />
+        </transform>
+        <transform input="eventGenInfoIPv6" output="eventGenInfoIPv6">
+            <use-transformer from="snme:EventGenInfoIPv6" to="xfd:EventGenInfoIPv6" class="SNME_EventGenInfoIPv6_to_XFD_EventGenInfoIPv6" />
+        </transform>
+        <transform input="volumeBasedUsageLimit" output="volumeBasedUsageLimit">
+            <use-transformer from="snme:VolumeBasedUsageLimit" to="xfd:VolumeBasedUsageLimit" class="SNME_VolumeBasedUsageLimit_to_XFD_VolumeBasedUsageLimit" />
+        </transform>
+        <transform input="timeBasedUsageLimit" output="timeBasedUsageLimit">
+            <use-transformer from="snme:TimeBasedUsageLimit" to="xfd:TimeBasedUsageLimit" class="SNME_TimeBasedUsageLimit_to_XFD_TimeBasedUsageLimit" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="userID" output="userID">
+            <use-transformer from="snme:UserID" to="xfd:UserID" class="SNME_UserID_to_XFD_UserID" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateInfo_to_XFD_GateInfo" from="snme:GateInfo" to="xfd:GateInfo">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateDelete_to_XFD_GateDelete" from="snme:GateDelete" to="xfd:GateDelete">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_PdpConfig_to_XFD_PdpConfig" from="snme:PdpConfig" to="xfd:PdpConfig">
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SynchRequest_to_XFD_SynchRequest" from="snme:SynchRequest" to="xfd:SynchRequest">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="synchOptions" output="synchOptions">
+            <use-transformer from="snme:SynchOptions" to="xfd:SynchOptions" class="SNME_SynchOptions_to_XFD_SynchOptions" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_MsgReceipt_to_XFD_MsgReceipt" from="snme:MsgReceipt" to="xfd:MsgReceipt">
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateControlResponse_to_XFD_GateControlResponse" from="snme:GateControlResponse" to="xfd:GateControlResponse">
+        <transform input="length" output="length">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="sNum" output="sNum">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="sType" output="sType">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="transactionIdentifier" output="transactionIdentifier">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="gateCommandType" output="gateCommandType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="gateSetAck" output="gateSetAck">
+            <use-transformer from="snme:GateSetAck" to="xfd:GateSetAck" class="SNME_GateSetAck_to_XFD_GateSetAck" />
+        </transform>
+        <transform input="gateSetErr" output="gateSetErr">
+            <use-transformer from="snme:GateSetErr" to="xfd:GateSetErr" class="SNME_GateSetErr_to_XFD_GateSetErr" />
+        </transform>
+        <transform input="gateInfoAck" output="gateInfoAck">
+            <use-transformer from="snme:GateInfoAck" to="xfd:GateInfoAck" class="SNME_GateInfoAck_to_XFD_GateInfoAck" />
+        </transform>
+        <transform input="gateInfoErr" output="gateInfoErr">
+            <use-transformer from="snme:GateInfoErr" to="xfd:GateInfoErr" class="SNME_GateInfoErr_to_XFD_GateInfoErr" />
+        </transform>
+        <transform input="gateDeleteAck" output="gateDeleteAck">
+            <use-transformer from="snme:GateDeleteAck" to="xfd:GateDeleteAck" class="SNME_GateDeleteAck_to_XFD_GateDeleteAck" />
+        </transform>
+        <transform input="gateDeleteErr" output="gateDeleteErr">
+            <use-transformer from="snme:GateDeleteErr" to="xfd:GateDeleteErr" class="SNME_GateDeleteErr_to_XFD_GateDeleteErr" />
+        </transform>
+        <transform input="gateReportState" output="gateReportState">
+            <use-transformer from="snme:GateReportState" to="xfd:GateReportState" class="SNME_GateReportState_to_XFD_GateReportState" />
+        </transform>
+        <transform input="gateCmdErr" output="gateCmdErr">
+            <use-transformer from="snme:GateCmdErr" to="xfd:GateCmdErr" class="SNME_GateCmdErr_to_XFD_GateCmdErr" />
+        </transform>
+        <transform input="pdpConfigAck" output="pdpConfigAck">
+            <use-transformer from="snme:PdpConfigAck" to="xfd:PdpConfigAck" class="SNME_PdpConfigAck_to_XFD_PdpConfigAck" />
+        </transform>
+        <transform input="pdpConfigErr" output="pdpConfigErr">
+            <use-transformer from="snme:PdpConfigErr" to="xfd:PdpConfigErr" class="SNME_PdpConfigErr_to_XFD_PdpConfigErr" />
+        </transform>
+        <transform input="synchReport" output="synchReport">
+            <use-transformer from="snme:SynchReport" to="xfd:SynchReport" class="SNME_SynchReport_to_XFD_SynchReport" />
+        </transform>
+        <transform input="synchComplete" output="synchComplete">
+            <use-transformer from="snme:SynchComplete" to="xfd:SynchComplete" class="SNME_SynchComplete_to_XFD_SynchComplete" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateSetAck_to_XFD_GateSetAck" from="snme:GateSetAck" to="xfd:GateSetAck">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+        <transform input="sharedResourceID" output="sharedResourceID">
+            <use-transformer from="snme:SharedResourceID" to="xfd:SharedResourceID" class="SNME_SharedResourceID_to_XFD_SharedResourceID" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateSetErr_to_XFD_GateSetErr" from="snme:GateSetErr" to="xfd:GateSetErr">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="packetCableError" output="packetCableError">
+            <use-transformer from="snme:PacketCableError" to="xfd:PacketCableError" class="SNME_PacketCableError_to_XFD_PacketCableError" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateInfoAck_to_XFD_GateInfoAck" from="snme:GateInfoAck" to="xfd:GateInfoAck">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="eventGenInfoIPv4" output="eventGenInfoIPv4">
+            <use-transformer from="snme:EventGenInfoIPv4" to="xfd:EventGenInfoIPv4" class="SNME_EventGenInfoIPv4_to_XFD_EventGenInfoIPv4" />
+        </transform>
+        <transform input="eventGenInfoIPv6" output="eventGenInfoIPv6">
+            <use-transformer from="snme:EventGenInfoIPv6" to="xfd:EventGenInfoIPv6" class="SNME_EventGenInfoIPv6_to_XFD_EventGenInfoIPv6" />
+        </transform>
+        <transform input="gateSpec" output="gateSpec">
+            <use-transformer from="snme:GateSpec" to="xfd:GateSpec" class="SNME_GateSpec_to_XFD_GateSpec" />
+        </transform>
+        <transform input="classifierArray" output="classifierArray">
+            <transformer from="snme:Classifier[]" to="xfd:Classifier[]">
+                <array>
+                    <use-transformer from="snme:Classifier" to="xfd:Classifier" class="SNME_Classifier_to_XFD_Classifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="extendedClassifierArray" output="extendedClassifierArray">
+            <transformer from="snme:ExtendedClassifier[]" to="xfd:ExtendedClassifier[]">
+                <array>
+                    <use-transformer from="snme:ExtendedClassifier" to="xfd:ExtendedClassifier" class="SNME_ExtendedClassifier_to_XFD_ExtendedClassifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="ipV6ClassifierArray" output="ipV6ClassifierArray">
+            <transformer from="snme:IPV6Classifier[]" to="xfd:IPV6Classifier[]">
+                <array>
+                    <use-transformer from="snme:IPV6Classifier" to="xfd:IPV6Classifier" class="SNME_IPV6Classifier_to_XFD_IPV6Classifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="flowSpec" output="flowSpec">
+            <use-transformer from="snme:FlowSpec" to="xfd:FlowSpec" class="SNME_FlowSpec_to_XFD_FlowSpec" />
+        </transform>
+        <transform input="docSisServiceClass" output="docSisServiceClass">
+            <use-transformer from="snme:DocSisServiceClass" to="xfd:DocSisServiceClass" class="SNME_DocSisServiceClass_to_XFD_DocSisServiceClass" />
+        </transform>
+        <transform input="bestEffortService" output="bestEffortService">
+            <use-transformer from="snme:BestEffortService" to="xfd:BestEffortService" class="SNME_BestEffortService_to_XFD_BestEffortService" />
+        </transform>
+        <transform input="nrtPollingService" output="nrtPollingService">
+            <use-transformer from="snme:NRTPollingService" to="xfd:NRTPollingService" class="SNME_NRTPollingService_to_XFD_NRTPollingService" />
+        </transform>
+        <transform input="rtPollingService" output="rtPollingService">
+            <use-transformer from="snme:RTPollingService" to="xfd:RTPollingService" class="SNME_RTPollingService_to_XFD_RTPollingService" />
+        </transform>
+        <transform input="unsolicitedGrantService" output="unsolicitedGrantService">
+            <use-transformer from="snme:UnsolicitedGrantService" to="xfd:UnsolicitedGrantService" class="SNME_UnsolicitedGrantService_to_XFD_UnsolicitedGrantService" />
+        </transform>
+        <transform input="unsolicitedGrantServiceAD" output="unsolicitedGrantServiceAD">
+            <use-transformer from="snme:UnsolicitedGrantServiceAD" to="xfd:UnsolicitedGrantServiceAD" class="SNME_UnsolicitedGrantServiceAD_to_XFD_UnsolicitedGrantServiceAD" />
+        </transform>
+        <transform input="downstreamService" output="downstreamService">
+            <use-transformer from="snme:DownstreamService" to="xfd:DownstreamService" class="SNME_DownstreamService_to_XFD_DownstreamService" />
+        </transform>
+        <transform input="upstreamDrop" output="upstreamDrop">
+            <use-transformer from="snme:UpstreamDrop" to="xfd:UpstreamDrop" class="SNME_UpstreamDrop_to_XFD_UpstreamDrop" />
+        </transform>
+        <transform input="gateTimeInfo" output="gateTimeInfo">
+            <use-transformer from="snme:GateTimeInfo" to="xfd:GateTimeInfo" class="SNME_GateTimeInfo_to_XFD_GateTimeInfo" />
+        </transform>
+        <transform input="gateUsageInfo" output="gateUsageInfo">
+            <use-transformer from="snme:GateUsageInfo" to="xfd:GateUsageInfo" class="SNME_GateUsageInfo_to_XFD_GateUsageInfo" />
+        </transform>
+        <transform input="volumeBasedUsageLimit" output="volumeBasedUsageLimit">
+            <use-transformer from="snme:VolumeBasedUsageLimit" to="xfd:VolumeBasedUsageLimit" class="SNME_VolumeBasedUsageLimit_to_XFD_VolumeBasedUsageLimit" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+        <transform input="userID" output="userID">
+            <use-transformer from="snme:UserID" to="xfd:UserID" class="SNME_UserID_to_XFD_UserID" />
+        </transform>
+        <transform input="timeBasedUsageLimit" output="timeBasedUsageLimit">
+            <use-transformer from="snme:TimeBasedUsageLimit" to="xfd:TimeBasedUsageLimit" class="SNME_TimeBasedUsageLimit_to_XFD_TimeBasedUsageLimit" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="gateState" output="gateState">
+            <use-transformer from="snme:GateState" to="xfd:GateState" class="SNME_GateState_to_XFD_GateState" />
+        </transform>
+        <transform input="sharedResourceID" output="sharedResourceID">
+            <use-transformer from="snme:SharedResourceID" to="xfd:SharedResourceID" class="SNME_SharedResourceID_to_XFD_SharedResourceID" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateInfoErr_to_XFD_GateInfoErr" from="snme:GateInfoErr" to="xfd:GateInfoErr">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="packetCableError" output="packetCableError">
+            <use-transformer from="snme:PacketCableError" to="xfd:PacketCableError" class="SNME_PacketCableError_to_XFD_PacketCableError" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateDeleteAck_to_XFD_GateDeleteAck" from="snme:GateDeleteAck" to="xfd:GateDeleteAck">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateDeleteErr_to_XFD_GateDeleteErr" from="snme:GateDeleteErr" to="xfd:GateDeleteErr">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="packetCableError" output="packetCableError">
+            <use-transformer from="snme:PacketCableError" to="xfd:PacketCableError" class="SNME_PacketCableError_to_XFD_PacketCableError" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateCmdErr_to_XFD_GateCmdErr" from="snme:GateCmdErr" to="xfd:GateCmdErr">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="packetCableError" output="packetCableError">
+            <use-transformer from="snme:PacketCableError" to="xfd:PacketCableError" class="SNME_PacketCableError_to_XFD_PacketCableError" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_PdpConfigAck_to_XFD_PdpConfigAck" from="snme:PdpConfigAck" to="xfd:PdpConfigAck">
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_PdpConfigErr_to_XFD_PdpConfigErr" from="snme:PdpConfigErr" to="xfd:PdpConfigErr">
+        <transform input="packetCableError" output="packetCableError">
+            <use-transformer from="snme:PacketCableError" to="xfd:PacketCableError" class="SNME_PacketCableError_to_XFD_PacketCableError" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SynchReport_to_XFD_SynchReport" from="snme:SynchReport" to="xfd:SynchReport">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="gateState" output="gateState">
+            <use-transformer from="snme:GateState" to="xfd:GateState" class="SNME_GateState_to_XFD_GateState" />
+        </transform>
+        <transform input="gateTimeInfo" output="gateTimeInfo">
+            <use-transformer from="snme:GateTimeInfo" to="xfd:GateTimeInfo" class="SNME_GateTimeInfo_to_XFD_GateTimeInfo" />
+        </transform>
+        <transform input="gateUsageInfo" output="gateUsageInfo">
+            <use-transformer from="snme:GateUsageInfo" to="xfd:GateUsageInfo" class="SNME_GateUsageInfo_to_XFD_GateUsageInfo" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="gateSpec" output="gateSpec">
+            <use-transformer from="snme:GateSpec" to="xfd:GateSpec" class="SNME_GateSpec_to_XFD_GateSpec" />
+        </transform>
+        <transform input="flowSpec" output="flowSpec">
+            <use-transformer from="snme:FlowSpec" to="xfd:FlowSpec" class="SNME_FlowSpec_to_XFD_FlowSpec" />
+        </transform>
+        <transform input="docSisServiceClass" output="docSisServiceClass">
+            <use-transformer from="snme:DocSisServiceClass" to="xfd:DocSisServiceClass" class="SNME_DocSisServiceClass_to_XFD_DocSisServiceClass" />
+        </transform>
+        <transform input="bestEffortService" output="bestEffortService">
+            <use-transformer from="snme:BestEffortService" to="xfd:BestEffortService" class="SNME_BestEffortService_to_XFD_BestEffortService" />
+        </transform>
+        <transform input="nrtPollingService" output="nrtPollingService">
+            <use-transformer from="snme:NRTPollingService" to="xfd:NRTPollingService" class="SNME_NRTPollingService_to_XFD_NRTPollingService" />
+        </transform>
+        <transform input="rtPollingService" output="rtPollingService">
+            <use-transformer from="snme:RTPollingService" to="xfd:RTPollingService" class="SNME_RTPollingService_to_XFD_RTPollingService" />
+        </transform>
+        <transform input="unsolicitedGrantService" output="unsolicitedGrantService">
+            <use-transformer from="snme:UnsolicitedGrantService" to="xfd:UnsolicitedGrantService" class="SNME_UnsolicitedGrantService_to_XFD_UnsolicitedGrantService" />
+        </transform>
+        <transform input="unsolicitedGrantServiceAD" output="unsolicitedGrantServiceAD">
+            <use-transformer from="snme:UnsolicitedGrantServiceAD" to="xfd:UnsolicitedGrantServiceAD" class="SNME_UnsolicitedGrantServiceAD_to_XFD_UnsolicitedGrantServiceAD" />
+        </transform>
+        <transform input="downstreamService" output="downstreamService">
+            <use-transformer from="snme:DownstreamService" to="xfd:DownstreamService" class="SNME_DownstreamService_to_XFD_DownstreamService" />
+        </transform>
+        <transform input="upstreamDrop" output="upstreamDrop">
+            <use-transformer from="snme:UpstreamDrop" to="xfd:UpstreamDrop" class="SNME_UpstreamDrop_to_XFD_UpstreamDrop" />
+        </transform>
+        <transform input="classifierArray" output="classifierArray">
+            <transformer from="snme:Classifier[]" to="xfd:Classifier[]">
+                <array>
+                    <use-transformer from="snme:Classifier" to="xfd:Classifier" class="SNME_Classifier_to_XFD_Classifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="extendedClassifierArray" output="extendedClassifierArray">
+            <transformer from="snme:ExtendedClassifier[]" to="xfd:ExtendedClassifier[]">
+                <array>
+                    <use-transformer from="snme:ExtendedClassifier" to="xfd:ExtendedClassifier" class="SNME_ExtendedClassifier_to_XFD_ExtendedClassifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="ipV6ClassifierArray" output="ipV6ClassifierArray">
+            <transformer from="snme:IPV6Classifier[]" to="xfd:IPV6Classifier[]">
+                <array>
+                    <use-transformer from="snme:IPV6Classifier" to="xfd:IPV6Classifier" class="SNME_IPV6Classifier_to_XFD_IPV6Classifier" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="eventGenInfoIPv4" output="eventGenInfoIPv4">
+            <use-transformer from="snme:EventGenInfoIPv4" to="xfd:EventGenInfoIPv4" class="SNME_EventGenInfoIPv4_to_XFD_EventGenInfoIPv4" />
+        </transform>
+        <transform input="eventGenInfoIPv6" output="eventGenInfoIPv6">
+            <use-transformer from="snme:EventGenInfoIPv6" to="xfd:EventGenInfoIPv6" class="SNME_EventGenInfoIPv6_to_XFD_EventGenInfoIPv6" />
+        </transform>
+        <transform input="volumeBasedUsageLimit" output="volumeBasedUsageLimit">
+            <use-transformer from="snme:VolumeBasedUsageLimit" to="xfd:VolumeBasedUsageLimit" class="SNME_VolumeBasedUsageLimit_to_XFD_VolumeBasedUsageLimit" />
+        </transform>
+        <transform input="timeBasedUsageLimit" output="timeBasedUsageLimit">
+            <use-transformer from="snme:TimeBasedUsageLimit" to="xfd:TimeBasedUsageLimit" class="SNME_TimeBasedUsageLimit_to_XFD_TimeBasedUsageLimit" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+        <transform input="userID" output="userID">
+            <use-transformer from="snme:UserID" to="xfd:UserID" class="SNME_UserID_to_XFD_UserID" />
+        </transform>
+        <transform input="sharedResourceID" output="sharedResourceID">
+            <use-transformer from="snme:SharedResourceID" to="xfd:SharedResourceID" class="SNME_SharedResourceID_to_XFD_SharedResourceID" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SynchComplete_to_XFD_SynchComplete" from="snme:SynchComplete" to="xfd:SynchComplete">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="psid" output="psid">
+            <use-transformer from="snme:PSID" to="xfd:PSID" class="SNME_PSID_to_XFD_PSID" />
+        </transform>
+        <transform input="packetCableError" output="packetCableError">
+            <use-transformer from="snme:PacketCableError" to="xfd:PacketCableError" class="SNME_PacketCableError_to_XFD_PacketCableError" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GateReportState_to_XFD_GateReportState" from="snme:GateReportState" to="xfd:GateReportState">
+        <transform input="amid" output="amid">
+            <use-transformer from="snme:AMID" to="xfd:AMID" class="SNME_AMID_to_XFD_AMID" />
+        </transform>
+        <transform input="subIdIpV4" output="subIdIpV4">
+            <use-transformer from="snme:SubIDIPV4" to="xfd:SubIDIPV4" class="SNME_SubIDIPV4_to_XFD_SubIDIPV4" />
+        </transform>
+        <transform input="subIdIpV6" output="subIdIpV6">
+            <use-transformer from="snme:SubIDIPV6" to="xfd:SubIDIPV6" class="SNME_SubIDIPV6_to_XFD_SubIDIPV6" />
+        </transform>
+        <transform input="gateID" output="gateID">
+            <use-transformer from="snme:GateID" to="xfd:GateID" class="SNME_GateID_to_XFD_GateID" />
+        </transform>
+        <transform input="gateState" output="gateState">
+            <use-transformer from="snme:GateState" to="xfd:GateState" class="SNME_GateState_to_XFD_GateState" />
+        </transform>
+        <transform input="gateTimeInfo" output="gateTimeInfo">
+            <use-transformer from="snme:GateTimeInfo" to="xfd:GateTimeInfo" class="SNME_GateTimeInfo_to_XFD_GateTimeInfo" />
+        </transform>
+        <transform input="gateUsageInfo" output="gateUsageInfo">
+            <use-transformer from="snme:GateUsageInfo" to="xfd:GateUsageInfo" class="SNME_GateUsageInfo_to_XFD_GateUsageInfo" />
+        </transform>
+        <transform input="opaqueData" output="opaqueData">
+            <use-transformer from="snme:OpaqueData" to="xfd:OpaqueData" class="SNME_OpaqueData_to_XFD_OpaqueData" />
+        </transform>
+        <transform input="messageReceiptKey" output="messageReceiptKey">
+            <use-transformer from="snme:MessageReceiptKey" to="xfd:MessageReceiptKey" class="SNME_MessageReceiptKey_to_XFD_MessageReceiptKey" />
+        </transform>
+        <transform input="sharedResourceID" output="sharedResourceID">
+            <use-transformer from="snme:SharedResourceID" to="xfd:SharedResourceID" class="SNME_SharedResourceID_to_XFD_SharedResourceID" />
+        </transform>
+    </transformer>
+</transformations>

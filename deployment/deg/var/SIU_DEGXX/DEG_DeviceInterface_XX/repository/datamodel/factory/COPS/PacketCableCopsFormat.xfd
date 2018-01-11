@@ -1,0 +1,2093 @@
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+	targetNamespace="http://www.hp.com/usage/datastruct/xfd/PacketCableCopsFormat">
+
+	<root type="PacketCableMessage" />
+
+	<type id="PacketCableMessage" EOR="true">
+		<codec>
+			<raw size="length" />
+		</codec>
+		<sequence>
+			<field id="version" type="byte" codec="UBit4" />
+			<field id="flags" type="byte" codec="UBit4" />
+			<field id="opCode" type="short" codec="UByte1" />
+			<field id="clientType" type="int" codec="UByte2" />
+			<field id="length" type="long" codec="UByte4" />
+			<switch field="opCode">
+				<case value="1">
+					<field id="request" type="Request" />
+				</case>
+				<case value="2">
+					<field id="decision" type="Decision" />
+				</case>
+				<case value="3">
+					<field id="reportState" type="ReportState" />
+				</case>
+				<case value="4">
+					<field id="deleteRequestState" type="DeleteRequestState" />
+				</case>
+				<case value="6">
+					<field id="clientOpen" type="ClientOpen" />
+				</case>
+				<case value="7">
+					<field id="clientAccept" type="ClientAccept" />
+				</case>
+				<case value="8">
+					<field id="clientClose" type="ClientClose" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+
+	<type id="Request">
+		<codec>
+			<tlv header-type="ValueHeader" tag-field="cNumCType"
+				length-field="length" />
+		</codec>
+		<set>
+			<field id="handle" type="Handle">
+				<codec>
+					<tlv code="257" optional="false" />
+				</codec>
+			</field>
+			<field id="context" type="Context">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="csiCType1" type="GateControlResponse">
+				<codec>
+					<tlv code="2305" optional="true" />
+				</codec>
+			</field>
+			<field id="csiCType2" type="CSICType2">
+				<codec>
+					<tlv code="2306" valueCodec="StringUTF8Codec" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="Decision">
+		<codec>
+			<tlv header-type="ValueHeader" tag-field="cNumCType"
+				length-field="length" />
+		</codec>
+		<set>
+			<field id="handle" type="Handle">
+				<codec>
+					<tlv code="257" optional="false" />
+				</codec>
+			</field>
+			<field id="context" type="Context">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="decisionCType1" type="DecisionCType1">
+				<codec>
+					<tlv code="1537" optional="false" />
+				</codec>
+			</field>
+			<field id="decisionCType4" type="GateControlCommand">
+				<codec>
+					<tlv code="1540" optional="true" />
+				</codec>
+			</field>
+			<field id="error" type="Error">
+				<codec>
+					<tlv code="2049" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+	<type id="ReportState">
+		<codec>
+			<tlv header-type="ValueHeader" tag-field="cNumCType"
+				length-field="length" />
+		</codec>
+		<set>
+			<field id="handle" type="Handle">
+				<codec>
+					<tlv code="257" optional="false" />
+				</codec>
+			</field>
+			<field id="reportType" type="ReportType">
+				<codec>
+					<tlv code="3073" optional="false" />
+				</codec>
+			</field>
+			<field id="csiCType1" type="GateControlResponse">
+				<codec>
+					<tlv code="2305" optional="true" />
+				</codec>
+			</field>
+			<field id="csiCType2" type="CSICType2">
+				<codec>
+					<tlv code="2306" valueCodec="StringUTF8Codec" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="DeleteRequestState">
+		<codec>
+			<tlv header-type="ValueHeader" tag-field="cNumCType"
+				length-field="length" />
+		</codec>
+		<set>
+			<field id="handle" type="Handle">
+				<codec>
+					<tlv code="257" optional="false" />
+				</codec>
+			</field>
+			<field id="reason" type="Reason">
+				<codec>
+					<tlv code="1281" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+
+	<type id="ClientOpen">
+		<codec>
+			<tlv header-type="ValueHeader" tag-field="cNumCType"
+				length-field="length" />
+		</codec>
+		<set>
+			<field id="pepId" type="PEPID">
+				<codec>
+					<tlv code="2817" valueCodec="StringUTF8Codec" optional="false" />
+				</codec>
+			</field>
+			<field id="versionInfo" type="PacketCableVersionInfo">
+				<codec>
+					<tlv code="2305" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="ClientAccept">
+		<codec>
+			<tlv header-type="ValueHeader" tag-field="cNumCType"
+				length-field="length" />
+		</codec>
+		<set>
+			<field id="keepAliveTimer" type="KeepAliveTimer">
+				<codec>
+					<tlv code="2561" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="ClientClose">
+		<codec>
+			<tlv header-type="ValueHeader" tag-field="cNumCType"
+				length-field="length" />
+		</codec>
+		<set>
+			<field id="error" type="Error">
+				<codec>
+					<tlv code="2049" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="PacketCableVersionInfo">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="versionInfo" type="VersionInfo">
+				<codec>
+					<tlv code="4097" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+
+	<!-- Individual PacketCable XFD Types -->
+	<type id="AMID">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="applicationType" type="int" codec="UByte2" />
+			<field id="applicationManagerTag" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+	<type id="SubIDIPV4">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="subIdIpV4" type="byte[]" codec="IpV4" />
+		</sequence>
+	</type>
+	<type id="SubIDIPV6">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="subIdIpV6" type="byte[]" codec="IpV6" />
+		</sequence>
+	</type>
+	<type id="GateID">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="gateID" type="long" codec="UByte4" />
+		</sequence>
+	</type>
+	<type id="GateSpec">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="flagsReservedBits" type="byte" codec="UBit6" />
+			<field id="flagsDscpTosBit" type="byte" codec="UBit1" />
+			<field id="flagsDirectionBit" type="byte" codec="UBit1" />
+			<field id="dscpTosOverwrite" type="short" codec="UByte1" />
+			<field id="dscpTosMask" type="short" codec="UByte1" />
+			<field id="sessionClassIDConfigurable" type="byte" codec="UBit4" />
+			<field id="sessionClassIDPreemption" type="byte" codec="UBit1" />
+			<field id="sessionClassIDPriority" type="byte" codec="UBit3" />
+			<field id="timerT1" type="int" codec="UByte2" />
+			<field id="timerT2" type="int" codec="UByte2" />
+			<field id="timerT3" type="int" codec="UByte2" />
+			<field id="timerT4" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+
+	<type id="Classifier">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<!--<field id="reserved" type="byte" codec="Byte1" />-->
+			<field id="protocolID" type="short" codec="Byte2" />
+			<field id="dscpTosField" type="short" codec="UByte1" />
+			<field id="dscpTosMask" type="short" codec="UByte1" />
+			<field id="iPSourceAddress" type="byte[]" codec="IpV4" />
+			<field id="iPDestinationAddress" type="byte[]" codec="IpV4" />
+			<field id="sourcePort" type="int" codec="UByte2" />
+			<field id="destinationPort" type="int" codec="UByte2" />
+			<field id="priority" type="byte" codec="Byte1" />
+			<field id="reservedEnd" type="byte[]" codec="Byte3" />
+		</sequence>
+	</type>
+	<type id="ExtendedClassifier">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<!--<field id="reserved" type="byte" codec="Byte1" />-->
+			<field id="protocolID" type="short" codec="Byte2" />
+			<field id="dscpTosField" type="short" codec="UByte1" />
+			<field id="dscpTosMask" type="short" codec="UByte1" />
+			<field id="iPSourceAddress" type="byte[]" codec="IpV4" />
+			<field id="iPSourceMask" type="byte[]" codec="IpV4" />
+			<field id="iPDestinationAddress" type="byte[]" codec="IpV4" />
+			<field id="iPDestinationMask" type="byte[]" codec="IpV4" />
+			<field id="sourcePortStart" type="int" codec="UByte2" />
+			<field id="sourcePortEnd" type="int" codec="UByte2" />
+			<field id="destinationPortStart" type="int" codec="UByte2" />
+			<field id="destinationPortEnd" type="int" codec="UByte2" />
+			<field id="classifierID" type="int" codec="UByte2" />
+			<field id="priority" type="byte" codec="Byte1" />
+			<field id="activationState" type="short" codec="UByte1" />
+			<field id="action" type="short" codec="UByte1" />
+			<field id="reservedEnd" type="byte[]" codec="Byte3" />
+		</sequence>
+	</type>
+	<type id="IPV6Classifier">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="reserved" type="byte" codec="UBit4" />
+			<field id="flags" type="byte" codec="UBit4" />
+			<field id="tcLow" type="byte" codec="Byte1" />
+			<field id="tcHigh" type="byte" codec="Byte1" />
+			<field id="tcMask" type="byte" codec="Byte1" />
+			<field id="flowLabel" type="long" codec="UByte4" />
+			<field id="nextHeaderType" type="short" codec="Byte2" />
+			<field id="sourcePrefixLength" type="byte" codec="Byte1" />
+			<field id="destinationPrefixLength" type="byte" codec="Byte1" />
+			<field id="iPV6SourceAddress" type="byte[]" codec="IpV6" />
+			<field id="iPV6DestinationAddress" type="byte[]" codec="IpV6" />
+			<field id="sourcePortStart" type="int" codec="UByte2" />
+			<field id="sourcePortEnd" type="int" codec="UByte2" />
+			<field id="destinationPortStart" type="int" codec="UByte2" />
+			<field id="destinationPortEnd" type="int" codec="UByte2" />
+			<field id="classifierID" type="int" codec="UByte2" />
+			<field id="priority" type="byte" codec="Byte1" />
+			<field id="activationState" type="short" codec="UByte1" />
+			<field id="action" type="short" codec="UByte1" />
+			<field id="reservedEnd" type="byte[]" codec="Byte3" />
+		</sequence>
+	</type>
+
+	<type id="FlowSpec">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="serviceNumber" type="byte" codec="Byte1" />
+			<field id="reserveFirst" type="byte" codec="Byte1" />
+			<field id="reserveSecond" type="byte" codec="Byte1" />
+			<switch field="envelope">
+				<case value="1">
+					<field id="authEnvelope" type="FlowSpecEnvelope" />
+				</case>
+				<case value="3">
+					<field id="authReservedEnvelope" type="AuthReservedEnvelope" />
+				</case>
+				<case value="7">
+					<field id="authReservedCommittedEnvelope" type="AuthReservedCommittedEnvelope" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+	<type id="AuthReservedEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedEnvelope" type="FlowSpecEnvelope" />
+			<field id="reservedEnvelope" type="FlowSpecEnvelope" />
+		</sequence>
+	</type>
+	<type id="AuthReservedCommittedEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedEnvelope" type="FlowSpecEnvelope" />
+			<field id="reservedEnvelope" type="FlowSpecEnvelope" />
+			<field id="committedEnvelope" type="FlowSpecEnvelope" />
+		</sequence>
+	</type>
+	<type id="FlowSpecEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="tokenBucketRate" type="byte[]" codec="ByteArray4" />
+			<field id="tokenBucketSize" type="byte[]" codec="ByteArray4" />
+			<field id="peakDataRate" type="byte[]" codec="ByteArray4" />
+			<field id="minPolicedUnit" type="int" codec="Byte4" />
+			<field id="maxPacketSize" type="int" codec="Byte4" />
+			<field id="rate" type="byte[]" codec="ByteArray4" />
+			<field id="slackTerm" type="int" codec="Byte4" />
+		</sequence>
+	</type>
+
+	<type id="DocSisServiceClass">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+			<field id="serviceClassName" type="string" codec="StringUTF8Codec" />
+		</sequence>
+	</type>
+
+	<type id="Reserved3Bytes">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="reserveFirst" type="byte" codec="Byte1" />
+			<field id="reserveSecond" type="byte" codec="Byte1" />
+			<field id="reserveThird" type="byte" codec="Byte1" />
+		</sequence>
+	</type>
+
+	<type id="BestEffortService">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+			<switch field="envelope">
+				<case value="1">
+					<field id="authBESEnvelope" type="BestEffortServiceEnvelope" />
+				</case>
+				<case value="3">
+					<field id="authReservedBESEnvelope" type="AuthReservedBESEnvelope" />
+				</case>
+				<case value="7">
+					<field id="authReservedCommittedBESEnvelope" type="AuthReservedCommittedBESEnvelope" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+	<type id="AuthReservedBESEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedBESEnvelope" type="BestEffortServiceEnvelope" />
+			<field id="reservedBESEnvelope" type="BestEffortServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="AuthReservedCommittedBESEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedBESEnvelope" type="BestEffortServiceEnvelope" />
+			<field id="reservedBESEnvelope" type="BestEffortServiceEnvelope" />
+			<field id="committedBESEnvelope" type="BestEffortServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="BestEffortServiceEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="trafficPriority" type="short" codec="UByte1" />
+			<field id="reserved3Bytes" type="byte[]" codec="Byte3" />
+			<field id="commonServiceEnvelopePartOne" type="CommonServiceEnvelopePartOne" />
+			<field id="commonServiceEnvelopePartTwo" type="CommonServiceEnvelopePartTwo" />
+		</sequence>
+	</type>
+
+	<type id="CommonServiceEnvelopePartOne">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="requestTransmissionPolicy" type="int" codec="Byte4" />
+			<field id="maxSustainedTrafficRate" type="long" codec="UByte4" />
+			<field id="maxTrafficBurst" type="long" codec="UByte4" />
+			<field id="minReservedTrafficRate" type="long" codec="UByte4" />
+			<field id="assumedMinResTrafRatePktSize" type="int" codec="UByte2" />
+			<field id="maxConcatenatedBurst" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+	<type id="CommonServiceEnvelopePartTwo">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="streamPeakTrafficRate" type="long" codec="UByte4" />
+			<field id="reqAttrMask" type="int" codec="Byte4" />
+			<field id="forbiddenAttrMask" type="int" codec="Byte4" />
+			<field id="attrAggregationRuleMask" type="int" codec="Byte4" />
+			<field id="minBuffer" type="long" codec="UByte4" />
+			<field id="targetBuffer" type="long" codec="UByte4" />
+			<field id="maxBuffer" type="long" codec="UByte4" />
+		</sequence>
+	</type>
+
+	<type id="NRTPollingService">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+			<switch field="envelope">
+				<case value="1">
+					<field id="authNRTEnvelope" type="NRTPollingServiceEnvelope" />
+				</case>
+				<case value="3">
+					<field id="authReservedNRTEnvelope" type="AuthReservedNRTEnvelope" />
+				</case>
+				<case value="7">
+					<field id="authReservedCommittedNRTEnvelope" type="AuthReservedCommittedNRTEnvelope" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+	<type id="AuthReservedNRTEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedNRTEnvelope" type="NRTPollingServiceEnvelope" />
+			<field id="reservedNRTEnvelope" type="NRTPollingServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="AuthReservedCommittedNRTEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedNRTEnvelope" type="NRTPollingServiceEnvelope" />
+			<field id="reservedNRTEnvelope" type="NRTPollingServiceEnvelope" />
+			<field id="committedNRTEnvelope" type="NRTPollingServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="NRTPollingServiceEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="trafficPriority" type="short" codec="UByte1" />
+			<field id="reserved3Bytes" type="byte[]" codec="Byte3" />
+			<field id="commonServiceEnvelopePartOne" type="CommonServiceEnvelopePartOne" />
+			<field id="nominalPollingInterval" type="long" codec="UByte4" />
+			<field id="commonServiceEnvelopePartTwo" type="CommonServiceEnvelopePartTwo" />
+		</sequence>
+	</type>
+
+	<type id="RTPollingService">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+			<switch field="envelope">
+				<case value="1">
+					<field id="authRTEnvelope" type="RTPollingServiceEnvelope" />
+				</case>
+				<case value="3">
+					<field id="authReservedRTEnvelope" type="AuthReservedRTEnvelope" />
+				</case>
+				<case value="7">
+					<field id="authReservedCommittedRTEnvelope" type="AuthReservedCommittedRTEnvelope" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+	<type id="AuthReservedRTEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedRTEnvelope" type="RTPollingServiceEnvelope" />
+			<field id="reservedRTEnvelope" type="RTPollingServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="AuthReservedCommittedRTEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedRTEnvelope" type="RTPollingServiceEnvelope" />
+			<field id="reservedRTEnvelope" type="RTPollingServiceEnvelope" />
+			<field id="committedRTEnvelope" type="RTPollingServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="RTPollingServiceEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="commonServiceEnvelopePartOne" type="CommonServiceEnvelopePartOne" />
+			<field id="nominalPollingInterval" type="long" codec="UByte4" />
+			<field id="toleratedPollingJitter" type="long" codec="UByte4" />
+			<field id="commonServiceEnvelopePartTwo" type="CommonServiceEnvelopePartTwo" />
+		</sequence>
+	</type>
+
+	<type id="UnsolicitedGrantService">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+			<switch field="envelope">
+				<case value="1">
+					<field id="authUGCEnvelope" type="UGCServiceEnvelope" />
+				</case>
+				<case value="3">
+					<field id="authReservedUGCEnvelope" type="AuthReservedUGCEnvelope" />
+				</case>
+				<case value="7">
+					<field id="authReservedCommittedUGCEnvelope" type="AuthReservedCommittedUGCEnvelope" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+	<type id="AuthReservedUGCEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedUGCEnvelope" type="UGCServiceEnvelope" />
+			<field id="reservedUGCEnvelope" type="UGCServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="AuthReservedCommittedUGCEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedUGCEnvelope" type="UGCServiceEnvelope" />
+			<field id="reservedUGCEnvelope" type="UGCServiceEnvelope" />
+			<field id="committedUGCEnvelope" type="UGCServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="UGCServiceEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="requestTransmissionPolicy" type="int" codec="Byte4" />
+			<field id="unsolicitedGrantSize" type="int" codec="UByte2" />
+			<field id="grantsPerInterval" type="short" codec="UByte1" />
+			<field id="reserved" type="byte" codec="Byte1" />
+			<field id="nominalGrantInterval" type="long" codec="UByte4" />
+			<field id="toleratedGrantJitter" type="long" codec="UByte4" />
+			<field id="commonServiceEnvelopePartTwo" type="CommonServiceEnvelopePartTwo" />
+		</sequence>
+	</type>
+
+	<type id="UnsolicitedGrantServiceAD">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+			<switch field="envelope">
+				<case value="1">
+					<field id="authUGCADEnvelope" type="UGCADServiceEnvelope" />
+				</case>
+				<case value="3">
+					<field id="authReservedUGCADEnvelope" type="AuthReservedUGCADEnvelope" />
+				</case>
+				<case value="7">
+					<field id="authReservedCommittedUGCADEnvelope" type="AuthReservedCommittedUGCADEnvelope" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+	<type id="AuthReservedUGCADEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedUGCADEnvelope" type="UGCADServiceEnvelope" />
+			<field id="reservedUGCADEnvelope" type="UGCADServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="AuthReservedCommittedUGCADEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedUGCADEnvelope" type="UGCADServiceEnvelope" />
+			<field id="reservedUGCADEnvelope" type="UGCADServiceEnvelope" />
+			<field id="committedUGCADEnvelope" type="UGCADServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="UGCADServiceEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="requestTransmissionPolicy" type="int" codec="Byte4" />
+			<field id="unsolicitedGrantSize" type="int" codec="UByte2" />
+			<field id="grantsPerInterval" type="short" codec="UByte1" />
+			<field id="reserved" type="byte" codec="Byte1" />
+			<field id="nominalGrantInterval" type="long" codec="UByte4" />
+			<field id="toleratedGrantJitter" type="long" codec="UByte4" />
+			<field id="nominalPollingInterval" type="long" codec="UByte4" />
+			<field id="toleratedPollingJitter" type="long" codec="UByte4" />
+			<field id="commonServiceEnvelopePartTwo" type="CommonServiceEnvelopePartTwo" />
+		</sequence>
+	</type>
+
+	<type id="DownstreamService">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+			<switch field="envelope">
+				<case value="1">
+					<field id="authDSEnvelope" type="DSServiceEnvelope" />
+				</case>
+				<case value="3">
+					<field id="authReservedDSEnvelope" type="AuthReservedDSEnvelope" />
+				</case>
+				<case value="7">
+					<field id="authReservedCommittedDSEnvelope" type="AuthReservedCommittedDSEnvelope" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+	<type id="AuthReservedDSEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedDSEnvelope" type="DSServiceEnvelope" />
+			<field id="reservedDSEnvelope" type="DSServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="AuthReservedCommittedDSEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="authorizedDSEnvelope" type="DSServiceEnvelope" />
+			<field id="reservedDSEnvelope" type="DSServiceEnvelope" />
+			<field id="committedDSEnvelope" type="DSServiceEnvelope" />
+		</sequence>
+	</type>
+	<type id="DSServiceEnvelope">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="trafficPriority" type="short" codec="UByte1" />
+			<field id="downstreamReSeq" type="short" codec="UByte1" />
+			<field id="reserved2Bytes" type="short" codec="Byte2" />
+			<field id="maxSustainedTrafficRate" type="long" codec="UByte4" />
+			<field id="maxTrafficBurst" type="long" codec="UByte4" />
+			<field id="minReservedTrafficRate" type="long" codec="UByte4" />
+			<field id="assumedMinResTrafRatePktSize" type="int" codec="UByte2" />
+			<field id="reserved" type="short" codec="Byte2" />
+			<field id="maxDownTimeLatency" type="long" codec="UByte4" />
+			<field id="commonServiceEnvelopePartTwo" type="CommonServiceEnvelopePartTwo" />
+		</sequence>
+	</type>
+
+	<type id="UpstreamDrop">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="envelope" type="byte" codec="Byte1" />
+			<field id="reserved3Bytes" type="Reserved3Bytes" />
+		</sequence>
+	</type>
+
+	<type id="EventGenInfoIPv4">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="primaryRKSIPAddress" type="byte[]" codec="IpV4" />
+			<field id="primaryRKSIPPort" type="int" codec="UByte2" />
+			<field id="primaryReserved" type="short" codec="Byte2" />
+			<field id="secondaryRKSIPAddress" type="byte[]" codec="IpV4" />
+			<field id="secondaryRKSIPPort" type="int" codec="UByte2" />
+			<field id="secondaryReserved" type="short" codec="Byte2" />
+			<field id="billingCorrelationID" type="byte[]" codec="Byte24" />
+		</sequence>
+	</type>
+	<type id="EventGenInfoIPv6">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="primaryRKSIPAddress" type="byte[]" codec="IpV6" />
+			<field id="primaryRKSIPPort" type="int" codec="UByte2" />
+			<field id="primaryReserved" type="short" codec="Byte2" />
+			<field id="secondaryRKSIPAddress" type="byte[]" codec="IpV6" />
+			<field id="secondaryRKSIPPort" type="int" codec="UByte2" />
+			<field id="secondaryReserved" type="short" codec="Byte2" />
+			<field id="billingCorrelationID" type="byte[]" codec="Byte24" />
+		</sequence>
+	</type>
+
+	<type id="VolumeBasedUsageLimit">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="usageLimit" type="byte[]" codec="UByte8" />
+		</sequence>
+	</type>
+	<type id="TimeBasedUsageLimit">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="timeLimit" type="long" codec="UByte4" />
+		</sequence>
+	</type>
+	<type id="OpaqueData">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="opaqueData" type="long" codec="Byte8" />
+		</sequence>
+	</type>
+	<type id="GateTimeInfo">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="timeCommitted" type="long" codec="UByte4" />
+		</sequence>
+	</type>
+	<type id="GateUsageInfo">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="octetCount" type="byte[]" codec="UByte8" />
+		</sequence>
+	</type>
+	<type id="PacketCableError">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="errorCode" type="int" codec="UByte2" />
+			<field id="errorSubCode" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+	<type id="GateState">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="state" type="int" codec="UByte2" />
+			<field id="reason" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+	<type id="VersionInfo">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="majorVersionNumber" type="int" codec="UByte2" />
+			<field id="minorVersionNumber" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+	<type id="PSID">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="pSID" type="long" codec="UByte4" />
+		</sequence>
+	</type>
+	<type id="SynchOptions">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="reserved" type="short" codec="Byte2" />
+			<field id="reportType" type="short" codec="UByte1" />
+			<field id="synchType" type="short" codec="UByte1" />
+		</sequence>
+	</type>
+	<type id="MessageReceiptKey">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="messageReceiptKey" type="long" codec="UByte4" />
+		</sequence>
+	</type>
+	<type id="UserID">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="userID" type="string" codec="StringUTF8Codec" />
+		</sequence>
+	</type>
+	<type id="SharedResourceID">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="sharedResourceID" type="long" codec="UByte4" />
+		</sequence>
+	</type>
+
+
+
+	<!-- ********* COPS OBJECT AREA ************* -->
+
+	<type id="Handle">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="clientHandle" type="string" codec="StringUTF8Codec" />
+		</sequence>
+	</type>
+
+	<type id="Context">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="rType" type="short" codec="Byte2" />
+			<field id="mType" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+
+	<type id="Reason">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="reasonCode" type="short" codec="Byte2" />
+			<field id="reasonSubcode" type="short" codec="Byte2" />
+		</sequence>
+	</type>
+
+	<type id="DecisionCType1">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="commandCode" type="short" codec="Byte2" />
+			<field id="flags" type="short" codec="Byte2" />
+		</sequence>
+	</type>
+
+	<type id="Error">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="errorCode" type="short" codec="Byte2" />
+			<field id="errorSubCode" type="short" codec="Byte2" />
+		</sequence>
+	</type>
+
+	<type id="CSICType2">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="csiNamedClient" type="string" codec="StringUTF8Codec" />
+		</sequence>
+	</type>
+
+	<type id="KeepAliveTimer">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="reserved" type="short" codec="Byte2" />
+			<field id="kaTimerValue" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+	<type id="PEPID">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="pepID" type="string" codec="StringUTF8Codec" />
+		</sequence>
+	</type>
+	<type id="ReportType">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="reportType" type="short" codec="Byte2" />
+			<field id="reserved" type="short" codec="Byte2" />
+		</sequence>
+	</type>
+
+	<!-- ******************* Gate Control Command DEFINITION AREA ******************** -->
+	<type id="GateControlCommand">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="length" type="int" codec="UByte2" />
+			<field id="sNum" type="byte" codec="Byte1" />
+			<field id="sType" type="byte" codec="Byte1" />
+			<field id="transactionIdentifier" type="int" codec="UByte2" />
+			<field id="gateCommandType" type="int" codec="UByte2" />
+			<switch field="gateCommandType">
+				<case value="4">
+					<field id="gateSet" type="GateSet" />
+				</case>
+				<case value="7">
+					<field id="gateInfo" type="GateInfo" />
+				</case>
+				<case value="10">
+					<field id="gateDelete" type="GateDelete" />
+				</case>
+				<case value="17">
+					<field id="pdpConfig" type="PdpConfig" />
+				</case>
+				<case value="20">
+					<field id="synchRequest" type="SynchRequest" />
+				</case>
+				<case value="23">
+					<field id="msgReceipt" type="MsgReceipt" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+
+	<type id="GateSet">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="true" />
+				</codec>
+			</field>
+			<field id="gateSpec" type="GateSpec">
+				<codec>
+					<tlv code="1281" optional="false" />
+				</codec>
+			</field>
+			<field id="flowSpec" type="FlowSpec">
+				<codec>
+					<tlv code="1793" optional="true" />
+				</codec>
+			</field>
+			<field id="docSisServiceClass" type="DocSisServiceClass">
+				<codec>
+					<tlv code="1794" optional="true" />
+				</codec>
+			</field>
+			<field id="bestEffortService" type="BestEffortService">
+				<codec>
+					<tlv code="1795" optional="true" />
+				</codec>
+			</field>
+			<field id="nrtPollingService" type="NRTPollingService">
+				<codec>
+					<tlv code="1796" optional="true" />
+				</codec>
+			</field>
+			<field id="rtPollingService" type="RTPollingService">
+				<codec>
+					<tlv code="1797" optional="true" />
+				</codec>
+			</field>
+			<field id="unsolicitedGrantService" type="UnsolicitedGrantService">
+				<codec>
+					<tlv code="1798" optional="true" />
+				</codec>
+			</field>
+			<field id="unsolicitedGrantServiceAD" type="UnsolicitedGrantServiceAD">
+				<codec>
+					<tlv code="1799" optional="true" />
+				</codec>
+			</field>
+			<field id="downstreamService" type="DownstreamService">
+				<codec>
+					<tlv code="1800" optional="true" />
+				</codec>
+			</field>
+			<field id="upstreamDrop" type="UpstreamDrop">
+				<codec>
+					<tlv code="1801" optional="true" />
+				</codec>
+			</field>
+			<array id="classifierArray">
+				<field type="Classifier">
+					<codec>
+						<tlv code="1537" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<array id="extendedClassifierArray">
+				<field type="ExtendedClassifier">
+					<codec>
+						<tlv code="1538" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<array id="ipV6ClassifierArray">
+				<field type="IPV6Classifier">
+					<codec>
+						<tlv code="1539" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<field id="eventGenInfoIPv4" type="EventGenInfoIPv4">
+				<codec>
+					<tlv code="2049" optional="true" />
+				</codec>
+			</field>
+			<field id="eventGenInfoIPv6" type="EventGenInfoIPv6">
+				<codec>
+					<tlv code="2050" optional="true" />
+				</codec>
+			</field>
+			<field id="volumeBasedUsageLimit" type="VolumeBasedUsageLimit">
+				<codec>
+					<tlv code="2305" optional="true" />
+				</codec>
+			</field>
+			<field id="timeBasedUsageLimit" type="TimeBasedUsageLimit">
+				<codec>
+					<tlv code="2561" optional="true" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="userID" type="UserID">
+				<codec>
+					<tlv code="5377" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GateInfo">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GateDelete">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="PdpConfig">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="SynchRequest">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="true" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="synchOptions" type="SynchOptions">
+				<codec>
+					<tlv code="4609" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="MsgReceipt">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+	<!-- ******************* Gate Control Response DEFINITION AREA ******************** -->
+
+	<type id="GateControlResponse">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="length" type="int" codec="UByte2" />
+			<field id="sNum" type="byte" codec="Byte1" />
+			<field id="sType" type="byte" codec="Byte1" />
+			<field id="transactionIdentifier" type="int" codec="UByte2" />
+			<field id="gateCommandType" type="int" codec="UByte2" />
+			<switch field="gateCommandType">
+				<case value="5">
+					<field id="gateSetAck" type="GateSetAck" />
+				</case>
+				<case value="6">
+					<field id="gateSetErr" type="GateSetErr" />
+				</case>
+				<case value="8">
+					<field id="gateInfoAck" type="GateInfoAck" />
+				</case>
+				<case value="9">
+					<field id="gateInfoErr" type="GateInfoErr" />
+				</case>
+				<case value="11">
+					<field id="gateDeleteAck" type="GateDeleteAck" />
+				</case>
+				<case value="12">
+					<field id="gateDeleteErr" type="GateDeleteErr" />
+				</case>
+				<case value="15">
+					<field id="gateReportState" type="GateReportState" />
+				</case>
+				<case value="16">
+					<field id="gateCmdErr" type="GateCmdErr" />
+				</case>
+				<case value="18">
+					<field id="pdpConfigAck" type="PdpConfigAck" />
+				</case>
+				<case value="19">
+					<field id="pdpConfigErr" type="PdpConfigErr" />
+				</case>
+				<case value="21">
+					<field id="synchReport" type="SynchReport" />
+				</case>
+				<case value="22">
+					<field id="synchComplete" type="SynchComplete" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+
+	<type id="GateSetAck">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+			<field id="sharedResourceID" type="SharedResourceID">
+				<codec>
+					<tlv code="5633" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+	<type id="GateSetErr">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="packetCableError" type="PacketCableError">
+				<codec>
+					<tlv code="3585" optional="false" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+	<type id="GateInfoAck">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="eventGenInfoIPv4" type="EventGenInfoIPv4">
+				<codec>
+					<tlv code="2049" optional="true" />
+				</codec>
+			</field>
+			<field id="eventGenInfoIPv6" type="EventGenInfoIPv6">
+				<codec>
+					<tlv code="2050" optional="true" />
+				</codec>
+			</field>
+			<field id="gateSpec" type="GateSpec">
+				<codec>
+					<tlv code="1281" optional="false" />
+				</codec>
+			</field>
+			<array id="classifierArray">
+				<field type="Classifier">
+					<codec>
+						<tlv code="1537" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<array id="extendedClassifierArray">
+				<field type="ExtendedClassifier">
+					<codec>
+						<tlv code="1538" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<array id="ipV6ClassifierArray">
+				<field type="IPV6Classifier">
+					<codec>
+						<tlv code="1539" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<field id="flowSpec" type="FlowSpec">
+				<codec>
+					<tlv code="1793" optional="true" />
+				</codec>
+			</field>
+			<field id="docSisServiceClass" type="DocSisServiceClass">
+				<codec>
+					<tlv code="1794" optional="true" />
+				</codec>
+			</field>
+			<field id="bestEffortService" type="BestEffortService">
+				<codec>
+					<tlv code="1795" optional="true" />
+				</codec>
+			</field>
+			<field id="nrtPollingService" type="NRTPollingService">
+				<codec>
+					<tlv code="1796" optional="true" />
+				</codec>
+			</field>
+			<field id="rtPollingService" type="RTPollingService">
+				<codec>
+					<tlv code="1797" optional="true" />
+				</codec>
+			</field>
+			<field id="unsolicitedGrantService" type="UnsolicitedGrantService">
+				<codec>
+					<tlv code="1798" optional="true" />
+				</codec>
+			</field>
+			<field id="unsolicitedGrantServiceAD" type="UnsolicitedGrantServiceAD">
+				<codec>
+					<tlv code="1799" optional="true" />
+				</codec>
+			</field>
+			<field id="downstreamService" type="DownstreamService">
+				<codec>
+					<tlv code="1800" optional="true" />
+				</codec>
+			</field>
+			<field id="upstreamDrop" type="UpstreamDrop">
+				<codec>
+					<tlv code="1801" optional="true" />
+				</codec>
+			</field>
+			<field id="gateTimeInfo" type="GateTimeInfo">
+				<codec>
+					<tlv code="3073" optional="false" />
+				</codec>
+			</field>
+			<field id="gateUsageInfo" type="GateUsageInfo">
+				<codec>
+					<tlv code="3329" optional="false" />
+				</codec>
+			</field>
+			<field id="volumeBasedUsageLimit" type="VolumeBasedUsageLimit">
+				<codec>
+					<tlv code="2305" optional="true" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+			<field id="userID" type="UserID">
+				<codec>
+					<tlv code="5377" optional="true" />
+				</codec>
+			</field>
+			<field id="timeBasedUsageLimit" type="TimeBasedUsageLimit">
+				<codec>
+					<tlv code="2561" optional="true" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="gateState" type="GateState">
+				<codec>
+					<tlv code="3841" optional="false" />
+				</codec>
+			</field>
+			<field id="sharedResourceID" type="SharedResourceID">
+				<codec>
+					<tlv code="5633" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GateInfoErr">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="packetCableError" type="PacketCableError">
+				<codec>
+					<tlv code="3585" optional="false" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GateDeleteAck">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GateDeleteErr">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="packetCableError" type="PacketCableError">
+				<codec>
+					<tlv code="3585" optional="false" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GateCmdErr">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="packetCableError" type="PacketCableError">
+				<codec>
+					<tlv code="3585" optional="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="PdpConfigAck">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="PdpConfigErr">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="packetCableError" type="PacketCableError">
+				<codec>
+					<tlv code="3585" optional="false" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="SynchReport">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="gateState" type="GateState">
+				<codec>
+					<tlv code="3841" optional="false" />
+				</codec>
+			</field>
+			<field id="gateTimeInfo" type="GateTimeInfo">
+				<codec>
+					<tlv code="3073" optional="false" />
+				</codec>
+			</field>
+			<field id="gateUsageInfo" type="GateUsageInfo">
+				<codec>
+					<tlv code="3329" optional="false" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="gateSpec" type="GateSpec">
+				<codec>
+					<tlv code="1281" optional="true" />
+				</codec>
+			</field>
+			<field id="flowSpec" type="FlowSpec">
+				<codec>
+					<tlv code="1793" optional="true" />
+				</codec>
+			</field>
+			<field id="docSisServiceClass" type="DocSisServiceClass">
+				<codec>
+					<tlv code="1794" optional="true" />
+				</codec>
+			</field>
+			<field id="bestEffortService" type="BestEffortService">
+				<codec>
+					<tlv code="1795" optional="true" />
+				</codec>
+			</field>
+			<field id="nrtPollingService" type="NRTPollingService">
+				<codec>
+					<tlv code="1796" optional="true" />
+				</codec>
+			</field>
+			<field id="rtPollingService" type="RTPollingService">
+				<codec>
+					<tlv code="1797" optional="true" />
+				</codec>
+			</field>
+			<field id="unsolicitedGrantService" type="UnsolicitedGrantService">
+				<codec>
+					<tlv code="1798" optional="true" />
+				</codec>
+			</field>
+			<field id="unsolicitedGrantServiceAD" type="UnsolicitedGrantServiceAD">
+				<codec>
+					<tlv code="1799" optional="true" />
+				</codec>
+			</field>
+			<field id="downstreamService" type="DownstreamService">
+				<codec>
+					<tlv code="1800" optional="true" />
+				</codec>
+			</field>
+			<field id="upstreamDrop" type="UpstreamDrop">
+				<codec>
+					<tlv code="1801" optional="true" />
+				</codec>
+			</field>
+			<array id="classifierArray">
+				<field type="Classifier">
+					<codec>
+						<tlv code="1537" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<array id="extendedClassifierArray">
+				<field type="ExtendedClassifier">
+					<codec>
+						<tlv code="1538" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<array id="ipV6ClassifierArray">
+				<field type="IPV6Classifier">
+					<codec>
+						<tlv code="1539" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<field id="eventGenInfoIPv4" type="EventGenInfoIPv4">
+				<codec>
+					<tlv code="2049" optional="true" />
+				</codec>
+			</field>
+			<field id="eventGenInfoIPv6" type="EventGenInfoIPv6">
+				<codec>
+					<tlv code="2050" optional="true" />
+				</codec>
+			</field>
+			<field id="volumeBasedUsageLimit" type="VolumeBasedUsageLimit">
+				<codec>
+					<tlv code="2305" optional="true" />
+				</codec>
+			</field>
+			<field id="timeBasedUsageLimit" type="TimeBasedUsageLimit">
+				<codec>
+					<tlv code="2561" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+			<field id="userID" type="UserID">
+				<codec>
+					<tlv code="5377" optional="true" />
+				</codec>
+			</field>
+			<field id="sharedResourceID" type="SharedResourceID">
+				<codec>
+					<tlv code="5633" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="SynchComplete">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="true" />
+				</codec>
+			</field>
+			<field id="psid" type="PSID">
+				<codec>
+					<tlv code="4353" optional="true" />
+				</codec>
+			</field>
+			<field id="packetCableError" type="PacketCableError">
+				<codec>
+					<tlv code="3585" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GateReportState">
+		<codec>
+			<tlv header-type="Header" tag-field="sNumSType" length-field="length" />
+		</codec>
+		<set>
+			<field id="amid" type="AMID">
+				<codec>
+					<tlv code="513" optional="false" />
+				</codec>
+			</field>
+			<field id="subIdIpV4" type="SubIDIPV4">
+				<codec>
+					<tlv code="769" optional="true" />
+				</codec>
+			</field>
+			<field id="subIdIpV6" type="SubIDIPV6">
+				<codec>
+					<tlv code="770" optional="true" />
+				</codec>
+			</field>
+			<field id="gateID" type="GateID">
+				<codec>
+					<tlv code="1025" optional="false" />
+				</codec>
+			</field>
+			<field id="gateState" type="GateState">
+				<codec>
+					<tlv code="3841" optional="false" />
+				</codec>
+			</field>
+			<field id="gateTimeInfo" type="GateTimeInfo">
+				<codec>
+					<tlv code="3073" optional="false" />
+				</codec>
+			</field>
+			<field id="gateUsageInfo" type="GateUsageInfo">
+				<codec>
+					<tlv code="3329" optional="false" />
+				</codec>
+			</field>
+			<field id="opaqueData" type="OpaqueData">
+				<codec>
+					<tlv code="2817" optional="true" />
+				</codec>
+			</field>
+			<field id="messageReceiptKey" type="MessageReceiptKey">
+				<codec>
+					<tlv code="4865" optional="true" />
+				</codec>
+			</field>
+			<field id="sharedResourceID" type="SharedResourceID">
+				<codec>
+					<tlv code="5633" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<!-- HEADER AREA -->
+
+	<type id="ValueHeader">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="length" type="int" codec="UByte2" />
+			<field id="cNumCType" type="short" codec="Byte2" />
+		</sequence>
+	</type>
+
+	<type id="Header">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="length" type="int" codec="UByte2" />
+			<field id="sNumSType" type="short" codec="Byte2" />
+		</sequence>
+	</type>
+
+
+	<!-- ******************* CODEC DEFINITION AREA ******************** -->
+
+	<codec id="Byte1">
+		<raw type="byte" size="1" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="Byte2">
+		<raw type="short" size="2" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="Byte3">
+		<raw type="byte[]" size="3" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="Byte4">
+		<raw type="int" size="4" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="Byte8">
+		<raw type="long" size="8" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="ByteArray4">
+		<raw type="byte[]" size="4" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="Byte16">
+		<raw type="byte[]" size="16" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="Byte24">
+		<raw type="byte[]" size="24" unit="Byte" unsigned="false" order="big-endian" />
+	</codec>
+
+	<codec id="UByte1">
+		<raw type="short" size="1" unit="Byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UByte2">
+		<raw type="int" size="2" unit="Byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UByte4">
+		<raw type="long" size="4" unit="Byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UBit4">
+		<raw size="4" unit="Bit" type="byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UByte8">
+		<raw type="byte[]" size="8" unit="Byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UBit1">
+		<raw size="1" unit="Bit" type="byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UBit2">
+		<raw size="2" unit="Bit" type="byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UBit3">
+		<raw size="3" unit="Bit" type="byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="UBit6">
+		<raw size="6" unit="Bit" type="byte" unsigned="true" order="big-endian" />
+	</codec>
+
+	<codec id="StringUTF8Codec">
+		<raw type="string" charset="UTF8" byte-alignment="4" />
+	</codec>
+
+	<codec id="StringASCIILen16">
+		<raw type="string" charset="ASCII" size="16" padding="zero-fill" />
+	</codec>
+
+	<codec id="IpV4">
+		<raw type="byte[]" size="4" unit="Byte" order="big-endian"
+			unsigned="true" />
+	</codec>
+	<codec id="IpV6">
+		<raw type="byte[]" size="16" unit="Byte" order="big-endian"
+			unsigned="true" />
+	</codec>
+
+</format>

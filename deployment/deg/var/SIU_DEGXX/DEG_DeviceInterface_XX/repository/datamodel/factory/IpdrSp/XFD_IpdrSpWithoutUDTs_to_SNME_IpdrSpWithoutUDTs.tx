@@ -1,0 +1,386 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/XFD_IpdrSpWithoutUDTs_to_SNME_IpdrSpWithoutUDTs">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+    <import prefix="tnme" ns="http://www.hp.com/usage/datastruct/transform/nme" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/IpdrSpWithoutUDTs" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/IpdrSp" />
+    <import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+
+    <transformer id="XFD_IpdrSpMessage_to_SNME_IpdrSpMessage" from="xfd:IpdrSpMessage" to="snme:IpdrSpMessage">
+        <transform input="version" output="version">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="messageId" output="messageId">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="sessionId" output="sessionId">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="messageFlag" output="messageFlag">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="messageLength" output="messageLength">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="flowStop" output="flowStop">
+            <use-transformer from="xfd:FlowStop" to="snme:FlowStop" class="XFD_FlowStop_to_SNME_FlowStop" />
+        </transform>
+        <transform input="connect" output="connect">
+            <use-transformer from="xfd:Connect" to="snme:Connect" class="XFD_Connect_to_SNME_Connect" />
+        </transform>
+        <transform input="connectResponse" output="connectResponse">
+            <use-transformer from="xfd:ConnectResponse" to="snme:ConnectResponse" class="XFD_ConnectResponse_to_SNME_ConnectResponse" />
+        </transform>
+        <transform input="sessionStart" output="sessionStart">
+            <use-transformer from="xfd:SessionStart" to="snme:SessionStart" class="XFD_SessionStart_to_SNME_SessionStart" />
+        </transform>
+        <transform input="sessionStop" output="sessionStop">
+            <use-transformer from="xfd:SessionStop" to="snme:SessionStop" class="XFD_SessionStop_to_SNME_SessionStop" />
+        </transform>
+        <transform input="templateData" output="templateData">
+            <use-transformer from="xfd:TemplateData" to="snme:TemplateData" class="XFD_TemplateData_to_SNME_TemplateData" />
+        </transform>
+        <transform input="getSessions" output="getSessions">
+            <use-transformer from="xfd:GetSessions" to="snme:GetSessions" class="XFD_GetSessions_to_SNME_GetSessions" />
+        </transform>
+        <transform input="getSessionsResponse" output="getSessionsResponse">
+            <use-transformer from="xfd:GetSessionsResponse" to="snme:GetSessionsResponse" class="XFD_GetSessionsResponse_to_SNME_GetSessionsResponse" />
+        </transform>
+        <transform input="getTemplates" output="getTemplates">
+            <use-transformer from="xfd:GetTemplates" to="snme:GetTemplates" class="XFD_GetTemplates_to_SNME_GetTemplates" />
+        </transform>
+        <transform input="getTemplatesResponse" output="getTemplatesResponse">
+            <use-transformer from="xfd:GetTemplatesResponse" to="snme:GetTemplatesResponse" class="XFD_GetTemplatesResponse_to_SNME_GetTemplatesResponse" />
+        </transform>
+        <transform input="modifyTemplate" output="modifyTemplate">
+            <use-transformer from="xfd:TemplateData" to="snme:TemplateData" class="XFD_TemplateData_to_SNME_TemplateData" />
+        </transform>
+        <transform input="modifyTemplateResponse" output="modifyTemplateResponse">
+            <use-transformer from="xfd:TemplateData" to="snme:TemplateData" class="XFD_TemplateData_to_SNME_TemplateData" />
+        </transform>
+        <transform input="data" output="data">
+            <use-transformer from="xfd:Data" to="snme:Data" class="XFD_Data_to_SNME_Data" />
+        </transform>
+        <transform input="dataAck" output="dataAck">
+            <use-transformer from="xfd:DataAck" to="snme:DataAck" class="XFD_DataAck_to_SNME_DataAck" />
+        </transform>
+        <transform input="error" output="error">
+            <use-transformer from="xfd:Error" to="snme:Error" class="XFD_Error_to_SNME_Error" />
+        </transform>
+        <transform input="request" output="request">
+            <use-transformer from="xfd:RequestResponseType" to="snme:RequestResponseType" class="XFD_RequestResponseType_to_SNME_RequestResponseType" />
+        </transform>
+        <transform input="response" output="response">
+            <use-transformer from="xfd:RequestResponseType" to="snme:RequestResponseType" class="XFD_RequestResponseType_to_SNME_RequestResponseType" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Connect_to_SNME_Connect" from="xfd:Connect" to="snme:Connect">
+        <transform input="initiatorId" output="initiatorId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="initiatorPort" output="initiatorPort">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="capabilities" output="capabilities">
+            <use-transformer from="xfd:Capability" to="snme:Capability" class="XFD_Capability_to_SNME_Capability" />
+        </transform>
+        <transform input="keepAliveInterval" output="keepAliveInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="vendorId" output="vendorId">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_ConnectResponse_to_SNME_ConnectResponse" from="xfd:ConnectResponse" to="snme:ConnectResponse">
+        <transform input="capabilities" output="capabilities">
+            <use-transformer from="xfd:Capability" to="snme:Capability" class="XFD_Capability_to_SNME_Capability" />
+        </transform>
+        <transform input="keepAliveInterval" output="keepAliveInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="vendorId" output="vendorId">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Error_to_SNME_Error" from="xfd:Error" to="snme:Error">
+        <transform input="timeStamp" output="timeStamp">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="errorCode" output="errorCode">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="description" output="description">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_SessionStart_to_SNME_SessionStart" from="xfd:SessionStart" to="snme:SessionStart">
+        <transform input="exporterBootTime" output="exporterBootTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="firstRecordSequenceNumber" output="firstRecordSequenceNumber">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="droppedRecordCount" output="droppedRecordCount">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="primary" output="primary">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="ackTimeInterval" output="ackTimeInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ackSequenceInterval" output="ackSequenceInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="documentId" output="documentId">
+            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_FlowStop_to_SNME_FlowStop" from="xfd:FlowStop" to="snme:FlowStop">
+        <transform input="reasonCode" output="reasonCode">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="reasonInfo" output="reasonInfo">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_SessionStop_to_SNME_SessionStop" from="xfd:SessionStop" to="snme:SessionStop">
+        <transform input="reasonCode" output="reasonCode">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="reasonInfo" output="reasonInfo">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Data_to_SNME_Data" from="xfd:Data" to="snme:Data">
+        <transform input="templateId" output="templateId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="configId" output="configId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="flag" output="flag">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="sequenceNum" output="sequenceNum">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="dataRecord" output="dataRecord">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_DataAck_to_SNME_DataAck" from="xfd:DataAck" to="snme:DataAck">
+        <transform input="configId" output="configId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="sequenceNum" output="sequenceNum">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_GetSessions_to_SNME_GetSessions" from="xfd:GetSessions" to="snme:GetSessions">
+        <transform input="requestId" output="requestId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_GetSessionsResponse_to_SNME_GetSessionsResponse" from="xfd:GetSessionsResponse" to="snme:GetSessionsResponse">
+        <transform input="requestId" output="requestId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="sessionBlocksCount" output="sessionBlocksCount">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="sessionBlocks" output="sessionBlocks">
+            <transformer from="xfd:SessionBlock[]" to="snme:SessionBlock[]">
+                <array>
+                    <use-transformer from="xfd:SessionBlock" to="snme:SessionBlock" class="XFD_SessionBlock_to_SNME_SessionBlock" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_SessionBlock_to_SNME_SessionBlock" from="xfd:SessionBlock" to="snme:SessionBlock">
+        <transform input="sessionId" output="sessionId">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="sessionType" output="sessionType">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="sessionName" output="sessionName">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+        <transform input="sessionDescription" output="sessionDescription">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+        <transform input="ackTimeInterval" output="ackTimeInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ackSequenceInterval" output="ackSequenceInterval">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_GetTemplates_to_SNME_GetTemplates" from="xfd:GetTemplates" to="snme:GetTemplates">
+        <transform input="requestId" output="requestId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_GetTemplatesResponse_to_SNME_GetTemplatesResponse" from="xfd:GetTemplatesResponse" to="snme:GetTemplatesResponse">
+        <transform input="requestId" output="requestId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="configId" output="configId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="currentTemplatesCount" output="currentTemplatesCount">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="currentTemplates" output="currentTemplates">
+            <transformer from="xfd:TemplateBlock[]" to="snme:TemplateBlock[]">
+                <array>
+                    <use-transformer from="xfd:TemplateBlock" to="snme:TemplateBlock" class="XFD_TemplateBlock_to_SNME_TemplateBlock" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_TemplateBlock_to_SNME_TemplateBlock" from="xfd:TemplateBlock" to="snme:TemplateBlock">
+        <transform input="templateId" output="templateId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="schemaName" output="schemaName">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+        <transform input="typeName" output="typeName">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+        <transform input="fieldsCount" output="fieldsCount">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="fields" output="fields">
+            <transformer from="xfd:FieldDescriptor[]" to="snme:FieldDescriptor[]">
+                <array>
+                    <use-transformer from="xfd:FieldDescriptor" to="snme:FieldDescriptor" class="XFD_FieldDescriptor_to_SNME_FieldDescriptor" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_FieldDescriptor_to_SNME_FieldDescriptor" from="xfd:FieldDescriptor" to="snme:FieldDescriptor">
+        <transform input="typeId" output="typeId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="fieldId" output="fieldId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="fieldName" output="fieldName">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+        <transform input="isEnabled" output="isEnabled">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_TemplateData_to_SNME_TemplateData" from="xfd:TemplateData" to="snme:TemplateData">
+        <transform input="configId" output="configId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="flags" output="flags">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="templatesCount" output="templatesCount">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="templates" output="templates">
+            <transformer from="xfd:TemplateBlock[]" to="snme:TemplateBlock[]">
+                <array>
+                    <use-transformer from="xfd:TemplateBlock" to="snme:TemplateBlock" class="XFD_TemplateBlock_to_SNME_TemplateBlock" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_TypeDefinition_to_SNME_TypeDefinition" from="xfd:TypeDefinition" to="snme:TypeDefinition">
+        <transform input="typeId" output="typeId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="repetition" output="repetition">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="componentsTypesCount" output="componentsTypesCount">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="componentsTypes" output="componentsTypes">
+            <use-transformer from="long[]" to="nme:long-array" class="tnme:LongArrayToLongArrayWrapper" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_RequestResponseType_to_SNME_RequestResponseType" from="xfd:RequestResponseType" to="snme:RequestResponseType">
+        <transform input="templateId" output="templateId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="configId" output="configId">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="flags" output="flags">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="requestNumber" output="requestNumber">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="dataRecord" output="dataRecord">
+            <use-transformer from="xfd:Opaque" to="snme:Opaque" class="XFD_Opaque_to_SNME_Opaque" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Capability_to_SNME_Capability" from="xfd:Capability" to="snme:Capability">
+        <transform input="furtherCapabilities" output="furtherCapabilities">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="sevenResevedBits" output="sevenResevedBits">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="reservedBytes" output="reservedBytes">
+            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
+        </transform>
+        <transform input="threeResevedBits" output="threeResevedBits">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="additionalUserDefinedTypes" output="additionalUserDefinedTypes">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="requestResponse" output="requestResponse">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="templateNegotiation" output="templateNegotiation">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="multisession" output="multisession">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="userDefinedType" output="userDefinedType">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Opaque_to_SNME_Opaque" from="xfd:Opaque" to="snme:Opaque">
+        <transform input="length" output="length">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="value" output="value">
+            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
+        </transform>
+    </transformer>
+</transformations>

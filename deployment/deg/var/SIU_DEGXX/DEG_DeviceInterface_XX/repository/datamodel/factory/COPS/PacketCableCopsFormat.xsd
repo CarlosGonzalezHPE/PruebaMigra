@@ -1,0 +1,1000 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/PacketCableCopsFormat"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/PacketCableCopsFormat"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="PacketCableMessage">
+        <sequence>
+            <element name="version" type="nme:byte" />
+            <element name="flags" type="nme:byte" />
+            <element name="opCode" type="nme:short" />
+            <element name="clientType" type="nme:int" />
+            <element name="length" type="nme:long" />
+            <element name="request" type="this:Request" />
+            <element name="decision" type="this:Decision" />
+            <element name="reportState" type="this:ReportState" />
+            <element name="deleteRequestState" type="this:DeleteRequestState" />
+            <element name="clientOpen" type="this:ClientOpen" />
+            <element name="clientAccept" type="this:ClientAccept" />
+            <element name="clientClose" type="this:ClientClose" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Request">
+        <sequence>
+            <element name="handle" type="this:Handle" />
+            <element name="context" type="this:Context" />
+            <element name="csiCType1" type="this:GateControlResponse" />
+            <element name="csiCType2" type="this:CSICType2" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Decision">
+        <sequence>
+            <element name="handle" type="this:Handle" />
+            <element name="context" type="this:Context" />
+            <element name="decisionCType1" type="this:DecisionCType1" />
+            <element name="decisionCType4" type="this:GateControlCommand" />
+            <element name="error" type="this:Error" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ReportState">
+        <sequence>
+            <element name="handle" type="this:Handle" />
+            <element name="reportType" type="this:ReportType" />
+            <element name="csiCType1" type="this:GateControlResponse" />
+            <element name="csiCType2" type="this:CSICType2" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DeleteRequestState">
+        <sequence>
+            <element name="handle" type="this:Handle" />
+            <element name="reason" type="this:Reason" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ClientOpen">
+        <sequence>
+            <element name="pepId" type="this:PEPID" />
+            <element name="versionInfo" type="this:PacketCableVersionInfo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ClientAccept">
+        <sequence>
+            <element name="keepAliveTimer" type="this:KeepAliveTimer" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ClientClose">
+        <sequence>
+            <element name="error" type="this:Error" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PacketCableVersionInfo">
+        <sequence>
+            <element name="versionInfo" type="this:VersionInfo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AMID">
+        <sequence>
+            <element name="applicationType" type="nme:int" />
+            <element name="applicationManagerTag" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SubIDIPV4">
+        <sequence>
+            <element name="subIdIpV4" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SubIDIPV6">
+        <sequence>
+            <element name="subIdIpV6" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateID">
+        <sequence>
+            <element name="gateID" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateSpec">
+        <sequence>
+            <element name="flagsDirectionBit" type="nme:byte" />
+            <element name="flagsDscpTosBit" type="nme:byte" />
+            <element name="flagsReservedBits" type="nme:byte" />
+            <element name="dscpTosOverwrite" type="nme:short" />
+            <element name="dscpTosMask" type="nme:short" />
+            <element name="sessionClassIDPriority" type="nme:byte" />
+            <element name="sessionClassIDPreemption" type="nme:byte" />
+            <element name="sessionClassIDConfigurable" type="nme:byte" />
+            <element name="timerT1" type="nme:int" />
+            <element name="timerT2" type="nme:int" />
+            <element name="timerT3" type="nme:int" />
+            <element name="timerT4" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Classifier">
+        <sequence>
+            <element name="protocolID" type="nme:short" />
+            <element name="dscpTosField" type="nme:short" />
+            <element name="dscpTosMask" type="nme:short" />
+            <element name="iPSourceAddress" type="nme:byte-array" />
+            <element name="iPDestinationAddress" type="nme:byte-array" />
+            <element name="sourcePort" type="nme:int" />
+            <element name="destinationPort" type="nme:int" />
+            <element name="priority" type="nme:byte" />
+            <element name="reservedEnd" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ExtendedClassifier">
+        <sequence>
+            <element name="protocolID" type="nme:short" />
+            <element name="dscpTosField" type="nme:short" />
+            <element name="dscpTosMask" type="nme:short" />
+            <element name="iPSourceAddress" type="nme:byte-array" />
+            <element name="iPSourceMask" type="nme:byte-array" />
+            <element name="iPDestinationAddress" type="nme:byte-array" />
+            <element name="iPDestinationMask" type="nme:byte-array" />
+            <element name="sourcePortStart" type="nme:int" />
+            <element name="sourcePortEnd" type="nme:int" />
+            <element name="destinationPortStart" type="nme:int" />
+            <element name="destinationPortEnd" type="nme:int" />
+            <element name="classifierID" type="nme:int" />
+            <element name="priority" type="nme:byte" />
+            <element name="activationState" type="nme:short" />
+            <element name="action" type="nme:short" />
+            <element name="reservedEnd" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="IPV6Classifier">
+        <sequence>
+            <element name="reserved" type="nme:byte" />
+            <element name="flags" type="nme:byte" />
+            <element name="tcLow" type="nme:byte" />
+            <element name="tcHigh" type="nme:byte" />
+            <element name="tcMask" type="nme:byte" />
+            <element name="flowLabel" type="nme:long" />
+            <element name="nextHeaderType" type="nme:short" />
+            <element name="sourcePrefixLength" type="nme:byte" />
+            <element name="destinationPrefixLength" type="nme:byte" />
+            <element name="iPV6SourceAddress" type="nme:byte-array" />
+            <element name="iPV6DestinationAddress" type="nme:byte-array" />
+            <element name="sourcePortStart" type="nme:int" />
+            <element name="sourcePortEnd" type="nme:int" />
+            <element name="destinationPortStart" type="nme:int" />
+            <element name="destinationPortEnd" type="nme:int" />
+            <element name="classifierID" type="nme:int" />
+            <element name="priority" type="nme:byte" />
+            <element name="activationState" type="nme:short" />
+            <element name="action" type="nme:short" />
+            <element name="reservedEnd" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="FlowSpec">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="serviceNumber" type="nme:byte" />
+            <element name="reserveFirst" type="nme:byte" />
+            <element name="reserveSecond" type="nme:byte" />
+            <element name="authEnvelope" type="this:FlowSpecEnvelope" />
+            <element name="authReservedEnvelope" type="this:AuthReservedEnvelope" />
+            <element name="authReservedCommittedEnvelope" type="this:AuthReservedCommittedEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedEnvelope">
+        <sequence>
+            <element name="authorizedEnvelope" type="this:FlowSpecEnvelope" />
+            <element name="reservedEnvelope" type="this:FlowSpecEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedCommittedEnvelope">
+        <sequence>
+            <element name="authorizedEnvelope" type="this:FlowSpecEnvelope" />
+            <element name="reservedEnvelope" type="this:FlowSpecEnvelope" />
+            <element name="committedEnvelope" type="this:FlowSpecEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="FlowSpecEnvelope">
+        <sequence>
+            <element name="tokenBucketRate" type="nme:float" />
+            <element name="tokenBucketSize" type="nme:float" />
+            <element name="peakDataRate" type="nme:float" />
+            <element name="minPolicedUnit" type="nme:int" />
+            <element name="maxPacketSize" type="nme:int" />
+            <element name="rate" type="nme:float" />
+            <element name="slackTerm" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DocSisServiceClass">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+            <element name="serviceClassName" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Reserved3Bytes">
+        <sequence>
+            <element name="reserveFirst" type="nme:byte" />
+            <element name="reserveSecond" type="nme:byte" />
+            <element name="reserveThird" type="nme:byte" />
+        </sequence>
+    </complexType>
+
+    <complexType name="BestEffortService">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+            <element name="authBESEnvelope" type="this:BestEffortServiceEnvelope" />
+            <element name="authReservedBESEnvelope" type="this:AuthReservedBESEnvelope" />
+            <element name="authReservedCommittedBESEnvelope" type="this:AuthReservedCommittedBESEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedBESEnvelope">
+        <sequence>
+            <element name="authorizedBESEnvelope" type="this:BestEffortServiceEnvelope" />
+            <element name="reservedBESEnvelope" type="this:BestEffortServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedCommittedBESEnvelope">
+        <sequence>
+            <element name="authorizedBESEnvelope" type="this:BestEffortServiceEnvelope" />
+            <element name="reservedBESEnvelope" type="this:BestEffortServiceEnvelope" />
+            <element name="committedBESEnvelope" type="this:BestEffortServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="BestEffortServiceEnvelope">
+        <sequence>
+            <element name="trafficPriority" type="nme:short" />
+            <element name="reserved3Bytes" type="nme:byte-array" />
+            <element name="commonServiceEnvelopePartOne" type="this:CommonServiceEnvelopePartOne" />
+            <element name="commonServiceEnvelopePartTwo" type="this:CommonServiceEnvelopePartTwo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="CommonServiceEnvelopePartOne">
+        <sequence>
+            <element name="requestTransmissionPolicy" type="nme:int" />
+            <element name="maxSustainedTrafficRate" type="nme:long" />
+            <element name="maxTrafficBurst" type="nme:long" />
+            <element name="minReservedTrafficRate" type="nme:long" />
+            <element name="assumedMinResTrafRatePktSize" type="nme:int" />
+            <element name="maxConcatenatedBurst" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="CommonServiceEnvelopePartTwo">
+        <sequence>
+            <element name="streamPeakTrafficRate" type="nme:long" />
+            <element name="reqAttrMask" type="nme:int" />
+            <element name="forbiddenAttrMask" type="nme:int" />
+            <element name="attrAggregationRuleMask" type="nme:int" />
+            <element name="minBuffer" type="nme:long" />
+            <element name="targetBuffer" type="nme:long" />
+            <element name="maxBuffer" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="NRTPollingService">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+            <element name="authNRTEnvelope" type="this:NRTPollingServiceEnvelope" />
+            <element name="authReservedNRTEnvelope" type="this:AuthReservedNRTEnvelope" />
+            <element name="authReservedCommittedNRTEnvelope" type="this:AuthReservedCommittedNRTEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedNRTEnvelope">
+        <sequence>
+            <element name="authorizedNRTEnvelope" type="this:NRTPollingServiceEnvelope" />
+            <element name="reservedNRTEnvelope" type="this:NRTPollingServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedCommittedNRTEnvelope">
+        <sequence>
+            <element name="authorizedNRTEnvelope" type="this:NRTPollingServiceEnvelope" />
+            <element name="reservedNRTEnvelope" type="this:NRTPollingServiceEnvelope" />
+            <element name="committedNRTEnvelope" type="this:NRTPollingServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="NRTPollingServiceEnvelope">
+        <sequence>
+            <element name="trafficPriority" type="nme:short" />
+            <element name="reserved3Bytes" type="nme:byte-array" />
+            <element name="commonServiceEnvelopePartOne" type="this:CommonServiceEnvelopePartOne" />
+            <element name="nominalPollingInterval" type="nme:long" />
+            <element name="commonServiceEnvelopePartTwo" type="this:CommonServiceEnvelopePartTwo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="RTPollingService">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+            <element name="authRTEnvelope" type="this:RTPollingServiceEnvelope" />
+            <element name="authReservedRTEnvelope" type="this:AuthReservedRTEnvelope" />
+            <element name="authReservedCommittedRTEnvelope" type="this:AuthReservedCommittedRTEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedRTEnvelope">
+        <sequence>
+            <element name="authorizedRTEnvelope" type="this:RTPollingServiceEnvelope" />
+            <element name="reservedRTEnvelope" type="this:RTPollingServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedCommittedRTEnvelope">
+        <sequence>
+            <element name="authorizedRTEnvelope" type="this:RTPollingServiceEnvelope" />
+            <element name="reservedRTEnvelope" type="this:RTPollingServiceEnvelope" />
+            <element name="committedRTEnvelope" type="this:RTPollingServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="RTPollingServiceEnvelope">
+        <sequence>
+            <element name="commonServiceEnvelopePartOne" type="this:CommonServiceEnvelopePartOne" />
+            <element name="nominalPollingInterval" type="nme:long" />
+            <element name="toleratedPollingJitter" type="nme:long" />
+            <element name="commonServiceEnvelopePartTwo" type="this:CommonServiceEnvelopePartTwo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="UnsolicitedGrantService">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+            <element name="authUGCEnvelope" type="this:UGCServiceEnvelope" />
+            <element name="authReservedUGCEnvelope" type="this:AuthReservedUGCEnvelope" />
+            <element name="authReservedCommittedUGCEnvelope" type="this:AuthReservedCommittedUGCEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedUGCEnvelope">
+        <sequence>
+            <element name="authorizedUGCEnvelope" type="this:UGCServiceEnvelope" />
+            <element name="reservedUGCEnvelope" type="this:UGCServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedCommittedUGCEnvelope">
+        <sequence>
+            <element name="authorizedUGCEnvelope" type="this:UGCServiceEnvelope" />
+            <element name="reservedUGCEnvelope" type="this:UGCServiceEnvelope" />
+            <element name="committedUGCEnvelope" type="this:UGCServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="UGCServiceEnvelope">
+        <sequence>
+            <element name="requestTransmissionPolicy" type="nme:int" />
+            <element name="unsolicitedGrantSize" type="nme:int" />
+            <element name="grantsPerInterval" type="nme:short" />
+            <element name="reserved" type="nme:byte" />
+            <element name="nominalGrantInterval" type="nme:long" />
+            <element name="toleratedGrantJitter" type="nme:long" />
+            <element name="commonServiceEnvelopePartTwo" type="this:CommonServiceEnvelopePartTwo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="UnsolicitedGrantServiceAD">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+            <element name="authUGCADEnvelope" type="this:UGCADServiceEnvelope" />
+            <element name="authReservedUGCADEnvelope" type="this:AuthReservedUGCADEnvelope" />
+            <element name="authReservedCommittedUGCADEnvelope" type="this:AuthReservedCommittedUGCADEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedUGCADEnvelope">
+        <sequence>
+            <element name="authorizedUGCADEnvelope" type="this:UGCADServiceEnvelope" />
+            <element name="reservedUGCADEnvelope" type="this:UGCADServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedCommittedUGCADEnvelope">
+        <sequence>
+            <element name="authorizedUGCADEnvelope" type="this:UGCADServiceEnvelope" />
+            <element name="reservedUGCADEnvelope" type="this:UGCADServiceEnvelope" />
+            <element name="committedUGCADEnvelope" type="this:UGCADServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="UGCADServiceEnvelope">
+        <sequence>
+            <element name="requestTransmissionPolicy" type="nme:int" />
+            <element name="unsolicitedGrantSize" type="nme:int" />
+            <element name="grantsPerInterval" type="nme:short" />
+            <element name="reserved" type="nme:byte" />
+            <element name="nominalGrantInterval" type="nme:long" />
+            <element name="toleratedGrantJitter" type="nme:long" />
+            <element name="nominalPollingInterval" type="nme:long" />
+            <element name="toleratedPollingJitter" type="nme:long" />
+            <element name="commonServiceEnvelopePartTwo" type="this:CommonServiceEnvelopePartTwo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DownstreamService">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+            <element name="authDSEnvelope" type="this:DSServiceEnvelope" />
+            <element name="authReservedDSEnvelope" type="this:AuthReservedDSEnvelope" />
+            <element name="authReservedCommittedDSEnvelope" type="this:AuthReservedCommittedDSEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedDSEnvelope">
+        <sequence>
+            <element name="authorizedDSEnvelope" type="this:DSServiceEnvelope" />
+            <element name="reservedDSEnvelope" type="this:DSServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AuthReservedCommittedDSEnvelope">
+        <sequence>
+            <element name="authorizedDSEnvelope" type="this:DSServiceEnvelope" />
+            <element name="reservedDSEnvelope" type="this:DSServiceEnvelope" />
+            <element name="committedDSEnvelope" type="this:DSServiceEnvelope" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DSServiceEnvelope">
+        <sequence>
+            <element name="trafficPriority" type="nme:short" />
+            <element name="downstreamReSeq" type="nme:short" />
+            <element name="reserved2Bytes" type="nme:short" />
+            <element name="maxSustainedTrafficRate" type="nme:long" />
+            <element name="maxTrafficBurst" type="nme:long" />
+            <element name="minReservedTrafficRate" type="nme:long" />
+            <element name="assumedMinResTrafRatePktSize" type="nme:int" />
+            <element name="reserved" type="nme:short" />
+            <element name="maxDownTimeLatency" type="nme:long" />
+            <element name="commonServiceEnvelopePartTwo" type="this:CommonServiceEnvelopePartTwo" />
+        </sequence>
+    </complexType>
+
+    <complexType name="UpstreamDrop">
+        <sequence>
+            <element name="envelope" type="nme:byte" />
+            <element name="reserved3Bytes" type="this:Reserved3Bytes" />
+        </sequence>
+    </complexType>
+
+    <complexType name="EventGenInfoIPv4">
+        <sequence>
+            <element name="primaryRKSIPAddress" type="nme:byte-array" />
+            <element name="primaryRKSIPPort" type="nme:int" />
+            <element name="primaryReserved" type="nme:short" />
+            <element name="secondaryRKSIPAddress" type="nme:byte-array" />
+            <element name="secondaryRKSIPPort" type="nme:int" />
+            <element name="secondaryReserved" type="nme:short" />
+            <element name="billingCorrelationID" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="EventGenInfoIPv6">
+        <sequence>
+            <element name="primaryRKSIPAddress" type="nme:byte-array" />
+            <element name="primaryRKSIPPort" type="nme:int" />
+            <element name="primaryReserved" type="nme:short" />
+            <element name="secondaryRKSIPAddress" type="nme:byte-array" />
+            <element name="secondaryRKSIPPort" type="nme:int" />
+            <element name="secondaryReserved" type="nme:short" />
+            <element name="billingCorrelationID" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="VolumeBasedUsageLimit">
+        <sequence>
+            <element name="usageLimit" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="TimeBasedUsageLimit">
+        <sequence>
+            <element name="timeLimit" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="OpaqueData">
+        <sequence>
+            <element name="opaqueData" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateTimeInfo">
+        <sequence>
+            <element name="timeCommitted" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateUsageInfo">
+        <sequence>
+            <element name="octetCount" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PacketCableError">
+        <sequence>
+            <element name="errorCode" type="nme:int" />
+            <element name="errorSubCode" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateState">
+        <sequence>
+            <element name="state" type="nme:int" />
+            <element name="reason" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="VersionInfo">
+        <sequence>
+            <element name="majorVersionNumber" type="nme:int" />
+            <element name="minorVersionNumber" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PSID">
+        <sequence>
+            <element name="pSID" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SynchOptions">
+        <sequence>
+            <element name="reserved" type="nme:short" />
+            <element name="reportType" type="nme:short" />
+            <element name="synchType" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="MessageReceiptKey">
+        <sequence>
+            <element name="messageReceiptKey" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="UserID">
+        <sequence>
+            <element name="userID" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SharedResourceID">
+        <sequence>
+            <element name="sharedResourceID" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Handle">
+        <sequence>
+            <element name="clientHandle" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Context">
+        <sequence>
+            <element name="rType" type="nme:short" />
+            <element name="mType" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Reason">
+        <sequence>
+            <element name="reasonCode" type="nme:short" />
+            <element name="reasonSubcode" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DecisionCType1">
+        <sequence>
+            <element name="commandCode" type="nme:short" />
+            <element name="flags" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Error">
+        <sequence>
+            <element name="errorCode" type="nme:short" />
+            <element name="errorSubCode" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="CSICType2">
+        <sequence>
+            <element name="csiNamedClient" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="KeepAliveTimer">
+        <sequence>
+            <element name="reserved" type="nme:short" />
+            <element name="kaTimerValue" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PEPID">
+        <sequence>
+            <element name="pepID" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ReportType">
+        <sequence>
+            <element name="reportType" type="nme:short" />
+            <element name="reserved" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateControlCommand">
+        <sequence>
+            <element name="length" type="nme:int" />
+            <element name="sNum" type="nme:byte" />
+            <element name="sType" type="nme:byte" />
+            <element name="transactionIdentifier" type="nme:int" />
+            <element name="gateCommandType" type="nme:int" />
+            <element name="gateSet" type="this:GateSet" />
+            <element name="gateInfo" type="this:GateInfo" />
+            <element name="gateDelete" type="this:GateDelete" />
+            <element name="pdpConfig" type="this:PdpConfig" />
+            <element name="synchRequest" type="this:SynchRequest" />
+            <element name="msgReceipt" type="this:MsgReceipt" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateSet">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="gateID" type="this:GateID" />
+            <element name="gateSpec" type="this:GateSpec" />
+            <element name="flowSpec" type="this:FlowSpec" />
+            <element name="docSisServiceClass" type="this:DocSisServiceClass" />
+            <element name="bestEffortService" type="this:BestEffortService" />
+            <element name="nrtPollingService" type="this:NRTPollingService" />
+            <element name="rtPollingService" type="this:RTPollingService" />
+            <element name="unsolicitedGrantService" type="this:UnsolicitedGrantService" />
+            <element name="unsolicitedGrantServiceAD" type="this:UnsolicitedGrantServiceAD" />
+            <element name="downstreamService" type="this:DownstreamService" />
+            <element name="upstreamDrop" type="this:UpstreamDrop" />
+            <element name="classifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:Classifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="extendedClassifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:ExtendedClassifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="ipV6ClassifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:IPV6Classifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="eventGenInfoIPv4" type="this:EventGenInfoIPv4" />
+            <element name="eventGenInfoIPv6" type="this:EventGenInfoIPv6" />
+            <element name="volumeBasedUsageLimit" type="this:VolumeBasedUsageLimit" />
+            <element name="timeBasedUsageLimit" type="this:TimeBasedUsageLimit" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="userID" type="this:UserID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateInfo">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="gateID" type="this:GateID" />
+            <element name="psid" type="this:PSID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateDelete">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="gateID" type="this:GateID" />
+            <element name="psid" type="this:PSID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PdpConfig">
+        <sequence>
+            <element name="psid" type="this:PSID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SynchRequest">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="psid" type="this:PSID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="synchOptions" type="this:SynchOptions" />
+        </sequence>
+    </complexType>
+
+    <complexType name="MsgReceipt">
+        <sequence>
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateControlResponse">
+        <sequence>
+            <element name="length" type="nme:int" />
+            <element name="sNum" type="nme:byte" />
+            <element name="sType" type="nme:byte" />
+            <element name="transactionIdentifier" type="nme:int" />
+            <element name="gateCommandType" type="nme:int" />
+            <element name="gateSetAck" type="this:GateSetAck" />
+            <element name="gateSetErr" type="this:GateSetErr" />
+            <element name="gateInfoAck" type="this:GateInfoAck" />
+            <element name="gateInfoErr" type="this:GateInfoErr" />
+            <element name="gateDeleteAck" type="this:GateDeleteAck" />
+            <element name="gateDeleteErr" type="this:GateDeleteErr" />
+            <element name="gateReportState" type="this:GateReportState" />
+            <element name="gateCmdErr" type="this:GateCmdErr" />
+            <element name="pdpConfigAck" type="this:PdpConfigAck" />
+            <element name="pdpConfigErr" type="this:PdpConfigErr" />
+            <element name="synchReport" type="this:SynchReport" />
+            <element name="synchComplete" type="this:SynchComplete" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateSetAck">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="gateID" type="this:GateID" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+            <element name="sharedResourceID" type="this:SharedResourceID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateSetErr">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="packetCableError" type="this:PacketCableError" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateInfoAck">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="gateID" type="this:GateID" />
+            <element name="eventGenInfoIPv4" type="this:EventGenInfoIPv4" />
+            <element name="eventGenInfoIPv6" type="this:EventGenInfoIPv6" />
+            <element name="gateSpec" type="this:GateSpec" />
+            <element name="classifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:Classifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="extendedClassifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:ExtendedClassifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="ipV6ClassifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:IPV6Classifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="flowSpec" type="this:FlowSpec" />
+            <element name="docSisServiceClass" type="this:DocSisServiceClass" />
+            <element name="bestEffortService" type="this:BestEffortService" />
+            <element name="nrtPollingService" type="this:NRTPollingService" />
+            <element name="rtPollingService" type="this:RTPollingService" />
+            <element name="unsolicitedGrantService" type="this:UnsolicitedGrantService" />
+            <element name="unsolicitedGrantServiceAD" type="this:UnsolicitedGrantServiceAD" />
+            <element name="downstreamService" type="this:DownstreamService" />
+            <element name="upstreamDrop" type="this:UpstreamDrop" />
+            <element name="gateTimeInfo" type="this:GateTimeInfo" />
+            <element name="gateUsageInfo" type="this:GateUsageInfo" />
+            <element name="volumeBasedUsageLimit" type="this:VolumeBasedUsageLimit" />
+            <element name="psid" type="this:PSID" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+            <element name="userID" type="this:UserID" />
+            <element name="timeBasedUsageLimit" type="this:TimeBasedUsageLimit" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="gateState" type="this:GateState" />
+            <element name="sharedResourceID" type="this:SharedResourceID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateInfoErr">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="gateID" type="this:GateID" />
+            <element name="packetCableError" type="this:PacketCableError" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="psid" type="this:PSID" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateDeleteAck">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="gateID" type="this:GateID" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="psid" type="this:PSID" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateDeleteErr">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="gateID" type="this:GateID" />
+            <element name="packetCableError" type="this:PacketCableError" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="psid" type="this:PSID" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateCmdErr">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="packetCableError" type="this:PacketCableError" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PdpConfigAck">
+        <sequence>
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PdpConfigErr">
+        <sequence>
+            <element name="packetCableError" type="this:PacketCableError" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SynchReport">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="psid" type="this:PSID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="gateID" type="this:GateID" />
+            <element name="gateState" type="this:GateState" />
+            <element name="gateTimeInfo" type="this:GateTimeInfo" />
+            <element name="gateUsageInfo" type="this:GateUsageInfo" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="gateSpec" type="this:GateSpec" />
+            <element name="flowSpec" type="this:FlowSpec" />
+            <element name="docSisServiceClass" type="this:DocSisServiceClass" />
+            <element name="bestEffortService" type="this:BestEffortService" />
+            <element name="nrtPollingService" type="this:NRTPollingService" />
+            <element name="rtPollingService" type="this:RTPollingService" />
+            <element name="unsolicitedGrantService" type="this:UnsolicitedGrantService" />
+            <element name="unsolicitedGrantServiceAD" type="this:UnsolicitedGrantServiceAD" />
+            <element name="downstreamService" type="this:DownstreamService" />
+            <element name="upstreamDrop" type="this:UpstreamDrop" />
+            <element name="classifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:Classifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="extendedClassifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:ExtendedClassifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="ipV6ClassifierArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:IPV6Classifier" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="eventGenInfoIPv4" type="this:EventGenInfoIPv4" />
+            <element name="eventGenInfoIPv6" type="this:EventGenInfoIPv6" />
+            <element name="volumeBasedUsageLimit" type="this:VolumeBasedUsageLimit" />
+            <element name="timeBasedUsageLimit" type="this:TimeBasedUsageLimit" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+            <element name="userID" type="this:UserID" />
+            <element name="sharedResourceID" type="this:SharedResourceID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="SynchComplete">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="psid" type="this:PSID" />
+            <element name="packetCableError" type="this:PacketCableError" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+        </sequence>
+    </complexType>
+
+    <complexType name="GateReportState">
+        <sequence>
+            <element name="amid" type="this:AMID" />
+            <element name="subIdIpV4" type="this:SubIDIPV4" />
+            <element name="subIdIpV6" type="this:SubIDIPV6" />
+            <element name="gateID" type="this:GateID" />
+            <element name="gateState" type="this:GateState" />
+            <element name="gateTimeInfo" type="this:GateTimeInfo" />
+            <element name="gateUsageInfo" type="this:GateUsageInfo" />
+            <element name="opaqueData" type="this:OpaqueData" />
+            <element name="messageReceiptKey" type="this:MessageReceiptKey" />
+            <element name="sharedResourceID" type="this:SharedResourceID" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ValueHeader">
+        <sequence>
+            <element name="length" type="nme:int" />
+            <element name="cNumCType" type="nme:short" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Header">
+        <sequence>
+            <element name="length" type="nme:int" />
+            <element name="sNumSType" type="nme:short" />
+        </sequence>
+    </complexType>
+</schema>

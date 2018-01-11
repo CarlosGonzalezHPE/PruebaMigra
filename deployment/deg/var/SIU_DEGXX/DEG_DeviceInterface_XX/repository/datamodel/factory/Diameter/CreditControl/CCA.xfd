@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+	targetNamespace="http://www.hp.com/usage/datastruct/xfd/diameter">
+
+	<root type="CreditControlAnswer" />
+
+	<type id="CreditControlAnswer" EOR="true">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="sessionID" type="string">
+				<codec>
+					<diameter-avp code="263" valueCodec="UTF8String" />
+				</codec>
+			</field>
+			<field id="resultCode" type="long">
+				<codec>
+					<diameter-avp code="268" valueCodec="Unsigned32" />
+				</codec>
+			</field>
+			<field id="originHost" type="string">
+				<codec>
+					<diameter-avp code="264" valueCodec="DiamIdent" />
+				</codec>
+			</field>
+			<field id="originRealm" type="string">
+				<codec>
+					<diameter-avp code="296" valueCodec="DiamIdent" />
+				</codec>
+			</field>
+			<field id="authApplicationId" type="long">
+				<codec>
+					<diameter-avp code="258" valueCodec="Unsigned32" />
+				</codec>
+			</field>
+			<field id="ccRequestType" type="int">
+				<codec>
+					<diameter-avp code="416" valueCodec="Enumerated" />
+				</codec>
+			</field>
+			<field id="ccRequestNumber" type="long">
+				<codec>
+					<diameter-avp code="415" valueCodec="Unsigned32" />
+				</codec>
+			</field>
+			<field id="userName" type="string">
+				<codec>
+					<diameter-avp code="1" valueCodec="UTF8String" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccSessionFailover" type="int">
+				<codec>
+					<diameter-avp code="418" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+			<field id="ccSubSessionId" type="long">
+				<codec>
+					<diameter-avp code="419" valueCodec="Integer64" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="acctMultiSessionId" type="string">
+				<codec>
+					<diameter-avp code="50" valueCodec="UTF8String" optional="true"/>
+				</codec>
+			</field>
+			<field id="originStateId" type="long">
+				<codec>
+					<diameter-avp code="278" valueCodec="Unsigned32" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="eventTimestamp" type="int">
+				<codec>
+					<diameter-avp code="55" valueCodec="Time" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="grantedServiceUnit" type="GrantedServiceUnit">
+				<codec>
+					<diameter-avp code="431" valueCodec="Grouped" optional="true"/>
+				</codec>
+			</field>
+
+			<array id="multipleServicesCreditControl">
+				<field type="MultipleServicesCreditControl">
+					<codec>
+						<diameter-avp code="456" valueCodec="Grouped" optional="true"/>
+					</codec>
+				</field>
+			</array>
+
+			<field id="costInformation" type="CostInformation">
+				<codec>
+					<diameter-avp code="423" valueCodec="Grouped" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="finalUnitIndication" type="FinalUnitIndication">
+				<codec>
+					<diameter-avp code="430" valueCodec="Grouped" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="checkBalanceResult" type="int">
+				<codec>
+					<diameter-avp code="422" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="creditControlFailureHandling" type="int">
+				<codec>
+					<diameter-avp code="427" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="directDebitingFailureHandling" type="int">
+				<codec>
+					<diameter-avp code="428" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="validityTime" type="long">
+				<codec>
+					<diameter-avp code="448" valueCodec="Unsigned32" optional="true"/>
+				</codec>
+			</field>
+			<array id="redirectHost">
+				<field type="string">
+					<codec>
+						<diameter-avp code="292" valueCodec="UTF8String" optional="true"/>
+					</codec>
+				</field>
+			</array>
+
+			<field id="redirectHostUsage" type="int">
+				<codec>
+					<diameter-avp code="261" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+
+			<field id="redirectMaxCacheTime" type="long">
+				<codec>
+					<diameter-avp code="262" valueCodec="Unsigned32" optional="true"/>
+				</codec>
+			</field>
+
+			<array id="proxyInfo">
+				<field type="ProxyInfo">
+					<codec>
+						<diameter-avp code="284" valueCodec="Grouped" optional="true"/>
+					</codec>
+				</field>
+			</array>
+
+			<array id="routeRecord">
+				<field type="string">
+					<codec>
+						<diameter-avp code="282" valueCodec="DiamIdent" optional="true"/>
+					</codec>
+				</field>
+			</array>
+		</set>
+	</type>
+
+	<type id="CreditControlRequest" EOR="true">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="sessionID" type="string">
+				<codec>
+					<diameter-avp code="263" valueCodec="UTF8String" />
+				</codec>
+			</field>
+			<field id="originHost" type="string">
+				<codec>
+					<diameter-avp code="264" valueCodec="DiamIdent" />
+				</codec>
+			</field>
+			<field id="originRealm" type="string">
+				<codec>
+					<diameter-avp code="296" valueCodec="DiamIdent" />
+				</codec>
+			</field>
+			<field id="destRealm" type="string">
+				<codec>
+					<diameter-avp code="283" valueCodec="DiamIdent" />
+				</codec>
+			</field>
+			<field id="authApplicationId" type="long">
+				<codec>
+					<diameter-avp code="258" valueCodec="Unsigned32" />
+				</codec>
+			</field>
+			<field id="serviceContextId" type="string">
+				<codec>
+					<diameter-avp code="461" valueCodec="UTF8String" />
+				</codec>
+			</field>
+			<field id="ccRequestType" type="int">
+				<codec>
+					<diameter-avp code="416" valueCodec="Enumerated" />
+				</codec>
+			</field>
+			<field id="ccRequestNumber" type="long">
+				<codec>
+					<diameter-avp code="415" valueCodec="Unsigned32" />
+				</codec>
+			</field>
+			<field id="destHost" type="string">
+				<codec>
+					<diameter-avp code="293" valueCodec="DiamIdent" optional="true"/>
+				</codec>
+			</field>
+			<field id="userName" type="string">
+				<codec>
+					<diameter-avp code="1" valueCodec="UTF8String" optional="true"/>
+				</codec>
+			</field>
+			<field id="ccSubSessionId" type="long">
+				<codec>
+					<diameter-avp code="419" valueCodec="Integer64" optional="true"/>
+				</codec>
+			</field>
+			<field id="acctMultiSessionId" type="string">
+				<codec>
+					<diameter-avp code="50" valueCodec="UTF8String" optional="true"/>
+				</codec>
+			</field>
+			<field id="originStateId" type="long">
+				<codec>
+					<diameter-avp code="278" valueCodec="Unsigned32" optional="true"/>
+				</codec>
+			</field>
+			<field id="eventTimestamp" type="int">
+				<codec>
+					<diameter-avp code="55" valueCodec="Time" optional="true"/>
+				</codec>
+			</field>
+			<array id="subscriptionId">
+				<field type="SubscriptionId">
+					<codec>
+						<diameter-avp code="443" valueCodec="Grouped" optional="true"/>
+					</codec>
+				</field>
+			</array>
+			<field id="serviceIdentifier" type="long">
+				<codec>
+					<diameter-avp code="439" valueCodec="Unsigned32" optional="true" mandatory="false" />
+				</codec>
+			</field>
+			<field id="terminationCause" type="int">
+				<codec>
+					<diameter-avp code="295" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+			<field id="requestedServiceUnit" type="RequestedServiceUnit">
+				<codec>
+					<diameter-avp code="437" valueCodec="Grouped" optional="true"/>
+				</codec>
+			</field>
+			<field id="requestedAction" type="int">
+				<codec>
+					<diameter-avp code="436" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+			<array id="usedServiceUnit">
+				<field type="UsedServiceUnit">
+					<codec>
+						<diameter-avp code="446" valueCodec="Grouped" optional="true"/>
+					</codec>
+				</field>
+			</array>
+			<field id="multipleServicesIndicator" type="int">
+				<codec>
+					<diameter-avp code="455" valueCodec="Enumerated" optional="true"/>
+				</codec>
+			</field>
+			<array id="multipleServicesCreditControl">
+				<field type="MultipleServicesCreditControl">
+					<codec>
+						<diameter-avp code="456" valueCodec="Grouped" optional="true"/>
+					</codec>
+				</field>
+			</array>
+			<array id="serviceParameterInfo">
+				<field type="ServiceParameterInfo">
+					<codec>
+						<diameter-avp code="440" valueCodec="Grouped"
+							optional="true" mandatory="false" />
+					</codec>
+				</field>
+			</array>
+			<field id="ccCorrelationId" type="byte[]">
+				<codec>
+					<diameter-avp code="411" valueCodec="OctetString" optional="true"/>
+				</codec>
+			</field>
+			<field id="userEquipmentInfo" type="UserEquipmentInfo">
+				<codec>
+					<diameter-avp code="458" valueCodec="Grouped"
+						optional="true" mandatory="false" />
+				</codec>
+			</field>
+			<array id="proxyInfo">
+				<field type="ProxyInfo">
+					<codec>
+						<diameter-avp code="284" valueCodec="Grouped"
+							optional="true" />
+					</codec>
+				</field>
+			</array>
+
+			<array id="routeRecord">
+				<field type="string">
+					<codec>
+						<diameter-avp code="282" valueCodec="DiamIdent" optional="true"/>
+					</codec>
+				</field>
+			</array>
+		</set>
+	</type>
+
+	<type id="GrantedServiceUnit">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="tariffTimeChange" type="int">
+				<codec>
+					<diameter-avp code="451" valueCodec="Time" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccTime" type="long">
+				<codec>
+					<diameter-avp code="420" valueCodec="Unsigned32" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccMoney" type="CCMoney">
+				<codec>
+					<diameter-avp code="413" valueCodec="Grouped" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccTotalOctets" type="long">
+				<codec>
+					<diameter-avp code="421" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccInputOctets" type="long">
+				<codec>
+					<diameter-avp code="412" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccOutputOctets" type="long">
+				<codec>
+					<diameter-avp code="414" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccServiceSpecificUnits" type="long">
+				<codec>
+					<diameter-avp code="417" valueCodec="Integer64"
+						optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="CCMoney">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="unitValue" type="UnitValue">
+				<codec>
+					<diameter-avp code="445" valueCodec="Grouped" />
+				</codec>
+			</field>
+			<field id="currencyCode" type="long">
+				<codec>
+					<diameter-avp code="425" valueCodec="Unsigned32" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="UnitValue">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="valueDigits" type="long">
+				<codec>
+					<diameter-avp code="447" valueCodec="Integer64" />
+				</codec>
+			</field>
+			<field id="exponent" type="int">
+				<codec>
+					<diameter-avp code="429" valueCodec="Integer32" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="MultipleServicesCreditControl">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="grantedServiceUnit" type="GrantedServiceUnit">
+				<codec>
+					<diameter-avp code="431" valueCodec="Grouped" optional="true" />
+				</codec>
+			</field>
+			<field id="requestedServiceUnit" type="RequestedServiceUnit">
+				<codec>
+					<diameter-avp code="437" valueCodec="Grouped" optional="true" />
+				</codec>
+			</field>
+			<array id="usedServiceUnit">
+				<field type="UsedServiceUnit">
+					<codec>
+						<diameter-avp code="446" valueCodec="Grouped" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<field id="tariffChangeUsage" type="int">
+				<codec>
+					<diameter-avp code="452" valueCodec="Enumerated" optional="true" />
+				</codec>
+
+			</field>
+			<array id="serviceIdentifier">
+				<field type="long">
+					<codec>
+						<diameter-avp code="439" valueCodec="Unsigned32" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<field id="ratingGroup" type="long">
+				<codec>
+					<diameter-avp code="432" valueCodec="Unsigned32" optional="true" />
+				</codec>
+			</field>
+			<array id="gsuPoolReference">
+				<field type="GSUPoolReference">
+					<codec>
+						<diameter-avp code="457" valueCodec="Grouped" optional="true" />
+					</codec>
+				</field>
+			</array>
+
+			<field id="validityTime" type="long">
+				<codec>
+					<diameter-avp code="448" valueCodec="Unsigned32" optional="true" />
+				</codec>
+			</field>
+			<field id="resultCode" type="long">
+				<codec>
+					<diameter-avp code="268" valueCodec="Unsigned32" optional="true" />
+				</codec>
+			</field>
+			<field id="finalUnitIndication" type="FinalUnitIndication">
+				<codec>
+					<diameter-avp code="430" valueCodec="Grouped" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="RequestedServiceUnit">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="ccTime" type="long">
+				<codec>
+					<diameter-avp code="420" valueCodec="Unsigned32" optional="true" />
+				</codec>
+			</field>
+			<field id="ccMoney" type="CCMoney">
+				<codec>
+					<diameter-avp code="413" valueCodec="Grouped" optional="true" />
+				</codec>
+			</field>
+			<field id="ccTotalOctets" type="long">
+				<codec>
+					<diameter-avp code="421" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccInputOctets" type="long">
+				<codec>
+					<diameter-avp code="412" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccOutputOctets" type="long">
+				<codec>
+					<diameter-avp code="414" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccServiceSpecificUnits" type="long">
+				<codec>
+					<diameter-avp code="417" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="UsedServiceUnit">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="tariffChangeUsage" type="int">
+				<codec>
+					<diameter-avp code="452" valueCodec="Enumerated" optional="true" />
+				</codec>
+			</field>
+			<field id="ccTime" type="long">
+				<codec>
+					<diameter-avp code="420" valueCodec="Unsigned32" optional="true" />
+				</codec>
+			</field>
+			<field id="ccMoney" type="CCMoney">
+				<codec>
+					<diameter-avp code="413" valueCodec="Grouped" optional="true" />
+				</codec>
+			</field>
+			<field id="ccTotalOctets" type="long">
+				<codec>
+					<diameter-avp code="421" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccInputOctets" type="long">
+				<codec>
+					<diameter-avp code="412" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccOutputOctets" type="long">
+				<codec>
+					<diameter-avp code="414" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+
+			<field id="ccServiceSpecificUnits" type="long">
+				<codec>
+					<diameter-avp code="417" valueCodec="Integer64" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="GSUPoolReference">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="gsuPoolIdentifier" type="long">
+				<codec>
+					<diameter-avp code="453" valueCodec="Unsigned32" />
+				</codec>
+			</field>
+			<field id="ccUnitType" type="int">
+				<codec>
+					<diameter-avp code="454" valueCodec="Enumerated" />
+				</codec>
+			</field>
+			<field id="unitValue" type="UnitValue">
+				<codec>
+					<diameter-avp code="445" valueCodec="Grouped" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="FinalUnitIndication">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="finalUnitAction" type="int">
+				<codec>
+					<diameter-avp code="449" valueCodec="Enumerated" />
+				</codec>
+			</field>
+
+			<array id="restrictionFilterRule">
+				<field type="string">
+					<codec>
+						<diameter-avp code="438" valueCodec="UTF8String" optional="true" />
+					</codec>
+				</field>
+			</array>
+
+			<array id="filterId">
+				<field type="string">
+					<codec>
+						<diameter-avp code="11" valueCodec="UTF8String" optional="true" />
+					</codec>
+				</field>
+			</array>
+			<field id="redirectServer" type="RedirectServer">
+				<codec>
+					<diameter-avp code="434" valueCodec="Grouped" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="RedirectServer">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="redirectAddressType" type="int">
+				<codec>
+					<diameter-avp code="433" valueCodec="Enumerated" />
+				</codec>
+			</field>
+			<field id="redirectServerAddress" type="string">
+				<codec>
+					<diameter-avp code="435" valueCodec="UTF8String" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="CostInformation">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="unitValue" type="UnitValue">
+				<codec>
+					<diameter-avp code="445" valueCodec="Grouped" />
+				</codec>
+			</field>
+			<field id="currencyCode" type="long">
+				<codec>
+					<diameter-avp code="425" valueCodec="Unsigned32" />
+				</codec>
+			</field>
+			<field id="costUnit" type="string">
+				<codec>
+					<diameter-avp code="424" valueCodec="UTF8String" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="ProxyInfo">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="proxyHost" type="string">
+				<codec>
+					<diameter-avp code="280" valueCodec="DiamIdent" optional="true" />
+				</codec>
+			</field>
+
+			<field id="proxyState" type="byte[]">
+				<codec>
+					<diameter-avp code="33" valueCodec="OctetString" optional="true" />
+				</codec>
+			</field>
+		</set>
+	</type>
+	
+		<type id="SubscriptionId">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="subscriptionIdType" type="int">
+				<codec>
+					<diameter-avp code="450" valueCodec="Enumerated" />
+				</codec>
+			</field>
+			<field id="subscriptionIdData" type="string">
+				<codec>
+					<diameter-avp code="444" valueCodec="UTF8String" />
+				</codec>
+			</field>
+		</set>
+	</type>
+		<type id="ServiceParameterInfo">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="serviceParameterType" type="long">
+				<codec>
+					<diameter-avp code="441" valueCodec="Unsigned32" mandatory="false" />
+				</codec>
+			</field>
+			<field id="serviceParameterValue" type="byte[]">
+				<codec>
+					<diameter-avp code="442" valueCodec="OctetString" mandatory="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+	
+		<type id="UserEquipmentInfo">
+		<codec>
+			<diameter-avp />
+		</codec>
+		<set>
+			<field id="userEquipmentInfoType" type="int">
+				<codec>
+					<diameter-avp code="459" valueCodec="Enumerated" optional="true" mandatory="false" />
+				</codec>
+			</field>
+			<field id="userEquipmentInfoValue" type="byte[]">
+				<codec>
+					<diameter-avp code="460" valueCodec="OctetString" optional="true" mandatory="false"/>
+				</codec>
+			</field>
+		</set>
+	</type>
+</format>

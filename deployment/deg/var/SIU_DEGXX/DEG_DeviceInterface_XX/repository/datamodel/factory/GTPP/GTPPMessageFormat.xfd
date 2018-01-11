@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+	targetNamespace="http://www.hp.com/usage/datastruct/xfd/GTPPMessageFormat">
+
+	<root type="GTPPMessage" />
+	<type id="GTPPMessage" EOR="true">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<!-- GTPP Packed Header -->
+			<field id="version" type="byte" codec="UBit3" />
+			<field id="protocolType" type="byte" codec="UBit1" />
+			<field id="spareBit" type="byte" codec="UBit3" />
+			<field id="extensionHeader" type="byte" codec="UBit1" />
+			<!-- <field id="sequenceNumberFlag" type="byte" codec="UBit1" /> <field 
+				id="pN" type="byte" codec="UBit1" /> -->
+			<field id="messageType" type="short" codec="UByte1" />
+			<field id="length" type="int" codec="UByte2" />
+			<field id="sequenceNumber" type="int" codec="UByte2" />
+			<!-- GTPP Message Body -->
+			<switch field="messageType">
+				<case value="1">
+					<field id="echoRequest" type="EchoRequest" />
+				</case>
+				<case value="2">
+					<field id="echoResponse" type="EchoResponse" />
+				</case>
+				<!-- Excluded from the switch because it does not contain any body <case 
+					value="3"> <field id="versionNotSupported" type="VersionNotSupported" /> 
+					</case> -->
+				<case value="4">
+					<field id="nodeAliveRequest" type="NodeAliveRequest" />
+				</case>
+				<case value="5">
+					<field id="nodeAliveResponse" type="NodeAliveResponse" />
+				</case>
+				<case value="6">
+					<field id="redirectionRequest" type="RedirectionRequest" />
+				</case>
+				<case value="7">
+					<field id="redirectionResponse" type="RedirectionResponse" />
+				</case>
+				<case value="240">
+					<field id="dataRecordTransferRequest" type="DataRecordTransferRequest" />
+				</case>
+				<case value="241">
+					<field id="dataRecordTransferResponse" type="DataRecordTransferResponse" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+
+	<type id="EchoRequest">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length"
+				length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="privateExtension" type="PrivateExtension">
+				<codec>
+					<tlv code="255" optional="true" length-includes-header="false" /> <!-- TV tag 255, variable length 2 bytes -->
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="EchoResponse">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="recoveryType" type="short" codec="UByte1" />          <!-- recoveryType is 14, modeled as raw due to the lack of TV codec -->
+			<field id="recovery" type="short" codec="UByte1" />              <!-- this is restart counter -->
+			<field id="echoResponseTlvs" type="EchoResponseTlvsType" />
+		</sequence>
+	</type>
+
+	<type id="EchoResponseTlvsType">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length" length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="privateExtension" type="PrivateExtension">
+				<codec>
+					<tlv code="255" optional="true" length-includes-header="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="NodeAliveRequest">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length"
+				length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="nodeAddress" type="NodeAddressType">
+				<codec>
+					<tlv code="251" optional="false" length-includes-header="false" />
+				</codec>
+			</field>
+			<!-- <field id="alternativeNodeAddress" type="byte[]"> TLV tag ???, contains 
+				an Ipv4 or Ipv6 address I do not knwo what is the tag value <codec> <tlv 
+				code="???" optional="true" /> </codec> </field> -->
+			<field id="privateExtension" type="PrivateExtension">
+				<codec>
+					<tlv code="255" optional="true" length-includes-header="false" /> <!-- TV tag 255, variable length 2 bytes -->
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="NodeAddressType">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="nodeAddressVal" type="byte[]" codec="IP" />
+		</sequence>
+	</type>
+
+	<type id="NodeAliveResponse">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length"
+				length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="privateExtension" type="PrivateExtension">
+				<codec>
+					<tlv code="255" optional="true" length-includes-header="false" /><!-- TV tag 255, variable length 
+						2 bytes -->
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="RedirectionRequest">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="causeType" type="short" codec="UByte1" />          <!-- causeType is 1, modeled as raw due to the lack of TV codec -->
+			<field id="cause" type="short" codec="UByte1" />
+			<field id="redirectionRequestTlvs" type="RedirectionRequestTlvsType" />
+		</sequence>
+	</type>
+
+	<type id="RedirectionRequestTlvsType">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length" length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="addressOfRecommendedNode" type="NodeAddressType">
+				<codec>
+					<tlv code="254" optional="true" length-includes-header="false" />
+				</codec>
+			</field>
+			<field id="privateExtension" type="PrivateExtension">
+				<codec>
+					<tlv code="255" optional="true" length-includes-header="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="RedirectionResponse">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="causeType" type="short" codec="UByte1" />          <!-- causeType is 1, modeled as raw due to the lack of TV codec -->
+			<field id="cause" type="short" codec="UByte1" />
+			<field id="redirectionResponseTlvs" type="RedirectionResponseTlvsType" />
+		</sequence>
+	</type>
+
+	<type id="RedirectionResponseTlvsType">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length" length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="privateExtension" type="PrivateExtension">
+				<codec>
+					<tlv code="255" optional="true" length-includes-header="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="DataRecordTransferRequest">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="packetTransferCommandType" type="short" codec="UByte1" />  <!-- ptcType is 126, modeled as raw due to the lack of TV codec -->
+			<field id="packetTransferCommand" type="short" codec="UByte1" />
+			<switch field="packetTransferCommand">
+				<case value="1">
+					<field id="dataRecordPacket" type="DataRecordPacket" />
+				</case>
+				<case value="2">
+					<field id="possiblyDuplicatedDataRecordPacket" type="DataRecordPacket" />
+				</case>
+				<case value="3">
+					<field id="sequenceNumbersOfCancelledPackets" type="SequenceNumbersOfCancelledPackets" />
+				</case>
+				<case value="4">
+					<field id="sequenceNumbersOfReleasedPackets" type="SequenceNumbersOfReleasedPackets" />
+				</case>
+			</switch>
+		</sequence>
+	</type>
+
+	<type id="DataRecordPacket">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length"
+				length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="dataRecordPacketType" type="DataRecordPacketType">
+				<codec>
+					<tlv code="252" optional="true" length-includes-header="false" />
+				</codec>
+			</field>
+			<field id="dataRecTransferReqPvtExt" type="DataRecTransferReqPvtExt">
+                <codec>
+                    <tlv code="255" optional="true" length-includes-header="false" />
+                </codec>
+            </field>
+		</set>
+	</type>
+
+	<type id="DataRecordPacketType">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="numberOfDataRecords" type="short" codec="UByte1" />
+			<field id="dataRecordFormat" type="short" codec="UByte1" />
+			<field id="dataRecordFormatVersion" type="DataRecordFormatVersion" />
+			<array id="cdrs">
+				<field type="CDR" />
+			</array>
+		</sequence>
+	</type>
+
+	<type id="CDR">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="lengthOfDataRecord" type="int" codec="UByte2" />
+			<field id="cdr" type="byte[]">
+				<codec>
+					<raw size="lengthOfDataRecord" type="byte[]" />
+				</codec>
+			</field>
+		</sequence>
+	</type>
+
+	<type id="SequenceNumbersOfCancelledPackets">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length"
+				length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="sequenceNumbersRequestType" type="SequenceNumbersRequestType">
+				<codec>
+					<tlv code="250" optional="false" length-includes-header="false" />
+				</codec>
+			</field>
+			<field id="dataRecTransferReqPvtExt" type="DataRecTransferReqPvtExt">
+                <codec>
+                    <tlv code="255" optional="true" length-includes-header="false" />
+                </codec>
+            </field>
+		</set>
+	</type>
+
+	<type id="SequenceNumbersOfReleasedPackets">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length"
+				length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="sequenceNumbersRequestType" type="SequenceNumbersRequestType">
+				<codec>
+					<tlv code="249" optional="false" length-includes-header="false" />
+				</codec>
+			</field>
+			<field id="dataRecTransferReqPvtExt" type="DataRecTransferReqPvtExt">
+                <codec>
+                    <tlv code="255" optional="true" length-includes-header="false" />
+                </codec>
+            </field>
+		</set>
+	</type>
+
+	<type id="SequenceNumbersRequestType">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<array id="sequenceNumbers">
+				<field type="int" codec="UByte2" />
+			</array>
+		</sequence>
+	</type>
+
+	<type id="DataRecTransferReqPvtExt">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="pvtExt" type="short" codec="UByte1" />
+		</sequence>
+	</type>
+
+	<type id="DataRecordFormatVersion">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="applicationIdentifier" type="byte" codec="UBit4" />
+			<field id="releaseIdentifier" type="byte" codec="UBit4" />
+			<field id="versionIdentifier" type="short" codec="UByte1" />
+		</sequence>
+	</type>
+
+	<type id="SequenceNumbers">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<array id="sequenceNumbers">
+				<field type="int" codec="UByte2" />
+			</array>
+		</sequence>
+	</type>
+
+	<type id="DataRecordTransferResponse">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="causeType" type="short" codec="UByte1" />          <!-- causeType is 1, modeled as raw due to the lack of TV codec -->
+			<field id="cause" type="short" codec="UByte1" />
+			<field id="dataRecordTransferResponseTlvs" type="DataRecordTransferResponseTlvsType" />
+		</sequence>
+	</type>
+
+	<type id="DataRecordTransferResponseTlvsType">
+		<codec>
+			<tlv header-type="TLVHeader" tag-field="type" length-field="length"
+				length-includes-header="false" />
+		</codec>
+		<set>
+			<field id="requestsResponded" type="SequenceNumbers">
+				<codec>
+					<tlv code="253" optional="false" length-includes-header="false" /> <!-- TV tag 253, variable length 2 bytes -->
+				</codec>
+			</field>
+			<field id="privateExtension" type="PrivateExtension">
+				<codec>
+					<tlv code="255" optional="true" length-includes-header="false" />
+				</codec>
+			</field>
+		</set>
+	</type>
+
+	<type id="PrivateExtension">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="pvtExt" type="short" codec="UByte1" />
+		</sequence>
+	</type>
+
+	<!-- AVP HEADER -->
+	<type id="TLVHeader">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="type" type="short" codec="UByte1" />
+			<field id="length" type="int" codec="UByte2" />
+		</sequence>
+	</type>
+
+	<!-- Codec defining area -->
+	<codec id="UBit1">
+		<raw type="byte" size="1" unit="Bit" order="big-endian" unsigned="true" />
+	</codec>
+	<codec id="UBit2">
+		<raw type="byte" size="2" unit="Bit" order="big-endian" unsigned="true" />
+	</codec>
+	<codec id="UBit3">
+		<raw type="byte" size="3" unit="Bit" order="big-endian" unsigned="true" />
+	</codec>
+	<codec id="UBit4">
+		<raw type="byte" size="4" unit="Bit" order="big-endian" unsigned="true" />
+	</codec>
+	<codec id="UByte1">
+		<raw type="short" size="1" unit="Byte" order="big-endian" unsigned="true" />
+	</codec>
+	<codec id="UByte2">
+		<raw type="int" size="2" unit="Byte" order="big-endian" unsigned="true" />
+	</codec>
+	<codec id="IP">
+		<raw type="byte[]" unit="Byte" order="big-endian" unsigned="true" />
+	</codec>
+</format>
