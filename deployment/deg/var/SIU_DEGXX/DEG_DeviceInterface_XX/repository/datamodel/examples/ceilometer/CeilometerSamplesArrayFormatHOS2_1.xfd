@@ -1,0 +1,292 @@
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+	targetNamespace="http://www.hp.com/usage/datastruct/xfd/CeilSampleFormat">
+	<root type="Root" />
+	<type id="Root" EOR="true">
+		<codec>
+			<json skip-wrapper="true" />
+		</codec>
+		<set>
+			<array id="samples">
+				<field type="CeilometerSample">
+					<codec>
+						<json name="ceilometerSample" />
+					</codec>
+				</field>
+			</array>
+		</set>
+	</type>
+	<type id="CeilometerSample">
+		<codec>
+			<json />
+		</codec>
+		<set>
+			<field id="message_id" type="string">
+				<codec>
+					<json name="message_id" />
+				</codec>
+			</field>
+			<field id="resource_metadata" type="MetadataPair">
+				<codec>
+					<json name="resource_metadata" />
+				</codec>
+			</field>
+			<field id="counter_name" type="string">
+				<codec>
+					<json name="counter_name" />
+				</codec>
+			</field>
+			<field id="project_id" type="string">
+				<codec>
+					<json name="project_id" />
+				</codec>
+			</field>
+			<field id="recorded_at" type="string">
+				<codec>
+					<json name="recorded_at" />
+				</codec>
+			</field>
+			<field id="resource_id" type="string">
+				<codec>
+					<json name="resource_id" />
+				</codec>
+			</field>
+			<field id="source" type="string">
+				<codec>
+					<json name="source" />
+				</codec>
+			</field>
+			<field id="timestamp" type="string">
+				<codec>
+					<json name="timestamp" />
+				</codec>
+			</field>
+			<field id="counter_type" type="string">
+				<codec>
+					<json name="counter_type" />
+				</codec>
+			</field>
+			<field id="counter_unit" type="string">
+				<codec>
+					<json name="counter_unit" />
+				</codec>
+			</field>
+			<field id="user_id" type="string">
+				<codec>
+					<json name="user_id" />
+				</codec>
+			</field>
+			<field id="counter_volume" type="string">
+				<codec>
+					<json name="counter_volume" />
+				</codec>
+			</field>
+		</set>
+	</type>
+	<type id="MetadataPair">
+		<codec>
+			<json />
+		</codec>
+		<set>
+			<field id="state_description" type="string">
+				<codec>
+					<json name="state_description"  required="false" />
+				</codec>
+			</field>
+			<field id="image_meta_base_image_ref" type="string">
+                <codec>
+                    <json name="image_meta.base_image_ref"  required="false" />
+                </codec>
+            </field>
+            <field id="event_type" type="string">
+                <codec>
+                    <json name="event_type"  required="false" />
+                </codec>
+            </field>
+            <field id="availability_zone" type="string">
+                <codec>
+                    <json name="availability_zone"  required="false" />
+                </codec>
+            </field>
+            <field id="terminated_at" type="string">
+                <codec>
+                    <json name="terminated_at"  required="false" />
+                </codec>
+            </field>
+            <field id="ephemeral_gb" type="string">
+                <codec>
+                    <json name="ephemeral_gb"  required="false" />
+                </codec>
+            </field>
+            <field id="instance_type_id" type="string">
+                <codec>
+                    <json name="instance_type_id"  required="false" />
+                </codec>
+            </field>
+            <field id="deleted_at" type="string">
+                <codec>
+                    <json name="deleted_at"  required="false" />
+                </codec>
+            </field>
+            <field id="reservation_id" type="string">
+                <codec>
+                    <json name="reservation_id"  required="false" />
+                </codec>
+            </field>
+            <field id="memory_mb" type="string">
+                <codec>
+                    <json name="memory_mb"  required="false" />
+                </codec>
+            </field>
+            <field id="display_name" type="string">
+                <codec>
+                    <json name="display_name"  required="false" />
+                </codec>
+            </field>
+            <field id="hostname" type="string">
+                <codec>
+                    <json name="hostname"  required="false" />
+                </codec>
+            </field>
+            <field id="state" type="string">
+                <codec>
+                    <json name="state"  required="false" />
+                </codec>
+            </field>
+            <field id="image_meta_min_disk" type="string">
+                <codec>
+                    <json name="image_meta.min_disk"  required="false" />
+                </codec>
+            </field>
+            <field id="progress" type="string">
+                <codec>
+                    <json name="progress"  required="false" />
+                </codec>
+            </field>
+            <field id="launched_at" type="string">
+                <codec>
+                    <json name="launched_at"  required="false" />
+                </codec>
+            </field>
+            <field id="node" type="string">
+                <codec>
+                    <json name="node"  required="false" />
+                </codec>
+            </field>
+            <field id="ramdisk_id" type="string">
+                <codec>
+                    <json name="ramdisk_id"  required="false" />
+                </codec>
+            </field>
+            <field id="access_ip_v6" type="string">
+                <codec>
+                    <json name="access_ip_v6"  required="false" />
+                </codec>
+            </field>
+            <field id="disk_gb" type="string">
+                <codec>
+                    <json name="disk_gb"  required="false" />
+                </codec>
+            </field>
+            <field id="access_ip_v4" type="string">
+                <codec>
+                    <json name="access_ip_v4"  required="false" />
+                </codec>
+            </field>
+            <field id="kernel_id" type="string">
+                <codec>
+                    <json name="kernel_id"  required="false" />
+                </codec>
+            </field>
+            <field id="image_meta_disk_format" type="string">
+                <codec>
+                    <json name="image_meta.disk_format"  required="false" />
+                </codec>
+            </field>
+            <field id="image_meta_container_format" type="string">
+                <codec>
+                    <json name="image_meta.container_format"  required="false" />
+                </codec>
+            </field>
+            <field id="user_id" type="string">
+                <codec>
+                    <json name="user_id"  required="false" />
+                </codec>
+            </field>
+            <field id="image_ref_url" type="string">
+                <codec>
+                    <json name="image_ref_url"  required="false" />
+                </codec>
+            </field>
+            <field id="cell_name" type="string">
+                <codec>
+                    <json name="cell_name"  required="false" />
+                </codec>
+            </field>
+            <field id="audit_period_beginning" type="string">
+                <codec>
+                    <json name="audit_period_beginning"  required="false" />
+                </codec>
+            </field>
+            <field id="root_gb" type="string">
+                <codec>
+                    <json name="root_gb"  required="false" />
+                </codec>
+            </field>
+            <field id="tenant_id" type="string">
+                <codec>
+                    <json name="tenant_id"  required="false" />
+                </codec>
+            </field>
+            <field id="created_at" type="string">
+                <codec>
+                    <json name="created_at"  required="false" />
+                </codec>
+            </field>
+            <field id="image_meta_min_ram" type="string">
+                <codec>
+                    <json name="image_meta.min_ram"  required="false" />
+                </codec>
+            </field>
+            <field id="host" type="string">
+                <codec>
+                    <json name="host"  required="false" />
+                </codec>
+            </field>
+            <field id="instance_id" type="string">
+                <codec>
+                    <json name="instance_id"  required="false" />
+                </codec>
+            </field>
+            <field id="instance_type" type="string">
+                <codec>
+                    <json name="instance_type"  required="false" />
+                </codec>
+            </field>
+            <field id="vcpus" type="string">
+                <codec>
+                    <json name="vcpus"  required="false" />
+                </codec>
+            </field>
+            <field id="architecture" type="string">
+                <codec>
+                    <json name="architecture"  required="false" />
+                </codec>
+            </field>
+            <field id="audit_period_ending" type="string">
+                <codec>
+                    <json name="audit_period_ending"  required="false" />
+                </codec>
+            </field>
+            <field id="os_type" type="string">
+                <codec>
+                    <json name="os_type"  required="false" />
+                </codec>
+            </field>
+            <field id="instance_flavor_id" type="string">
+                <codec>
+                    <json name="instance_flavor_id"  required="false" />
+                </codec>
+            </field>
+		</set>
+	</type>
+</format>

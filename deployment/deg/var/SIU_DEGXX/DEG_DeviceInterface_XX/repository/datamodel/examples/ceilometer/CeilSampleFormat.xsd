@@ -1,0 +1,81 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/CeilSampleFormat"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/CeilSampleFormat"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="Root">
+        <sequence>
+            <element name="samples">
+                <complexType>
+                    <sequence>
+                        <element type="this:CeilometerSample" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="CeilometerSample">
+        <sequence>
+            <element name="message_id" type="nme:string" />
+            <element name="resource_metadata" type="this:MetadataPair" />
+            <element name="counter_name" type="nme:string" />
+            <element name="project_id" type="nme:string" />
+            <element name="recorded_at" type="nme:string" />
+            <element name="resource_id" type="nme:string" />
+            <element name="source" type="nme:string" />
+            <element name="timestamp" type="nme:string" />
+            <element name="counter_type" type="nme:string" />
+            <element name="counter_unit" type="nme:string" />
+            <element name="user_id" type="nme:string" />
+            <element name="counter_volume" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="MetadataPair">
+        <sequence>
+            <element name="state_description" type="nme:string" />
+            <element name="image_meta_base_image_ref" type="nme:string" />
+            <element name="event_type" type="nme:string" />
+            <element name="availability_zone" type="nme:string" />
+            <element name="terminated_at" type="nme:string" />
+            <element name="ephemeral_gb" type="nme:string" />
+            <element name="instance_type_id" type="nme:string" />
+            <element name="deleted_at" type="nme:string" />
+            <element name="reservation_id" type="nme:string" />
+            <element name="memory_mb" type="nme:string" />
+            <element name="display_name" type="nme:string" />
+            <element name="hostname" type="nme:string" />
+            <element name="state" type="nme:string" />
+            <element name="image_meta_min_disk" type="nme:string" />
+            <element name="progress" type="nme:string" />
+            <element name="launched_at" type="nme:string" />
+            <element name="node" type="nme:string" />
+            <element name="ramdisk_id" type="nme:string" />
+            <element name="access_ip_v6" type="nme:string" />
+            <element name="disk_gb" type="nme:string" />
+            <element name="access_ip_v4" type="nme:string" />
+            <element name="kernel_id" type="nme:string" />
+            <element name="image_meta_disk_format" type="nme:string" />
+            <element name="image_meta_container_format" type="nme:string" />
+            <element name="user_id" type="nme:string" />
+            <element name="image_ref_url" type="nme:string" />
+            <element name="cell_name" type="nme:string" />
+            <element name="audit_period_beginning" type="nme:string" />
+            <element name="root_gb" type="nme:string" />
+            <element name="tenant_id" type="nme:string" />
+            <element name="created_at" type="nme:string" />
+            <element name="image_meta_min_ram" type="nme:string" />
+            <element name="host" type="nme:string" />
+            <element name="instance_id" type="nme:string" />
+            <element name="instance_type" type="nme:string" />
+            <element name="vcpus" type="nme:string" />
+            <element name="architecture" type="nme:string" />
+            <element name="audit_period_ending" type="nme:string" />
+            <element name="os_type" type="nme:string" />
+            <element name="instance_flavor_id" type="nme:string" />
+        </sequence>
+    </complexType>
+</schema>

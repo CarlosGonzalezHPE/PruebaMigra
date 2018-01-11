@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+	targetNamespace="http://www.hp.com/usage/datastruct/xfd/apacheFormatted">
+
+	<root type="ApacheWebLogRecordFormatted" />
+
+	<type id="ApacheWebLogRecordFormatted">
+		<codec>
+			<text mode="delimiter" />
+		</codec>
+		<sequence>
+			<array id="records" length="3">
+				<field type="ApacheWebLogRecord">
+					<codec>
+						<text delimiter="\r\n" />
+					</codec>
+				</field>
+			</array>
+		</sequence>
+	</type>
+	<type id="ApacheWebLogRecord" EOR="true">
+		<codec>
+			<text mode="format" format="clientIp:{clientIp}, authUser:{authUser}, sysDate:{sysDate}, usageInfo:[{usageInfo}], requestStatus:{requestStatus}, responseSize:{responseSize}" />
+		</codec>
+		<sequence>
+			<field id="clientIp" type="string">
+			  <codec>
+                <text mode="format"/>
+			  </codec>
+			</field>
+			<field id="authUser" type="string">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+			<field id="sysDate" type="string">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+			<field id="usageInfo" type="UsageInfo">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+			<field id="requestStatus" type="int">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+			<field id="responseSize" type="int">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+		</sequence>
+	</type>
+
+	<type id="UsageInfo">
+		<codec>
+			<text mode="format"
+				format="requestType:{requestType}, resource:{resource}, protocol:{protocol}" />
+		</codec>
+		<sequence>
+			<field id="requestType" type="string">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+			<field id="resource" type="string">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+			<field id="protocol" type="string">
+              <codec>
+                <text mode="format"/>
+              </codec>
+            </field>
+		</sequence>
+	</type>
+
+</format>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_apacheDelim_to_XFD_apacheFormatted">
+
+<!-- XFD imports -->
+<!-- XFD builtin types -->
+<import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd" />
+<!-- XFD format types -->
+<import prefix="xfd-apache" ns="http://www.hp.com/usage/datastruct/xfd/apacheFormatted" />
+
+<!-- NME imports -->
+<!-- NME builtin types -->
+<import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+<!-- NME structural types -->
+<import prefix="apache" ns="http://www.hp.com/usage/nme/nmeschema/apacheDelim" />
+
+<!-- IUM standard transformers -->
+<import prefix="ium" ns="http://www.hp.com/usage/datastruct/transform" />
+
+
+	<transformer id="ApacheWebLogRecordsGetter" from="apache:ApacheWebLogRecords" to="xfd-apache:ApacheWebLogRecordFormatted">
+	
+		<transform input="records" output="records">
+
+			  <transformer from="apache:ApacheWebLogRecord[]" to="xfd-apache:ApacheWebLogRecord[]">
+				<array>
+				  <use-transformer from="apache:ApacheWebLogRecord" to="xfd-apache:ApacheWebLogRecord" class="ApacheWebLogRecordGetter" />
+				</array>
+			  </transformer>
+		</transform>
+	
+	</transformer>
+  
+	<!---->
+  
+    <transformer id="ApacheWebLogRecordGetter" from="apache:ApacheWebLogRecord" to="xfd-apache:ApacheWebLogRecord" >
+  
+    <transform input="clientIp" output="clientIp">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+	
+	<transform input="authUser" output="authUser">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+	
+	<transform input="sysDate" output="sysDate">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+	
+    <transform input="usageInfo" output="usageInfo">
+      <use-transformer from="apache:UsageInfo" to="xfd-apache:UsageInfo" class="UsageInfoGetter" />
+	</transform>
+	
+	<transform input="requestStatus" output="requestStatus">
+      <use-transformer from="nme:int" to="xfd:int" class="ium:IntToIntCopy" />
+    </transform>
+	
+	<transform input="responseSize" output="responseSize">
+      <use-transformer from="nme:int" to="xfd:int" class="ium:IntToIntCopy" />
+    </transform>
+	
+  </transformer>
+  
+  
+  
+  <!---->
+  
+    <transformer id="UsageInfoGetter"  from="apache:UsageInfo" to="xfd-apache:UsageInfo" >
+  
+    <transform input="requestType" output="requestType">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+	
+    <transform input="resource" output="resource">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+	
+	<transform input="protocol" output="protocol">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+
+  </transformer>
+
+</transformations>

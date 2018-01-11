@@ -1,0 +1,98 @@
+<format xmlns="http://www.hp.com/usage/datastruct/xfd" targetNamespace="http://www.hp.com/usage/datastruct/xfd/ShipOrder_Netty">
+    <root type="shiporderGlobalElementType" />
+    <type id="shiporderGlobalElementType" >
+        <codec>
+            <xml />
+        </codec>
+        <sequence>
+            <field id="shiporder" type="shipordertype">
+                <codec>
+                    <xml path="shiporder" />
+                </codec>
+            </field>
+        </sequence>
+    </type>
+    <type id="shiptotype" >
+        <codec>
+            <xml />
+        </codec>
+        <set>
+            <field id="name" type="string">
+                <codec>
+                    <xml path="name" />
+                </codec>
+            </field>
+            <field id="address" type="string">
+                <codec>
+                    <xml path="address" />
+                </codec>
+            </field>
+            <field id="city" type="string">
+                <codec>
+                    <xml path="city" />
+                </codec>
+            </field>
+            <field id="country" type="string">
+                <codec>
+                    <xml path="country" />
+                </codec>
+            </field>
+        </set>
+    </type>
+    <type id="itemtype" >
+        <codec>
+            <xml />
+        </codec>
+        <set>
+            <field id="title" type="string">
+                <codec>
+                    <xml path="title" optional="true"/>
+                </codec>
+            </field>
+            <field id="note" type="string">
+                <codec>
+                    <xml path="note"  optional="true" />
+                </codec>
+            </field>
+            <field id="quantity" type="string">
+                <codec>
+                    <xml path="quantity" optional="true"/>
+                </codec>
+            </field>
+            <field id="price" type="string">
+                <codec>
+                    <xml path="price" optional="true"/>
+                </codec>
+            </field>
+        </set>
+    </type>
+    <type id="shipordertype" EOR="true">
+        <codec>
+            <xml />
+        </codec>
+        <sequence>
+            <field id="orderperson" type="string">
+                <codec>
+                    <xml path="orderperson" />
+                </codec>
+            </field>
+            <field id="shipto" type="shiptotype">
+                <codec>
+                    <xml path="shipto" />
+                </codec>
+            </field>
+            <array id="item">
+                <field type="itemtype">
+                    <codec>
+                        <xml path="item" />
+                    </codec>
+                </field>
+            </array>
+            <field id="attrorderid" type="string">
+                <codec>
+                    <xml path="@orderid" />
+                </codec>
+            </field>
+        </sequence>
+    </type>
+</format>

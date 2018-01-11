@@ -1,0 +1,63 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_ShipOrder_Netty_to_XFD_ShipOrder_Netty">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/ShipOrder_Netty" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/ShipOrder_Netty" />
+
+    <transformer id="SNME_shiporderGlobalElementType_to_XFD_shiporderGlobalElementType" from="snme:shiporderGlobalElementType" to="xfd:shiporderGlobalElementType">
+        <transform input="shiporder" output="shiporder">
+            <use-transformer from="snme:shipordertype" to="xfd:shipordertype" class="SNME_shipordertype_to_XFD_shipordertype" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_shiptotype_to_XFD_shiptotype" from="snme:shiptotype" to="xfd:shiptotype">
+        <transform input="name" output="name">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="address" output="address">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="city" output="city">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="country" output="country">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_itemtype_to_XFD_itemtype" from="snme:itemtype" to="xfd:itemtype">
+        <transform input="title" output="title">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="note" output="note">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="quantity" output="quantity">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="price" output="price">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_shipordertype_to_XFD_shipordertype" from="snme:shipordertype" to="xfd:shipordertype">
+        <transform input="orderperson" output="orderperson">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="shipto" output="shipto">
+            <use-transformer from="snme:shiptotype" to="xfd:shiptotype" class="SNME_shiptotype_to_XFD_shiptotype" />
+        </transform>
+        <transform input="item" output="item">
+            <transformer from="snme:itemtype[]" to="xfd:itemtype[]">
+                <array>
+                    <use-transformer from="snme:itemtype" to="xfd:itemtype" class="SNME_itemtype_to_XFD_itemtype" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="attrorderid" output="attrorderid">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+</transformations>

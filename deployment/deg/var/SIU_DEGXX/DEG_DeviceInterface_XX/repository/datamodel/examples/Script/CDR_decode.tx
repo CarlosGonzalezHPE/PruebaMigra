@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+targetNamespace="http://www.hp.com/usage/datastruct/transform/CDR_decode">
+
+<!-- XFD imports -->
+<!-- XFD builtin types -->
+<import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd" />
+<!-- XFD format types -->
+<import prefix="xfd-cdr" ns="http://www.hp.com/usage/datastruct/xfd/cdrsamplecrc" />
+
+<!-- NME imports -->
+<!-- NME builtin types -->
+<import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+<!-- NME structural types -->
+<import prefix="cdr" ns="http://www.hp.com/usage/nme/nmeschema/CDRSample" />
+
+<!-- IUM standard transformers -->
+<import prefix="ium" ns="http://www.hp.com/usage/datastruct/transform" />
+
+<import prefix="ium-tx"
+        ns="com.hp.usage.datastruct.transform.transformer.nme" />
+        
+    <transformer id="FileSetter" from="xfd-cdr:CDRFileDecode" to="cdr:CDRFile">
+        <transform input="header" output="header">
+            <use-transformer from="xfd-cdr:Header"
+                to="cdr:FileHeader" class="HeaderSetter" />
+        </transform>
+        
+        <transform input="records" output="records">
+            <transformer from="xfd-cdr:CDR[]"
+                to="cdr:CDRData[]">
+                <array>
+                    <use-transformer from="xfd-cdr:CDR"
+                        to="cdr:CDRData" class="CDRSetter" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+  
+  <transformer id="HeaderSetter" from="xfd-cdr:Header" to="cdr:FileHeader">
+    <transform input="fileType" output="fileType">
+      <use-transformer from="xfd:int" to="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="dataFormatType" output="dataFormatType">
+      <use-transformer from="xfd:int" to="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="fileCreationType" output="fileCreationType">
+      <use-transformer from="xfd:int" to="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="fileSeqNum" output="fileSeqNum">
+      <use-transformer from="xfd:long" to="nme:long" class="ium:LongToLongCopy" />
+    </transform>
+    <transform input="recordsSourceLen" output="recordsSourceLen">
+      <use-transformer from="xfd:int" to="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="recordsSource" output="recordsSource">
+      <use-transformer from="xfd:string" to="nme:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="someChar" output="someChar">
+      <use-transformer from="xfd:char" to="nme:char" class="ium:CharToCharCopy" />
+    </transform>
+  </transformer>
+
+  <transformer id="CDRSetter" from="xfd-cdr:CDR" to="cdr:CDRData" >
+    <transform input="recordType" output="recordType">
+      <use-transformer from="xfd:int" to="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="fixedLengthCDR" output="fixedLengthCDR">
+      <use-transformer from="xfd-cdr:FixedLengthCDR" to="cdr:FixedLengthCDRData" class="FixedLengthCDRSetter" />
+    </transform>
+    <transform input="domesticCDR" output="domesticCDR" >
+      <use-transformer from="xfd-cdr:DomesticCDR" to="cdr:DomesticCDRData" class="DomesticCDRSetter" />
+    </transform>
+  </transformer>
+
+  <transformer id="FixedLengthCDRSetter"  from="xfd-cdr:FixedLengthCDR" to="cdr:FixedLengthCDRData" >
+    <transform input="originalCallerId" output="originalCallerId">
+      <use-transformer from="xfd:string" to="nme:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="destinationCallerId" output="destinationCallerId">
+      <use-transformer from="xfd:string" to="nme:string" class="ium:StringToStringCopy" />
+    </transform>
+        <transform input="audioCodec" output="audioCodec">
+      <use-transformer from="xfd:string" to="nme:string" class="ium:StringToStringCopy" />
+    </transform>
+        <transform input="terminationReason" output="terminationReason">
+      <use-transformer from="xfd:string" to="nme:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="connectionTime" output="connectionTime">
+      <use-transformer from="xfd:long" to="nme:long" class="ium:LongToLongCopy" />
+    </transform>
+  </transformer>
+
+  <transformer id="DomesticCDRSetter" from="xfd-cdr:DomesticCDR" to="cdr:DomesticCDRData" >
+    <transform input="originalCallerId" output="callerId">
+      <use-transformer from="xfd:string" to="nme:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="connectionTime" output="connectionTime">
+      <use-transformer from="xfd:long" to="nme:long" class="ium:LongToLongCopy" />
+    </transform>
+        <transform input="appData" output="appData">
+      <use-transformer from="byte[]" to="nme:byte-array" class="ium-tx:ByteArrayToByteArrayWrapper" />
+    </transform>
+    <transform input="mobile" output="mobile">
+      <use-transformer from="xfd:short" to="nme:short" class="ium:ShortToShortCopy" />
+    </transform>
+  </transformer>
+</transformations>

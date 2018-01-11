@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.hp.com/usage/nme/nmeschema/CeilometerQuerySnmeSchema"
+    xmlns:tns="http://www.hp.com/usage/nme/nmeschema/CeilometerQuerySnmeSchema"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema" xmlns="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Namespaces import -->
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <!-- NME types definition -->
+    <complexType name="CeilometerQuery">
+        <sequence>
+            <!-- optional attribute of String type -->
+            <element name="telemetryRequest" type="nme:string" minOccurs="0"/>
+            <!-- optional attribute of String type -->
+            <element name="telemetryResponse" type="nme:string" minOccurs="0"/>
+            <!-- optional attribute of String type -->
+            <element name="targetURLAttr" type="nme:string" minOccurs="0"/>
+            <!-- optional attribute of NME array type -->
+            <element name="myQueryArray" minOccurs="0">
+                <complexType>
+                    <sequence>
+                        <element name="value" type="tns:QueryPair" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <!-- optional attribute of String type -->
+            <element name="utilAttr" type="nme:string" minOccurs="0"/>
+            <!-- optional attribute of String type -->
+            <element name="boundary" type="nme:string" minOccurs="0"/>
+        </sequence>
+    </complexType>
+    <complexType name="QueryPair">
+        <sequence>
+            <element name="myNameAttr" type="nme:string" />
+            <element name="myValueAttr" type="nme:string" />
+        </sequence>
+    </complexType>
+</schema>
