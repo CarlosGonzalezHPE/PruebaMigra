@@ -142,14 +142,6 @@
         <sequence>
             <element name="requestId" type="nme:int" />
             <element name="configId" type="nme:int" />
-            <element name="availableDefinedTypesCount" type="nme:int" />
-            <element name="availableDefinedTypes">
-                <complexType>
-                    <sequence>
-                        <element type="this:TypeDefinition" name="value" maxOccurs="unbounded" />
-                    </sequence>
-                </complexType>
-            </element>
             <element name="currentTemplatesCount" type="nme:int" />
             <element name="currentTemplates">
                 <complexType>

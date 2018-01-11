@@ -226,10 +226,6 @@
         <sequence>
             <field id="requestId" type="int" codec="UByte2" />
             <field id="configId" type="int" codec="UByte2" />
-            <field id="availableDefinedTypesCount" type="int" codec="Byte4" />     
-            <array id="availableDefinedTypes"  length="availableDefinedTypesCount">
-                <field type="TypeDefinition" />
-            </array>
             <field id="currentTemplatesCount" type="int" codec="Byte4" />
             <array id="currentTemplates"  length="currentTemplatesCount">
                 <field type="TemplateBlock" />
@@ -348,6 +344,9 @@
     <codec id="UBit7">
         <raw type="byte" size="7" unit="Bit" order="big-endian" unsigned="true" />
     </codec>    
+    <codec id="UBit26">
+        <raw type="byte" size="26" unit="Bit" order="big-endian" unsigned="true" />
+    </codec>
     <codec id="UBit2">
         <raw type="byte" size="2" unit="Bit" order="big-endian" unsigned="true" />
     </codec>

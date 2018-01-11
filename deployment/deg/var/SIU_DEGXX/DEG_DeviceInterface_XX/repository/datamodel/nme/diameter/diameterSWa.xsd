@@ -26,7 +26,6 @@
             <element name="acct_interim_interval" type="nme:long" />
             <element name="error_message" type="nme:string" />
             <element name="error_reporting_host" type="nme:string" />
-			<element name="visited_network_identifier" type="nme:byte-array" />
             <element name="failed_AVP">
                 <complexType>
                     <sequence>
@@ -99,6 +98,22 @@
                 </complexType>
             </element>
             <element name="RAT_type" type="nme:int" />
+            <element name="MIP6_feature_vector" type="nme:long" />
+            <element name="SN_Fast_Reauth_Username" type="nme:byte-array" />
+            <element name="ambr">
+                <complexType>
+                    <sequence>
+                        <element type="this:AMBR" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="APN_configuration">
+                <complexType>
+                    <sequence>
+                        <element type="this:APN_Configuration" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
         </sequence>
     </complexType>
 
@@ -147,6 +162,7 @@
             </element>
             <element name="route_Record" type="nme:string" />
             <element name="RAT_type" type="nme:int" />
+            <element name="MIP6_feature_vector" type="nme:long" />
             <element name="ANID" type="nme:string" />
             <element name="visited_network_identifier" type="nme:byte-array" />
             <element name="terminal_information">
@@ -157,6 +173,8 @@
                 </complexType>
             </element>
             <element name="failure_indication" type="nme:long" />
+            <element name="service_selection" type="nme:string" />
+            <element name="UE_local_ip_address" type="nme:byte-array" />
         </sequence>
     </complexType>
 
@@ -170,13 +188,6 @@
             <element name="classBytes" type="nme:byte-array" />
             <element name="error_message" type="nme:string" />
             <element name="error_reporting_host" type="nme:string" />
-            <element name="experimental_result">
-                <complexType>
-                    <sequence>
-                        <element type="this:Experimental_Result" name="value" maxOccurs="unbounded" />
-                    </sequence>
-                </complexType>
-            </element>
             <element name="failed_AVP">
                 <complexType>
                     <sequence>
@@ -225,6 +236,18 @@
     </complexType>
 
     <complexType name="Failed_avp">
+        <sequence>
+            <element name="value" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AMBR">
+        <sequence>
+            <element name="value" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="APN_Configuration">
         <sequence>
             <element name="value" type="nme:string" />
         </sequence>

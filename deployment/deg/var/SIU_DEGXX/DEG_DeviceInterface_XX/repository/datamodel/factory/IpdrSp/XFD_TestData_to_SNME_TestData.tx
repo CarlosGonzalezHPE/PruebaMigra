@@ -1,0 +1,31 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/XFD_TestData_to_SNME_TestData">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+    <import prefix="tnme" ns="http://www.hp.com/usage/datastruct/transform/nme" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/TestData" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/TestData" />
+    <import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+
+    <transformer id="XFD_TestData_to_SNME_TestData" from="xfd:TestData" to="snme:TestData">
+        <transform input="intField" output="intField">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="byteArrayField" output="byteArrayField">
+            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
+        </transform>
+        <transform input="structField" output="structField">
+            <use-transformer from="xfd:StructType" to="snme:StructType" class="XFD_StructType_to_SNME_StructType" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_StructType_to_SNME_StructType" from="xfd:StructType" to="snme:StructType">
+        <transform input="structByteField" output="structByteField">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="structStringField" output="structStringField">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+</transformations>

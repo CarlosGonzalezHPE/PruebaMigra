@@ -66,9 +66,6 @@
         <transform input="error_reporting_host" output="error_reporting_host">
             <use-transformer from="string" to="string" class="t:StringToStringCopy" />
         </transform>
-		<transform input="visited_network_identifier" output="visited_network_identifier">
-            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
-        </transform>
         <transform input="failed_AVP" output="failed_AVP">
             <transformer from="xfd:Failed_avp[]" to="snme:Failed_avp[]">
                 <array>
@@ -215,6 +212,26 @@
         <transform input="RAT_type" output="RAT_type">
             <use-transformer from="int" to="int" class="t:IntToIntCopy" />
         </transform>
+        <transform input="MIP6_feature_vector" output="MIP6_feature_vector">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="SN_Fast_Reauth_Username" output="SN_Fast_Reauth_Username">
+            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
+        </transform>
+        <transform input="ambr" output="ambr">
+            <transformer from="xfd:AMBR[]" to="snme:AMBR[]">
+                <array>
+                    <use-transformer from="xfd:AMBR" to="snme:AMBR" class="XFD_AMBR_to_SNME_AMBR" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="APN_configuration" output="APN_configuration">
+            <transformer from="xfd:APN_Configuration[]" to="snme:APN_Configuration[]">
+                <array>
+                    <use-transformer from="xfd:APN_Configuration" to="snme:APN_Configuration" class="XFD_APN_Configuration_to_SNME_APN_Configuration" />
+                </array>
+            </transformer>
+        </transform>
     </transformer>
 
     <transformer id="XFD_DiameterEAPRequestSWa_to_SNME_DiameterEAPRequestSWa" from="xfd:DiameterEAPRequestSWa" to="snme:DiameterEAPRequestSWa">
@@ -333,6 +350,9 @@
         <transform input="RAT_type" output="RAT_type">
             <use-transformer from="int" to="int" class="t:IntToIntCopy" />
         </transform>
+        <transform input="MIP6_feature_vector" output="MIP6_feature_vector">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
         <transform input="ANID" output="ANID">
             <use-transformer from="string" to="string" class="t:StringToStringCopy" />
         </transform>
@@ -348,6 +368,12 @@
         </transform>
         <transform input="failure_indication" output="failure_indication">
             <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="service_selection" output="service_selection">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="UE_local_ip_address" output="UE_local_ip_address">
+            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
         </transform>
     </transformer>
 
@@ -375,13 +401,6 @@
         </transform>
         <transform input="error_reporting_host" output="error_reporting_host">
             <use-transformer from="string" to="string" class="t:StringToStringCopy" />
-        </transform>
-        <transform input="experimental_result" output="experimental_result">
-            <transformer from="xfd:Experimental_Result[]" to="snme:Experimental_Result[]">
-                <array>
-                    <use-transformer from="xfd:Experimental_Result" to="snme:Experimental_Result" class="XFD_Experimental_Result_to_SNME_Experimental_Result" />
-                </array>
-            </transformer>
         </transform>
         <transform input="failed_AVP" output="failed_AVP">
             <transformer from="xfd:Failed_avp[]" to="snme:Failed_avp[]">
@@ -464,6 +483,18 @@
     </transformer>
 
     <transformer id="XFD_Failed_avp_to_SNME_Failed_avp" from="xfd:Failed_avp" to="snme:Failed_avp">
+        <transform input="value" output="value">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_AMBR_to_SNME_AMBR" from="xfd:AMBR" to="snme:AMBR">
+        <transform input="value" output="value">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_APN_Configuration_to_SNME_APN_Configuration" from="xfd:APN_Configuration" to="snme:APN_Configuration">
         <transform input="value" output="value">
             <use-transformer from="string" to="string" class="t:StringToStringCopy" />
         </transform>
