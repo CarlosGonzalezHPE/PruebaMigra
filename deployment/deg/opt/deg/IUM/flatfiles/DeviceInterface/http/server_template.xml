@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Server port="0" shutdown="IUMSHUTDOWN">
+    <Service name="Catalina">
+       <Connector maxHttpHeaderSize="4096" maxPostSize="4096" compressableMimeType="application/json" maxKeepAliveRequests="5" connectionTimeout="5000"
+        SSLEnabled="true" sessionCacheSize="1" sslEnabledProtocols="TLSv1.2" ciphers="TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA"/>
+        <Engine name="ClientDeviceHttpsConnector"  defaultHost="localhost">
+            <Host appBase="" name="localhost"
+                unpackWARs="true" autoDeploy="false" deployOnStartup="false"
+                xmlValidation="false" xmlNamespaceAware="false">
+            </Host>
+        </Engine>      
+    </Service>
+</Server>
+

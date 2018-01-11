@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.hp.com/usage/nme/nmeschema/CDRSample"
+  xmlns:nme="http://www.hp.com/usage/nme/nmeschema"
+  xmlns:tns="http://www.hp.com/usage/nme/nmeschema/CDRSample"
+  xmlns="http://www.w3.org/2001/XMLSchema">
+
+  <!-- begin import used namaspaces -->
+  <import namespace="http://www.hp.com/usage/nme/nmeschema"/>
+  <!-- end import used namaspaces -->
+
+  <complexType name="CDRFile">
+    <sequence>
+        <element name="header" type="tns:FileHeader" />
+        <element name="records">
+            <complexType>
+                <sequence>
+                    <element name="value" type="tns:CDRData" minOccurs="1" maxOccurs="unbounded" />
+                </sequence>
+            </complexType>
+        </element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="FileHeader">
+     <sequence>
+        <element name="fileType" type="nme:int"/>
+        <element name="dataFormatType" type="nme:int"/>
+        <element name="fileSeqNum" type="nme:long"/>
+        <element name="fileCreationType" type="nme:int"/>
+        <element name="recordsSourceLen" type="nme:int"/>
+        <element name="recordsSource" type="nme:string" />
+        <element name="someChar" type="nme:char" />
+     </sequence>
+  </complexType>
+
+  <complexType name="CDRData">
+     <sequence>
+       <element name="recordType" type="nme:int" />
+       <element name="fixedLengthCDR" type="tns:FixedLengthCDRData" />
+       <element name="domesticCDR" type="tns:DomesticCDRData" />
+     </sequence>
+  </complexType>
+
+  <complexType name="FixedLengthCDRData">
+     <sequence>
+       <element name="originalCallerId" type="nme:string" />
+       <element name="destinationCallerId" type="nme:string" />
+       <element name="audioCodec" type="nme:string" />
+       <element name="terminationReason" type="nme:string" />
+       <element name="connectionTime" type="nme:long" />
+     </sequence>
+  </complexType>
+
+  <complexType name="DomesticCDRData">
+     <sequence>
+       <element name="callerId" type="nme:string" />
+       <element name="connectionTime" type="nme:long" />
+       <element name="appData" type="nme:byte-array" />
+       <element name="mobile" type="nme:short" />
+     </sequence>
+  </complexType>
+</schema>

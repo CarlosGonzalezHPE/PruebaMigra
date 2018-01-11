@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:drools="http://www.jboss.org/drools" xmlns:ns1="http://www.hp.com/usage/bpmn2/workflow/model/file/examples" xmlns:usage="http://www.hp.com/usage/bpmn2/workflow" id="Definitions_1" usage:version="1.0" name="MainFileWorkflow" targetNamespace="http://www.hp.com/usage/bpmn2/workflow/model/file/examples">
+  <bpmn2:import importType="http://www.omg.org/spec/BPMN/20100524/MODEL" location="platform:/resource/RepositoryServer/workflow/examples/FileProcessing/FileWorkflowOperations.bpmn2" namespace="http://www.hp.com/usage/bpmn2/workflow/model/file/examples"/>
+  <bpmn2:itemDefinition id="java.io.File" structureRef="java.io.File"/>
+  <bpmn2:process id="MainWorkflow" drools:version="1" drools:packageName="defaultPackage" drools:adHoc="false" name="Main Process" isExecutable="true">
+    <bpmn2:dataObject id="fileInProcess" name="fileInProcess"/>
+    <bpmn2:startEvent id="StartEvent_1" name="Start Event 1">
+      <bpmn2:outgoing>ns1:SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:endEvent id="EndEvent_1" name="End Event 1">
+      <bpmn2:incoming>ns1:SequenceFlow_5</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:subProcess id="SubProcess_1" name="File Compression Subprocess">
+      <bpmn2:incoming>ns1:SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>ns1:SequenceFlow_4</bpmn2:outgoing>
+      <bpmn2:startEvent id="StartEvent_2" name="Start Event 2">
+        <bpmn2:outgoing>ns1:SequenceFlow_2</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="StartEvent_2" targetRef="Task_2"/>
+      <bpmn2:endEvent id="EndEvent_2" name="End Event 2">
+        <bpmn2:incoming>ns1:SequenceFlow_3</bpmn2:incoming>
+      </bpmn2:endEvent>
+      <bpmn2:task id="Task_2" usage:taskName="com.hp.usage.bpmn2.workflow.file.tasks.FileCompressorTask" usage:configId="FileCompressorTask_1" drools:taskName="http://www.hp.com/usage/bpmn2/workflow/task" name="File Compressor">
+        <bpmn2:extensionElements>
+          <usage:taskConfig>
+            <usage:attribute xsi:type="usage:Attribute" name="CompressionType" value="zip"/>
+            <usage:attribute xsi:type="usage:Attribute" name="TargetDirName" value="${inputFile.dir.path}/backup"/>
+            <usage:attribute xsi:type="usage:Attribute" name="TargetFileName" value=""/>
+          </usage:taskConfig>
+        </bpmn2:extensionElements>
+        <bpmn2:incoming>ns1:SequenceFlow_2</bpmn2:incoming>
+        <bpmn2:outgoing>ns1:SequenceFlow_3</bpmn2:outgoing>
+        <bpmn2:ioSpecification id="_InputOutputSpecification_6">
+          <bpmn2:dataInput id="_DataInput_6" name="inputFile"/>
+          <bpmn2:inputSet id="_InputSet_6" name="inputFile">
+            <bpmn2:dataInputRefs>_DataInput_6</bpmn2:dataInputRefs>
+          </bpmn2:inputSet>
+          <bpmn2:outputSet id="_OutputSet_7" name="execute"/>
+        </bpmn2:ioSpecification>
+        <bpmn2:dataInputAssociation id="_DataInputAssociation_6">
+          <bpmn2:sourceRef>fileInProcess</bpmn2:sourceRef>
+          <bpmn2:targetRef>_DataInput_6</bpmn2:targetRef>
+        </bpmn2:dataInputAssociation>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="Task_2" targetRef="EndEvent_2"/>
+    </bpmn2:subProcess>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="StartEvent_1" targetRef="SubProcess_1"/>
+    <bpmn2:callActivity id="CallActivity_1" name="File Workflow Operations Call" calledElement="platform:/resource/RepositoryServer/workflow/examples/FileProcessing/FileWorkflowOperations.bpmn2#FileWorkflowOperations">
+      <bpmn2:incoming>ns1:SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:outgoing>ns1:SequenceFlow_5</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_1">
+        <bpmn2:dataInput id="DataInput_1" name="fileInProcess"/>
+        <bpmn2:inputSet id="InputSet_1">
+          <bpmn2:dataInputRefs>DataInput_1</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_1">
+        <bpmn2:sourceRef>fileInProcess</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataInput_1</bpmn2:targetRef>
+      </bpmn2:dataInputAssociation>
+    </bpmn2:callActivity>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" name="" sourceRef="SubProcess_1" targetRef="CallActivity_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" name="" sourceRef="CallActivity_1" targetRef="EndEvent_1"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Main Process">
+    <bpmndi:BPMNPlane id="BPMNPlane_FileProcess" bpmnElement="ns1:MainWorkflow">
+      <bpmndi:BPMNShape id="BPMNShape_FileInProcess" bpmnElement="ns1:fileInProcess">
+        <dc:Bounds height="65.0" width="36.0" x="0.0" y="0.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="ns1:StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="50.0" y="282.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_1" bpmnElement="ns1:EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="740.0" y="282.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_SubProcess_1" bpmnElement="ns1:SubProcess_1" isExpanded="true">
+        <dc:Bounds height="361.0" width="231.0" x="140.0" y="120.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="ns1:SequenceFlow_1" sourceElement="ns1:BPMNShape_StartEvent_1" targetElement="ns1:BPMNShape_SubProcess_1">
+        <di:waypoint xsi:type="dc:Point" x="86.0" y="300.0"/>
+        <di:waypoint xsi:type="dc:Point" x="140.0" y="300.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_2" bpmnElement="ns1:StartEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="238.0" y="177.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_EndEvent_2" bpmnElement="ns1:EndEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="238.0" y="377.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_2" bpmnElement="ns1:Task_2">
+        <dc:Bounds height="66.0" width="110.0" x="201.0" y="260.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="ns1:SequenceFlow_2" sourceElement="ns1:BPMNShape_StartEvent_2" targetElement="ns1:BPMNShape_Task_2">
+        <di:waypoint xsi:type="dc:Point" x="256.0" y="213.0"/>
+        <di:waypoint xsi:type="dc:Point" x="256.0" y="260.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="ns1:SequenceFlow_3" sourceElement="ns1:BPMNShape_Task_2" targetElement="ns1:BPMNShape_EndEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="256.0" y="326.0"/>
+        <di:waypoint xsi:type="dc:Point" x="256.0" y="377.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_CallActivity_1" bpmnElement="ns1:CallActivity_1" isExpanded="true">
+        <dc:Bounds height="71.0" width="241.0" x="440.0" y="265.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="ns1:SequenceFlow_4" sourceElement="ns1:BPMNShape_SubProcess_1" targetElement="ns1:BPMNShape_CallActivity_1">
+        <di:waypoint xsi:type="dc:Point" x="371.0" y="300.0"/>
+        <di:waypoint xsi:type="dc:Point" x="440.0" y="300.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="ns1:SequenceFlow_5" sourceElement="ns1:BPMNShape_CallActivity_1" targetElement="ns1:BPMNShape_EndEvent_1">
+        <di:waypoint xsi:type="dc:Point" x="681.0" y="300.0"/>
+        <di:waypoint xsi:type="dc:Point" x="740.0" y="300.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
