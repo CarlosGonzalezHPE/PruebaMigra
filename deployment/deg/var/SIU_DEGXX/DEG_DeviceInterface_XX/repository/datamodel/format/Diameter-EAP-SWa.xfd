@@ -26,7 +26,7 @@
 			</field>
 			<field id="result_Code" type="long">
 				<codec>
-					<diameter-avp code="268" valueCodec="Unsigned32" optional="true" />
+					<diameter-avp code="268" valueCodec="Unsigned32" />
 				</codec>
 			</field>
 			<field id="origin_Host" type="string">
@@ -116,12 +116,12 @@
 					<diameter-avp code="294" valueCodec="DiamIdent"
 						optional="true" />
 				</codec>
-			</field>
+				</field>
 			<field id="visited_network_identifier" type="byte[]">
-                <codec>
-                    <diameter-avp code="600" valueCodec="OctetString" optional="true"/>
-                </codec>
-            </field>
+                		<codec>
+                    			<diameter-avp code="600" valueCodec="OctetString" optional="true"/>
+                		</codec>
+           		 </field>
 
 			<array id="failed_AVP">
 				<field type="Failed_avp">
@@ -388,13 +388,39 @@
                 </field>
             </array>
             
+		    <field id="MIP6_feature_vector" type="long">
+		        <codec>
+		            <diameter-avp code="124" valueCodec="Integer64" optional="true"  />
+		        </codec>
+			</field>
+	  
             <field id="RAT_type" type="int">
                 <codec>
-                    <diameter-avp code="1032" valueCodec="Enumerated"
-                        optional="true" />
+                    <diameter-avp code="1032" valueCodec="Enumerated" optional="true" vendorId="10415" />
                 </codec>
             </field>
             
+           <field id="AN_Trusted" type="int">
+               <codec>
+                      <diameter-avp code="1503" valueCodec="Enumerated"  optional="true" vendorId="10415"/> 
+               </codec>
+           </field>
+           
+           <array id="APN_configuration">
+                <field type="APN_Configuration">
+                    <codec>
+                        <diameter-avp code="1430" valueCodec="Grouped" vendorId="10415" optional="true"/>
+                    </codec>
+                </field>
+           </array>
+           
+           <field id="APN_OI_Replacement" type="string">
+				<codec>
+					<diameter-avp code="1427" valueCodec="UTF8String" vendorId="10415" optional="true" />
+				</codec>
+		   </field>
+            
+           
          </set>
 	</type>
 
@@ -404,6 +430,9 @@
 			<diameter-avp />
 		</codec>
 		<set>
+		
+			
+		
 			<field id="session_id" type="string">
 				<codec>
 					<diameter-avp code="263" valueCodec="UTF8String" />
@@ -622,10 +651,17 @@
 			<field id="RAT_type" type="int">
                 <codec>
                     <diameter-avp code="1032" valueCodec="Enumerated"
-                        optional="true" />
+                        optional="true" vendorId="10415"/>
                 </codec>
             </field>
-            
+
+		<field id="MIP6_feature_vector" type="long">
+		<codec>
+		 <diameter-avp code="124" valueCodec="Integer64"
+			optional="true"  />
+		</codec>
+			</field> 
+
             <field id="ANID" type="string">
                 <codec>
                     <diameter-avp code="1504" valueCodec="UTF8String"
@@ -647,11 +683,11 @@
                 </field>
             </array>
             <field id="failure_indication" type="long">
-				<codec>
-					<diameter-avp code="1518" valueCodec="Unsigned32" optional="true" />
-				</codec>
-			</field>
-		</set>
+		<codec>
+			<diameter-avp code="1518" valueCodec="Unsigned32" optional="true" />
+		</codec>
+	    </field> 
+	 </set>
 	</type>
 
 
@@ -667,7 +703,7 @@
 			</field>
 			<field id="result_Code" type="long">
 				<codec>
-					<diameter-avp code="268" valueCodec="Unsigned32"  optional="true" />
+					<diameter-avp code="268" valueCodec="Unsigned32" />
 				</codec>
 			</field>
 			<field id="origin_Host" type="string">
@@ -704,16 +740,14 @@
 						optional="true" />
 				</codec>
 			</field>
-
 			<array id="experimental_result">
-                <field type="Experimental_Result">
-                    <codec>
-                        <diameter-avp code="297" valueCodec="Grouped"
-                            optional="true" />
-                    </codec>
-                </field>
-            </array>
-			
+                		<field type="Experimental_Result">
+                    		 <codec>
+                        		<diameter-avp code="297" valueCodec="Grouped"
+                            			optional="true" />
+                    		</codec>
+                		</field>
+            		</array>
 			<array id="failed_AVP">
 				<field type="Failed_avp">
 					<codec>
@@ -975,7 +1009,7 @@
         </set>
     </type>
     
-           <type id="Subscription_Id">
+    <type id="Subscription_Id">
         <codec>
             <diameter-avp />
         </codec>
@@ -1016,5 +1050,18 @@
             </field>
         </set>
     </type>
-
+    
+    <type id="APN_Configuration">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="value" type="string">
+				<codec>
+					<raw type="string" />
+				</codec>
+			</field>
+		</sequence>
+	</type>
+    
 </format>
