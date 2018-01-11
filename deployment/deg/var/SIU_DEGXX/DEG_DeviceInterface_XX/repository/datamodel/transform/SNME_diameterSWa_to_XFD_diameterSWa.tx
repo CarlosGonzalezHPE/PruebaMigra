@@ -66,6 +66,9 @@
         <transform input="error_reporting_host" output="error_reporting_host">
             <use-transformer from="string" to="string" class="t:StringToStringCopy" />
         </transform>
+		    <transform input="visited_network_identifier" output="visited_network_identifier">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
         <transform input="failed_AVP" output="failed_AVP">
             <transformer from="snme:Failed_avp[]" to="xfd:Failed_avp[]">
                 <array>
@@ -218,7 +221,7 @@
         <transform input="SN_Fast_Reauth_Username" output="SN_Fast_Reauth_Username">
             <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
         </transform>
-        <transform input="ambr" output="ambr">
+        <transform input="AMBR" output="AMBR">
             <transformer from="snme:AMBR[]" to="xfd:AMBR[]">
                 <array>
                     <use-transformer from="snme:AMBR" to="xfd:AMBR" class="SNME_AMBR_to_XFD_AMBR" />
@@ -401,6 +404,13 @@
         </transform>
         <transform input="error_reporting_host" output="error_reporting_host">
             <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="experimental_result" output="experimental_result">
+            <transformer from="snme:Experimental_Result[]" to="xfd:Experimental_Result[]">
+                <array>
+                    <use-transformer from="snme:Experimental_Result" to="xfd:Experimental_Result" class="SNME_Experimental_Result_to_XFD_Experimental_Result" />
+                </array>
+            </transformer>
         </transform>
         <transform input="failed_AVP" output="failed_AVP">
             <transformer from="snme:Failed_avp[]" to="xfd:Failed_avp[]">

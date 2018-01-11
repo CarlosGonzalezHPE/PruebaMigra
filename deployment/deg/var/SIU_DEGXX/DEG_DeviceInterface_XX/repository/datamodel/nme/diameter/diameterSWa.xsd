@@ -26,6 +26,7 @@
             <element name="acct_interim_interval" type="nme:long" />
             <element name="error_message" type="nme:string" />
             <element name="error_reporting_host" type="nme:string" />
+            <element name="visited_network_identifier" type="nme:byte-array" />
             <element name="failed_AVP">
                 <complexType>
                     <sequence>
@@ -100,7 +101,7 @@
             <element name="RAT_type" type="nme:int" />
             <element name="MIP6_feature_vector" type="nme:long" />
             <element name="SN_Fast_Reauth_Username" type="nme:byte-array" />
-            <element name="ambr">
+            <element name="AMBR">
                 <complexType>
                     <sequence>
                         <element type="this:AMBR" name="value" maxOccurs="unbounded" />
@@ -188,6 +189,13 @@
             <element name="classBytes" type="nme:byte-array" />
             <element name="error_message" type="nme:string" />
             <element name="error_reporting_host" type="nme:string" />
+            <element name="experimental_result">
+                <complexType>
+                    <sequence>
+                        <element type="this:Experimental_Result" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
             <element name="failed_AVP">
                 <complexType>
                     <sequence>

@@ -1,1083 +1,1102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <format xmlns="http://www.hp.com/usage/datastruct/xfd"
-	targetNamespace="http://www.hp.com/usage/datastruct/xfd/diameterSWa">
+  targetNamespace="http://www.hp.com/usage/datastruct/xfd/diameterSWa">
 
-	<root type="DiameterEAPAnswerSWa" />
+  <root type="DiameterEAPAnswerSWa" />
 
-	<type id="DiameterEAPAnswerSWa" EOR="true">
-		<codec>
-			<diameter-avp />
-		</codec>
-		<set>
-			<field id="session_id" type="string">
-				<codec>
-					<diameter-avp code="263" valueCodec="UTF8String" />
-				</codec>
-			</field>
-			<field id="auth_application_id" type="long">
-				<codec>
-					<diameter-avp code="258" valueCodec="Unsigned32" />
-				</codec>
-			</field>
-			<field id="auth_request_type" type="int">
-				<codec>
-					<diameter-avp code="274" valueCodec="Enumerated" />
-				</codec>
-			</field>
-			<field id="result_Code" type="long">
-				<codec>
-					<diameter-avp code="268" valueCodec="Unsigned32" optional="true" />
-				</codec>
-			</field>
-			<field id="origin_Host" type="string">
-				<codec>
-					<diameter-avp code="264" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="origin_Realm" type="string">
-				<codec>
-					<diameter-avp code="296" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="user_Name" type="string">
-				<codec>
-					<diameter-avp code="1" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="eap_payload" type="byte[]">
-				<codec>
-					<diameter-avp code="462" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="eap_reissued_payload" type="byte[]">
-				<codec>
-					<diameter-avp code="463" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="eap_master_session_key" type="byte[]">
-				<codec>
-					<diameter-avp code="464" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="eap_key_name" type="byte[]">
-				<codec>
-					<diameter-avp code="102" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="Multi_Round_Time_Out" type="long">
-				<codec>
-					<diameter-avp code="272" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="acct_eap_auth_method" type="long">
-				<codec>
-					<diameter-avp code="465" valueCodec="Integer64"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="service_type" type="int">
-				<codec>
-					<diameter-avp code="6" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="classBytes" type="byte[]">
-				<codec>
-					<diameter-avp code="25" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="configuration_token" type="byte[]">
-				<codec>
-					<diameter-avp code="78" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="acct_interim_interval" type="long">
-				<codec>
-					<diameter-avp code="85" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="error_message" type="string">
-				<codec>
-					<diameter-avp code="281" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="error_reporting_host" type="string">
-				<codec>
-					<diameter-avp code="294" valueCodec="DiamIdent"
-						optional="true" />
-				</codec>
-			</field>
+  <type id="DiameterEAPAnswerSWa" EOR="true">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="session_id" type="string">
+        <codec>
+          <diameter-avp code="263" valueCodec="UTF8String" />
+        </codec>
+      </field>
+      <field id="auth_application_id" type="long">
+        <codec>
+          <diameter-avp code="258" valueCodec="Unsigned32" />
+        </codec>
+      </field>
+      <field id="auth_request_type" type="int">
+        <codec>
+          <diameter-avp code="274" valueCodec="Enumerated" />
+        </codec>
+      </field>
+      <field id="result_Code" type="long">
+        <codec>
+          <diameter-avp code="268" valueCodec="Unsigned32" optional="true" />
+        </codec>
+      </field>
+      <field id="origin_Host" type="string">
+        <codec>
+          <diameter-avp code="264" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="origin_Realm" type="string">
+        <codec>
+          <diameter-avp code="296" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="user_Name" type="string">
+        <codec>
+          <diameter-avp code="1" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="eap_payload" type="byte[]">
+        <codec>
+          <diameter-avp code="462" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="eap_reissued_payload" type="byte[]">
+        <codec>
+          <diameter-avp code="463" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="eap_master_session_key" type="byte[]">
+        <codec>
+          <diameter-avp code="464" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="eap_key_name" type="byte[]">
+        <codec>
+          <diameter-avp code="102" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="Multi_Round_Time_Out" type="long">
+        <codec>
+          <diameter-avp code="272" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="acct_eap_auth_method" type="long">
+        <codec>
+          <diameter-avp code="465" valueCodec="Integer64"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="service_type" type="int">
+        <codec>
+          <diameter-avp code="6" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="classBytes" type="byte[]">
+        <codec>
+          <diameter-avp code="25" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="configuration_token" type="byte[]">
+        <codec>
+          <diameter-avp code="78" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="acct_interim_interval" type="long">
+        <codec>
+          <diameter-avp code="85" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="error_message" type="string">
+        <codec>
+          <diameter-avp code="281" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="error_reporting_host" type="string">
+        <codec>
+          <diameter-avp code="294" valueCodec="DiamIdent"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="visited_network_identifier" type="byte[]">
+        <codec>
+          <diameter-avp code="600" valueCodec="OctetString" optional="true"/>
+        </codec>
+      </field>
+      <array id="failed_AVP">
+        <field type="Failed_avp">
+          <codec>
+            <diameter-avp code="279" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
 
-			<array id="failed_AVP">
-				<field type="Failed_avp">
-					<codec>
-						<diameter-avp code="279" valueCodec="Grouped"
-							optional="true" />
-					</codec>
-				</field>
-			</array>
+      <field id="idle_timeout" type="long">
+        <codec>
+          <diameter-avp code="28" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="authorization_lifeTime" type="long">
+        <codec>
+          <diameter-avp code="291" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="auth_grace_period" type="long">
+        <codec>
+          <diameter-avp code="276" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="auth_session_state" type="int">
+        <codec>
+          <diameter-avp code="277" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="re_auth_request_type" type="int">
+        <codec>
+          <diameter-avp code="285" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="session_timeout" type="long">
+        <codec>
+          <diameter-avp code="27" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="state" type="byte[]">
+        <codec>
+          <diameter-avp code="24" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="reply_message" type="string">
+        <codec>
+          <diameter-avp code="18" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="origin_state_id" type="long">
+        <codec>
+          <diameter-avp code="278" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="filter_id" type="string">
+        <codec>
+          <diameter-avp code="11" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="port_limit" type="long">
+        <codec>
+          <diameter-avp code="62" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="callback_id" type="string">
+        <codec>
+          <diameter-avp code="20" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="callback_number" type="string">
+        <codec>
+          <diameter-avp code="19" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_appletalk_link" type="long">
+        <codec>
+          <diameter-avp code="37" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_appletalk_network" type="long">
+        <codec>
+          <diameter-avp code="38" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_appletalk_zone" type="byte[]">
+        <codec>
+          <diameter-avp code="39" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_compression" type="int">
+        <codec>
+          <diameter-avp code="13" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_interface_id" type="long">
+        <codec>
+          <diameter-avp code="96" valueCodec="Integer64"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ip_address" type="byte[]">
+        <codec>
+          <diameter-avp code="8" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ipv6_prefix" type="byte[]">
+        <codec>
+          <diameter-avp code="97" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ipv6_pool" type="byte[]">
+        <codec>
+          <diameter-avp code="100" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ipv6_route" type="string">
+        <codec>
+          <diameter-avp code="99" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ipv6_netmask" type="byte[]">
+        <codec>
+          <diameter-avp code="9" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_route" type="string">
+        <codec>
+          <diameter-avp code="22" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_pool" type="byte[]">
+        <codec>
+          <diameter-avp code="88" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ipx_network" type="string">
+        <codec>
+          <diameter-avp code="23" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_MTU" type="long">
+        <codec>
+          <diameter-avp code="12" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_protocol" type="int">
+        <codec>
+          <diameter-avp code="7" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_routing" type="int">
+        <codec>
+          <diameter-avp code="10" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="NAS_filter_rule" type="string">
+        <codec>
+          <diameter-avp code="400" valueCodec="ASCIIString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="QoS_filter_rule" type="string">
+        <codec>
+          <diameter-avp code="407" valueCodec="ASCIIString"
+          optional="true" />
+        </codec>
+      </field>
 
-			<field id="idle_timeout" type="long">
-				<codec>
-					<diameter-avp code="28" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="authorization_lifeTime" type="long">
-				<codec>
-					<diameter-avp code="291" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="auth_grace_period" type="long">
-				<codec>
-					<diameter-avp code="276" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="auth_session_state" type="int">
-				<codec>
-					<diameter-avp code="277" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="re_auth_request_type" type="int">
-				<codec>
-					<diameter-avp code="285" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="session_timeout" type="long">
-				<codec>
-					<diameter-avp code="27" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="state" type="byte[]">
-				<codec>
-					<diameter-avp code="24" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="reply_message" type="string">
-				<codec>
-					<diameter-avp code="18" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="origin_state_id" type="long">
-				<codec>
-					<diameter-avp code="278" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="filter_id" type="string">
-				<codec>
-					<diameter-avp code="11" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="port_limit" type="long">
-				<codec>
-					<diameter-avp code="62" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="callback_id" type="string">
-				<codec>
-					<diameter-avp code="20" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="callback_number" type="string">
-				<codec>
-					<diameter-avp code="19" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_appletalk_link" type="long">
-				<codec>
-					<diameter-avp code="37" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_appletalk_network" type="long">
-				<codec>
-					<diameter-avp code="38" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_appletalk_zone" type="byte[]">
-				<codec>
-					<diameter-avp code="39" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_compression" type="int">
-				<codec>
-					<diameter-avp code="13" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_interface_id" type="long">
-				<codec>
-					<diameter-avp code="96" valueCodec="Integer64"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ip_address" type="byte[]">
-				<codec>
-					<diameter-avp code="8" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ipv6_prefix" type="byte[]">
-				<codec>
-					<diameter-avp code="97" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ipv6_pool" type="byte[]">
-				<codec>
-					<diameter-avp code="100" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ipv6_route" type="string">
-				<codec>
-					<diameter-avp code="99" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ipv6_netmask" type="byte[]">
-				<codec>
-					<diameter-avp code="9" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_route" type="string">
-				<codec>
-					<diameter-avp code="22" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_pool" type="byte[]">
-				<codec>
-					<diameter-avp code="88" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ipx_network" type="string">
-				<codec>
-					<diameter-avp code="23" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_MTU" type="long">
-				<codec>
-					<diameter-avp code="12" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_protocol" type="int">
-				<codec>
-					<diameter-avp code="7" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_routing" type="int">
-				<codec>
-					<diameter-avp code="10" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="NAS_filter_rule" type="string">
-				<codec>
-					<diameter-avp code="400" valueCodec="ASCIIString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="QoS_filter_rule" type="string">
-				<codec>
-					<diameter-avp code="407" valueCodec="ASCIIString"
-						optional="true" />
-				</codec>
-			</field>
+      <array id="tunneling">
+        <field type="Tunneling">
+          <codec>
+            <diameter-avp code="401" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
 
-			<array id="tunneling">
-				<field type="Tunneling">
-					<codec>
-						<diameter-avp code="401" valueCodec="Grouped"
-							optional="true" />
-					</codec>
-				</field>
-			</array>
+      <field id="redirect_host" type="string">
+        <codec>
+          <diameter-avp code="292" valueCodec="ASCIIString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="redirect_host_usage" type="int">
+        <codec>
+          <diameter-avp code="261" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="redirect_max_cache_time" type="long">
+        <codec>
+          <diameter-avp code="262" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
 
-			<field id="redirect_host" type="string">
-				<codec>
-					<diameter-avp code="292" valueCodec="ASCIIString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="redirect_host_usage" type="int">
-				<codec>
-					<diameter-avp code="261" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="redirect_max_cache_time" type="long">
-				<codec>
-					<diameter-avp code="262" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
+      <array id="proxy_Info">
+        <field type="Proxy_Info">
+          <codec>
+            <diameter-avp code="284" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
 
-			<array id="proxy_Info">
-				<field type="Proxy_Info">
-					<codec>
-						<diameter-avp code="284" valueCodec="Grouped"
-							optional="true" />
-					</codec>
-				</field>
-			</array>
+      <field id="route_record" type="string">
+        <codec>
+          <diameter-avp code="282" valueCodec="DiamIdent"
+          optional="true" />
+        </codec>
+      </field>
 
-			<field id="route_record" type="string">
-				<codec>
-					<diameter-avp code="282" valueCodec="DiamIdent"
-						optional="true" />
-				</codec>
-			</field>
-			
-            <array id="experimental_result">
-                <field type="Experimental_Result">
-                    <codec>
-                        <diameter-avp code="297" valueCodec="Grouped"
-                            optional="true" />
-                    </codec>
-                </field>
-            </array>
-            
-           <field id="mobile_node_identifier" type="string">
-                <codec>
-                    <diameter-avp code="506" valueCodec="UTF8String"
-                        optional="true" />
-                </codec>
-            </field>
-            
-            <array id="subscription_Id">
-                <field type="Subscription_Id">
-                    <codec>
-                        <diameter-avp code="443" valueCodec="Grouped"
-                            optional="true"/>
-                    </codec>
-                </field>
-            </array>
-            
-            <field id="RAT_type" type="int">
-                <codec>
-                    <diameter-avp code="1032" valueCodec="Enumerated" vendorId="10415"
-                        optional="true" />
-                </codec>
-            </field>
-            
-            <field id="MIP6_feature_vector" type="long">
-		        	<codec>
-		            <diameter-avp code="124" valueCodec="Integer64" optional="true"  />
-		        	</codec>
-						</field>             
-			
-			<field id="SN_Fast_Reauth_Username" type="byte[]">
-                <codec>
-                    <diameter-avp code="11010" valueCodec="OctetString" vendorId="10415" 
-						optional="true" />
-                </codec>
-            </field>
-            
-			<array id="ambr">
-                <field type="AMBR">
-                    <codec>
-                        <diameter-avp code="1435" valueCodec="Grouped" vendorId="10415" 
-							optional="true"/>
-                    </codec>
-                </field>
-            </array>
-			 <array id="APN_configuration">
-                <field type="APN_Configuration">
-                    <codec>
-                        <diameter-avp code="1430" valueCodec="Grouped" vendorId="10415"
-                                                        optional="true"/>
-                    </codec>
-                </field>
-            </array>
+      <array id="experimental_result">
+        <field type="Experimental_Result">
+          <codec>
+            <diameter-avp code="297" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
 
-			
-         </set>
-	</type>
+      <field id="mobile_node_identifier" type="string">
+        <codec>
+          <diameter-avp code="506" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
 
+      <array id="subscription_Id">
+        <field type="Subscription_Id">
+          <codec>
+            <diameter-avp code="443" valueCodec="Grouped"
+            optional="true"/>
+          </codec>
+        </field>
+      </array>
 
-	<type id="DiameterEAPRequestSWa" EOR="true">
-		<codec>
-			<diameter-avp />
-		</codec>
-		<set>
-			<field id="session_id" type="string">
-				<codec>
-					<diameter-avp code="263" valueCodec="UTF8String" />
-				</codec>
-			</field>
-			<field id="auth_application_id" type="long">
-				<codec>
-					<diameter-avp code="258" valueCodec="Unsigned32" />
-				</codec>
-			</field>
-			<field id="origin_Host" type="string">
-				<codec>
-					<diameter-avp code="264" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="origin_Realm" type="string">
-				<codec>
-					<diameter-avp code="296" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="destination_Realm" type="string">
-				<codec>
-					<diameter-avp code="283" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="auth_request_type" type="int">
-				<codec>
-					<diameter-avp code="274" valueCodec="Enumerated" />
-				</codec>
-			</field>
-			<field id="destination_host" type="string">
-				<codec>
-					<diameter-avp code="293" valueCodec="DiamIdent"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="NAS_identifier" type="string">
-				<codec>
-					<diameter-avp code="32" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="NAS_ip_address" type="byte[]">
-				<codec>
-					<diameter-avp code="4" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="NAS_ipv6_address" type="byte[]">
-				<codec>
-					<diameter-avp code="95" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="NAS_port_id" type="string">
-				<codec>
-					<diameter-avp code="87" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="NAS_port_type" type="int">
-				<codec>
-					<diameter-avp code="61" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="origin_state_id" type="long">
-				<codec>
-					<diameter-avp code="278" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="port_limit" type="long">
-				<codec>
-					<diameter-avp code="62" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="user_Name" type="string">
-				<codec>
-					<diameter-avp code="1" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="eap_payload" type="byte[]">
-				<codec>
-					<diameter-avp code="462" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="eap_key_name" type="byte[]">
-				<codec>
-					<diameter-avp code="102" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="service_type" type="int">
-				<codec>
-					<diameter-avp code="6" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="state" type="byte[]">
-				<codec>
-					<diameter-avp code="24" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="authorization_lifeTime" type="long">
-				<codec>
-					<diameter-avp code="291" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="auth_grace_period" type="long">
-				<codec>
-					<diameter-avp code="276" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="auth_session_state" type="int">
-				<codec>
-					<diameter-avp code="277" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="callback_number" type="string">
-				<codec>
-					<diameter-avp code="19" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="called_station_id" type="string">
-				<codec>
-					<diameter-avp code="30" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="calling_station_id" type="string">
-				<codec>
-					<diameter-avp code="31" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="originating_line_info" type="byte[]">
-				<codec>
-					<diameter-avp code="94" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="connect_info" type="string">
-				<codec>
-					<diameter-avp code="77" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_compression" type="int">
-				<codec>
-					<diameter-avp code="13" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_interface_id" type="long">
-				<codec>
-					<diameter-avp code="96" valueCodec="Integer64"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ip_address" type="byte[]">
-				<codec>
-					<diameter-avp code="8" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ipv6_prefix" type="byte[]">
-				<codec>
-					<diameter-avp code="97" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_ipv6_netmask" type="byte[]">
-				<codec>
-					<diameter-avp code="9" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_MTU" type="long">
-				<codec>
-					<diameter-avp code="12" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="framed_protocol" type="int">
-				<codec>
-					<diameter-avp code="7" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
+      <field id="RAT_type" type="int">
+        <codec>
+          <diameter-avp code="1032" valueCodec="Enumerated" vendorId="10415"
+          optional="true" />
+        </codec>
+      </field>
 
-			<array id="proxy_Info">
-				<field type="Proxy_Info">
-					<codec>
-						<diameter-avp code="284" valueCodec="Grouped"
-							optional="true" />
-					</codec>
-				</field>
-			</array>
-
-			<field id="route_Record" type="string">
-				<codec>
-					<diameter-avp code="282" valueCodec="DiamIdent"
-						optional="true" />
-				</codec>
-			</field>
-			
-			<field id="RAT_type" type="int">
-                <codec>
-                    <diameter-avp code="1032" valueCodec="Enumerated" vendorId="10415"
-                        optional="true" />
-                </codec>
-            </field>
-      
       <field id="MIP6_feature_vector" type="long">
-		  	<codec>
-		            <diameter-avp code="124" valueCodec="Integer64" 
-		            		optional="true"  />
-		    </codec>
-			</field>   
-						
-            <field id="ANID" type="string">
-                <codec>
-                    <diameter-avp code="1504" valueCodec="UTF8String"
-                        optional="true" />
-                </codec>
-            </field>
-            
-            <field id="visited_network_identifier" type="byte[]">
-                <codec>
-                    <diameter-avp code="600" valueCodec="OctetString" optional="true"/>
-                </codec>
-            </field>
-            
-            <array id="terminal_information">
-                <field type="Terminal_Information">
-                    <codec>
-                        <diameter-avp code="1401" valueCodec="Grouped" optional="true"/>
-                    </codec>
-                </field>
-            </array>
-            <field id="failure_indication" type="long">
-				<codec>
-					<diameter-avp code="1518" valueCodec="Unsigned32" optional="true" />
-				</codec>
-			</field>
-			
-			<field id="service_selection" type="string">
-                <codec>
-                    <diameter-avp code="493" valueCodec="UTF8String" optional="true" />
-                </codec>
-            </field>
-			
-			<field id="UE_local_ip_address" type="byte[]">
-                <codec>
-                    <diameter-avp code="2805" valueCodec="OctetString" optional="true" />
-                </codec>
-            </field>
-						
-		</set>
-	</type>
-
-
-	<type id="SessionTerminationAnswerSWa" EOR="true">
-		<codec>
-			<diameter-avp />
-		</codec>
-		<set>
-			<field id="session_id" type="string">
-				<codec>
-					<diameter-avp code="263" valueCodec="UTF8String" />
-				</codec>
-			</field>
-			<field id="result_Code" type="long">
-				<codec>
-					<diameter-avp code="268" valueCodec="Unsigned32" />
-				</codec>
-			</field>
-			<field id="origin_Host" type="string">
-				<codec>
-					<diameter-avp code="264" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="origin_Realm" type="string">
-				<codec>
-					<diameter-avp code="296" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="user_Name" type="string">
-				<codec>
-					<diameter-avp code="1" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="classBytes" type="byte[]">
-				<codec>
-					<diameter-avp code="25" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="error_message" type="string">
-				<codec>
-					<diameter-avp code="281" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="error_reporting_host" type="string">
-				<codec>
-					<diameter-avp code="294" valueCodec="DiamIdent"
-						optional="true" />
-				</codec>
-			</field>
-
-			<array id="failed_AVP">
-				<field type="Failed_avp">
-					<codec>
-						<diameter-avp code="279" valueCodec="Grouped"
-							optional="true" />
-					</codec>
-				</field>
-			</array>
-
-			<field id="origin_AAA_protocol" type="int">
-				<codec>
-					<diameter-avp code="408" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="origin_state_id" type="long">
-				<codec>
-					<diameter-avp code="278" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="redirect_host" type="string">
-				<codec>
-					<diameter-avp code="292" valueCodec="ASCIIString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="redirect_host_usage" type="int">
-				<codec>
-					<diameter-avp code="261" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="redirect_max_cache_time" type="long">
-				<codec>
-					<diameter-avp code="262" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-
-			<array id="proxy_Info">
-				<field type="Proxy_Info">
-					<codec>
-						<diameter-avp code="284" valueCodec="Grouped"
-							optional="true" />
-					</codec>
-				</field>
-			</array>
-
-		</set>
-	</type>
-
-
-	<type id="SessionTerminationRequestSWa" EOR="true">
-		<codec>
-			<diameter-avp />
-		</codec>
-		<set>
-			<field id="session_id" type="string">
-				<codec>
-					<diameter-avp code="263" valueCodec="UTF8String" />
-				</codec>
-			</field>
-			<field id="origin_Host" type="string">
-				<codec>
-					<diameter-avp code="264" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="origin_Realm" type="string">
-				<codec>
-					<diameter-avp code="296" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="destination_Realm" type="string">
-				<codec>
-					<diameter-avp code="283" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-			<field id="auth_application_id" type="long">
-				<codec>
-					<diameter-avp code="258" valueCodec="Unsigned32" />
-				</codec>
-			</field>
-			<field id="termination_cause" type="int">
-				<codec>
-					<diameter-avp code="295" valueCodec="Enumerated" />
-				</codec>
-			</field>
-			<field id="user_Name" type="string">
-				<codec>
-					<diameter-avp code="1" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="destination_host" type="string">
-				<codec>
-					<diameter-avp code="293" valueCodec="DiamIdent"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="classBytes" type="byte[]">
-				<codec>
-					<diameter-avp code="25" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="origin_AAA_protocol" type="int">
-				<codec>
-					<diameter-avp code="408" valueCodec="Enumerated"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="origin_State_Id" type="long">
-				<codec>
-					<diameter-avp code="278" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-
-			<array id="proxy_Info">
-				<field type="Proxy_Info">
-					<codec>
-						<diameter-avp code="284" valueCodec="Grouped"
-							optional="true" />
-					</codec>
-				</field>
-			</array>
-
-			<field id="route_Record" type="string">
-				<codec>
-					<diameter-avp code="282" valueCodec="DiamIdent"
-						optional="true" />
-				</codec>
-			</field>
-			
-			<field id="eap_payload" type="byte[]">
-                <codec>
-                    <diameter-avp code="462" valueCodec="OctetString"
-                        optional="true" />
-                </codec>
-            </field>
-			
-		</set>
-	</type>
-
-
-	<type id="Failed_avp">
-		<codec>
-			<raw />
-		</codec>
-		<sequence>
-			<field id="value" type="string">
-				<codec>
-					<raw type="string" />
-				</codec>
-			</field>
-		</sequence>
-	</type>
-	
-	<type id="AMBR">
-		<codec>
-			<raw />
-		</codec>
-		<sequence>
-			<field id="value" type="string">
-				<codec>
-					<raw type="string" />
-				</codec>
-			</field>
-		</sequence>
-	</type>
-
-	<type id="APN_Configuration">
-		<codec>
-			<raw />
-		</codec>
-		<sequence>
-			<field id="value" type="string">
-				<codec>
-					<raw type="string" />
-				</codec>
-			</field>
-		</sequence>
-	</type>
-
-	<type id="Tunneling">
-		<codec>
-			<diameter-avp />
-		</codec>
-		<set>
-			<field id="tunnel_type" type="int">
-				<codec>
-					<diameter-avp code="64" valueCodec="Enumerated" />
-				</codec>
-			</field>
-			<field id="tunnel_medium_type" type="int">
-				<codec>
-					<diameter-avp code="65" valueCodec="Enumerated" />
-				</codec>
-			</field>
-			<field id="tunnel_client_endpoint" type="string">
-				<codec>
-					<diameter-avp code="66" valueCodec="UTF8String" />
-				</codec>
-			</field>
-			<field id="tunnel_server_endpoint" type="string">
-				<codec>
-					<diameter-avp code="67" valueCodec="UTF8String" />
-				</codec>
-			</field>
-			<field id="tunnel_preference" type="long">
-				<codec>
-					<diameter-avp code="83" valueCodec="Unsigned32"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="tunnel_client_auth_id" type="string">
-				<codec>
-					<diameter-avp code="90" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="tunnel_server_auth_id" type="string">
-				<codec>
-					<diameter-avp code="91" valueCodec="UTF8String"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="tunnel_assignment_id" type="byte[]">
-				<codec>
-					<diameter-avp code="82" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="tunnel_password" type="byte[]">
-				<codec>
-					<diameter-avp code="69" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-			<field id="tunnel_private_group_id" type="byte[]">
-				<codec>
-					<diameter-avp code="81" valueCodec="OctetString"
-						optional="true" />
-				</codec>
-			</field>
-		</set>
-	</type>
-
-	<type id="Proxy_Info">
-		<codec>
-			<diameter-avp />
-		</codec>
-		<set>
-			<field id="proxyHost" type="string">
-				<codec>
-					<diameter-avp code="280" valueCodec="DiamIdent" />
-				</codec>
-			</field>
-
-			<field id="proxyState" type="byte[]">
-				<codec>
-					<diameter-avp code="33" valueCodec="OctetString" />
-				</codec>
-			</field>
-		</set>
-	</type>
-	
-	   <type id="Experimental_Result">
         <codec>
-            <diameter-avp />
+          <diameter-avp code="124" valueCodec="Integer64" optional="true"  />
         </codec>
-        <set>
-            <field id="vendor_id" type="long">
-                <codec>
-                    <diameter-avp code="266" valueCodec="Unsigned32" />
-                </codec>
-            </field>
+      </field>
 
-            <field id="experimental_result_code" type="long">
-                <codec>
-                    <diameter-avp code="298" valueCodec="Unsigned32" />
-                </codec>
-            </field>
-        </set>
-    </type>
-    
-           <type id="Subscription_Id">
+      <field id="SN_Fast_Reauth_Username" type="byte[]">
         <codec>
-            <diameter-avp />
+          <diameter-avp code="11010" valueCodec="OctetString" vendorId="10415"
+          optional="true" />
         </codec>
-        <set>
-            <field id="subscription_Id_Data" type="string">
-                <codec>
-                    <diameter-avp code="444" valueCodec="UTF8String" />
-                </codec>
-            </field>
+      </field>
+      <array id="AMBR">
+        <field type="AMBR">
+          <codec>
+            <diameter-avp code="1435" valueCodec="Grouped" vendorId="10415"
+            optional="true"/>
+          </codec>
+        </field>
+      </array>
+      <field id="AN_Trusted" type="int">
+        <codec>
+          <diameter-avp code="1503" valueCodec="Enumerated"  optional="true" vendorId="10415"/>
+        </codec>
+      </field>
+      <array id="APN_configuration">
+        <field type="APN_Configuration">
+          <codec>
+            <diameter-avp code="1430" valueCodec="Grouped" vendorId="10415"/>
+          </codec>
+        </field>
+      </array>
 
-            <field id="subscription_Id_Type" type="int">
-                <codec>
-                    <diameter-avp code="450" valueCodec="Enumerated" />
-                </codec>
-            </field>
-        </set>
-    </type>
-    
-    <type id="Terminal_Information">
+
+      <field id="APN_OI_Replacement" type="string">
         <codec>
-            <diameter-avp />
+          <diameter-avp code="1427" valueCodec="UTF8String" vendorId="10415" optional="true" />
         </codec>
-        <set>
-            <field id="IMEI" type="string">
-                <codec>
-                    <diameter-avp code="1402" valueCodec="UTF8String" optional="true"/>
-                </codec>
-            </field>
-            <field id="TGPP2_MEID" type="byte[]">
-                <codec>
-                    <diameter-avp code="1471" valueCodec="OctetString" optional="true"/>
-                </codec>
-            </field>
-            <field id="software_version" type="string">
-                <codec>
-                    <diameter-avp code="1403" valueCodec="UTF8String" optional="true"/>
-                </codec>
-            </field>
-        </set>
-    </type>
+      </field>
+    </set>
+  </type>
+
+
+  <type id="DiameterEAPRequestSWa" EOR="true">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="session_id" type="string">
+        <codec>
+          <diameter-avp code="263" valueCodec="UTF8String" />
+        </codec>
+      </field>
+      <field id="auth_application_id" type="long">
+        <codec>
+          <diameter-avp code="258" valueCodec="Unsigned32" />
+        </codec>
+      </field>
+      <field id="origin_Host" type="string">
+        <codec>
+          <diameter-avp code="264" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="origin_Realm" type="string">
+        <codec>
+          <diameter-avp code="296" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="destination_Realm" type="string">
+        <codec>
+          <diameter-avp code="283" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="auth_request_type" type="int">
+        <codec>
+          <diameter-avp code="274" valueCodec="Enumerated" />
+        </codec>
+      </field>
+      <field id="destination_host" type="string">
+        <codec>
+          <diameter-avp code="293" valueCodec="DiamIdent"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="NAS_identifier" type="string">
+        <codec>
+          <diameter-avp code="32" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="NAS_ip_address" type="byte[]">
+        <codec>
+          <diameter-avp code="4" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="NAS_ipv6_address" type="byte[]">
+        <codec>
+          <diameter-avp code="95" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="NAS_port_id" type="string">
+        <codec>
+          <diameter-avp code="87" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="NAS_port_type" type="int">
+        <codec>
+          <diameter-avp code="61" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="origin_state_id" type="long">
+        <codec>
+          <diameter-avp code="278" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="port_limit" type="long">
+        <codec>
+          <diameter-avp code="62" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="user_Name" type="string">
+        <codec>
+          <diameter-avp code="1" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="eap_payload" type="byte[]">
+        <codec>
+          <diameter-avp code="462" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="eap_key_name" type="byte[]">
+        <codec>
+          <diameter-avp code="102" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="service_type" type="int">
+        <codec>
+          <diameter-avp code="6" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="state" type="byte[]">
+        <codec>
+          <diameter-avp code="24" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="authorization_lifeTime" type="long">
+        <codec>
+          <diameter-avp code="291" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="auth_grace_period" type="long">
+        <codec>
+          <diameter-avp code="276" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="auth_session_state" type="int">
+        <codec>
+          <diameter-avp code="277" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="callback_number" type="string">
+        <codec>
+          <diameter-avp code="19" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="called_station_id" type="string">
+        <codec>
+          <diameter-avp code="30" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="calling_station_id" type="string">
+        <codec>
+          <diameter-avp code="31" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="originating_line_info" type="byte[]">
+        <codec>
+          <diameter-avp code="94" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="connect_info" type="string">
+        <codec>
+          <diameter-avp code="77" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_compression" type="int">
+        <codec>
+          <diameter-avp code="13" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_interface_id" type="long">
+        <codec>
+          <diameter-avp code="96" valueCodec="Integer64"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ip_address" type="byte[]">
+        <codec>
+          <diameter-avp code="8" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ipv6_prefix" type="byte[]">
+        <codec>
+          <diameter-avp code="97" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_ipv6_netmask" type="byte[]">
+        <codec>
+          <diameter-avp code="9" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_MTU" type="long">
+        <codec>
+          <diameter-avp code="12" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="framed_protocol" type="int">
+        <codec>
+          <diameter-avp code="7" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+
+      <array id="proxy_Info">
+        <field type="Proxy_Info">
+          <codec>
+            <diameter-avp code="284" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
+
+      <field id="route_Record" type="string">
+        <codec>
+          <diameter-avp code="282" valueCodec="DiamIdent"
+          optional="true" />
+        </codec>
+      </field>
+
+      <field id="RAT_type" type="int">
+        <codec>
+          <diameter-avp code="1032" valueCodec="Enumerated" vendorId="10415"
+          optional="true" />
+        </codec>
+      </field>
+
+      <field id="MIP6_feature_vector" type="long">
+        <codec>
+          <diameter-avp code="124" valueCodec="Integer64"
+          optional="true"  />
+        </codec>
+      </field>
+
+      <field id="ANID" type="string">
+        <codec>
+          <diameter-avp code="1504" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+
+      <field id="visited_network_identifier" type="byte[]">
+        <codec>
+          <diameter-avp code="600" valueCodec="OctetString" optional="true"/>
+        </codec>
+      </field>
+
+      <array id="terminal_information">
+        <field type="Terminal_Information">
+          <codec>
+            <diameter-avp code="1401" valueCodec="Grouped" optional="true"/>
+          </codec>
+        </field>
+      </array>
+      <field id="failure_indication" type="long">
+        <codec>
+          <diameter-avp code="1518" valueCodec="Unsigned32" optional="true" />
+        </codec>
+      </field>
+
+      <field id="service_selection" type="string">
+        <codec>
+          <diameter-avp code="493" valueCodec="UTF8String" optional="true" />
+        </codec>
+      </field>
+
+      <field id="UE_local_ip_address" type="byte[]">
+        <codec>
+          <diameter-avp code="2805" valueCodec="OctetString" optional="true" />
+        </codec>
+      </field>
+
+    </set>
+  </type>
+
+
+  <type id="SessionTerminationAnswerSWa" EOR="true">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="session_id" type="string">
+        <codec>
+          <diameter-avp code="263" valueCodec="UTF8String" />
+        </codec>
+      </field>
+      <field id="result_Code" type="long">
+        <codec>
+          <diameter-avp code="268" valueCodec="Unsigned32" />
+        </codec>
+      </field>
+      <field id="origin_Host" type="string">
+        <codec>
+          <diameter-avp code="264" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="origin_Realm" type="string">
+        <codec>
+          <diameter-avp code="296" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="user_Name" type="string">
+        <codec>
+          <diameter-avp code="1" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="classBytes" type="byte[]">
+        <codec>
+          <diameter-avp code="25" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="error_message" type="string">
+        <codec>
+          <diameter-avp code="281" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="error_reporting_host" type="string">
+        <codec>
+          <diameter-avp code="294" valueCodec="DiamIdent"
+          optional="true" />
+        </codec>
+      </field>
+      <array id="experimental_result">
+        <field type="Experimental_Result">
+          <codec>
+            <diameter-avp code="297" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
+      <array id="failed_AVP">
+        <field type="Failed_avp">
+          <codec>
+            <diameter-avp code="279" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
+
+      <field id="origin_AAA_protocol" type="int">
+        <codec>
+          <diameter-avp code="408" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="origin_state_id" type="long">
+        <codec>
+          <diameter-avp code="278" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="redirect_host" type="string">
+        <codec>
+          <diameter-avp code="292" valueCodec="ASCIIString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="redirect_host_usage" type="int">
+        <codec>
+          <diameter-avp code="261" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="redirect_max_cache_time" type="long">
+        <codec>
+          <diameter-avp code="262" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+
+      <array id="proxy_Info">
+        <field type="Proxy_Info">
+          <codec>
+            <diameter-avp code="284" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
+
+    </set>
+  </type>
+
+
+  <type id="SessionTerminationRequestSWa" EOR="true">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="session_id" type="string">
+        <codec>
+          <diameter-avp code="263" valueCodec="UTF8String" />
+        </codec>
+      </field>
+      <field id="origin_Host" type="string">
+        <codec>
+          <diameter-avp code="264" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="origin_Realm" type="string">
+        <codec>
+          <diameter-avp code="296" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="destination_Realm" type="string">
+        <codec>
+          <diameter-avp code="283" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+      <field id="auth_application_id" type="long">
+        <codec>
+          <diameter-avp code="258" valueCodec="Unsigned32" />
+        </codec>
+      </field>
+      <field id="termination_cause" type="int">
+        <codec>
+          <diameter-avp code="295" valueCodec="Enumerated" />
+        </codec>
+      </field>
+      <field id="user_Name" type="string">
+        <codec>
+          <diameter-avp code="1" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="destination_host" type="string">
+        <codec>
+          <diameter-avp code="293" valueCodec="DiamIdent"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="classBytes" type="byte[]">
+        <codec>
+          <diameter-avp code="25" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="origin_AAA_protocol" type="int">
+        <codec>
+          <diameter-avp code="408" valueCodec="Enumerated"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="origin_State_Id" type="long">
+        <codec>
+          <diameter-avp code="278" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+
+      <array id="proxy_Info">
+        <field type="Proxy_Info">
+          <codec>
+            <diameter-avp code="284" valueCodec="Grouped"
+            optional="true" />
+          </codec>
+        </field>
+      </array>
+
+      <field id="route_Record" type="string">
+        <codec>
+          <diameter-avp code="282" valueCodec="DiamIdent"
+          optional="true" />
+        </codec>
+      </field>
+
+      <field id="eap_payload" type="byte[]">
+        <codec>
+          <diameter-avp code="462" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+
+    </set>
+  </type>
+
+
+  <type id="Failed_avp">
+    <codec>
+      <raw />
+    </codec>
+    <sequence>
+      <field id="value" type="string">
+        <codec>
+          <raw type="string" />
+        </codec>
+      </field>
+    </sequence>
+  </type>
+
+  <type id="AMBR">
+    <codec>
+      <raw />
+    </codec>
+    <sequence>
+      <field id="value" type="string">
+        <codec>
+          <raw type="string" />
+        </codec>
+      </field>
+    </sequence>
+  </type>
+
+  <type id="APN_Configuration">
+    <codec>
+      <raw />
+    </codec>
+    <sequence>
+      <field id="value" type="string">
+        <codec>
+          <raw type="string" />
+        </codec>
+      </field>
+    </sequence>
+  </type>
+
+  <type id="Tunneling">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="tunnel_type" type="int">
+        <codec>
+          <diameter-avp code="64" valueCodec="Enumerated" />
+        </codec>
+      </field>
+      <field id="tunnel_medium_type" type="int">
+        <codec>
+          <diameter-avp code="65" valueCodec="Enumerated" />
+        </codec>
+      </field>
+      <field id="tunnel_client_endpoint" type="string">
+        <codec>
+          <diameter-avp code="66" valueCodec="UTF8String" />
+        </codec>
+      </field>
+      <field id="tunnel_server_endpoint" type="string">
+        <codec>
+          <diameter-avp code="67" valueCodec="UTF8String" />
+        </codec>
+      </field>
+      <field id="tunnel_preference" type="long">
+        <codec>
+          <diameter-avp code="83" valueCodec="Unsigned32"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="tunnel_client_auth_id" type="string">
+        <codec>
+          <diameter-avp code="90" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="tunnel_server_auth_id" type="string">
+        <codec>
+          <diameter-avp code="91" valueCodec="UTF8String"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="tunnel_assignment_id" type="byte[]">
+        <codec>
+          <diameter-avp code="82" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="tunnel_password" type="byte[]">
+        <codec>
+          <diameter-avp code="69" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+      <field id="tunnel_private_group_id" type="byte[]">
+        <codec>
+          <diameter-avp code="81" valueCodec="OctetString"
+          optional="true" />
+        </codec>
+      </field>
+    </set>
+  </type>
+
+  <type id="Proxy_Info">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="proxyHost" type="string">
+        <codec>
+          <diameter-avp code="280" valueCodec="DiamIdent" />
+        </codec>
+      </field>
+
+      <field id="proxyState" type="byte[]">
+        <codec>
+          <diameter-avp code="33" valueCodec="OctetString" />
+        </codec>
+      </field>
+    </set>
+  </type>
+
+  <type id="Experimental_Result">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="vendor_id" type="long">
+        <codec>
+          <diameter-avp code="266" valueCodec="Unsigned32" />
+        </codec>
+      </field>
+
+      <field id="experimental_result_code" type="long">
+        <codec>
+          <diameter-avp code="298" valueCodec="Unsigned32" />
+        </codec>
+      </field>
+    </set>
+  </type>
+
+  <type id="Subscription_Id">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="subscription_Id_Data" type="string">
+        <codec>
+          <diameter-avp code="444" valueCodec="UTF8String" />
+        </codec>
+      </field>
+
+      <field id="subscription_Id_Type" type="int">
+        <codec>
+          <diameter-avp code="450" valueCodec="Enumerated" />
+        </codec>
+      </field>
+    </set>
+  </type>
+
+  <type id="Terminal_Information">
+    <codec>
+      <diameter-avp />
+    </codec>
+    <set>
+      <field id="IMEI" type="string">
+        <codec>
+          <diameter-avp code="1402" valueCodec="UTF8String" optional="true"/>
+        </codec>
+      </field>
+      <field id="TGPP2_MEID" type="byte[]">
+        <codec>
+          <diameter-avp code="1471" valueCodec="OctetString" optional="true"/>
+        </codec>
+      </field>
+      <field id="software_version" type="string">
+        <codec>
+          <diameter-avp code="1403" valueCodec="UTF8String" optional="true"/>
+        </codec>
+      </field>
+    </set>
+  </type>
 
 </format>

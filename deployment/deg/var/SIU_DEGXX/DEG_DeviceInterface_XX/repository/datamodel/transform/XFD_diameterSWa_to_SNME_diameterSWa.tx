@@ -218,7 +218,7 @@
         <transform input="SN_Fast_Reauth_Username" output="SN_Fast_Reauth_Username">
             <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
         </transform>
-        <transform input="ambr" output="ambr">
+        <transform input="AMBR" output="AMBR">
             <transformer from="xfd:AMBR[]" to="snme:AMBR[]">
                 <array>
                     <use-transformer from="xfd:AMBR" to="snme:AMBR" class="XFD_AMBR_to_SNME_AMBR" />
