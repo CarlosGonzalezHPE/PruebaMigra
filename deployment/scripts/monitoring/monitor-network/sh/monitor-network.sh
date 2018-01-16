@@ -42,6 +42,22 @@ function process
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
 
+  KPI_DESCRIPTION="$(getConfigParam KPI DESCRIPTION)"
+  if [ $? -lt 0 ] || [ -z "${KPI_DESCRIPTION}" ]
+  then
+    logError "Unable to get mandatory parameter 'DESCRIPTION' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_DESCRIPTION = ${KPI_DESCRIPTION}"
+
+  KPI_ADDITIONAL_INFO="$(getConfigParam KPI ADDITIONAL_INFO)"
+  if [ $? -lt 0 ]
+  then
+    logError "Unable to get mandatory parameter 'ADDITIONAL_INFO' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_ADDITIONAL_INFO = ${KPI_ADDITIONAL_INFO}"
+
   while read LINE
   do
     INTERFACE=$(echo ${LINE} | cut -d ":" -f 1)
@@ -59,7 +75,7 @@ function process
       ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
       ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
 
-      addAlarm "$(hostname | cut -d "." -f 1) network ${INTERFACE}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+      addAlarm "$(hostname | cut -d "." -f 1)-network-${INTERFACE}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
       if [ $? -ne 0 ]
       then
         logError "Unable to add alarm"
@@ -67,8 +83,21 @@ function process
       fi
     else
       logInfo "No alarm condition detected for Network Interface '${INTERFACE}' (${IP_ADDRESS})"
+
+      ACTUAL_KPI_DESCRIPTION=$(eval echo "${KPI_DESCRIPTION}")
+      ACTUAL_KPI_ADDITIONAL_INFO=$(eval echo "${KPI_ADDITIONAL_INFO}")
+
+      logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
+      logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
+
+      addKpi "$(hostname | cut -d "." -f 1)-network-${INTERFACE}" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
     fi
   done < ${TMP_DIR}/interfaces
+
+  if [ ! -s ${WORK_DIR}/alarms ]
+  then
+    logInfo "No alarm condition detected for Network Interfaces"
+  fi
 }
 
 

@@ -13,21 +13,37 @@ function process
 {
   logDebug "Executing function 'process'"
 
-  ALARMS_DIR="$(getConfigParam ALARMS DIR)"
+  ALARMS_DIR="$(getConfigParam SERVER_ALARMS DIRECTORY)"
   if [ $? -lt 0 ] || [ -z ${ALARMS_DIR} ]
   then
-    logError "Unable to get mandatory parameter 'DIR' in section 'ALARMS'"
+    logError "Unable to get mandatory parameter 'DIRECTORY' in section 'SERVER_ALARMS'"
     return 1
   fi
   logDebug "ALARMS_DIR = ${ALARMS_DIR}"
 
-  ALARMS_FILENAME="$(getConfigParam ALARMS FILENAME)"
+  ALARMS_FILENAME="$(getConfigParam SERVER_ALARMS FILENAME)"
   if [ $? -lt 0 ] || [ -z "${ALARMS_FILENAME}" ]
   then
-    logError "Unable to get mandatory parameter 'FILENAME' in section 'ALARMS'"
+    logError "Unable to get mandatory parameter 'FILENAME' in section 'SERVER_ALARMS'"
     return 1
   fi
   logDebug "ALARMS_FILENAME = ${ALARMS_FILENAME}"
+
+  KPIS_DIR="$(getConfigParam SERVER_KPIS DIRECTORY)"
+  if [ $? -lt 0 ] || [ -z ${KPIS_DIR} ]
+  then
+    logError "Unable to get mandatory parameter 'DIRECTORY' in section 'SERVER_KPIS'"
+    return 1
+  fi
+  logDebug "KPIS_DIR = ${KPIS_DIR}"
+
+  KPIS_FILENAME="$(getConfigParam SERVER_KPIS FILENAME)"
+  if [ $? -lt 0 ] || [ -z "${KPIS_FILENAME}" ]
+  then
+    logError "Unable to get mandatory parameter 'FILENAME' in section 'SERVER_KPIS'"
+    return 1
+  fi
+  logDebug "KPIS_FILENAME = ${KPIS_FILENAME}"
 
   getConfigSection MONITORS > ${TMP_DIR}/monitors
   if [ $? -lt 0 ]
@@ -38,18 +54,33 @@ function process
 
   while read MONITOR
   do
-    logInfo "Fetching alarm file for monitor '${MONITOR}'"
-
-    logDebug "Looking for file '<%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms'"
-
-    if [ -f <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ]
+    DIRECTORY="$(getConfigParam ${MONITOR} DIRECTORY)"
+    if [ $? -lt 0 ] || [ -z ${DIRECTORY} ]
     then
-      mv <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ${TMP_DIR}/alarms.${MONITOR}
+      logError "Unable to get mandatory parameter 'DIRECTORY' in section '${MONITOR}'"
+      return 1
+    fi
+    logDebug "DIRECTORY = ${DIRECTORY}"
+
+    if [ ! -d ${DIRECTORY} ]
+    then
+      logWarning "Directory '${DIRECTORY}' is not accessible"
+      continue
+    fi
+
+    logInfo "Fetching alarm file for monitor '${MONITOR}'"
+    logDebug "Looking for file '${DIRECTORY}/alarms'"
+
+    if [ -f ${DIRECTORY}/alarms ]
+    then
+      mv ${DIRECTORY}/alarms ${WORK_DIR}/alarms.${MONITOR}
       if [ $? -ne 0 ]
       then
-        logError "Command 'mv <%SCRIPTS_DIR%>/monitoring/monitor-${MONITOR}/tmp/alarms ${TMP_DIR}/alarms.${MONITOR}' failed"
+        logError "Command 'mv ${DIRECTORY}/alarms ${WORK_DIR}/alarms.${MONITOR}' failed"
       fi
-      cat ${TMP_DIR}/alarms.${MONITOR} >> ${TMP_DIR}/alarms.tmp
+      cat ${WORK_DIR}/alarms.${MONITOR} >> ${WORK_DIR}/alarms.tmp
+
+      rm -f ${WORK_DIR}/alarms.${MONITOR}
 
       logWarning "Fetched alarm file for monitor '${MONITOR}'"
     else
@@ -57,35 +88,84 @@ function process
     fi
   done < ${TMP_DIR}/monitors
 
-  if [ ! -s ${TMP_DIR}/alarms.tmp ]
+  if [ ! -s ${WORK_DIR}/alarms.tmp ]
   then
     logWarning "No alarms reported"
-    return 0
-  fi
+  else
+    cat ${WORK_DIR}/alarms.tmp | sort >> ${WORK_DIR}/alarms
 
-  while read ALARM_DATA
-  do
-    ALARM_ID=$(getNextAlarmId)
+    ACTUAL_ALARMS_FILENAME=$(eval echo "${ALARMS_FILENAME}")
+    logDebug "ACTUAL_ALARMS_FILENAME = ${ACTUAL_ALARMS_FILENAME}"
+
+    mv ${WORK_DIR}/alarms ${ALARMS_DIR}/${ACTUAL_ALARMS_FILENAME}
     if [ $? -ne 0 ]
     then
-      logError "Unable to get next Alarm Id"
+      logError "Command 'mv ${WORK_DIR}/alarms ${ALARMS_DIR}/${ACTUAL_ALARMS_FILENAME}}' failed"
       return 1
     fi
 
-    echo ${ALARM_ID}"#"${ALARM_DATA} >> ${TMP_DIR}/alarms
-  done < ${TMP_DIR}/alarms.tmp
-
-  ACTUAL_ALARMS_FILENAME=$(eval echo "${ALARMS_FILENAME}")
-  logDebug "ACTUAL_ALARMS_FILENAME = ${ACTUAL_ALARMS_FILENAME}"
-
-  mv ${TMP_DIR}/alarms ${ALARMS_DIR}/${ACTUAL_ALARMS_FILENAME}
-  if [ $? -ne 0 ]
-  then
-    logError "Command 'mv ${TMP_DIR}/alarms ${ALARMS_DIR}/${ACTUAL_ALARMS_FILENAME}}' failed"
-    return 1
+    logInfo "Alarms file '${ACTUAL_ALARMS_FILENAME}' created and moved to directory '${ALARMS_DIR}'"
   fi
 
-  logInfo "Alarms file '${ACTUAL_ALARMS_FILENAME}' created and moved to directory '${ALARMS_DIR}'"
+  rm -f ${WORK_DIR}/alarms.tmp
+
+  while read MONITOR
+  do
+    DIRECTORY="$(getConfigParam ${MONITOR} DIRECTORY)"
+    if [ $? -lt 0 ] || [ -z ${DIRECTORY} ]
+    then
+      logError "Unable to get mandatory parameter 'DIRECTORY' in section '${MONITOR}'"
+      return 1
+    fi
+    logDebug "DIRECTORY = ${DIRECTORY}"
+
+    if [ ! -d ${DIRECTORY} ]
+    then
+      logWarning "Directory '${DIRECTORY}' is not accessible"
+      continue
+    fi
+
+    logInfo "Fetching kpi file for monitor '${MONITOR}'"
+
+    logDebug "Looking for file '${DIRECTORY}/kpis'"
+
+    if [ -f ${DIRECTORY}/kpis ]
+    then
+      mv ${DIRECTORY}/kpis ${WORK_DIR}/kpis.${MONITOR}
+      if [ $? -ne 0 ]
+      then
+        logError "Command 'mv ${DIRECTORY}/kpis ${WORK_DIR}/kpis.${MONITOR}' failed"
+      fi
+      cat ${WORK_DIR}/kpis.${MONITOR} >> ${WORK_DIR}/kpis.tmp
+
+      rm -f ${WORK_DIR}/kpis.${MONITOR}
+
+      logWarning "Fetched kpi file for monitor '${MONITOR}'"
+    else
+      logInfo "No kpi file available for monitor '${MONITOR}'"
+    fi
+  done < ${TMP_DIR}/monitors
+
+  if [ ! -s ${WORK_DIR}/kpis.tmp ]
+  then
+    logWarning "No kpis reported"
+  else
+    cat ${WORK_DIR}/kpis.tmp | sort >> ${WORK_DIR}/kpis
+
+    ACTUAL_KPIS_FILENAME=$(eval echo "${KPIS_FILENAME}")
+    logDebug "ACTUAL_KPIS_FILENAME = ${ACTUAL_KPIS_FILENAME}"
+
+    mv ${WORK_DIR}/kpis ${KPIS_DIR}/${ACTUAL_KPIS_FILENAME}
+    if [ $? -ne 0 ]
+    then
+      logError "Command 'mv ${WORK_DIR}/kpis ${KPIS_DIR}/${ACTUAL_KPIS_FILENAME}}' failed"
+      return 1
+    fi
+
+    logInfo "KPIs file '${ACTUAL_KPIS_FILENAME}' created and moved to directory '${KPIS_DIR}'"
+  fi
+
+  rm -f ${WORK_DIR}/kpis.tmp
 }
 
 

@@ -280,7 +280,10 @@ function beginingOfExecution
   CTRL_DIR=${RUN_DIR}/ctrl
   export CTRL_DIR
 
-  for DIR in ${LOG_DIR} ${TMP_DIR} ${CTRL_DIR}
+  WORK_DIR=${RUN_DIR}/work
+  export WORK_DIR
+
+  for DIR in ${LOG_DIR} ${TMP_DIR} ${CTRL_DIR} ${WORK_DIR}
   do
     mkdir -p ${DIR}
 
@@ -328,34 +331,34 @@ function beginingOfExecution
 
   if [ "${LOGLEVEL}" == "DEBUG" ]
   then
-   COPY_NAME=tmp.debug.$(date +"%Y%m%d%H%M%S")
-   mkdir -p ${SCRIPT_BASEDIR}/${COPY_NAME}
-   mv ${TMP_DIR}/* ${SCRIPT_BASEDIR}/${COPY_NAME}
-   if [ $? -ne 0 ]
-   then
-     logError "Command 'mv ${TMP_DIR}/* ${SCRIPT_BASEDIR}/${COPY_NAME}' failed"
-   else
-     cd ${SCRIPT_BASEDIR}
-     if [ $? -ne 0 ]
-     then
-       logError "Unable to access directory '${RUN_DIR}'"
-     else
+    COPY_NAME=tmp.debug.$(date +"%Y%m%d%H%M%S")
+    mkdir -p ${RUN_DIR}/${COPY_NAME}
+    mv ${TMP_DIR}/* ${RUN_DIR}/${COPY_NAME}
+    if [ $? -ne 0 ]
+    then
+      logError "Command 'mv ${TMP_DIR}/* ${RUN_DIR}/${COPY_NAME}' failed"
+    else
+      cd ${RUN_DIR}
+      if [ $? -ne 0 ]
+      then
+        logError "Unable to access directory '${RUN_DIR}'"
+      else
+        tar cvf ${COPY_NAME}.tar ${COPY_NAME}
+        if [ $? -ne 0 ]
+        then
+          logError "Command 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}' failed"
+        else
+          rm -fr ${COPY_NAME}
 
-       if [ $? -ne 0 ]
-       then
-         logError "Command 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}' failed"
-       else
-         rm -fr ${COPY_NAME}
-
-         gzip ${COPY_NAME}.tar
-         if [ $? -ne 0 ]
-         then
-           logError "Command 'gzip ${COPY_NAME}.tar' failed"
-         fi
-       fi
-       cd -
-     fi
-   fi
+          gzip ${COPY_NAME}.tar
+          if [ $? -ne 0 ]
+          then
+            logError "Command 'gzip ${COPY_NAME}.tar' failed"
+          fi
+        fi
+        cd -
+      fi
+    fi
   fi
 
   rm -fr ${TMP_DIR}/*

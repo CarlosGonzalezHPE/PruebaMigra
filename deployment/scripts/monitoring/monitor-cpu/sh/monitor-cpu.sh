@@ -58,6 +58,22 @@ function process
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
 
+  KPI_DESCRIPTION="$(getConfigParam KPI DESCRIPTION)"
+  if [ $? -lt 0 ] || [ -z "${KPI_DESCRIPTION}" ]
+  then
+    logError "Unable to get mandatory parameter 'DESCRIPTION' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_DESCRIPTION = ${KPI_DESCRIPTION}"
+
+  KPI_ADDITIONAL_INFO="$(getConfigParam KPI ADDITIONAL_INFO)"
+  if [ $? -lt 0 ]
+  then
+    logError "Unable to get mandatory parameter 'ADDITIONAL_INFO' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_ADDITIONAL_INFO = ${KPI_ADDITIONAL_INFO}"
+
   logInfo "Checking CPU usage"
 
   mpstat ${CHECK_INTERVAL} ${CHECK_NUMBER} | awk '
@@ -83,6 +99,14 @@ function process
     logError "Unable to compute idle time"
     return 1
   fi
+
+  ACTUAL_KPI_DESCRIPTION=$(eval echo "${KPI_DESCRIPTION}")
+  ACTUAL_KPI_ADDITIONAL_INFO=$(eval echo "${KPI_ADDITIONAL_INFO}")
+
+  logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
+  logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
+
+  addKpi "$(hostname | cut -d "." -f 1)-cpu" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
 
   while read LIMIT
   do
@@ -117,11 +141,14 @@ function process
         return 1
       fi
 
-      return 0
+      break
     fi
   done < ${TMP_DIR}/limits
 
-  logInfo "No alarm condition detected for CPU usage"
+  if [ ! -s ${WORK_DIR}/alarms ]
+  then
+    logInfo "No alarm condition detected for CPU usage"
+  fi
 }
 
 

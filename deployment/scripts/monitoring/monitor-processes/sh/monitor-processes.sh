@@ -42,6 +42,22 @@ function process
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
 
+  KPI_DESCRIPTION="$(getConfigParam KPI DESCRIPTION)"
+  if [ $? -lt 0 ] || [ -z "${KPI_DESCRIPTION}" ]
+  then
+    logError "Unable to get mandatory parameter 'DESCRIPTION' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_DESCRIPTION = ${KPI_DESCRIPTION}"
+
+  KPI_ADDITIONAL_INFO="$(getConfigParam KPI ADDITIONAL_INFO)"
+  if [ $? -lt 0 ]
+  then
+    logError "Unable to get mandatory parameter 'ADDITIONAL_INFO' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_ADDITIONAL_INFO = ${KPI_ADDITIONAL_INFO}"
+
   while read LINE
   do
     PROCESS=$(echo ${LINE} | cut -d ":" -f 1)
@@ -67,8 +83,21 @@ function process
       fi
     else
       logDebug "No alarm condition detected for process '${PROCESS}'"
+
+      ACTUAL_KPI_DESCRIPTION=$(eval echo "${KPI_DESCRIPTION}")
+      ACTUAL_KPI_ADDITIONAL_INFO=$(eval echo "${KPI_ADDITIONAL_INFO}")
+
+      logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
+      logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
+
+      addKpi "$(hostname | cut -d "." -f 1)-cpu" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
     fi
   done < ${TMP_DIR}/processes
+
+  if [ ! -s ${WORK_DIR}/alarms ]
+  then
+    logInfo "No alarm condition detected for processes"
+  fi
 }
 
 

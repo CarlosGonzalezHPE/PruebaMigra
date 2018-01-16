@@ -42,6 +42,22 @@ function process
   fi
   logDebug "ALARM_ADDITIONAL_INFO = ${ALARM_ADDITIONAL_INFO}"
 
+  KPI_DESCRIPTION="$(getConfigParam KPI DESCRIPTION)"
+  if [ $? -lt 0 ] || [ -z "${KPI_DESCRIPTION}" ]
+  then
+    logError "Unable to get mandatory parameter 'DESCRIPTION' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_DESCRIPTION = ${KPI_DESCRIPTION}"
+
+  KPI_ADDITIONAL_INFO="$(getConfigParam KPI ADDITIONAL_INFO)"
+  if [ $? -lt 0 ]
+  then
+    logError "Unable to get mandatory parameter 'ADDITIONAL_INFO' in section 'KPI'"
+    return 1
+  fi
+  logDebug "KPI_ADDITIONAL_INFO = ${KPI_ADDITIONAL_INFO}"
+
   while read FILESYSTEM
   do
     MOUNT_POINT="$(getConfigParam ${FILESYSTEM} MOUNT_POINT)"
@@ -69,6 +85,14 @@ function process
 
     let USAGE=$(df -h ${FS} | awk -v fs="${MOUNT_POINT}" '{ if ($6 ~ fs) { print $5 } else if ($5 ~ fs) { print $4 }}' | tr -d "%")
     logDebug "USAGE = ${USAGE}"
+
+    ACTUAL_KPI_DESCRIPTION=$(eval echo "${KPI_DESCRIPTION}")
+    ACTUAL_KPI_ADDITIONAL_INFO=$(eval echo "${KPI_ADDITIONAL_INFO}")
+
+    logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
+    logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
+
+    addKpi "$(hostname | cut -d "." -f 1)-filesystem-${MOUNT_POINT}" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
 
     while read LIMIT
     do
@@ -109,6 +133,11 @@ function process
       logInfo "No alarm condition detected for filesystem '${MOUNT_POINT}'"
     done < ${TMP_DIR}/${FILESYSTEM}.limits
   done < ${TMP_DIR}/filesystems
+
+  if [ ! -s ${WORK_DIR}/alarms ]
+  then
+    logInfo "No alarm condition detected for filessytems usage"
+  fi
 }
 
 

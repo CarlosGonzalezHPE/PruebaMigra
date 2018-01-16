@@ -1,10 +1,8 @@
-#!/bin/ksh
+#!/bin/bash
 #-------------------------------------------------------------------------------
 # Orange Mediacion eIUM
 #
 # HPE CMS Iberia, 2017
-#-------------------------------------------------------------------------------
-# Descripcion: Recogida datos CNMC
 #-------------------------------------------------------------------------------
 
 #
@@ -58,20 +56,20 @@ function sendFiles
   logDebug "DESTINATION_USER = ${DESTINATION_USER}"
 
   CHMOD_DIRECTORIES="$(getConfigParam ${RUN_LABEL} CHMOD_DIRECTORIES)"
-  if [ $? -lt 0 ] || [ -z ${CHMOD_DIRECTORIES} ]
+  if [ $? -lt 0 ]
   then
-    logError "Unable to get mandatory parameter 'CHMOD_DIRECTORIES' in section '${RUN_LABEL}'"
+    logError "Unable to get parameter 'CHMOD_DIRECTORIES' in section '${RUN_LABEL}'"
     return 1
   fi
   logDebug "CHMOD_DIRECTORIES = ${CHMOD_DIRECTORIES}"
 
   CHMOD_FILES="$(getConfigParam ${RUN_LABEL} CHMOD_FILES)"
-  if [ $? -lt 0 ] || [ -z ${CHMOD_FILES} ]
+  if [ $? -lt 0 ]
   then
-    logError "Unable to get mandatory parameter 'CHMOD_FILES' in section '${RUN_LABEL}'"
+    logError "Unable to get mandatory 'CHMOD_FILES' in section '${RUN_LABEL}'"
     return 1
   fi
-  logDebug "CHMOD_DIRECTORIES = ${CHMOD_DIRECTORIES}"
+  logDebug "CHMOD_FILES = ${CHMOD_FILES}"
 
   OUTPUT_DIR="$(getConfigParam ${RUN_LABEL} OUTPUT_DIR)"
   if [ $? -lt 0 ] || [ -z ${OUTPUT_DIR} ]
@@ -130,7 +128,7 @@ function sendFiles
     fi
     logDebug "FILENAME_PERLREGEX = ${FILENAME_PERLREGEX}"
 
-    2>> ${LOG_FILEPATH} ls ${OUTPUT_DIR} | while read FILENAME
+    2>> ${LOG_FILEPATH} ls ${OUTPUT_DIR}/${OUTPUT_TYPE} | while read FILENAME
     do
       FILEPATH=${OUTPUT_DIR}/${OUTPUT_TYPE}/${FILENAME}
 
@@ -151,7 +149,7 @@ function sendFiles
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "/usr/bin/sftp ${DESTINATION_USER}@${DESTINATION_HOST} << EOD"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "cd ${DESTINATION_DIR}"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "pwd"
-          >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "lcd ${OUTPUT_DIR}"
+          >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "lcd ${OUTPUT_DIR}/${OUTPUT_TYPE}"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "put ${FILENAME} ${TMP_PREFIX}.${FILENAME}"
           if [ ! -z ${CHMOD_FILES} ]
           then
@@ -251,15 +249,24 @@ do
       export RUN_LABEL
       ;;
     *)
+      echo "Error: Bad option '${OPT}'"
       exit 1
       ;;
   esac
 done
 
+if [ -z ${RUN_LABEL} ]
+then
+  echo "Usage: sendFiles.sh -o <RUN_LABEL>"
+  exit 1
+fi
+
 SCRIPT_BASEDIR=/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles
 export SCRIPT_BASEDIR
 
 . /opt/<%SIU_INSTANCE%>/scripts/common/common.sh
+
+logDebug "RUN_LABEL = ${RUN_LABEL}"
 
 sendFiles
 if [ $? -ne 0 ]
