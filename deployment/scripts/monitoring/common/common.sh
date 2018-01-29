@@ -93,14 +93,7 @@ function addKpi
 
   TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 
-  KPI_ID=$(getNextId KPI)
-  if [ $? -ne 0 ]
-  then
-    logError "Unable to get next Counter Id"
-    return 1
-  fi
-
-  KPI_TEXT=$(eval echo "${KPI_ID}#${ELEMENT}#${TIMESTAMP}#${DESCRIPTION}#${ADDITIONAL_INFO}")
+  KPI_TEXT=$(eval echo "${ELEMENT}#${TIMESTAMP}#${DESCRIPTION}#${ADDITIONAL_INFO}")
   echo ${KPI_TEXT} >> ${WORK_DIR}/kpis
 }
 

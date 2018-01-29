@@ -75,7 +75,7 @@ function process
       ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
       ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
 
-      addAlarm "$(hostname | cut -d "." -f 1) process ${PROCESS}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+      addAlarm "$(hostname | cut -d "." -f 1)-process-${PROCESS}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
       if [ $? -ne 0 ]
       then
         logError "Unable to add alarm"

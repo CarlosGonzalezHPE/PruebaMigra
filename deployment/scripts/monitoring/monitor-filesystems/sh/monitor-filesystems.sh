@@ -129,8 +129,6 @@ function process
 
         break
       fi
-
-      logInfo "No alarm condition detected for filesystem '${MOUNT_POINT}'"
     done < ${TMP_DIR}/${FILESYSTEM}.limits
   done < ${TMP_DIR}/filesystems
 
