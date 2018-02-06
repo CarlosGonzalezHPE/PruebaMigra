@@ -244,6 +244,16 @@
         <transform input="configId" output="configId">
             <use-transformer from="int" to="int" class="t:IntToIntCopy" />
         </transform>
+        <transform input="availableDefinedTypesCount" output="availableDefinedTypesCount">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="availableDefinedTypes" output="availableDefinedTypes">
+            <transformer from="xfd:TypeDefinition[]" to="snme:TypeDefinition[]">
+                <array>
+                    <use-transformer from="xfd:TypeDefinition" to="snme:TypeDefinition" class="XFD_TypeDefinition_to_SNME_TypeDefinition" />
+                </array>
+            </transformer>
+        </transform>
         <transform input="currentTemplatesCount" output="currentTemplatesCount">
             <use-transformer from="int" to="int" class="t:IntToIntCopy" />
         </transform>

@@ -422,7 +422,7 @@
       <array id="APN_configuration">
         <field type="APN_Configuration">
           <codec>
-            <diameter-avp code="1430" valueCodec="Grouped" vendorId="10415"/>
+            <diameter-avp code="1430" valueCodec="Grouped" vendorId="10415" optional="true" />
           </codec>
         </field>
       </array>
