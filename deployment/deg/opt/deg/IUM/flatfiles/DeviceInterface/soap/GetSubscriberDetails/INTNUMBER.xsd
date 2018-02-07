@@ -6,10 +6,9 @@ ICC: Pierre Ayel 11/03/2010
 	(1) First Version
 -->
 
-<!-- PXX: $Header: /cvs/TSTIL_PROJECT01/SharedResources/SchemaDefinitions/Vodafone/Common/INTNUMBER.xsd,v 1.1 2010/03/11 18:31:48 ayelr Exp $ -->
 <schema xmlns = "http://www.w3.org/2001/XMLSchema"
-	 targetNamespace = "http://xmlns.vodafone.co.uk/map/spml/Common/INTNUMBER"
-	 xmlns:uk = "http://xmlns.vodafone.co.uk/map/spml/Common/INTNUMBER"
+	 targetNamespace = "http://xmlns.orange.es/map/spml/Common/INTNUMBER"
+	 xmlns:uk = "http://xmlns.orange.es/map/spml/Common/INTNUMBER"
 	 xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
 	 elementFormDefault = "unqualified">
 
