@@ -14,20 +14,21 @@ ICC: Kumaravel Narayanan 15/09/2010
 BAU:  Rathanaraj R 05/03/2015
 	   Added IP Networking Service Entitlement Status as part of VoWIFI Entitlement project
 -->
+<!-- PXX: $Header: /cvs/TSTIL_PROJECT01/SharedResources/SchemaDefinitions/Vodafone/CustomerManagement/CustomerProfileManagement/CustomerPersonalInformationManagement/GetSubscriber.2.xsd,v 1.10 2015/03/28 13:05:30 sseernam Exp $ -->
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
 	 xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0"
 	 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	 xmlns:vod="http://xmlns.orange.es/map/spml/Common/SimpleTypes"
-	 xmlns:obj="http://xmlns.orange.es/map/spml/Common/Objects"
-	 xmlns:ln="http://xmlns.orange.es/map/spml/Common/CommonObjects/Logon"
-	 xmlns:e164="http://xmlns.orange.es/map/spml/Common/INTNUMBER"
+	 xmlns:vod="http://xmlns.vodafone.co.uk/map/spml/Common/SimpleTypes"
+	 xmlns:obj="http://xmlns.vodafone.co.uk/map/spml/Common/Objects"
+	 xmlns:ln="http://xmlns.vodafone.co.uk/map/spml/Common/CommonObjects/Logon"
+	 xmlns:e164="http://xmlns.vodafone.co.uk/map/spml/Common/INTNUMBER"
 	 targetNamespace="urn:siemens:names:prov:gw:SPML:2:0"
 	 elementFormDefault="unqualified"
 	 attributeFormDefault="unqualified">
-	<import namespace="http://xmlns.orange.es/map/spml/Common/SimpleTypes" schemaLocation="SimpleTypes.xsd"/>
-	<import namespace="http://xmlns.orange.es/map/spml/Common/Objects" schemaLocation="Objects.xsd"/>
-	<import namespace="http://xmlns.orange.es/map/spml/Common/CommonObjects/Logon" schemaLocation="Logon.xsd"/>
-	<import namespace="http://xmlns.orange.es/map/spml/Common/INTNUMBER" schemaLocation="INTNUMBER.xsd"/>
+	<import namespace="http://xmlns.vodafone.co.uk/map/spml/Common/SimpleTypes" schemaLocation="SimpleTypes.xsd"/>
+	<import namespace="http://xmlns.vodafone.co.uk/map/spml/Common/Objects" schemaLocation="Objects.xsd"/>
+	<import namespace="http://xmlns.vodafone.co.uk/map/spml/Common/CommonObjects/Logon" schemaLocation="Logon.xsd"/>
+	<import namespace="http://xmlns.vodafone.co.uk/map/spml/Common/INTNUMBER" schemaLocation="INTNUMBER.xsd"/>
 	<complexType name="searchResponse">
 		<sequence>
 			<element name="version" type="string" minOccurs="1"/>
