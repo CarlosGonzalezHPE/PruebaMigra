@@ -67,6 +67,11 @@ function addAlarm
   DESCRIPTION=$3
   ADDITIONAL_INFO=$4
 
+  logDebug "ELEMENT         = ${ELEMENT}"
+  logDebug "SEVERITY        = ${SEVERITY}"
+  logDebug "DESCRIPTION     = ${DESCRIPTION}"
+  logDebug "ADDITIONAL_INFO = ${ADDITIONAL_INFO}"
+
   TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 
   ALARM_ID=$(getNextId ALARM)
@@ -90,6 +95,10 @@ function addKpi
   ELEMENT=$1
   DESCRIPTION=$2
   ADDITIONAL_INFO=$3
+
+  logDebug "ELEMENT         = ${ELEMENT}"
+  logDebug "DESCRIPTION     = ${DESCRIPTION}"
+  logDebug "ADDITIONAL_INFO = ${ADDITIONAL_INFO}"
 
   TIMESTAMP=$(date +'%Y%m%d%H%M%S')
 

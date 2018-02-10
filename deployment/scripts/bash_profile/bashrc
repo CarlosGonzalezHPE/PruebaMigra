@@ -34,7 +34,11 @@ alias cdoam='cd ${OAM_HOME}'
 alias cdoss='cd /opt/oss'
 alias cdos='cd /opt/scripts'
 alias cdmon='cd /opt/scripts/monitoring'
+alias cdenv='cd /opt/deg/IUM/envVariables/'
 [#SECTION_BEGIN:MANAGER#]
+alias cdvdb='cd /var/Mariadb'
+alias mysqlapp='mysql -u root -S /var/Mariadb/DEG_APP_MD/mysql.sock -D deg_dsn_md'
+alias mysqlmgr='mysql -u root -S /var/Mariadb/DEG_MGR_MD/mysql.sock -D siu_manager_md'
 [#SECTION_END#]
 
 function lf

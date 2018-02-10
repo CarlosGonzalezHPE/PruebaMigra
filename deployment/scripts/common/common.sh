@@ -21,6 +21,10 @@ export LOG_FILEPATH
 SITE_INDEX=00
 export SITE_INDEX
 
+SIU_INSTANCE=<%SIU_INSTANCE%>
+export SIU_INSTANCE
+
+
 #
 # Functions
 #
@@ -28,21 +32,21 @@ export SITE_INDEX
 function logInfo
 {
   typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S")
-  echo "${DATE} INF --- ${1}" >> ${LOG_FILEPATH}
+  echo "${DATE} INF [$(printf "%5.5d" $$)] --- ${1}" >> ${LOG_FILEPATH}
 }
 
 
 function logError
 {
   typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S")
-  echo "${DATE} ERR --- ${1}" >> ${LOG_FILEPATH}
+  echo "${DATE} ERR [$(printf "%5.5d" $$)] --- ${1}" >> ${LOG_FILEPATH}
 }
 
 
 function logWarning
 {
   typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S")
-  echo "${DATE} WRN --- ${1}" >> ${LOG_FILEPATH}
+  echo "${DATE} WRN [$(printf "%5.5d" $$)] --- ${1}" >> ${LOG_FILEPATH}
 }
 
 
@@ -52,7 +56,7 @@ function logDebug
 
   if [ "${LOG_LEVEL}" = "DEBUG" ]
   then
-    echo "${DATE} DBG --- ${1}" >> ${LOG_FILEPATH}
+    echo "${DATE} DBG [$(printf "%5.5d" $$)]--- ${1}" >> ${LOG_FILEPATH}
   fi
 }
 
@@ -217,7 +221,7 @@ function exitIfExecutionConflict
   typeset local CONCURRENT_EXECUTIONS_ALLOWED=$(getConfigParam GENERAL CONCURRENT_EXECUTIONS_ALLOWED)
   if [ ${?} -eq 0 ] && [ "${CONCURRENT_EXECUTIONS_ALLOWED}" = "TRUE" ]
   then
-    logInfo "Concurent executios allowed"
+    logInfo "Concurent execution allowed"
     return
   fi
 

@@ -96,7 +96,7 @@ function process
 
   UPDATE_FILEPATH=${TMP_DIR}/updateDEG_AUTOPROVISIONING.sql
 
-  awk -F \; -v out_VoWIFI=${VOLTE_FILEPATH} -v out_VoLTE=${VOWIFI_FILEPATH} -v out_update=${UPDATE_FILEPATH} '{
+  awk -F \; -v out_VoWIFI=${VOWIFI_FILEPATH} -v out_VoLTE=${VOLTE_FILEPATH} -v out_update=${UPDATE_FILEPATH} '{
     timestamp_query = $1;
     username = $2;
     node_id = $3;
@@ -155,7 +155,7 @@ function process
         logError "Command of file 'mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}/LOG_VOWIFI' failed"
         RES_CODE=1
       else
-        /opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh VOWIFI ${OUTPUT_DIR}/LOG_VOWIFI/$(basename ${VOWIFI_FILEPATH})
+        /opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI ${OUTPUT_DIR}/LOG_VOWIFI/$(basename ${VOWIFI_FILEPATH})
         if [ $? -ne 0 ]
         then
           logError "Distribution of file '$(basename ${VOWIFI_FILEPATH})' failed"
