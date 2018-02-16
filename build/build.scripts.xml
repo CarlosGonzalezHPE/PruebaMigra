@@ -70,6 +70,17 @@
     </copy>
   </target>
 
+  <target name="deploy-node"
+          depends="check-node">
+    <property file="profiles/env/${env}/scripts.${node}.properties"/>
+
+    <scp todir="${user}:${passwd}@${host}:${destdir}" port="${port}" trust="yes">
+      <fileset dir=".built/${env}/${node}/built/scripts">
+        <include name="**/*.sh"/>
+      </fileset>
+    </scp>
+  </target>
+
   <target name="clean"
           description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2"
           depends="check">
