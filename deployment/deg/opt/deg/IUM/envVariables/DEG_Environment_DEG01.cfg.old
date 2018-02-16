@@ -1,0 +1,1660 @@
+[/deployment/SIU_DEG01/Environment]
+
+######################################################### DEG CORE ENVIRONMENT VARIABLES ###############################################################################
+
+#{
+#IUM_Process= ALL 
+STARTUPMODE=MANUAL
+#Configured By= Product Team
+#Description= Specifies the Process startup mode
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICEINTERFACE_PROCESS_NAME=DEG_DeviceInterface_01
+#Configured By= Delivery Team
+#Description=This variable is used to set the process name appended with the sequence number depending on the number of Applications servers.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface, DEG_ProvisioningInterface_Get
+APNS_INTERFACE_PORT=10000
+#Configured By= Product Team
+#Description= Specifies the TCP port at which the server socket will listen for connections
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICE_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+#Configured By= Delivery Team
+#Description= This variable contains the destination directory where the Audit files generated from Device Interface will be saved.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+SERVER_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/DEGServer.ks
+#Configured By= Delivery Team
+#Description=This variable holds keystore file in it while generating the SSL certificate for HTTPS connections.Keystore file has signature certificate embedded in it.
+#}
+
+#{ 
+#IUM_Process=DEG_DeviceInterface
+SERVER_CERT_SIGNATURE_PASSWORD=degadmin
+#Configured By= Delivery Team
+#Description= This variable stores the password for the keystore file.  The default password is "secret".
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+PHONENUM_CERT_SIGNATURE_ALIAS=deg.spcsdns.net
+#Configured By= Delivery Team
+#Description=This variable is alias name required to read the embedded certificate in the keystore file under variable SERVER_CERT_KEYSTORE_FILE.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+SERVER_XML_TEMPLATE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/server_template.xml
+#Configured By= Delivery Team
+#Description= Location of the xml file that will be used by the Apache TOMCAT instance for communication.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+SERVER_OEM_XSD_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/OEMInterface.xsd
+#Configured By= Product Team
+#Description= This variable has the XSD file that will be used for JSON communication.  This has the request/response schema definition.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_IMS_DATA_SIP_REG_URI=sip:323.248.imsi.3gppnetwork.org
+#Configured By= Carrier
+#Description=This variable is the SIP URI that identifies the home network domain used in the register request in Fully Qualified DomainName(FQDN)format
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_IMS_DATA_APN=ltemobile.net
+#The APN is associated with a service,but multiple services can share the same APN.
+#Configured By= Carrier
+#Description=The APN that non-SIM device must use to connect to IMS platform.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_IMS_DATA_PSCF_ADDRESS=pcscf1.home.net
+#Configured By= Delivery Team
+#Description= This is the Address of P-CSCF.It overrides the default P-CSCF address used by the device.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+ENTITLEMENT_SERVERADDRESS=AbC
+#Configured By= Delivery Team
+#Description= This variable holds the server address for entitlement gateway.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+GATEWAY_ADDRESS_PRIMARY=ABC
+#Configured By= Carrier
+#Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for primary device's getAuthentication request. 
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+GATEWAY_ADDRESS_COMPANION=abc
+#Configured By= Carrier
+#Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for Companion devices getAuthentication request.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_COUNTRYISD_CODE="+1"
+#Configured By= Carrier
+#Description= This variable used in getPhoneNumber action to prefix MDN with country code.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_RADIUS_LOAD_BALANCER_TYPE=FirstAvailable
+#Configured By= Delivery Team
+#Description=Specifies the load balancer to be used to select a server from the pool.Refer to HomeServerPool class. Applicable values: FirstAvailable,RoundRobin
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+PRIMARY_DEVICE_RADIUS_PORT=1818
+#Configured By= Carrier
+#Description= This variable holds the port number where the primary local radius server is hosted.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+SECONDARY_DEVICE_RADIUS_PORT=1819
+#Configured By= Carrier
+#Description= This variable holds the port number where the secondary local radius server is host
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+PRIMARY_RADIUS_SERVER_HOST_PORT=1817
+#Configured By= Carrier
+#Description= This variable holds the port number where the primary local radius server is host
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+PRIMARY_RADIUS_SERVER_SHARED_KEY=hpium
+#Configured By= Carrier
+#Description= This variable contains the private/public key for primary radius server,it is used for allowing remote machine to authenticate while trying to connect.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+SECONDARY_RADIUS_SERVER_SHARED_KEY=hpium
+#Configured By= Carrier
+#Description=This variable contains the private/public key for secondary radius server,used for the allowing remote machine to authenticate while trying to connect.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+LDAP_SEARCH_ROOT=imsi=%DEG_OEMDevImsiString%,dc=deg,dc=com
+#Configured By= Product Team
+#Description=Specifies the starting point for the search of the LDAP directory
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+LDAP_CREDENTIALS=secret
+#Configured By= Product Team
+#Description=This attribute specifies the credentials of the Principal to be authenticated.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+LDAP_PRINCIPAL=cn=Manager,dc=deg,dc=com
+#Configured By= Product Team
+#Description=This attribute specifies a string that is the identity of the principal to be authenticated.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+EAI_PWD=degeai
+#Configured By= Delivery Team
+#Description= This variable contains the password for connecting to the device.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SIMULATOR_MAX_CONN=50
+#Configured By= Delivery Team
+#Description= Maximum number of connection between APNS Interface and APNS Simulator
+#}
+
+#{
+#IUM_Process=DEG_APNSInterface,DEG_APNS_simulator
+APNS_SIMULATOR_PORT=20000
+#Configured By= Delivery Team
+#Description= Specifies the TCP port at which the Simulator server socket will listen for connections
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+EAI_USER=degeai
+#Configured By= Delivery Team
+#Description= This variable contains the user credential required to connect to the device.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+GETAUTH_SKIP_IMSI_CHECK=DISABLED
+#Configured By= Delivery Team
+#Description= If the value is ENABLED,then IMSI check will be skipped.If this variable is not defined or any other value,then process will continue with IMSI check.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface,DEG_AAAuthentication
+AAA_RADIUS_SERVER_HOST_PORT=1817
+#Configured By= Carrier
+#Description= This variable contains the port id to which the AAA local radius server AAA and remote device interface will be connected.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface,DEG_AAAuthentication
+DEVICE_DIAMETER_SERVER_PORT=1815
+#Configured By= Carrier
+#Description= This variable holds the port id to which the device interface local diameter server and remote AAAuthentication server is to be connect.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+PRIMARY_AAA_HOST_PORT=3868
+#Configured By= Carrier
+#Description= This variable holds the port number where the primary remote diameter AAA server will be connected. 
+#}
+
+#{
+#IUM_Process=  DEG_JobsInterface.
+SECONDARY_AAA_HOST_PORT=3868
+#Configured By= Carrier
+#Description=This variable holds the port number where the secondary remote AAA server will be connected.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_DIAMETER_SERVER_PORT=3868
+#Configured By= Delivery Team
+#Description= This variable specifies the IP port number where the DiameterAdapter listens for peer connections.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_DIAMETER_SERVER_REALM=deg.aes.orange.es
+#Configured By= Carrier
+#Description=This variable is used to hold the realm/domain the diameter will use to determine whether communication can be satisfied locally,or they must be routed.
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+AAA_PROCESS_NAME=DEG_AAAuthentication_01
+#Configured By= Delivery Team
+#Description= This variable is used to set the process name <AAAthentication> appended with the sequence number depending on the number of application servers.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_DIAMETER_CLIENT_PORT=1821
+#Configured By= Carrier
+#Description=This variable contains the port number details that will be used to connect the AAA local diameter client of communication.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_RADIUS_CLIENT_SECRET_CODE=hpium
+#Configured By= Carrier
+#Description=This variable contains  private/public key for radius client, used for allowing remote machine to authenticate while trying to connect for communication.
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+AAA_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+#Configured By= Delivery Team
+#Description= This variable contains the destination directory where the Audit files generated from AAA Authentication Interface will be saved.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_SWX_DIAMETER_CLIENT_REALM=deg.aes.orange.es
+#Configured By= Carrier
+#Description= This variable is used to hold the realm/domain the diameter will use to determine whether communication can be satisfied locally.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_WX_DIAMETER_CLIENT_REALM=wx.com
+#Configured By= Carrier
+#Description= This variable is used to hold the realm/domain the Wx diameter client will use to determine whether communication can be satisfied locally.
+#}
+
+#{
+#IUM_Process=ALL
+IUM_LOG_DIR=/var/opt/SIU_DEG01/log
+#Configured By= Delivery Team
+#Description= This variable holds the directory path where the log files from all the IUM components are stored
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+NRBGUI_LOG_DIR=/app/DEG/NRBGUI/log
+#Configured By= Delivery Team
+#Description= This variable holds the directory path where the log files generated from the NRBGUI components are stored
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+KPI_LOG_DIR=/var/opt/SIU_DEG01/KPI/log
+#Configured By= Delivery Team
+#Description= This variable holds the directory path where the log files generated from the KPI Tool are stored
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+LIC_LOG_DIR=/var/opt/SIU_DEG01/License/log
+#Configured By= Delivery Team
+#Description= This variable holds the directory path where the log files generated from the LIC Tool are stored
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_AGENT=DEG_AlarmAgent_01
+#Configured By= Delivery Team
+#Description=This variable is used to set process name appended with the sequence number depending on number of applications servers to be implemented.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_CLEANUP_DIR=/var/opt/SIU_DEG01/DEG_AlarmAgent_01/cleanupfiles
+#Configured By= Delivery Team
+#Description=As part of the cleanup operation the collector logs processed log file names into a file located in the directory specified by CleanupDir.
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+APNS_PROCESS_NAME=DEG_APNSInterface_01
+#Configured By= Product Team
+#Description= APNS Interface Process Name
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+JOBSINTERFACE_PROCESS_NAME=DEG_JobsInterface_01
+#Configured By= Delivery Team
+#Description= This variable is used to set the process name <Jobs Interface> appended with the sequence number depending on the number of applications servers.
+#}
+
+#{
+#IUM_Process=DEG_AAA_simulator,DEG_JobsInterface.
+JOBS_DIAMETER_SERVER_PORT=1816
+#Configured By= Delivery Team
+#Description= This variable has the port number to which the jobs server will be connected for communication.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_INTERFACE_PROCESS_NAME=DEG_ProvisioningInterface_01
+#Configured By= Delivery Team
+#Description= This variable is used to set process name <Provisioning Interface> appended with the sequence number depending on the number of Applications servers.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/ProvisioningInterface/soap/SubscriberProvisioningInterface.wsdl
+#Configured By= Delivery Team
+#Description= This variable contains the path to WSDL file in Provisioning interface used for SOAP communication.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+#Configured By= Delivery Team
+#Description= This variable contains the destination directory where the Audit files generated from provisioning Interface will be saved.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get
+PROV_STORE_GET_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/ProvisioningInterface_Get/soap/SubscriberProvisioningInterface_Get.wsdl
+#Configured By=Product Team
+#Description= This variable specifies the path for the WSDL file used for SOAP communication for Provisioning Interface
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_GET_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+#Configured By= Product Team
+#Description=This variable contains the destination directory where the Audit files generated from Provisioning Interface_Get will be saved.
+#}
+
+#{
+#IUM_Process=DEG_ProvisioningInterface_Get, DEG_DeviceInterface
+DEVICE_PROVGET_SERVER_PORT=8989
+#Configured By=Product Team
+#Description= specifies the port of remote session server
+#}
+
+#{
+#IUM_Process= DEG_EAI_simulator
+LOCATION_INTERFACE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/soap/DeviceManagementService/DeviceManagementService.wsdl
+#Configured By= Delivery Team
+#Description= This variable contains the path to the WSDL file in provisioning interface used for SOAP communication.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+WIFI_PROCESS_NAME=DEG_WifiAuthInterface_01
+#Configured By= Delivery Team
+#Description=This variable is used to set the process name <WiFi Authentication Interface> appended with the sequence number depending on number of applications servers.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+WIFI_RADIUS_SERVER_HOST_PORT=1812
+#Configured By= Carrier
+#Description= This is the port id to which the WIFI radius server will be connected.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+WIFI_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+#Configured By= Delivery Team
+#Description= This variable contains the destination directory where the Audit files generated from WifiAuth Interface will be saved.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+LOCAL_WIFI_RADIUS_CLIENT_PORT=1820
+#Configured By= Delivery Team
+#Description= The local port used by the client to listen for responses while communicating with the remote server.
+#}
+
+#{
+#IUM_Process=DEG_WifiAuthInterface
+PRIMARY_WIFI_RADIUS_CLIENT_HOST_PORT=1817
+#Configured By= Carrier
+#Description= This variable holds the port number where the primary WiFi radius client will be connected for communication. 
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+PRIMARY_WIFI_RADIUS_CLIENT_SHARED_KEY=hpium
+#Configured By= Carrier
+#Description= This variable stores the shared secret key used by the WiFi radius client server.
+#}
+
+#{
+#IUM_Process= DEG_Audit
+AUDIT_PROCESS_NAME=DEG_Audit_01
+#Configured By= Delivery Team
+#Description=This variable is used to set the process name appended with the sequence number depending on the number of applications servers to be implemented.
+#}
+
+#{
+#IUM_Process= DEG_Audit
+AUDIT_COLLECTION_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+#Configured By= Delivery Team
+#Description= This variable contains the directory path where the audit collector stores the audit files collected from Audit Binary folder.
+#}
+
+#{
+#IUM_Process= DEG_Audit
+AUDIT_PRE_DISTRIBUTION_NRB_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/NRBTool/PreDistDataDir
+#Configured By= Delivery Team
+#Description= This variable contains the directory path where the NRB files generated from the Audit binary files are stored.
+#}
+
+#{
+#IUM_Process= DEG_Audit
+AUDIT_DISTRIBUTION_NRB_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/NRBTool/Distribution
+#Configured By= Delivery Team
+#Description= This variable contains the directory path where the NRB files from AUDIT_PRE_DISTRIBUTION_NRB_DIR are modified and saved.
+#}
+
+#{
+#IUM_Process= DEG_Audit
+AUDIT_PRE_DISTRIBUTION_AUDIT_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/audit/PreDistDataDir
+#Configured By= Delivery Team
+#Description= This variable contains the directory path where the Audit files generated from the Audit binary files are stored.
+#}
+
+#{
+#IUM_Process= DEG_Audit
+AUDIT_DISTRIBUTION_AUDIT_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/audit/Distribution
+#Configured By= Delivery Team
+#Description= This variable contains the directory path where the NRB files from AUDIT_PRE_DISTRIBUTION_AUDIT_DIR are modified and saved.
+#}
+
+#{
+#IUM_Process=DEG_APNSClientInterface
+APNS_SOAP_SERVER_PORT=8199
+#Configured By= Delivery Team
+#Description= This variable holds the port number on which the SOAP connector is to listen for HTTP requests.
+#}
+
+#{
+#IUM_Process= DEG_APNClientInterface
+APNS_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/soap/APNSInterface.wsdl
+#Configured By= Delivery Team
+#Description= This variable provides the location where the WSDL file used for web services is placed.
+#}
+
+#{
+#IUM_Process= DEG_APNClientInterface
+CARRIER_INTERFACE_PROCESS_NAME=DEG_APNS_ClientInterface_01
+#Configured By= Delivery Team
+#Description= This variable is used to set the process name appended with the sequence number depending on the number of application servers to be implemented.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+#Configured By= Delivery Team
+#Description= This variable contains the destination directory where the Audit files generated from APNS Interface will be saved.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PAYLOAD_XSD_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/APNSPayload.xsd
+#Configured By= Delivery Team
+#Description= Absolute path name of APNSPayload.xsd file.
+#}
+
+#{
+#IUM_Process=DEG_APNSInterface
+APNS_HOST_NAME=DEG_APNSInterface_01
+#Configured By=Delivery Team
+#Description=APNSInterface Host name 
+#}
+
+#{
+#IUM_Process=DEG_APNSInterface
+APNS_INTERFACE_PROCESS_NAME=DEG_APNSInterface_01
+#Configured By= Delivery Team
+#Description=This is variable is used to set process name appended with the sequence number depending on the number of applications servers.
+#}
+
+#{
+#IUM_Process=DEG_AAA_Simulator
+HSS_DIAMETER_SERVER_PORT=3869
+#Configured By= Carrier
+#Description= This variable contains the port id where the HSS remote diameter server will be connected.
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface,DEG_AlarmAgent
+DEGDROID_DEVICEINTERFACE_PROCESS_NAME=DEGDROID_DeviceInterface_01
+#Configured By=Product Team
+#Description= Used to set the process name <Device Interface> appended with the sequence number depending on the number of Applications servers.
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+DEGDROID_AUTH_TYPE=EAP_AKA
+#Configured By=Product Team
+#Description= This variable is used to check the auth type in DEGDROID solution. The respective values are EAP_AKA,OTP and none.
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+DEGDROID_SUBSCRIBER_IDENTITY=MSISDN
+#Configured By=Product Team
+#Description= This variable is used support the RCs Specific logic for DEGDROID solution.,If any invalid value is configured then by it is set to IMSI by default.
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+ESME_PORT=2775
+#Configured By=Product Team
+#Description= Port on which ESME is running
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+DEGDROID_SERVER_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DEGDROID_DeviceInterface/http/DEGServer.ks
+#Configured By=Product Team
+#Description= This variable holds keystore file in it while generating the SSL certificate for HTTPS connections.Keystore file has signature certificate embedded in it.
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+DEGDROID_SERVER_CERT_SIGNATURE_PASSWORD=degadmin
+#Configured By=Product Team
+#Description= This variable stores the password for the keystore file.  The default password is "secret".
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface,DEG_AAAuthentication
+DEGDROID_DEVICE_DIAMETER_SERVER_PORT=1830
+#Configured By= Carrier
+#Description= This variable holds the port id to which the DEGDROID device interface local diameter server and remote AAAuthentication server is to be connect.
+#}
+
+#{
+#IUM_Process=DEG_JobsInterface
+DEG_DEVICE_JOB_INTERFACE_SSL_SESSION_DELETE_TIME=200000
+#Configured By= Carrier
+#Description= This variable defines the survival time of a request in  DEG_SSL_SESSION table;
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface,DEG_AAAuthentication
+DEGDROID_DEVICE_HTTP_RETRY_WINDOW=120
+#Configured By= Carrier
+#Description= This variable holds the host name of the where the DEGDROID device interface local Diameter adapter and remote AAAuthentication interface adapter is running.
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface
+DEGDROID_FULL_AUTH_MUST_WINDOW=2592000
+#Configured By= Product Team
+#Description=This variable indicates the fullauth window for DEGDROID Token
+#}
+
+#{
+#IUM_Process=DEG_JobsInterface
+VOWIFI_PROVISIONING_STATUS_RESET_WINDOW=120
+#Configured By=Delivery Team
+#Description=This environment variable defines the provisioned time(in seconds) window of a service eg. VoWifi.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_MULTISIM_SERVICE_SIGNUP_URL=http://MultiSimSignupwebsheet.carrier.com
+#Configured By= Delivery Team
+#Description=this value will be used for the signup-url attribute in the response for signUpForSIMService action.
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface
+MULTISIM_MANAGED_ACCOUNT_WEBSHEET_URL=https://MultiSimSignManagedAccount.carrier.com
+#Configured By= Product Team
+#Description=This variable indicates the fullauth window for DEGDROID Token
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface 
+SUBSCRIBERID_PATTERN=^0[0-9]{6,15}@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppnetwork\.org$
+#Configured By= Product Team
+#Description=This variable holds the RegExPattern of SubscriberId with IMSI.
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface
+IMSIIN_SUBSCRIBERID_PATTERN=^@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppnetwork\.org$
+#Configured By= Product Team
+#Description=This variable holds the RegExPattern of SubscriberId with IMSI as null. 
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DAI_FEATURE=DISABLED
+#Configured By= Delivery Team
+#Description= This parameter describes if DAI feature is Enabled or Disabled.If it is Enabled,the functionality of DAI will get excute.
+#}
+
+#{
+#IUM_Process= DEG_DeviceHeartBeat
+DEVICE_HEARTBEATSCHEDULAR_PROCESS_NAME=DEG_DeviceHeartBeat_01
+#Configured By= Delivery Team
+#Description= This value will be used by Alarm Interface process to decide the IUM log file name to read as well as to decide the alarming log file name.
+#}
+
+#{
+#IUM_Process= DEG_DeviceHeartBeat
+DEG_DAI_HEARTBEAT_ACK_WINDOW=900000
+#Configured By= Delivery Team
+#Description= This is the window time in milliseconds within which response is expected from device in the form of getEntitlement action after the heartbeat APNS notification is sent to device.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DAI_FIRST_HEARTBEAT_TRIGGER_WINDOW=900000
+#Configured By= Delivery Team
+#Description= The value of this attribute will be used to decide the time at which the first heart beat to be sent to device after the first getProvisioning.  Current system time plus this window time will be added and stored in NEXT_HB_TIME_BINT field of DEG_DEVICE_HEARTBEAT table for the DEG_DeviceHeartBeat process to use.  The unit of this value is in milliseconds.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface, DEGDROID_DeviceInterface
+DEG_DEFAULT_PROVISIONING_STATUS=99
+#Configured By= Delivery Team
+#Description=This variable specifies the default initialization value of provisioning status of a subscriber.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface, DEGDROID_DeviceInterface
+DEG_DEFAULT_ADDRESS_STATUS=99
+#Configured By= Delivery Team
+#Description=This variable specifies the default initialization value of address status of a subscriber.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface, DEGDROID_DeviceInterface
+DEG_DEFAULT_TC_STATUS=99
+#Configured By= Delivery Team
+#Description=This variable specifies the default initialization value of TC Status of a subscriber.
+#}
+
+#{
+#IUM_Process=DEG_Notification_Simulator.cfg
+NOTIFICATION_SIMULATOR_PORT=8776
+#configured By=Product Team
+#Description=Specifies the TCP port at which the server socket will listen for connections 
+
+#{
+#IUM_Process=DEG_Notification_Simulator
+NOTIFICATION_CUSTOM_XSD_FILE=/var/opt/SIU_DEG01/flatfiles/NotificationSimulator/http/NotificationSimulator_Custom.xsd
+#Configured By= Product Team
+#Description= This variable has the XSD file that will be used for JSON communication.  This has the request/response schema definition over RestClient.
+#}
+
+#IUM_Process=DEG_DeviceInterface
+PHONENUM_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/DEGServer.ks
+#Configured By= Delivery Team
+#Description=This variable is used only for signing the MSISDN (getPhoneNumber action)
+#}
+
+#{ 
+#IUM_Process=DEG_DeviceInterface
+PHONENUM_CERT_SIGNATURE_PASSWORD=degadmin
+#Configured By= Delivery Team
+#Description= This variable stores the password for the keystore file.
+#}
+
+#{ 
+#IUM_Process=DEG_ProvisioningInterface
+PROV_INTERFACE_MDN_LENGTH=10
+#Configured By= Delivery Team
+#Description= This variable is used to configure the length of MSISDN used in provisioning interface process.
+#}
+
+#{
+#IUM_Process=DEG_AAA_Simulator,DEG_DeviceInterface,DEG_JobsInterface
+DEG_DAIMETER_APLLICATION_ID=16777264
+#Configured By= Delivery Team
+#Description=Specifies the Application Identifiers, which are used to filter unsupported Diameter messages
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+ALARM_HEARTBEAT_DATA_DIR=/var/opt/SIU_DEG01/DEG_AlarmAgent_01/READY/HeartBeat
+#Configured By= Delivery Team
+#Description=This variable contains the destination directory where the HeartBeat (traps) files generated from Alarm Agent will be saved.
+#}
+
+#{
+#IUM_Process=DEG_Secondary_DeviceInterface
+DEG_SECONDARY_SERVER_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/DEGServer.ks
+#Configured By= Delivery Team
+#Description=This variable holds keystore file in it while generating the SSL certificate for HTTPS connections.Keystore file has signature certificate embedded in it.
+#}
+
+#{
+#IUM_Process=DEG_Secondary_DeviceInterface
+DEG_SECONDARY_SERVER_CERT_SIGNATURE_PASSWORD=degadmin
+#Configured By= Delivery Team
+#Description= This variable stores the password for the keystore file.  The default password is "degadmin".
+#}
+
+#{
+#IUM_Process=DEG_Secondary_DeviceInterface
+DEG_SECONDARYDEVICE_SERVER_PORT=8773
+#Configured By= Delivery Team
+#Description= This variable holds the port id where the Secondary Device Interface server is to be connected.
+#}
+
+#{
+#IUM_Process=DEG_Secondary_DeviceInterface
+DEG_SDI_MESSAGECHAIN_TYPE=Message
+#Configured By= Delivery Team
+#Description: This attribute is used for message chaining in Secondary Device Interface."Message" and "Cookie" are supported values.
+#}
+
+#{
+#IUM_Process=DEG_Secondary_DeviceInterface
+DEG_SDI_RESPONSEFORMAT_TYPE=XML
+#Configured By= Delivery Team
+#Description=This attribute is used to identify the response format type for Secondary Device Interface. XML and JSON are supported values.
+#}
+
+#{
+#IUM_Process=DEG_Secondary_DeviceInterface
+DEVICE_SDI_PROCESS_NAME=DEG_Secondary_DeviceInterface_01
+#Configured By=Product Team
+#Description=This variable is used to set the process name appended with the sequence number depending on the number of Applications servers.
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+#Configured By= Delivery Team
+DEG_ALARM_FLUSH_TIME=5m
+#Description=The attribute is defined for 'm' suffix to represent minutes, and 'h' suffix to represent hour.This specifies duration of an aggregation interval in terms of minutes or hours.
+#}
+
+#{ 
+#IUM_Process=DEG_ProvisioningInterface
+PROV_INTERFACE_IMSI_LENGTH=15
+#Configured By= Delivery Team
+#Description= This variable is used to configure the length of IMSI used in provisioning interface process.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DEVICE_GBA_REALM=deg.aes.orange.es
+#Configured By=Delivery Team
+#Description= This variable specifies the realm used in GBA for device interface.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DI_AUTH_TYPE=EAP-AKA
+#Configured By=Delivery Team
+#Description= This variable is used to determine authentication mechanism to be used by DEG.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DI_GBA_NONCE_VALIDITY=-1
+#Configured By=Delivery Team
+#Description= This variable is used to calculate nonce validity for GBA.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DI_GBA_NAF_FQDN=www.jianxizt.com
+#Configured By=Delivery Team
+#Description= This variable specifies the realm used for GBA.
+#}
+
+######################################################### SYSTEM PARAMETERS ############################################################################################
+
+#{
+#IUM_Process= ALL 
+HOST_NAME=mxulodeg31
+#Configured By= Delivery Team
+#Description=Name of the host where the Application Server will be installed.
+#}
+
+#{
+#IUM_Process= ALL
+APNS_INTERFACE_IP=10.192.153.194
+#Configured By= Product Team
+#Description= This variable holds the IP address where the APNS interface is running.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICE_AUDIT_BINARY_FILE_NAME='mxulodeg31_DEVICE_'yyyyMMddHHmmssSSS'.DAT'
+#Configured By= Delivery Team
+#Description= This variable defines the file naming structure for the Audit files,in binary format,generated from Device Interface component.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_APNS_SERVER_HOST_IP=10.192.153.194
+#Configured By= Delivery Team
+#Description= This variable holds the IP address where the APNS external server is hosted.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_DIAMETER_SERVER_HOST_IP=10.223.0.81
+#Configured By= Carrier
+#Description= This variable holds the IP address where the device interface local Diameter adapter and remote AAAuthentication interface adapter is running.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+PRIMARY_RADIUS_SERVER_HOST_IP=10.192.153.194
+#Configured By= Carrier
+#Description= This variable has the IP address of the machine where primary radius client is running.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+SECONDARY_RADIUS_SERVER_HOST_IP=10.192.153.194
+#Configured By= Carrier
+#Description= IP address for the remote server
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+PRIMARY_AAA_HOST_IP=10.223.2.118
+#Configured By= Carrier
+#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted. 
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+PRIMARY_CREDENTIAL_ADDRESS=http://10.192.153.194:9093/ium-ManageDeviceCredentials/servlet/IUMServlet
+#Configured By= Delivery Team
+#Description= This variable is used as end point address of where the interface is running.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+FIRSTENDPOINT_LDAP_HOST_URL=ldap://10.192.153.189:389/
+#Configured By= Product Team
+#Description=URL of the ServiceProvider of the server supporting LDAP services. This URL is used for loading the LDAP context.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+SECONDENDPOINT_LDAP_HOST_URL=ldap://10.192.153.189:389/
+#Configured By= Product Team
+#Description=URL of the ServiceProvider of the server supporting LDAP services. This URL is used for loading the LDAP context.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+THIRDENDPOINT_LDAP_HOST_URL=ldap://10.192.153.189:389/
+#Configured By= Product Team
+#Description=URL of the ServiceProvider of the server supporting LDAP services. This URL is used for loading the LDAP context.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+PRIMARY_QUERY_EAI_ADDRESS=http://10.192.153.189:9092/ium-SubscriberUsageInfo/servlet/IUMServlet
+#Configured By= Delivery Team
+#Description=This variable has http link for action-SubscriberUsageInfo. DeviceInterface queries SubscriberUsageInfo interface for the subscriber's usage information.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+PRIMARY_TOKEN_EAI_ADDRESS=http://10.192.153.189:9091/ium-ManageDeviceToken/servlet/IUMServlet
+#Configured By= Delivery Team
+#Description= This variable has http link for the where the EAI is used.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_GETPROVVoLTE_SERVER_HOST_IP=10.192.153.194
+#Configured By= Delivery Team
+#Description=specifies Host name of remote session server.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface,DEG_AAAuthentication
+DEVICE_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
+#Configured By= Carrier
+#Description= This is used to set Origin-Host AVP of DIAMETER messages.  Also used in forming AAA session id.  This is used by Apple initiated requests.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+PRIMARY_AAA_HOST_NAME=mxulaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
+#Configured By= Carrier
+#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted. 
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+SECONDARY_AAA_HOST_IP=10.223.2.119
+#Configured By= Carrier
+#Description= This variable holds the IP address where the secondary remote AAA server will be hosted. 
+#}
+
+#{
+#IUM_Process=  DEG_JobsInterface.
+SECONDARY_AAA_HOST_NAME=mxulaaa02.aaa.ims.mnc003.mcc214.3gppnetwork.org
+#Configured By= Carrier
+#Description= This variable holds the host name where the secondary remote AAA server will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_DIAMETER_HOST_IP=10.223.0.81
+#Configured By= Delivery Team
+#Description= This variable holds the IP address where the AAA local server will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
+#Configured By= Delivery Team
+#Description=This variable holds the host name  where the AAA local server will be hosted. 
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_HTTP_REMOTE_HOST_URL1=http://10.192.153.189:8185/ium-MAPGW/servlet/IUMServlet
+#Configured By= Carrier
+#Description=This variable has the URL for the remote HTTP map gateway.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_HTTP_REMOTE_HOST_URL2=http://10.192.153.189:8185/ium-MAPGW/servlet/IUMServlet
+#Configured By= Carrier
+#Description=This variable has the URL for the remote HTTP map gateway.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_RADIUS_SERVER_HOST_IP=10.192.153.194
+#Configured By= Carrier
+#Description=This variable contains the IP address of the device where the the AAA local radius server will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_RADIUS_CLIENT_HOST_IP=10.192.153.194
+#Configured By= Carrier
+#Description=This variable contains the IP address of the radius client to which the radius server will communicate.
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+AAA_AUDIT_BINARY_FILE_NAME='mxulodeg31_AAA_'yyyyMMddHHmmssSSS'.DAT'
+#Configured By= Product Team
+#Description=This variable defines the file naming structure for the Audit files,in binary format,generated from AAA Authentication Interface component
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_SWX_DIAMETER_CLIENT_HOST_NAME=mxulodeg31.degaaa1.swx.com
+#Configured By= Carrier
+#Description= This variable holds the host name of the device where AAA local SWx diameter client will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_SWX_HSS_DIAMETER_SERVER_HOST_NAME=mxulodeg20.deghss.swx.com
+#Configured By= Carrier
+#Description= This variable holds the host name of the device where AAA remote HSS SWx diameter server will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_WX_DIAMETER_CLIENT_HOST_NAME=mxulodeg31.degaaa1.wx.com
+#Configured By= Carrier
+#Description= This variable holds the host name of the device where AAA remote Wx diameter local client server will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_WX_HSS_DIAMETER_SERVER_HOST_NAME=mxulodeg20.deghss.swx.com
+#Configured By= Carrier
+#Description= This variable holds the host name of the device where AAA remote HSS Wx diameter server will be hosted.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_AGENT_ADDRESS_PORT=10.192.153.194:9161
+#Configured By= Delivery Team
+#Description= Specifies the UDP address the traps will be sent from. The format is <hostname>:<port>
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_STRING_CONNECTION=jdbc:mariadb://10.192.153.189:3306/siu_manager_md?relaxAutoCommit=true
+#Configured By= Product Team
+#Description= Database URL to establish a connection from application server to manager server 
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_JDBC_DRIVER=org.mariadb.jdbc.Driver
+#Configured By= Product Team
+#Description= The database driver class.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+JOBS_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
+#Configured By= Delivery Team
+#Description= This variable specifies the value of the Origin-Host AVP which is set in system Diameter messages sent by the connector.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+JOBS_DIAMETER_SERVER_HOST_IP=10.223.0.81
+#Configured By= Delivery Team
+#Description= This variable Specifies the Diameter node IP address.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get
+PROVISIONING_GET_CARRIER_URL=http://10.192.153.194:9000/ium-ManageEntitlement/servlet/iumservlet
+#Configured By= Carrier
+#Description= This variable is used as end point address of where the interface is running.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_AUDIT_BINARY_FILE_NAME='mxulodeg31_PROV_'yyyyMMddHHmmssSSS'.DAT'
+#Configured By= Product Team
+#Description= This variable defines the file naming structure for the Audit files in binary format generated from Provisioning Interface component.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get
+PROV_GET_AUDIT_BINARY_FILE_NAME='mxulodeg31_PROV_GET_'yyyyMMddHHmmssSSS'.DAT'
+#Configured By=Product Team
+#Description= This variable defines the file naming structure for the Audit files in binary format generated from Provisioning Interface
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+WIFI_RADIUS_SERVER_HOST_IP=10.192.153.194
+#Configured By= Carrier
+#Description= This is the IP address where the Wifi radius server will be running.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+WIFI_AUDIT_BINARY_FILE_NAME='mxulodeg31_WIFIAUTH_'yyyyMMddHHmmssSSS'.DAT'
+#Configured By= Product Team
+#Description= This variable defines the file naming structure for the Audit files , in binary format, generated from WiFi Authentication Interface.
+#}
+
+#{
+#IUM_Process=DEG_WifiAuthInterface
+PRIMARY_WIFI_RADIUS_CLIENT_HOST_IP=10.192.153.194
+#Configured By= Carrier
+#Description= This variable holds the IP address where the WiFi Radius client will communicate with the WiFi Radius server.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+WIFI_HOST_NAME=mxulodeg31.wifidevice.radius.deg.com
+#Configured By= Carrier
+#Description= This variable has the host name of the IP  where the WiFi server is running.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_AUDIT_BINARY_FILE_NAME='mxulodeg31_APNS_'yyyyMMddHHmmssSSS'.DAT'
+#Configured By= Product Team
+#Description= This variable defines the file naming structure for the Audit files ,in binary format,generated from APNS Interface component.
+#This value must be different from DEVICE_AUDIT_BINARY_FILE_NAME .
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+REP_STRING_CONNECTION=jdbc:mariadb://10.192.153.189:3307/deg_dsn_md?relaxAutoCommit=true
+#Configured By= Product Team
+#Description= Specifies the string which is used to connect to the database
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_HOST=10.192.153.194
+#Configured By= Delivery Team
+#Description= IP address of the Host on which APNS production server us running.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_PORT=30000
+#Configured By= Delivery Team
+#Description= Specifies the TCP port at which the Production server socket will listen for connections
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_TRUST_STORE_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Production_Trust.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Trust Store file for Production Server
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_TRUST_STORE_PWD=secret
+#Configured By= Delivery Team
+#Description= Password of the Trust Store file for Production Server
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SIMULATOR_HOST=10.192.153.194
+#Configured By= Delivery Team
+#Description=This variable contains the host name where the APNS simulator is running.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_ENDPOINT=Simulator
+#Configured By=Delivery Team
+#Description=This attribute specifies names of one/more endpoint configurations that will be used for sending requests(based on RoundRobin load balancing algorithm)
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_HOST=10.192.153.194
+#Configured By= Delivery Team
+#Description= IP address of the Host on which APNS Sandbox server us running
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_SANDBOX_PORT=40000
+#Configured By= Delivery Team
+#Description= Specifies the TCP port at which the Sandbox server socket will listen for connections
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_TRUST_STORE_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Sandbox_Trust.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Trust Store file for Sandbox Server
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_TRUST_STORE_PWD=secret
+#Configured By= Delivery Team
+#Description= Password of the Trust Store file for Sandbox Server
+#}
+
+#{
+#IUM_Process=DEG_AAAuthentication
+AAA_HSS_DIAMETER_SERVER_IP=10.223.0.81
+#Configured BY=Carrier
+#Description==This variable holds the IP address where the HSS remote diameter server will be running.
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+ESME_HOST_IP=10.192.153.194
+#Configured By=Product Team
+#Description= IP address of the Host on which ESME is running
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface,DEG_AAAuthentication
+DEGDROID_DEVICE_DIAMETER_SERVER_HOST_NAME=mxulodeg31.degdroiddevice.swa.com
+#Configured By= Carrier
+#Description= This is used to set Origin-Host AVP of DIAMETER messages.  Also used in forming AAA session id.  This is used by Android initiated requests.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEGAPPLE_HEALTHCHECK_REQUEST_URL=https://10.192.153.194:8181/ium-OEMInterface/servlet/IUMServlet
+#Configured By= Delivery Team
+#Description=When request is received in health check port, internally a fake request is sent to the device's request processing port.  This environment holds the URL for that fake request.  This must be same as what device would use.  Only change the IP address in this and do not change anything else.  If this is incorrect, you may get negative response for requests to healthcheck port.
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface
+DEGDROID_HEALTHCHECK_REQUEST_URL=https://10.192.153.194:9014/DEGDROIDInterface/
+#Configured By= Delivery Team
+#Description=When request is received in health check port, internally a fake request is sent to the device's request processing port.  This environment holds the URL for that fake request.  This must be same as what device would use.  Only change the IP address in this and do not change anything else.  If this is incorrect, you may get negative response for requests to healthcheck port.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_FILE_VOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoWiFi_Production_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Production Server for VoWiFi topic
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_PWD_VOWIFI=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Production Server for VoWiFi topic
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_FILE_VOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoWiFi_Sandbox_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Sandbox Server for VoWiFi topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_PWD_VOWIFI=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Sandbox Server for VoWiFi topic.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_FILE_CAMBIO=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Cambio_Production_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Production Server for Cambio topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_PWD_CAMBIO=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Production Server for Cambio topic.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_FILE_CAMBIO=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Cambio_Sandbox_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Sandbox Server for Cambio topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_PWD_CAMBIO=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Sandbox Server for Cambio topic.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_FILE_VOLTE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoLTE_Production_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Production Server for Entitlements topic
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_PWD_VOLTE=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Production Server for Entitlements topic
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_FILE_VOLTE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoLTE_Sandbox_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Sandbox Server for Entitlements topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_PWD_VOLTE=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Sandbox Server for Entitlements topic.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_FILE_ICLOUDVOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/iCloudVoWiFi_Production_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Production Server for iCloudVoWiFi topic
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_PWD_ICLOUDVOWIFI=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Production Server for iCloudVoWiFi topic
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_FILE_ICLOUDVOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/iCloudVoWiFi_Sandbox_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Sandbox Server for iCloudVoWiFi topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_PWD_ICLOUDVOWIFI=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Sandbox Server for iCloudVoWiFi topic.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/MultiSIM_Production_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Production Server for Multi-SIM topic
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_PWD_MULTISIM=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Production Server for Multi-SIM topic
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/MultiSIM_Sandbox_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Sandbox Server for Multi-SIM topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_PWD_MULTISIM=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Sandbox Server for Multi-SIM topic.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_FILE_CARRIERSPACE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Sweetgum_Production_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Production Server CarrierSpace topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_PRODUCTION_KEY_STORE_PWD_CARRIERSPACE=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Production Server CarrierSpace topic.
+#}
+
+#{
+#IUM_Process=  DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_FILE_CARRIERSPACE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Sweetgum_Sandbox_Key.ks
+#Configured By= Delivery Team
+#Description= Absolute path name of Key Store file for Sandbox Server for CarrierSpace topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_SANDBOX_KEY_STORE_PWD_CARRIERSPACE=secret
+#Configured By= Delivery Team
+#Description= Password of the Key Store file for Sandbox Server for CarrierSpace topic.
+#}
+
+#{
+#IUM_Process=DEG_Secondary_DeviceInterface
+DEVICE_SDI_AUDIT_BINARY_FILE_NAME='mxulodeg31_SDI_'yyyyMMddHHmmssSSS'.DAT'
+#Configured By= Delivery Team
+#Description= This variable defines the file naming structure for the Audit files,in binary format,generated from Secondary Device Interface component.
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+DEGDROID_LISTEN_PORT=9901
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for DEGDROID_DeviceInterface
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+AAA_LISTEN_PORT=9992
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for AAA_LISTEN_PORT
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DEVICE_INTERFACE_LISTEN_PORT=9989
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for DEG_DeviceInterface
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+JOBSINTERFACE_LISTEN_PORT=9990
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for DEG_JobsInterface 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+DEG_PROVISIONING_INTERFACE_LISTEN_PORT=9987
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for DEG_ProvisioningInterface_01 Interface.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+WIFI_LISTEN_PORT=9991
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for DEG_ DeviceInterface _01 Interface.
+#}
+
+
+######################################################### PERFORMANCE PARAMETERS #######################################################################################
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_EAI_SOAP_MIN_THREADS=5
+#Configured By= Delivery Team
+#Description=EAI is a third party interface in Sprint.This variable sets the minimum number of threads that must be active for SOAP communication.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEVICE_EAI_SOAP_CONNECTIONS=5
+#Configured By= Delivery Team
+#Description=EAI is a third party interface in Sprint.This variable sets the number of active connections for communication.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+JOBS_DB_CON_INITIAL_POOL_SIZE=5
+#Configured By= Delivery Team
+#Description= This variable contains the size of the pool when created, and its minimum allowable size of live database connections.
+#}
+
+#{
+#IUM_Process=DEG_JobsInterface
+JOBS_DB_CON_MAX_POOL_SIZE=5
+#Configured By= Delivery Team
+#Description= This variable contains the maximum allowable number of live database connections.
+#}
+
+#{
+#IUM_Process=DEG_APNSInterface
+APNS_MIN_THREADS=100
+#Configured By= Product Team
+#Description=Specifies the minimum number of threads to be kept running for this connector.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_THREAD_QUEUE=50
+#Configured By=Product Team
+#Description= Queue of request which will be processed by TCP connector
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_RETRY=50
+#Configured By= Product Team
+#Description= Maximum retry to establish TCP connection between Client and server
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+RADIUS_INACTIVATE_AFTER_FAILED_COUNT=3
+#Configured By= Delivery Team
+#Description=When request sent using radius interface has failed for 3 times, HomeServer will become inactive.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+RADIUS_RESPONSE_TIMEOUT=3000
+#Configured By= Delivery Team
+#Description=RADIUS interface can queue only 255 message-id and if this value is longer it is likely that more incoming requests may be queued and it’ll result in rejecting some of the action requests.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+RADIUS_INACTIVATE_AFTER_TIMEOUT_COUNT=3
+#Configured By= Delivery Team
+#Description=When request is sent using Radius interface,if timeout happens 3 times,HomeServer will become inactive and the rest of requests will return immediately.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+RADIUS_ZOMBIE_TIME=10000
+#Configured By= Delivery Team
+#Description=When request is sent using Radius interface, 10 seconds is set after which it will be pinged again after going to inactive state.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+RADIUS_REQUEST_RETRY_COUNT=0
+#Configured By= Delivery Team
+#Description=Specifies the number of times the requests are re-sent on response timeout, Response time timeout interval in milliseconds to wait for a response from the server.
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface
+DEGDROID_NUM_CONNECTIONS=3
+#Configured By= Delivery Team
+#Description=This variable specifies the initial/minimum number of connection objects to be pooled.
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface
+DEGDROID_CONNECTION_TIMEOUT=2000
+#Configured By= Delivery Team
+#Description=This variable specifies the maximum number of connections that can be established with the remote HTTP server.
+#}
+
+#{
+#IUM_Process=DEGDROID_DeviceInterface
+DEGDROID_SOCKET_TIMEOUT=2000
+#Configured By= Delivery Team
+#Description=This variable specifies time to wait for the response after sending a HTTP request.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEGAPPLE_NUM_CONNECTIONS=3
+#Configured By= Delivery Team
+#Description=This variable specifies the initial/minimum number of connection objects to be pooled.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEGAPPLE_CONNECTION_TIMEOUT=2000
+#Configured By= Delivery Team
+#Description=This variable specifies the maximum number of connections that can be established with the remote HTTP server.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+DEGAPPLE_SOCKET_TIMEOUT=2000
+#Configured By= Delivery Team
+#Description=This variable specifies time to wait for the response after sending a HTTP request.
+#}
+
+#{ 
+#IUM_Process=DEG_DeviceInterface
+DEVICEINTERFACE_REQUEST_TIMEOUT=1000
+#Configured By= Delivery Team
+#Description= This variable is used to specify the time in milliseconds, where a thread will wait for a rulechain to become available.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_CONN_VOWIFI=50
+#Configured By= Delivery Team
+#Description=Maximum number of connection between APNS Interface and APNS Production or Sandbox server for VoWiFi topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_CONN_CAMBIO=50
+#Configured By= Delivery Team
+#Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for  Cambio topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_CONN_VOLTE=50
+#Configured By= Delivery Team
+#Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for VoLTE topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_CONN_ICLOUDVOWIFI=50
+#Configured By= Delivery Team
+#Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for iCloudVoWiFi topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_CONN_MULTISIM=50
+#Configured By= Delivery Team
+#Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for Multi-SIM topic.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_CONN_CARRIERSPACE=50
+#Configured By= Delivery Team
+#Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for CarrierSpace topic.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICE_MAX_DBCONN_DEG_DI_HTTPGBA=20
+#Configured By=Delivery Team
+#Description= Specifies the maximum number of concurrent database connections to be opened.
+#}
+ENT_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/EntitlementNotificationInterface/soap/EntitlementChangeNotification.wsdl
+ENT_APNS_RECONNECT_DELAY=5
+ENT_APNS_TIMEOUT=1000
+ENT_APNS_ALLOWED_TIMEOUTS=5
+CHECK_SECOND_PUSH_TOKEN_TABLE=true
+ENT_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
+ENT_AUDIT_BINARY_FILE_NAME='deg-appserver11_ENT_'yyyyMMddHHmmssSSS'.DAT'
