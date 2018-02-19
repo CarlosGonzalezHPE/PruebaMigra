@@ -1151,32 +1151,78 @@
       <element name="originalPublicUserId" type="string" minOccurs="0"/>
       <element name="barringIndication" type="string" minOccurs="0"/>
       <element name="defaultIndication" type="string" minOccurs="0"/>
+      <element name="serviceProfileName" type="string" minOccurs="0"/>
       <element name="irsId" type="string" minOccurs="0"/>
+      <element name="displayName" type="string" minOccurs="0"/>
       <element name="displayNamePrivacy" type="string" minOccurs="0"/>
       <element name="aliasId" type="string" minOccurs="0"/>
+      <element name="isChildIMPU" type="string" minOccurs="0"/>
+      <element name="servicePriorityLevel" type="int" minOccurs="0"/>
+      <element name="sarPublicUserId" type="string" minOccurs="0"/>
+      <element name="publicIdType" type="string" minOccurs="0"/>
+     	<element name="snrPublicUserId" type="string" minOccurs="0"/>
+     	<element name="extendedPriority" type="obj:ExtendedPriority" minOccurs="0" maxOccurs="unbounded"/>
 		</sequence>
+	</complexType>
+	
+  <complexType name="ExtendedPriority">
+				<sequence>
+					<element name="priorityNamespace" type="string" minOccurs="0"/>
+					<element name="priorityLevel" type="string" minOccurs="0"/>
+				</sequence>
 	</complexType>
 	
 	<complexType name="serviceProfile">
 		<sequence>
       <element name="profileName" type="string" minOccurs="0"/>
-      <element name="mandatoryCapability" type="obj:mandatoryCapability" minOccurs="0"/>
-      <element name="globalFilterId" type="obj:globalFilterId" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="mandatoryCapability" type="obj:mandatoryCapability" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="optionalCapability" type="obj:OptionalCapability" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="globalFilterId" type="obj:GlobalFilterId" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="subscribedMediaProfileID" type="obj:SubscribedMediaProfileID" minOccurs="0"/>
+      <element name="userFilterCriteria" type="obj:UserFilterCriteria" minOccurs="0" maxOccurs="unbounded"/>
+     	<element name="subscribedMediaProfileId" type="int" minOccurs="0"/>
 		</sequence>
 	</complexType>
+	
+	<complexType name="OptionalCapability">
+                <sequence>
+                    <element name="optionalCapability" type="string" minOccurs="0"/>
+                </sequence>
+  </complexType>
 	
 	<complexType name="mandatoryCapability">
 		<sequence>
-      <element name="mandatoryCapability" type="string" minOccurs="0"/>
+      <element name="mandatoryCapability" type="int" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	
-	<complexType name="globalFilterId">
+	<complexType name="GlobalFilterId">
 		<sequence>
       <element name="globalFilterId" type="string" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	
+	<complexType name="SubscribedMediaProfileID">
+                <sequence>
+                    <element name="sessionReleasePolicy" type="string" minOccurs="0"/>
+                    <element name="forkingPolicy" type="string" minOccurs="0"/>
+                </sequence>
+  </complexType>
+	
+	<complexType name="UserFilterCriteria">
+                <sequence>
+                    <element name="filterName" type="string" minOccurs="0"/>
+                    <element name="asSipAddress" type="string" minOccurs="0"/>
+                    <element name="priority" type="int" minOccurs="0"/>
+                    <element name="triggerPoints" type="string" minOccurs="0"/>
+                    <element name="serviceInformation" type="string" minOccurs="0"/>
+                    <element name="handling" type="string" minOccurs="0"/>
+                    <element name="profilePartIndication" type="string" minOccurs="0"/>
+                    <element name="includeRegisterRequest" type="string" minOccurs="0"/>
+                    <element name="includeRegisterResponse" type="string" minOccurs="0"/>
+                </sequence>
+  </complexType>
+    
 	<complexType name="aliasGroup">
 		<sequence>
       <element name="aliasId" type="string" minOccurs="0"/>
