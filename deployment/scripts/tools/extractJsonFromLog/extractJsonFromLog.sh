@@ -1,7 +1,5 @@
 #!/bin/bash
 
-INPUT_FILEPATH=$1
-
 awk 'BEGIN { show = 0; previous_line = "" } {
   if ($0 ~ " Received message = \\[" || $0 ~ " Sending response: \\[")
   {
@@ -26,4 +24,4 @@ awk 'BEGIN { show = 0; previous_line = "" } {
   }
 
   previous_line = $0;
-}' ${INPUT_FILEPATH}
+}'
