@@ -1,0 +1,62 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/tap0310"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/tap0310"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="DataInterChange">
+        <sequence>
+            <element name="transferBatch" type="this:TransferBatch" />
+            <element name="notification" type="this:Notification" />
+        </sequence>
+    </complexType>
+
+    <complexType name="TransferBatch">
+        <sequence>
+            <element name="sender" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Notification">
+        <sequence>
+            <element name="sender" type="nme:string" />
+            <element name="recipient" type="nme:string" />
+            <element name="fileSequenceNumber" type="nme:string" />
+            <element name="fileCreationTimeStamp" type="this:FileCreationTimeStamp" />
+            <element name="fileAvailableTimeStamp" type="this:FileAvailableTimeStamp" />
+            <element name="transferCutOffTimeStamp" type="this:TransferCutOffTimeStamp" />
+            <element name="specificationVersionNumber" type="nme:int" />
+            <element name="releaseVersionNumber" type="nme:int" />
+            <element name="fileTypeIndicator" type="nme:string" />
+            <element name="operatorSpecInfoList" type="this:OperatorSpecInfoList" />
+        </sequence>
+    </complexType>
+
+    <complexType name="FileCreationTimeStamp">
+        <sequence>
+            <element name="localTimeStamp" type="nme:string" />
+            <element name="utcTimeOffset" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="FileAvailableTimeStamp">
+        <sequence>
+            <element name="localTimeStamp" type="nme:string" />
+            <element name="utcTimeOffset" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="TransferCutOffTimeStamp">
+        <sequence>
+            <element name="localTimeStamp" type="nme:string" />
+            <element name="utcTimeOffset" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="OperatorSpecInfoList">
+        <sequence>
+            <element name="OperatorSpecInformation" type="nme:string" />
+        </sequence>
+    </complexType>
+</schema>

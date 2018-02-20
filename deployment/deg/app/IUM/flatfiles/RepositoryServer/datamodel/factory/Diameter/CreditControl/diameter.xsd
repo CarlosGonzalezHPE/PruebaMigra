@@ -1,0 +1,260 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.hp.com/usage/nme/nmeschema/diameter"
+	xmlns:this="http://www.hp.com/usage/nme/nmeschema/diameter" xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+	<import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+	<complexType name="CreditControlApplication">
+		<sequence>
+			<element name="request" type="this:CreditControlRequest" />
+			<element name="answer" type="this:CreditControlAnswer" />
+		</sequence>
+	</complexType>
+
+	<complexType name="CreditControlAnswer">
+		<sequence>
+			<element name="sessionID" type="nme:string" />
+			<element name="resultCode" type="nme:long" />
+			<element name="originHost" type="nme:string" />
+			<element name="originRealm" type="nme:string" />
+			<element name="authApplicationId" type="nme:long" />
+			<element name="ccRequestType" type="nme:int" />
+			<element name="ccRequestNumber" type="nme:long" />
+			<element name="userName" type="nme:string" />
+			<element name="ccSessionFailover" type="nme:int" />
+			<element name="ccSubSessionId" type="nme:long" />
+			<element name="acctMultiSessionId" type="nme:string" />
+			<element name="originStateId" type="nme:long" />
+			<element name="eventTimestamp" type="nme:int" />
+			<element name="grantedServiceUnit" type="this:GrantedServiceUnit" />
+			<element name="multipleServicesCreditControl">
+				<complexType>
+					<sequence>
+						<element type="this:MultipleServicesCreditControl" name="value"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="costInformation" type="this:CostInformation" />
+			<element name="finalUnitIndication" type="this:FinalUnitIndication" />
+			<element name="checkBalanceResult" type="nme:int" />
+			<element name="creditControlFailureHandling" type="nme:int" />
+			<element name="directDebitingFailureHandling" type="nme:int" />
+			<element name="validityTime" type="nme:long" />
+			<element name="redirectHost" type="nme:string-array" />
+			<element name="redirectHostUsage" type="nme:int" />
+			<element name="redirectMaxCacheTime" type="nme:long" />
+			<element name="proxyInfo">
+				<complexType>
+					<sequence>
+						<element type="this:ProxyInfo" name="value" maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="routeRecord" type="nme:string-array" />
+		</sequence>
+	</complexType>
+
+	<complexType name="CreditControlRequest">
+		<sequence>
+			<element name="sessionID" type="nme:string" />
+			<element name="originHost" type="nme:string" />
+			<element name="originRealm" type="nme:string" />
+			<element name="destRealm" type="nme:string" />
+			<element name="authApplicationId" type="nme:long" />
+			<element name="serviceContextId" type="nme:string" />
+			<element name="ccRequestType" type="nme:int" />
+			<element name="ccRequestNumber" type="nme:long" />
+			<element name="destHost" type="nme:string" />
+			<element name="userName" type="nme:string" />
+			<element name="ccSubSessionId" type="nme:long" />
+			<element name="acctMultiSessionId" type="nme:string" />
+			<element name="originStateId" type="nme:long" />
+			<element name="eventTimestamp" type="nme:int" />
+			<element name="subscriptionId">
+				<complexType>
+					<sequence>
+						<element type="this:SubscriptionId" name="value"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="serviceIdentifier" type="nme:long" />
+			<element name="terminationCause" type="nme:int" />
+			<element name="requestedServiceUnit" type="this:RequestedServiceUnit" />
+			<element name="requestedAction" type="nme:int" />
+			<element name="usedServiceUnit">
+				<complexType>
+					<sequence>
+						<element type="this:UsedServiceUnit" name="value"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="multipleServicesIndicator" type="nme:int" />
+			<element name="multipleServicesCreditControl">
+				<complexType>
+					<sequence>
+						<element type="this:MultipleServicesCreditControl" name="value"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="serviceParameterInfo">
+				<complexType>
+					<sequence>
+						<element type="this:ServiceParameterInfo" name="value"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ccCorrelationId" type="nme:byte-array" />
+			<element name="userEquipmentInfo" type="this:UserEquipmentInfo" />
+			<element name="proxyInfo">
+				<complexType>
+					<sequence>
+						<element type="this:ProxyInfo" name="value" maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="routeRecord" type="nme:string-array" />
+		</sequence>
+	</complexType>
+
+	<complexType name="GrantedServiceUnit">
+		<sequence>
+			<element name="tariffTimeChange" type="nme:int" />
+			<element name="ccTime" type="nme:long" />
+			<element name="ccMoney" type="this:CCMoney" />
+			<element name="ccTotalOctets" type="nme:long" />
+			<element name="ccInputOctets" type="nme:long" />
+			<element name="ccOutputOctets" type="nme:long" />
+			<element name="ccServiceSpecificUnits" type="nme:long" />
+		</sequence>
+	</complexType>
+
+	<complexType name="CCMoney">
+		<sequence>
+			<element name="unitValue" type="this:UnitValue" />
+			<element name="currencyCode" type="nme:long" />
+		</sequence>
+	</complexType>
+
+	<complexType name="UnitValue">
+		<sequence>
+			<element name="valueDigits" type="nme:long" />
+			<element name="exponent" type="nme:int" />
+		</sequence>
+	</complexType>
+
+	<complexType name="MultipleServicesCreditControl">
+		<sequence>
+			<element name="grantedServiceUnit" type="this:GrantedServiceUnit" />
+			<element name="requestedServiceUnit" type="this:RequestedServiceUnit" />
+			<element name="usedServiceUnit">
+				<complexType>
+					<sequence>
+						<element type="this:UsedServiceUnit" name="value"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="tariffChangeUsage" type="nme:int" />
+			<element name="serviceIdentifier" type="nme:long-array" />
+			<element name="ratingGroup" type="nme:long" />
+			<element name="gsuPoolReference">
+				<complexType>
+					<sequence>
+						<element type="this:GSUPoolReference" name="value"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="validityTime" type="nme:long" />
+			<element name="resultCode" type="nme:long" />
+			<element name="finalUnitIndication" type="this:FinalUnitIndication" />
+		</sequence>
+	</complexType>
+
+	<complexType name="RequestedServiceUnit">
+		<sequence>
+			<element name="ccTime" type="nme:long" />
+			<element name="ccMoney" type="this:CCMoney" />
+			<element name="ccTotalOctets" type="nme:long" />
+			<element name="ccInputOctets" type="nme:long" />
+			<element name="ccOutputOctets" type="nme:long" />
+			<element name="ccServiceSpecificUnits" type="nme:long" />
+		</sequence>
+	</complexType>
+
+	<complexType name="UsedServiceUnit">
+		<sequence>
+			<element name="tariffChangeUsage" type="nme:int" />
+			<element name="ccTime" type="nme:long" />
+			<element name="ccMoney" type="this:CCMoney" />
+			<element name="ccTotalOctets" type="nme:long" />
+			<element name="ccInputOctets" type="nme:long" />
+			<element name="ccOutputOctets" type="nme:long" />
+			<element name="ccServiceSpecificUnits" type="nme:long" />
+		</sequence>
+	</complexType>
+
+	<complexType name="GSUPoolReference">
+		<sequence>
+			<element name="gsuPoolIdentifier" type="nme:long" />
+			<element name="ccUnitType" type="nme:int" />
+			<element name="unitValue" type="this:UnitValue" />
+		</sequence>
+	</complexType>
+
+	<complexType name="FinalUnitIndication">
+		<sequence>
+			<element name="finalUnitAction" type="nme:int" />
+			<element name="restrictionFilterRule" type="nme:string-array" />
+			<element name="filterId" type="nme:string-array" />
+			<element name="redirectServer" type="this:RedirectServer" />
+		</sequence>
+	</complexType>
+
+	<complexType name="RedirectServer">
+		<sequence>
+			<element name="redirectAddressType" type="nme:int" />
+			<element name="redirectServerAddress" type="nme:string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="CostInformation">
+		<sequence>
+			<element name="unitValue" type="this:UnitValue" />
+			<element name="currencyCode" type="nme:long" />
+			<element name="costUnit" type="nme:string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ProxyInfo">
+		<sequence>
+			<element name="proxyHost" type="nme:string" />
+			<element name="proxyState" type="nme:byte-array" />
+		</sequence>
+	</complexType>
+
+	<complexType name="SubscriptionId">
+		<sequence>
+			<element name="subscriptionIdType" type="nme:int" />
+			<element name="subscriptionIdData" type="nme:string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="ServiceParameterInfo">
+		<sequence>
+			<element name="serviceParameterType" type="nme:long" />
+			<element name="serviceParameterValue" type="nme:byte-array" />
+		</sequence>
+	</complexType>
+
+	<complexType name="UserEquipmentInfo">
+		<sequence>
+			<element name="userEquipmentInfoType" type="nme:int" />
+			<element name="userEquipmentInfoValue" type="nme:byte-array" />
+		</sequence>
+	</complexType>
+</schema>

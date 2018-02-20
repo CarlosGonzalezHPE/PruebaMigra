@@ -1,0 +1,213 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_diameterWx_to_XFD_diameterWx">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+    <import prefix="tnme" ns="http://www.hp.com/usage/datastruct/transform/nme" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/diameterWx" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/diameterWx" />
+    <import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+
+    <transformer id="SNME_MultimediaAuthAnswerWx_to_XFD_MultimediaAuthAnswerWx" from="snme:MultimediaAuthAnswerWx" to="xfd:MultimediaAuthAnswerWx">
+        <transform input="sessionID" output="sessionID">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="vendorSpecificApplicationId" output="vendorSpecificApplicationId">
+            <transformer from="snme:vendorSpecificApplicationId[]" to="xfd:vendorSpecificApplicationId[]">
+                <array>
+                    <use-transformer from="snme:vendorSpecificApplicationId" to="xfd:vendorSpecificApplicationId" class="SNME_vendorSpecificApplicationId_to_XFD_vendorSpecificApplicationId" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="resultCode" output="resultCode">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="experimentalResult" output="experimentalResult">
+            <transformer from="snme:experimentalResult[]" to="xfd:experimentalResult[]">
+                <array>
+                    <use-transformer from="snme:experimentalResult" to="xfd:experimentalResult" class="SNME_experimentalResult_to_XFD_experimentalResult" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="authSessionState" output="authSessionState">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="originHost" output="originHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="originRealm" output="originRealm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="userName" output="userName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="SIPNumberAuthItems" output="SIPNumberAuthItems">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="SIPAuthDataItem" output="SIPAuthDataItem">
+            <transformer from="snme:SIPAuthDataItem[]" to="xfd:SIPAuthDataItem[]">
+                <array>
+                    <use-transformer from="snme:SIPAuthDataItem" to="xfd:SIPAuthDataItem" class="SNME_SIPAuthDataItem_to_XFD_SIPAuthDataItem" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="AAAServerName" output="AAAServerName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="proxyInfo" output="proxyInfo">
+            <transformer from="snme:Proxy_Info[]" to="xfd:Proxy_Info[]">
+                <array>
+                    <use-transformer from="snme:Proxy_Info" to="xfd:Proxy_Info" class="SNME_Proxy_Info_to_XFD_Proxy_Info" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="routeRecord" output="routeRecord">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_MultimediaAuthRequestWx_to_XFD_MultimediaAuthRequestWx" from="snme:MultimediaAuthRequestWx" to="xfd:MultimediaAuthRequestWx">
+        <transform input="sessionID" output="sessionID">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="vendorSpecificApplicationId" output="vendorSpecificApplicationId">
+            <transformer from="snme:vendorSpecificApplicationId[]" to="xfd:vendorSpecificApplicationId[]">
+                <array>
+                    <use-transformer from="snme:vendorSpecificApplicationId" to="xfd:vendorSpecificApplicationId" class="SNME_vendorSpecificApplicationId_to_XFD_vendorSpecificApplicationId" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="authSessionState" output="authSessionState">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="originHost" output="originHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="originRealm" output="originRealm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="destinationRealm" output="destinationRealm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="destinationHost" output="destinationHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="nasPortType" output="nasPortType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="userName" output="userName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="visitedNetworkIdentifier" output="visitedNetworkIdentifier">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="SIPAuthDataItem" output="SIPAuthDataItem">
+            <transformer from="snme:SIPAuthDataItem[]" to="xfd:SIPAuthDataItem[]">
+                <array>
+                    <use-transformer from="snme:SIPAuthDataItem" to="xfd:SIPAuthDataItem" class="SNME_SIPAuthDataItem_to_XFD_SIPAuthDataItem" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="SIPNumberAuthItems" output="SIPNumberAuthItems">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="proxyInfo" output="proxyInfo">
+            <transformer from="snme:Proxy_Info[]" to="xfd:Proxy_Info[]">
+                <array>
+                    <use-transformer from="snme:Proxy_Info" to="xfd:Proxy_Info" class="SNME_Proxy_Info_to_XFD_Proxy_Info" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="routeRecord" output="routeRecord">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_vendorSpecificApplicationId_to_XFD_vendorSpecificApplicationId" from="snme:vendorSpecificApplicationId" to="xfd:vendorSpecificApplicationId">
+        <transform input="vendorId" output="vendorId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="authApplicationId" output="authApplicationId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="acctApplicationId" output="acctApplicationId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_experimentalResult_to_XFD_experimentalResult" from="snme:experimentalResult" to="xfd:experimentalResult">
+        <transform input="vendorId" output="vendorId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="experimentalResultCode" output="experimentalResultCode">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_Proxy_Info_to_XFD_Proxy_Info" from="snme:Proxy_Info" to="xfd:Proxy_Info">
+        <transform input="proxyHost" output="proxyHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="proxyState" output="proxyState">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SIPAuthDataItem_to_XFD_SIPAuthDataItem" from="snme:SIPAuthDataItem" to="xfd:SIPAuthDataItem">
+        <transform input="SIPItemNumber" output="SIPItemNumber">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="SIPAuthenticationScheme" output="SIPAuthenticationScheme">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="SIPAuthenticate" output="SIPAuthenticate">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="SIPAuthorization" output="SIPAuthorization">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="SIPAuthenticationContext" output="SIPAuthenticationContext">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="confidentialityKey" output="confidentialityKey">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="integrityKey" output="integrityKey">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="SIPDigestAuthenticate" output="SIPDigestAuthenticate">
+            <transformer from="snme:SIPDigestAuthenticate[]" to="xfd:SIPDigestAuthenticate[]">
+                <array>
+                    <use-transformer from="snme:SIPDigestAuthenticate" to="xfd:SIPDigestAuthenticate" class="SNME_SIPDigestAuthenticate_to_XFD_SIPDigestAuthenticate" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="framedIPAddress" output="framedIPAddress">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="framedIPv6Prefix" output="framedIPv6Prefix">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="framedInterfaceId" output="framedInterfaceId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="lineIdentifier" output="lineIdentifier">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SIPDigestAuthenticate_to_XFD_SIPDigestAuthenticate" from="snme:SIPDigestAuthenticate" to="xfd:SIPDigestAuthenticate">
+        <transform input="digestRealm" output="digestRealm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="digestAlgorithm" output="digestAlgorithm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="digestQoP" output="digestQoP">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="digestHA1" output="digestHA1">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+</transformations>

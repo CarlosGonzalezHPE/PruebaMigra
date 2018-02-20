@@ -1,0 +1,92 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/XFD_cdrsample_to_SNME_cdrsample">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+    <import prefix="tnme" ns="http://www.hp.com/usage/datastruct/transform/nme" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/cdrsample" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/cdrsample" />
+    <import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+
+    <transformer id="XFD_CDRFileDecode_to_SNME_CDRFileDecode" from="xfd:CDRFile" to="snme:CDRFile">
+        <transform input="header" output="header">
+            <use-transformer from="xfd:Header" to="snme:Header" class="XFD_Header_to_SNME_Header" />
+        </transform>
+        <transform input="records" output="records">
+            <transformer from="xfd:CDR[]" to="snme:CDR[]">
+                <array>
+                    <use-transformer from="xfd:CDR" to="snme:CDR" class="XFD_CDR_to_SNME_CDR" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Header_to_SNME_Header" from="xfd:Header" to="snme:Header">
+        <transform input="fileType" output="fileType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="dataFormatType" output="dataFormatType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="recordsSourceLen" output="recordsSourceLen">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="recordsSource" output="recordsSource">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="someChar" output="someChar">
+            <use-transformer from="char" to="char" class="t:CharToCharCopy" />
+        </transform>
+        <transform input="fileSeqNum" output="fileSeqNum">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="fileCreationType" output="fileCreationType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_CDR_to_SNME_CDR" from="xfd:CDR" to="snme:CDR">
+        <transform input="recordType" output="recordType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="fixedLengthCDR" output="fixedLengthCDR">
+            <use-transformer from="xfd:FixedLengthCDR" to="snme:FixedLengthCDR" class="XFD_FixedLengthCDR_to_SNME_FixedLengthCDR" />
+        </transform>
+        <transform input="domesticCDR" output="domesticCDR">
+            <use-transformer from="xfd:DomesticCDR" to="snme:DomesticCDR" class="XFD_DomesticCDR_to_SNME_DomesticCDR" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_FixedLengthCDR_to_SNME_FixedLengthCDR" from="xfd:FixedLengthCDR" to="snme:FixedLengthCDR">
+        <transform input="originalCallerId" output="originalCallerId">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="destinationCallerId" output="destinationCallerId">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="audioCodec" output="audioCodec">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="terminationReason" output="terminationReason">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="connectionTime" output="connectionTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_DomesticCDR_to_SNME_DomesticCDR" from="xfd:DomesticCDR" to="snme:DomesticCDR">
+        <transform input="originalCallerId" output="originalCallerId">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="connectionTime" output="connectionTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="appData" output="appData">
+            <use-transformer from="byte[]" to="nme:byte-array" class="tnme:ByteArrayToByteArrayWrapper" />
+        </transform>
+        <transform input="mobile" output="mobile">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+    </transformer>
+</transformations>

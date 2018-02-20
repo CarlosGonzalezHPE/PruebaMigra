@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.hp.com/deg/interfaces/PushNotificationMessage.xsd" targetNamespace="http://www.hp.com/deg/interfaces/PushNotificationMessage.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	
+	<xs:element name="PushNotificationMessage" type="tns:PushNotificationMessageType"/>
+	<xs:element name="PushNotificationMessageResponse" type="tns:PushNotificationMessageResponseType"/>
+	<xs:complexType name="PushNotificationMessageType">
+		<xs:sequence>
+			<xs:element name="uiccImsi" type="tns:InternationalMobileSubscriberIdentityStringType">
+				<xs:annotation>
+					<xs:documentation>The device LTE International Mobile Subscriber Identity (IMSI)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EntitlementID" type="tns:EntitlementIDType">
+				<xs:annotation>
+					<xs:documentation>Entitlement name (for primary or companion device)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="APNSToken" type="tns:APNSTokenType">
+				<xs:annotation>
+					<xs:documentation>APNS Token need to share with carrier's external system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActionName" type="tns:ActionNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Action name (Enable/Disable).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PushNotificationMessageResponseType">
+		<xs:sequence>
+			<xs:element name="PushNotificationStatus" type="tns:PushNotificationStatusType">
+				<xs:annotation>
+					<xs:documentation>Result of sharing apns-token with carrier's external system. Valid values include:
+ 0  Success
+ 1  Failure</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!---->
+	<!--     MVM/Shared Simple Types-->
+	<xs:simpleType name="InternationalMobileSubscriberIdentityStringType">
+		<xs:annotation>
+			<xs:documentation>International Mobile Subscriber Identity (IMSI) is a unique number associated with all GSM and Universal Mobile Telecommunications System (UMTS) network mobile phone users. It is stored in the Subscriber Identity Module (SIM) inside the phone and is sent by the phone to the network. It is also used to acquire other details of the mobile in the Home Location Register (HLR) or as locally copied in the Visitor Location Register. In order to avoid the subscriber being identified and tracked by eavesdroppers on the radio interface, the IMSI is sent as rarely as possible and a randomly generated TMSI is sent instead.
+
+The IMSI is used in any mobile network that interconnects with other networks, in particular CDMA and EVDO networks as well as GSM nets. This number is provisioned in the phone directly or in the R-UIM card (a CDMA analogue equivalent to a SIM card in GSM)
+
+An IMSI is usually 15 digits long, but can be shorter (for example MTN South Africa's IMSIs are 14 digits). The first 3 digits are the Mobile Country Code (MCC), and is followed by the Mobile Network Code (MNC), either 2 digits (European standard) or 3 digits (North American standard). The remaining digits are the Mobile Subscriber Identification Number (MSIN) within the network's customer base.
+
+The IMSI conforms to the International Telecommunication Union (ITU) E.212 numbering standard.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!---->
+	<!--     New Simple Types-->
+	<xs:simpleType name="tns:PushNotificationStatusType">
+		<xs:annotation>
+			<xs:documentation>Assent Flag indicates success or failure of sharing apns-token with carrier's external system.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+		</xs:restriction>	
+	</xs:simpleType>
+	<!---->
+</xs:schema>
