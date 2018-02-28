@@ -39,7 +39,7 @@
   <target name="build-node"
           description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|mngr1|mngr2|app1|app2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
           depends="check,prepare-node">
-    <property name="build.profiles.deg">
+    <property name="build.profiles.scripts">
       profiles/common/profile.cfg
       profiles/env/${env}/profile.cfg
       profiles/env/${env}/profile.${node}.cfg
@@ -53,20 +53,20 @@
           dir="."
           failonerror="true">
       <arg line="-w scripts/build.pl"/>
-      <arg line="-p ${build.profiles.deg}"/>
-      <arg line="-t .built/${env}/${node}/tmp/to_build"/>
+      <arg line="-p ${build.profiles.scripts}"/>
+      <arg line="-t .work/${env}/${node}/tmp/templates_tobuild"/>
       <arg value="-R"/>
-      <arg line="-d .built/${env}/${node}/built"/>
+      <arg line="-d .work/${env}/${node}/built"/>
       <arg line="-l ${buildloglevel}"/>
     </exec>
   </target>
 
   <target name="prepare-node"
           depends="check-node,clean-node">
-    <mkdir dir=".built/${env}/${node}/tmp/to_build/deg"/>
-    <mkdir dir=".built/${env}/${node}/built/deg"/>
-    <copy todir=".built/${env}/${node}/tmp/to_build/deg">
-      <fileset dir="../deployment/scripts"/>
+    <mkdir dir=".work/${env}/${node}/tmp/templates_tobuild"/>
+    <mkdir dir=".work/${env}/${node}/built"/>
+    <copy todir=".work/${env}/${node}/tmp/templates_tobuild">
+      <fileset dir="../templates_tobuild"/>
     </copy>
   </target>
 
@@ -75,8 +75,8 @@
     <property file="profiles/env/${env}/scripts.${node}.properties"/>
 
     <scp todir="${user}:${passwd}@${host}:${destdir}" port="${port}" trust="yes">
-      <fileset dir=".built/${env}/${node}/built/scripts">
-        <include name="**/*"/>
+      <fileset dir=".work/${env}/${node}">
+        <include name="built-${host}.tar"/>
       </fileset>
     </scp>
   </target>
@@ -101,8 +101,9 @@
           description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|mngr1|mngr2|app1|app2"
           depends="check-node">
 
-    <delete dir=".built/${env}/${node}/tmp" includeemptydirs="true"/>
-    <delete dir=".built/${env}/${node}/built/scripts" includeemptydirs="true"/>
+    <delete dir=".work/${env}/${node}/tmp" includeemptydirs="true"/>
+    <delete dir=".work/${env}/${node}/built" includeemptydirs="true"/>
+    <delete dir=".work/${env}/${node}/to_build" includeemptydirs="true"/>
   </target>
 
   <target name="check">

@@ -1,0 +1,79 @@
+#!/bin/bash
+
+function log
+{
+  DATE=$(date +"%d.%m.%y %H:%M:%S")
+  echo "${DATE}| [SIU_MANAGER Wrapper] $@" >> ${LOG_FILEPATH}
+}
+
+function showUsage()
+{
+  echo "Usage: SIU_MANAGER start|stop|restart|status|help|h"
+}
+
+EXIT_CODE=0
+
+if [ $# -lt 1 ]
+then
+  showUsage
+  log "Error: bad usage '$0 $@'"
+  exit 1
+fi
+
+ACTION=$1
+
+if [ -f /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER ]
+then
+  LOG_FILEPATH=/var/opt/SIU_MANAGER/log/SIU_MANAGER-service.log
+  log "ACTIVE node"
+  log "ACTION ='${ACTION}'"
+
+  case "${ACTION}" in
+    "start")
+      mv /var/opt/SIU_MANAGER/cache /var/opt/SIU_MANAGER/cache.$(date +"%Y%m%d%H%M%S")
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start'... "
+      >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start
+      ;;
+    "stop")
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop'... "
+      >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop
+      ;;
+    'restart')
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop'... "
+      >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start'... "
+      >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start
+      ;;
+    'status')
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER status'... "
+      >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER status
+      if [ $? -eq 3 ] && [ ! -f /etc/opt/SIU_MANAGER/init.d/NO_FAILOVER.flag ]
+      then
+        EXIT_CODE=3
+      fi
+      ;;
+    'help|h')
+      showUsage
+      exit 0
+      ;;
+    *)
+      echo "Error: invalid action '${ACTION}'"
+      showUsage
+      EXIT_CODE=1
+    ;;
+  esac
+else
+  LOG_FILEPATH=/tmp/SIU_MANAGER-service.log
+  log "NON ACTIVE node"
+  log "ACTION ='${ACTION}'"
+  case "${ACTION}" in
+    "status")
+      EXIT_CODE=3
+      ;;
+    *)
+      ;;
+  esac
+fi
+
+log "EXIT_CODE = ${EXIT_CODE}"
+exit ${EXIT_CODE}

@@ -1,0 +1,1 @@
+SELECT CONCAT_WS(';', DATE_FORMAT(TIMESTAMP_QUERY, '%Y%m%d:%H%i%s.000'), USERNAME, NODE_ID, 'getEntitlement', UNIQUE_ID, REALM, DETAILS, REQUEST_ID, RESULT_CODE) INTO OUTFILE '/opt/SIU_MANAGER/scripts/provisioning/generateAutoprovisioningFiles/tmp/cdr-result.csv' FROM DEG_AUTOPROVISIONING WHERE PROVISIONED = 'no';
