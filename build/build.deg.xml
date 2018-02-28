@@ -10,15 +10,10 @@
   </taskdef>
 
   <target name="build"
-          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
-          depends="check">
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]">
     <echo></echo>
-    <echo>Building DEG files for '${env}'</echo>
+    <echo>Building Scripts files for '${env}'</echo>
     <echo></echo>
-
-    <antcall target="build-node">
-      <param name="node" value="mngr"/>
-    </antcall>
 
     <antcall target="build-node">
       <param name="node" value="app1"/>
@@ -27,20 +22,31 @@
     <antcall target="build-node">
       <param name="node" value="app2"/>
     </antcall>
+
+    <antcall target="build-node">
+      <param name="node" value="mngr1"/>
+    </antcall>
+
+    <antcall target="build-node">
+      <param name="node" value="mngr2"/>
+    </antcall>
+
+    <antcall target="build-node">
+      <param name="node" value="mngr"/>
+    </antcall>
   </target>
 
   <target name="build-node"
-          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|app1|app2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]">
-          depends="prepare-node">
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|mngr1|mngr2|app1|app2 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
+          depends="check,prepare-node">
     <property name="build.profiles.deg">
-      profiles/common/default.prfl
-      profiles/env/${env}/default.prfl
-      profiles/env/${env}/deg.prfl
-      profiles/env/${env}/${node}/deg.prfl
+      profiles/common/profile.cfg
+      profiles/env/${env}/profile.cfg
+      profiles/env/${env}/profile.${node}.cfg
     </property>
 
     <echo></echo>
-    <echo>Building DEG files for '${env}/${node}'</echo>
+    <echo>Building Scripts files for '${env}/${node}'</echo>
     <echo></echo>
 
     <exec executable="perl"
@@ -48,20 +54,31 @@
           failonerror="true">
       <arg line="-w scripts/build.pl"/>
       <arg line="-p ${build.profiles.deg}"/>
-      <arg line="-t .build/${env}/${node}/tmp/to_build"/>
+      <arg line="-t .built/${env}/${node}/tmp/to_build"/>
       <arg value="-R"/>
-      <arg line="-d .build/${env}/${node}/built"/>
+      <arg line="-d .built/${env}/${node}/built"/>
       <arg line="-l ${buildloglevel}"/>
     </exec>
   </target>
 
   <target name="prepare-node"
           depends="check-node,clean-node">
-    <mkdir dir=".build/${env}/${node}/tmp/to_build/deg"/>
-    <mkdir dir=".build/${env}/${node}/built/deg"/>
-    <copy todir=".build/${env}/${node}/tmp/to_build/deg">
-      <fileset dir="../deployment/deg"/>
+    <mkdir dir=".built/${env}/${node}/tmp/to_build/deg"/>
+    <mkdir dir=".built/${env}/${node}/built/deg"/>
+    <copy todir=".built/${env}/${node}/tmp/to_build/deg">
+      <fileset dir="../deployment/scripts"/>
     </copy>
+  </target>
+
+  <target name="deploy-node"
+          depends="check-node">
+    <property file="profiles/env/${env}/scripts.${node}.properties"/>
+
+    <scp todir="${user}:${passwd}@${host}:${destdir}" port="${port}" trust="yes">
+      <fileset dir=".built/${env}/${node}/built/scripts">
+        <include name="**/*"/>
+      </fileset>
+    </scp>
   </target>
 
   <target name="clean"
@@ -81,11 +98,11 @@
   </target>
 
   <target name="clean-node"
-          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|app1|app2"
+          description="Expected parameters: -Denv=lab1|lab2|prepro|prod1|prod2 -Dnode=mngr|mngr1|mngr2|app1|app2"
           depends="check-node">
 
-    <delete dir=".build/${env}/${node}/tmp" includeemptydirs="true"/>
-    <delete dir=".build/${env}/${node}/built/deg" includeemptydirs="true"/>
+    <delete dir=".built/${env}/${node}/tmp" includeemptydirs="true"/>
+    <delete dir=".built/${env}/${node}/built/scripts" includeemptydirs="true"/>
   </target>
 
   <target name="check">
@@ -176,13 +193,15 @@
       </condition>
     </fail>
 
-    <fail message="Bad value '${node}' for parameter 'node'. Expected values: mngr|app1|app2">
+    <fail message="Bad value '${node}' for parameter 'node'. Expected values: mngr|mngr1|mngr2|app1|app2">
       <condition>
         <not>
           <or>
-            <equals arg1="${env}" arg2="mngr"/>
-            <equals arg1="${env}" arg2="app1"/>
-            <equals arg1="${env}" arg2="app2"/>
+            <equals arg1="${node}" arg2="mngr"/>
+            <equals arg1="${node}" arg2="mngr1"/>
+            <equals arg1="${node}" arg2="mngr2"/>
+            <equals arg1="${node}" arg2="app1"/>
+            <equals arg1="${node}" arg2="app2"/>
           </or>
         </not>
       </condition>

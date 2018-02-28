@@ -76,7 +76,7 @@
 
     <scp todir="${user}:${passwd}@${host}:${destdir}" port="${port}" trust="yes">
       <fileset dir=".built/${env}/${node}/built/scripts">
-        <include name="**/*.sh"/>
+        <include name="**/*"/>
       </fileset>
     </scp>
   </target>
