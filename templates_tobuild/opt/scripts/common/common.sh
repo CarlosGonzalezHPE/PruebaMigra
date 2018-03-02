@@ -377,31 +377,34 @@ function endOfExecution
   else
     CODE=$1
 
-    COPY_NAME=tmp.error.$(date +"%Y%m%d%H%M%S")
-    cp -r ${TMP_DIR} ${SCRIPT_BASEDIR}/${COPY_NAME}
-    if [ $? -ne 0 ]
+    if [ ${CODE} -ne 0 ]
     then
-      logError "Command 'cp -r ${TMP_DIR} ${RUN_DIR}/${COPY_NAME}' failed"
-    else
-      cd ${SCRIPT_BASEDIR}
+      COPY_NAME=tmp.error.$(date +"%Y%m%d%H%M%S")
+      cp -r ${TMP_DIR} ${SCRIPT_BASEDIR}/${COPY_NAME}
       if [ $? -ne 0 ]
       then
-        logError "Unable to access directory '${RUN_DIR}'"
+        logError "Command 'cp -r ${TMP_DIR} ${RUN_DIR}/${COPY_NAME}' failed"
       else
-        >/dev/null tar cvf ${COPY_NAME}.tar ${COPY_NAME}
+        cd ${SCRIPT_BASEDIR}
         if [ $? -ne 0 ]
         then
-          logError "Command 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}' failed"
+          logError "Unable to access directory '${RUN_DIR}'"
         else
-          rm -fr ${COPY_NAME}
-
-          gzip ${COPY_NAME}.tar
+          >/dev/null tar cvf ${COPY_NAME}.tar ${COPY_NAME}
           if [ $? -ne 0 ]
           then
-            logError "Command 'gzip ${COPY_NAME}.tar' failed"
+            logError "Command 'tar cvf ${COPY_NAME}.tar ${COPY_NAME}' failed"
+          else
+            rm -fr ${COPY_NAME}
+
+            gzip ${COPY_NAME}.tar
+            if [ $? -ne 0 ]
+            then
+              logError "Command 'gzip ${COPY_NAME}.tar' failed"
+            fi
           fi
+          cd - >/dev/null 2>&1
         fi
-        cd - >/dev/null 2>&1
       fi
     fi
   fi
@@ -421,7 +424,7 @@ function purgeLogFiles
   LOG_PURGE_DELETE_DAYS=$(getConfigParam GENERAL LOG_PURGE_DELETE_DAYS)
   if [ ${?} -ne 0 ] || [ "${LOG_PURGE_DELETE_DAYS}" = "" ]
   then
-    logWarning "Unable to get configuration parameter 'LOG_PURGE_DELETE_DAYS' in section 'GENERAL'. Set to default value '32'"
+    logDebug "Unable to get configuration parameter 'LOG_PURGE_DELETE_DAYS' in section 'GENERAL'. Set to default value '32'"
     LOG_PURGE_DELETE_DAYS=32
   fi
   logDebug "LOG_PURGE_DELETE_DAYS = '${LOG_PURGE_DELETE_DAYS}'"
@@ -436,7 +439,7 @@ function purgeLogFiles
   LOG_PURGE_COMPRESS_DAYS=$(getConfigParam GENERAL LOG_PURGE_COMPRESS_DAYS)
   if [ ${?} -ne 0 ] || [ "${LOG_PURGE_COMPRESS_DAYS}" = "" ]
   then
-    logWarning "Unable to get configuration parameter 'LOG_PURGE_COMPRESS_DAYS' in section 'GENERAL'. Set to default value '8'"
+    logDebug "Unable to get configuration parameter 'LOG_PURGE_COMPRESS_DAYS' in section 'GENERAL'. Set to default value '8'"
     LOG_PURGE_COMPRESS_DAYS=8
   fi
 
@@ -466,3 +469,5 @@ then
 fi
 
 beginingOfExecution
+
+export SUDO_ASKPASS=/opt/scripts/common/askpass.sh

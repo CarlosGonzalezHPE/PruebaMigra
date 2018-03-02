@@ -9,9 +9,15 @@
 # Functions
 #
 
-function processDatabaseTables
+function backupDatabaseTables
 {
-  logDebug "Executing function 'processDatabaseTables'"
+  logDebug "Executing function 'backupDatabaseTables'"
+
+  if [ ! -d /var/opt/SIU_MANAGER ]
+  then
+    logInfo "Directory '/var/opt/SIU_MANAGER' is not accessible. Database tables backup does not apply"
+    return 0
+  fi
 
   getConfigSection DATABASE_TABLES > ${TMP_DIR}/database_tables
   if [ $? -lt 0 ]
@@ -73,9 +79,9 @@ function processDatabaseTables
 }
 
 
-function processIUMConfig
+function backupIUMConfig
 {
-  logDebug "Executing function 'processIUMConfig'"
+  logDebug "Executing function 'backupIUMConfig'"
 
   if [ ! -d /var/opt/SIU_MANAGER ]
   then
@@ -106,11 +112,51 @@ function processIUMConfig
 }
 
 
-function processFiles
+function backupCluster
 {
-  logDebug "Executing function 'processFiles'"
+  logDebug "Executing function 'backupCluster'"
 
-  getConfigSection FILES > ${TMP_DIR}/files
+  if [ ! -d /var/opt/SIU_MANAGER ]
+  then
+    logInfo "Directory '/var/opt/SIU_MANAGER' is not accessible. Cluster configuration backup does not apply"
+    return 0
+  fi
+
+  sudo -A pcs config backup > ${TMP_DIR}/${CURRENT_DATE}-pcs.bck
+  if [ $? -ne 0 ]
+  then
+    logError "Command 'sudo -A pcs config backup > ${TMP_DIR}/${CURRENT_DATE}-pcs.bck' failed"
+    return 1
+  fi
+
+  sudo -A chown ium:ium ${TMP_DIR}/${CURRENT_DATE}-pcs.bck
+  if [ $? -ne 0 ]
+  then
+    logError "Command 'sudo -A chown ium:ium ${TMP_DIR}/${CURRENT_DATE}-pcs.bck' failed"
+    return 1
+  fi
+
+  gzip -f ${TMP_DIR}/${CURRENT_DATE}-pcs.bck
+  if [ $? -ne 0 ]
+  then
+    logError "Command 'gzip -f ${TMP_DIR}/${CURRENT_DATE}-pcs.bck' failed"
+    return 1
+  fi
+
+  mv ${TMP_DIR}/${CURRENT_DATE}-pcs.bck.gz /data/backup
+  if [ $? -ne 0 ]
+  then
+    logError "Command 'mv ${TMP_DIR}/${CURRENT_DATE}-pcs.bck.gz /data/backup' failed"
+    return 1
+  fi
+}
+
+
+function backupFiles
+{
+  logDebug "Executing function 'backupFiles'"
+
+  getConfigSection FILES_${BACKUP_MODE} > ${TMP_DIR}/files
   if [ $? -lt 0 ]
   then
     logError "Unable to get section 'FILES'"
@@ -133,32 +179,44 @@ function processFiles
     logDebug "FILES_DIR = ${FILES_DIR}"
     logDebug "FILES_FILENAMEREGEX = ${FILES_FILENAMEREGEX}"
 
-    if [ ! -d ${FILES_DIR} ]
+    if [ -z ${FILES_DIR} ] || [ -z ${FILES_FILENAMEREGEX} ]
     then
-      logWarning "Directory '${FILES_DIR}' is not accessible"
+      logWarning "Invalid line: ${LINE}. Line is skipped"
       continue
     fi
+
+    sudo -A cd ${FILES_DIR} >/dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+      logWarning "Directory '${FILES_DIR}' is not accessible"
+      sudo -A cd - >/dev/null 2>&1
+      continue
+    fi
+    sudo -A cd - >/dev/null 2>&1
 
     logDebug "Processing directory '${FILES_DIR}'"
 
     > ${TMP_DIR}/current_dir.failed
 
-    find ${FILES_DIR} -type f | grep -P "${FILES_FILENAMEREGEX}" | while read FILEPATH
+    sudo -A find ${FILES_DIR} -type f | grep -P "${FILES_FILENAMEREGEX}" | while read FILEPATH
     do
-      > ${TMP_DIR}/tar.out 2>> ${TMP_DIR}/tar.err tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.tar "${FILEPATH}"
+      >> ${TMP_DIR}/tar.out_err 2>&1 sudo -A tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.tar "${FILEPATH}"
       if [ $? -ne 0 ]
       then
-        logError "Command 'tar -rf ${TMP_DIR}/${CURRENT_DATE}-FILES.tar \"${FILEPATH}\"' failed"
+        logError "Command 'sudo -A tar -rf ${TMP_DIR}/${CURRENT_DATE}-FILES.tar \"${FILEPATH}\"' failed"
         echo ${FILEPATH} >> ${TMP_DIR}/files.failed
         echo ${FILEPATH} >> ${TMP_DIR}/current_dir.failed
       else
         logDebug "File '${FILEPATH}' appended to TAR file '${TMP_DIR}/${CURRENT_DATE}-FILES.tar'"
+        sync
       fi
     done
 
+    sudo -A chown ium:ium /data/backup/.tmp_${CURRENT_DATE}-FILES.tar
+
     if [ -s ${TMP_DIR}/current_dir.failed ]
     then
-      logWarning "Files in directory '${FILES_DIR}' backed up with some error"
+      logWarning "Files in directory '${FILES_DIR}' backed up with errors"
     else
       logInfo "Files in directory '${FILES_DIR}' backed up"
     fi
@@ -199,22 +257,29 @@ function process
     return 0
   fi
 
-  logInfo "Processing Database Tables"
-  processDatabaseTables
+  logInfo "Backing up IUM configuration"
+  backupIUMConfig
   if [ $? -ne 0 ]
   then
     RETURN_CODE=1
   fi
 
-  logInfo "Processing Files"
-  processFiles
+  logInfo "Backing up Cluster"
+  backupCluster
   if [ $? -ne 0 ]
   then
     RETURN_CODE=1
   fi
 
-  logInfo "Processing IUM configuration"
-  processIUMConfig
+  logInfo "Backing up Database Tables"
+  backupDatabaseTables
+  if [ $? -ne 0 ]
+  then
+    RETURN_CODE=1
+  fi
+
+  logInfo "Backing up Files"
+  backupFiles
   if [ $? -ne 0 ]
   then
     RETURN_CODE=1
@@ -228,6 +293,26 @@ function process
 # Main
 #
 
+while getopts "m:" OPT
+do
+  case ${OPT} in
+    m)
+      BACKUP_MODE=${OPTARG}
+      export BACKUP_MODE
+      ;;
+    *)
+      echo "Error: Bad option '${OPT}'"
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z ${BACKUP_MODE} ]
+then
+  echo "Usage: oam-backup.sh -m FULL|LITE"
+  exit 1
+fi
+
 SCRIPT_BASEDIR=/opt/scripts/oam/oam-backup
 export SCRIPT_BASEDIR
 
@@ -236,11 +321,20 @@ export SCRIPT_BASEDIR
 EXIT_CODE=0
 CURRENT_DATE=$(date +%Y%m%d)
 
-process
-if [ $? -ne 0 ]
-then
-  EXIT_CODE=$?
-  logWarning "Function 'process' executed with errors"
-fi
+case "${BACKUP_MODE}" in
+  "FULL" | "LITE")
+    logInfo "Processing backup in mode '${BACKUP_MODE}'"
+    process
+    if [ $? -ne 0 ]
+    then
+      EXIT_CODE=$?
+      logWarning "Function 'backup' executed with errors"
+    fi
+    ;;
+  *)
+    logError "Unsupported mode '${BACKUP_MODE}'"
+    EXIT_CODE=1
+    ;;
+esac
 
 endOfExecution ${EXIT_CODE}
