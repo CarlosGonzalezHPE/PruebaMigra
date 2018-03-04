@@ -1,0 +1,17 @@
+def dbsExe="${FS}usr${FS}bin${FS}mysqld${EXE}"
+add_module dbs -name 'MariaDB Server'
+
+function dbs_start() {
+  def WORK_DIR="$BINROOT${FS}mysql"
+  runcmd "$SIUSBIN/mariadb.sh" start > "$DEV_NULL"
+}
+
+function dbs_stop() {
+  runcmd "$SIUSBIN/mariadb.sh" stop > "$DEV_NULL"
+}
+
+function dbs_status() {
+  runcmd "$SIUSBIN/mariadb.sh" status
+  #process_status "$dbsExe"
+}
+

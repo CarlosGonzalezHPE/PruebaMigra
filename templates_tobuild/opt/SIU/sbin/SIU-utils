@@ -1,0 +1,449 @@
+#!/bin/sh
+
+#Line Feed character
+LF='
+'
+
+# Service status
+STATUS_RUNNING='Running'
+STATUS_STOPPED='Stopped'
+STATUS_DISABLED='Disabled'
+
+# Logging functions
+debug() {
+  [ "$DEBUG" = "true" ] && echo "$*" 1>&2
+}
+
+log() {
+  debug "$*"
+  [ "$LOG_FILE" ] && echo "$(date +"%d.%m.%y %H:%M:%S")| $*" >> "$LOG_FILE"
+}
+
+info() {
+  log "$*"
+  echo "$*"
+}
+
+err() {
+  echo "$*" 1>&2
+  [ "$LOG_FILE" ] && echo "$(date +"%d.%m.%y %H:%M:%S")| ERROR: $*" >> "$LOG_FILE"
+}
+
+# Declare a global variable
+def() {
+  local name="${1%%=*}"
+  local value="${1#*=}"
+  eval "$name='$value'"
+}
+
+# Source file or directory
+src() {
+  local path="$(readlink -f "$1")"
+
+  if [ -f "$path" ]; then
+    debug "Sourcing $path"
+    local tmp="/dev/shm/$$"
+    # Cut 'function' keyword in function declaration to be compatible with POSIX shell
+    sed -e 's/^ *function //' < "$path" > "$tmp"
+    . "$tmp"
+    rm "$tmp"
+  elif [ -d "$path" ]; then
+    local f
+    for f in $(ls "$path"); do src "$path/$f"; done
+  fi
+}
+
+# Filter out repeated words in a string
+wuniq() {
+  echo "$@" | awk  '{ for(i=1; i<=NF; i++) { if (!seen[$i]++) printf $i" " }}'
+}
+
+# Find word in a string
+wgrep() {
+  local word="$1" && shift
+  local w
+  for w in "$@"; do [ "$w" = "$word" ] && return 0; done
+  return 1
+}
+
+# Wait for the process to die
+waitpid() {
+  local pid=$1
+  local maxWait=$2
+  local stop=$(($(date +%s) + $maxWait))
+  while kill -0 $pid 2>/dev/null && [ $(date +%s) -lt $stop ]; do sleep '0.2'; done
+  kill -0 $pid 2>/dev/null && return 1
+}
+
+# Wait for the TCP port up or down
+waitport() {
+  local expect=$1
+  local port=$2
+  local maxWait=$3
+  local stop=$(($(date +%s) + $maxWait))
+  log "Waiting $maxWait seconds for port $port to $expect"
+  
+  while [ $(date +%s) -lt $stop ]; do
+    if [ "$expect" = 'up' ]; then
+      port_status $port > /dev/null && return 0
+    else
+      ! port_status $port > /dev/null && return 0
+    fi
+    sleep '0.2';
+  done
+
+  err "Port $port is not $expect in $maxWait seconds"
+  return 1
+}
+
+# Find Tomcat shutdown port in server.xml
+shutdownport() {
+  local rootDir="$1"
+  local f="$rootDir/conf/server.xml"
+  
+  if [ -f "$f" ]; then
+    grep -oP '(?<=<Server port=")\d+(?=" shutdown="SHUTDOWN">)' "$f"
+  else
+    log "File not found: $f"
+    echo 0
+  fi
+}
+
+# Check status by port
+which lsof > /dev/null 2>&1 || USE_NETSTAT=1
+port_status() {
+  if [ "$USE_NETSTAT" ]; then
+    if netstat -lna | grep -qE ":$1 .*LISTEN"; then
+      echo $STATUS_RUNNING
+    else
+      echo $STATUS_STOPPED
+      return 1
+    fi
+  else
+    if lsof -i :$1 > /dev/null; then
+      echo $STATUS_RUNNING 
+    else
+      echo $STATUS_STOPPED
+      return 1
+    fi
+  fi
+}
+
+# Join multiple statuses
+joinstatus() {
+  for s in $*; do
+    if [ $s != $STATUS_RUNNING ]; then
+      echo $s
+      return 1
+    fi
+  done
+
+  echo $STATUS_RUNNING
+}
+
+# Run command
+runcmd() {
+  : ${WORK_DIR:="$VARROOT"}
+  (
+    log "$*"
+    cd "$WORK_DIR"
+    "$@"
+  )
+  unset WORK_DIR
+}
+
+# Function to print colored text
+if [ -t 1 -a -f /usr/bin/printf ]; then
+  cprintf() {
+    local color=0
+    [ "$1" = 'red' ] && color=31
+    [ "$1" = 'green' ] && color=32
+    shift && /usr/bin/printf "\e[1;${color}m${*}\e[0m"
+  }
+else
+  cprintf() {
+    shift
+    printf "${*}"
+  }
+fi
+
+############################## Process management #############################
+if ! which pidof > /dev/null 2>&1; then
+  if which pgrep > /dev/null 2>&1; then
+    alias pidof='pgrep -f'
+  else
+    pidof() { ps aux | grep -F "$1" | awk '{print $2}'; }
+  fi
+fi
+
+process_find() {
+  [ -f "$1" ] || return 1
+  local path="$(readlink -f "$1")" && shift # Real path to the command executable
+  local pids=''
+  local ifsorig="$IFS"
+  local pid; local a; local i;
+
+  for pid in $(pidof "$path"); do
+    local p="$( (cut -d '' -f 1 < /proc/$pid/cmdline) 2>/dev/null)"
+    [ $? -eq 0 ] || continue # Process is stopped
+    p="$(readlink -f "$p")" # Real path to the command executable
+    [ "$p" = "$path" ] || continue # Make sure the path is the same
+    local contains_all=1
+
+    for a in "$@"; do
+      local contains=0
+      IFS="$LF"
+
+      for i in $( (tr '\000' '\n' < /proc/$pid/cmdline) 2>/dev/null || true); do
+        [ "$i" = "$a" ] && contains=1 && break
+      done
+
+      IFS="$ifsorig"
+      [ $contains -eq 0 ] && contains_all=0 && break
+    done
+
+    [ $contains_all -eq 1 ] && pids="$pids $pid"
+  done
+
+  [ "$pids" ] && echo $pids || return 1
+}
+
+process_status() {
+  process_find "$@" > /dev/null && echo "$STATUS_RUNNING" || echo "$STATUS_STOPPED"
+}
+
+process_start() {
+  local result=0
+
+  if  process_find "$@" > /dev/null; then
+    log "Process is already running: $@"
+  else
+    : ${DAEMONIZE:=''}
+    : ${PID_FILE:=''}
+    : ${PID_WAIT:='10'}
+    : ${OUT_FILE:='/dev/null'}
+    : ${WORK_DIR:="$VARROOT"}
+    log "Starting process: $@"
+    
+    (
+      cd "$WORK_DIR"
+      [ "$DAEMONIZE" ] && "$@" -daemonize "$DAEMONIZE" || "$@"
+    ) < /dev/null > "$OUT_FILE"
+
+    if [ "$PID_FILE" ]; then
+      # Wait up to $PID_WAIT seconds for the process to start
+      local stop=$(($(date +%s) + $PID_WAIT))
+      local delay='0.5'
+
+      log "Waiting $PID_WAIT seconds for $PID_FILE"
+      while [ ! -f "$PID_FILE" ] && [ $(date +%s) -lt $stop ]; do sleep $delay; done
+
+      if [ -f "$PID_FILE" ]; then
+        local pid="$(head "$PID_FILE")"
+        while [ "$(process_find "$@" > /dev/null)" != "$pid" ] && [ $(date +%s) -lt $stop ]; do sleep $delay; done
+      fi
+
+      unset PID_FILE PID_WAIT
+    fi
+
+    if ! process_find "$@" > /dev/null; then
+      err "Failed to start process: $@"
+      result=1
+    fi
+  fi
+
+  unset WORK_DIR DAEMONIZE PID_FILE PID_WAIT OUT_FILE
+  return $result
+}
+
+process_stop() {
+  [ "$STOP_PID" ] && local pid="$STOP_PID" || local pid="$(process_find "$@")"
+
+  if [ "$pid" ]; then
+    local children="$(pgrep -P $pid)"
+    local cmdLine="$( (tr '\000' ' ' < /proc/$pid/cmdline) 2>/dev/null)"
+    
+    if [ $? -eq 0 ]; then # Make sure the process is still running
+      if [ "$WAIT_FOR" ]; then
+        log "Waiting $WAIT_FOR seconds for $cmdLine"
+        waitpid $pid $WAIT_FOR || log "Terminating process $cmdLine"
+      else
+        [ "$STOP_PID" ] && local child='child '
+        log "Stopping ${child}process $cmdLine"
+      fi
+
+      kill $pid 2>/dev/null
+      waitpid $pid 5 || kill -9 $pid 2>/dev/null
+    fi
+
+    # Stop child processes
+    local c
+    unset WAIT_FOR
+    for c in $children; do STOP_PID=$c process_stop; done
+  fi
+
+  unset WAIT_FOR STOP_PID
+}
+###############################################################################
+
+############################## Modules management #############################
+add_module() {
+  local id="$1" && shift
+  local name="$id"
+  local depends
+  
+  while [ ! -z "$1" ]; do
+    [ "$1" = '-name' ] && name="$2" && shift 2
+    [ "$1" = '-depends' ] && depends="$2" && shift 2
+  done
+  
+  eval "local enabled=\"\$module_${id}_enabled\""
+  eval "module_${id}_name='$name'"
+  
+  if [ "$enabled" = '1' ]; then
+    debug "Adding new module $id with dependencies: $depends"
+    eval "module_${id}_depends='$depends'"
+    ENABLED_MODULES="$(wuniq $ENABLED_MODULES $id)"
+  elif [ "$enabled" = '0' ]; then
+    DISABLED_MODULES="$(wuniq $DISABLED_MODULES $id)"
+    debug "Module '$name' is not enabled - ignoring"
+  else
+    IGNORED_MODULES="$(wuniq $IGNORED_MODULES $id)"
+  fi
+}
+
+module_name() {
+  eval "echo \$module_${1}_name"
+}
+
+modules() {
+  [ "$1" = '-d' ] && shift && local disabled=1
+  [ "$1" = '-i' ] && shift && local ignore=1
+
+  if [ -z "$1" ] || [ "$1" = "all" ]; then
+    [ "$disabled" ] && echo $ENABLED_MODULES $DISABLED_MODULES || echo $ENABLED_MODULES
+  else
+    local m
+    local modules=''
+
+    for m in "$@"; do
+      if wgrep $m $ENABLED_MODULES; then
+        modules="$modules $m"
+      elif wgrep $m $DISABLED_MODULES; then
+        if [ "$disabled" ]; then
+          modules="$modules $m"
+        elif [ ! "$ignore" ]; then
+          err "Module is not enabled: $m"
+        fi
+      elif [ ! "$ignore" ]; then
+        err "No such module: $m"
+      fi
+    done
+    
+    echo $modules
+  fi
+}
+
+module_depends() {
+  local name="$1"
+  local depends=''
+  local m
+  eval "local moddeps=\"\$module_${name}_depends\""
+
+  for m in $moddeps; do
+    wgrep $m $ENABLED_MODULES && depends="$depends $(module_depends $m) $m"
+  done
+
+  echo $(wuniq $depends)
+}
+
+module_dependants() {
+  local name="$1"
+  local dependants=''
+  local m; local d
+
+  for m in $ENABLED_MODULES; do
+    eval "local moddeps=\"\$module_${m}_depends\""
+
+    for d in $moddeps; do
+      [ "$d" = "$name" ] && dependants="$dependants $m" && break
+    done
+  done
+
+  echo $dependants
+}
+
+module_start() {
+  local m; local d;
+
+  for m in $(modules "$@"); do
+    for d in $(module_depends $m); do module_start -i $d || return 1; done
+
+    if [ "$(${m}_status)" = "$STATUS_STOPPED" ]; then
+      log "Starting $(module_name $m)"
+      echo -n "Starting $(module_name $m) ... "
+
+      if ${m}_start; then
+        cprintf green 'OK\n'
+        log "Module $(module_name $m) started"
+      else
+        cprintf red 'FAILED\n'
+        log "Failed to start $(module_name $m)"
+        return 1
+      fi
+    fi
+  done
+}
+
+module_stop() {
+  local m; local d;
+  local result=0
+
+  if [ -z "$1" ] || [ "$1" = 'all' ]; then
+    # Stopping all modules in reverse order
+    for m in $(modules); do
+      for d in $(module_dependants $m); do module_stop $d || result=1; done
+      module_stop $m || result=1
+    done
+
+    # Stop disabled and ignored modules
+    for m in $DISABLED_MODULES $IGNORED_MODULES; do
+       [ "$(${m}_status)" = "$STATUS_RUNNING" ] && ${m}_stop
+    done
+  else
+    for m in $(modules "$@"); do
+      if [ "$(${m}_status)" = "$STATUS_RUNNING" ]; then
+        log "Stopping $(module_name $m)"
+        echo -n "Stopping $(module_name $m) ... "
+  
+        if ${m}_stop; then
+          cprintf green 'OK\n'
+          log "Module $(module_name $m) stopped"
+        else
+          cprintf red 'FAILED\n'
+          log "Failed to stop $(module_name $m)"
+          result=1
+        fi
+      fi
+    done
+  fi
+  
+  return $result
+}
+
+module_restart() {
+  module_stop "$@"
+  module_start "$@"
+}
+
+module_status() {
+  local m
+  for m in $(modules -d "$@"); do
+    if wgrep $m $DISABLED_MODULES; then
+      echo "$m:$(module_name $m):$STATUS_DISABLED"
+    else
+      echo "$m:$(module_name $m):$(${m}_status)"
+    fi
+  done
+}
+###############################################################################

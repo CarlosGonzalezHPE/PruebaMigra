@@ -1,0 +1,19 @@
+def agentExe="$BINROOT${FS}bin${FS}adminagentserver${EXE}"
+add_module agent -name 'Admin Agent Server' -depends 'dbs license cis'
+
+function agent_start() {
+  def PID_WAIT='60'
+  def PID_FILE="$VARROOT${FS}${HOSTID}${FS}pid.txt"
+  def DAEMONIZE="$VARROOT${FS}log${FS}AdminAgentServer.out"
+  process_start "$agentExe"
+}
+
+function agent_stop() {
+  runcmd "$SIUCONTROL" -c shutdownAgent -local on > $DEV_NULL
+  def WAIT_FOR=30
+  process_stop "$agentExe"
+}
+
+function agent_status() {
+  process_status "$agentExe"
+}

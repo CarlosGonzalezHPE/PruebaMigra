@@ -1,0 +1,283 @@
+#!/bin/sh
+#
+# ===========================================================================
+# @(#) SIUServer - Z7092EA IUM (c) Copyright 1996-2002, Hewlett-Packard Company
+#
+#  = NOTICES
+#   Copyright 1999 Hewlett Packard Company
+#
+# = DESCRIPTION
+#   This script invokes or terminates a SIU server.
+#
+# = USAGE
+#   SIUServer {start|stop} <Server Name> [-debug]
+#
+# ===========================================================================
+#
+# set -xv
+#
+
+#--------------------------------------------------------------------
+# Initialize local variables with the location of this IUM instance
+
+# extract the base directory to find and source siu_install.ini file
+SIUSBIN=`dirname $0`
+. ${SIUSBIN}/../siu_install.ini
+
+# set script variables from values in siu_install.ini
+INSTNAME_=${InstanceName}
+INSTLROOT_=${SiuRoot}
+CFGROOT_=${ConfigRoot}
+VARROOT_=${VarRoot}
+
+
+#--------------------------------------------------------------------
+
+PATH=/usr/xpg4/bin:/usr/sbin:/usr/bin:/sbin:/bin:${INSTLROOT_}/bin
+export PATH
+
+typeset -r NOTRUNNINGPID=-1
+##
+# Determine if the Server is running.
+# Echos the process ID of the server and returns 0 if the server is running.
+# Returns 1 if the server is not running.
+##
+function server_status
+{
+    {
+	typeset -i retVal=1
+	typeset pid
+
+	# Does the pid file exist?
+	if [ ! -f "${PIDFNAME}" ]; then
+	    retVal=1
+	else
+
+	    # Get the process's pid number from the pid file.
+	    read pid <"${PIDFNAME}"
+	    if [ -z "${pid}" -o "${pid}" -le "1" ]; then
+		retVal=1
+	    else
+
+		# Is there a process running with this pid?
+		kill -s 0 "$pid"
+		if [ "$?" != "0" ]; then
+		    retVal=1
+		else
+		    # check to see the running process has the expected name.
+		    ps -${psWideOpt}fp "$pid" | grep -q "${CmdName}"
+		    if [ "$?" = "0" ]; then
+			retVal=0
+		    else
+			retVal=1
+		    fi
+		fi
+	    fi
+	fi
+    } >/dev/null 2>&1
+
+    if [ $retVal -eq 1  ]; then
+	echo ${NOTRUNNINGPID}
+    else
+	echo "$pid"
+    fi
+    return $retVal
+}
+
+##
+# Start the Server
+##
+function server_start
+{
+    pid=`server_status`
+    if [ "$?" = "0" ]; then
+	echo "${SERVERNAME} is already running (PID=$pid)."
+	return
+    fi
+
+    # Preserve "$SERVERNAME".out file across server restarts
+    OLDOUTPUT="${VARROOT_}/log/${SERVERNAME}.outOLD"
+    
+    # Delete any "$SERVERNAME".outOLD file
+    rm -f ${OLDOUTPUT} 2> /dev/null
+    
+    # Move the previous "$SERVERNAME".out file
+    # to "$SERVERNAME".outOLD
+    mv ${OUTPUT} ${OLDOUTPUT} 2> /dev/null
+
+
+    # Build the command to execute
+    typeset CMD="${INSTLROOT_}/bin/${CmdName} -daemonize ${OUTPUT}"
+    if [ "${SERVERNAME}" != "AdminAgentServer" ]; then
+	CMD="${CMD} -n ${SERVERNAME}"
+    fi
+
+    # Now the IUM server will be started as a daemon process.
+    # The nativeLauncher's daemonization will:
+    #   - put the process in the background
+    #   - set stdin to /dev/null
+    #   - set stdout and stderr to the specified output file.
+    {
+	# Reset Mask
+	umask 027
+	cd ${VARROOT_}
+	date
+	echo "Executing: ${CMD}"
+	${CMD} &
+
+    } </dev/null >${OUTPUT} 2>&1
+
+    # Give the server a chance to start and create/update its pid file.
+    sleep 5
+
+    pid=${NOTRUNNINGPID} # The server hasn't started
+    typeset -i i=0
+    while [ $pid = ${NOTRUNNINGPID} ]; do
+	i=$i+1
+	if [ $i -gt ${RETRYCOUNT} ]; then
+	    break
+	fi
+	sleep 5
+	pid=`server_status`
+    done
+    if [ "$pid" = ${NOTRUNNINGPID} ]; then
+	echo "ERROR: Server ${SERVERNAME} did not start."
+	exit 1
+    else
+	echo "Server ${SERVERNAME} started (PID=$pid)."
+    fi
+}
+
+##
+# Stop the server
+##
+function server_stop
+{
+    pid=`server_status`
+    if [ "$?" != "0" ]; then
+	echo "${SERVERNAME} is already stopped."
+	return
+    fi
+    # Try graceful shutdown first
+    typeset CMD="${INSTLROOT_}/bin/siucontrol"
+    if [ "${SERVERNAME}" = "AdminAgentServer" ]; then
+        CMD="${CMD} -c shutdownAgent -local on"
+    else
+        CMD="${CMD} -n ${SERVERNAME} -c stop"
+    fi    
+    ${CMD} </dev/null >>${OUTPUT} 2>&1
+
+    # Give the Server a chance to cleanup
+    typeset -i i=0
+    while pid=`server_status`; do
+	i=$i+1
+	if [ $i -gt 25 ]; then
+	    kill $pid 2>&-
+	    if [ $i -gt 30 ]; then
+		kill -9 $pid 2>&-
+		break
+	    fi
+	fi
+	sleep 5
+    done
+    pid=`server_status`
+    if [ "$?" = "0" ]; then
+	echo "ERROR: Server ${SERVERNAME} did not exit (PID=$pid)."
+	exit 1
+    else
+	echo "Server ${SERVERNAME} stopped."
+    fi
+}
+
+###
+#
+#   Main
+#
+###
+SCRIPT=${0##*/}
+USAGE="${SCRIPT} {start|stop} <Server Name> [-debug]"
+OSNAME_=$(uname -s)
+if [ "${OSNAME_}" = "Linux" ]; then
+    psWideOpt="w"
+fi
+
+if [ $# -lt "2" ]; then
+    echo "${SCRIPT} ERROR: Missing argument(s)"
+    echo "Usage: ${USAGE}"
+    exit 1
+fi
+
+OPERATION=${1:?}
+SERVERNAME=${2:?}
+DEBUG=${3:--nodebug}
+RETRYCOUNT=${4:-36}
+
+if [ "${OPERATION}" != "start" -a "${OPERATION}" != "stop" ]; then
+    echo "${SCRIPT} ERROR: Invalid Operation: ${OPERATION}"
+    echo "Usage: ${USAGE}"
+    exit 1
+fi
+
+
+
+case $RETRYCOUNT in
+    
+# The following case statement is used to validate that Retrycount is numeric.
+
+    [0-9][0-9] ) :
+    ;;
+
+    [0-9][0-9][0-9] ) :
+    ;;
+
+    *) echo "${SCRIPT} ERROR: Invalid retry count: '$RETRYCOUNT'"
+    exit 1
+    ;;
+
+esac    
+
+SIUINI="${CFGROOT_}/SIU.ini"
+
+if [ -f "${SIUINI}" ]; then
+
+    # Get the HostID from the SIU.ini file.
+    hostID=$(grep '^HOSTID=' "$SIUINI" | sed -e 's/^[^=]*=//')
+else
+    HOWTOFIX="Run ${INSTLROOT_}/bin/activate -product ium"
+    echo "ERROR: ${SIUINI} file MISSING.  ${HOWTOFIX}"
+    exit 1
+fi
+
+
+if [ "${SERVERNAME}" = "AdminAgentServer" ]; then
+    CmdName="adminagentserver"
+    ServerRootDirName="${hostID}"
+elif [ "${SERVERNAME}" = "ConfigServer" ]; then
+    CmdName="configserver"
+    ServerRootDirName=${hostID}"ConfigServer"
+    echo "WARNING: Support for ${SERVERNAME} will be removed in future release"
+else
+    echo "ERROR: Server Name (${SERVERNAME}) not supported"
+    exit 1
+fi
+
+
+PIDFNAME="${VARROOT_}/${ServerRootDirName}/pid.txt"
+
+
+
+if [ "${DEBUG}" = "-debug" ]; then
+    OUTPUT="${VARROOT_}/log/${SERVERNAME}.out"
+else
+    OUTPUT="/dev/null"
+fi
+
+#
+# Perform Start or Stop operation
+#
+if [ "${OPERATION}" = "start" ]; then
+    server_start
+else
+    server_stop
+fi
+exit 0

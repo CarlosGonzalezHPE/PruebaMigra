@@ -1,0 +1,19 @@
+def webappserverExe="$BINROOT${FS}bin${FS}webappserver${EXE}"
+def webappserverShutdownPort="$(shutdownport "$VARROOT${FS}webappserver")"
+def webappserverJVMargs="${VARROOT}${FS}webappserver${FS}webappserverJVMArgs.ini"
+add_module webappserver -name 'Web Applications Server' -depends 'dbs license securityserver'
+
+function webappserver_start() {
+  runcmd "$webappserverExe" start 2> "$DEV_NULL"
+  waitport up $webappserverShutdownPort 60
+}
+
+function webappserver_stop() {
+  runcmd "$webappserverExe" stop 2> "$DEV_NULL"
+  waitport down $webappserverShutdownPort 30
+  process_stop "$SIUJAVA" '-JVMargs' "$webappserverJVMargs"
+}
+
+function webappserver_status() {
+  joinstatus $(port_status $webappserverShutdownPort) $(process_status "$SIUJAVA" '-JVMargs' "$webappserverJVMargs")
+}
