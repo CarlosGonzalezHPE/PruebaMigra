@@ -111,6 +111,7 @@ function backupIUMConfig
     return 1
   fi
 }
+[#SECTION_END#]
 
 [#SECTION_BEGIN:CLUSTER#]
 function backupCluster
@@ -151,7 +152,6 @@ function backupCluster
     return 1
   fi
 }
-[#SECTION_END#]
 [#SECTION_END#]
 
 function backupFiles
@@ -274,26 +274,30 @@ function process
     return 0
   fi
 
-  logInfo "Backing up IUM configuration"
-  backupIUMConfig
-  if [ $? -ne 0 ]
-  then
-    RETURN_CODE=1
-  fi
-
-  logInfo "Backing up Cluster"
-  backupCluster
-  if [ $? -ne 0 ]
-  then
-    RETURN_CODE=1
-  fi
-
+[#SECTION_BEGIN:MANAGER#]
   logInfo "Backing up Database Tables"
   backupDatabaseTables
   if [ $? -ne 0 ]
   then
     RETURN_CODE=1
   fi
+
+  logInfo "Backing up IUM configuration"
+  backupIUMConfig
+  if [ $? -ne 0 ]
+  then
+    RETURN_CODE=1
+  fi
+[#SECTION_END#]
+
+[#SECTION_BEGIN:CLUSTER#]
+  logInfo "Backing up Cluster"
+  backupCluster
+  if [ $? -ne 0 ]
+  then
+    RETURN_CODE=1
+  fi
+[#SECTION_END#]
 
   logInfo "Backing up Files"
   backupFiles

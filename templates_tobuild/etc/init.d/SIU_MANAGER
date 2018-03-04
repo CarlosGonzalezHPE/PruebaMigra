@@ -30,7 +30,11 @@ then
 
   case "${ACTION}" in
     "start")
-      mv /var/opt/SIU_MANAGER/cache /var/opt/SIU_MANAGER/cache.$(date +"%Y%m%d%H%M%S")
+      if [ -d /var/opt/SIU_MANAGER/cache ]
+      then
+        mv /var/opt/SIU_MANAGER/cache /var/opt/SIU_MANAGER/cache.$(date +"%Y%m%d%H%M%S")
+        log "Directory '/var/opt/SIU_MANAGER/cache' archived"
+      fi
       log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start'... "
       >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start
       ;;
