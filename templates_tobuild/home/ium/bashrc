@@ -25,21 +25,17 @@ alias vi='vim'
 alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 
 # DEG aliases
-alias cdo='cd /opt/${SIU_INSTANCE}'
-alias cde='cd /etc/opt/${SIU_INSTANCE}'
+alias cdo='cd /opt/<%SIU_INSTANCE%>'
+alias cde='cd /etc/opt/<%SIU_INSTANCE%>'
 alias cdd='cd /opt/deg/IUM'
-alias cdv='cd /var/opt/${SIU_INSTANCE}'
-alias cdl='cd /var/opt/${SIU_INSTANCE}/log'
-alias cdoam='cd ${OAM_HOME}'
+alias cdv='cd /var/opt/<%SIU_INSTANCE%>'
+alias cdl='cd /var/opt/<%SIU_INSTANCE%>/log'
+alias cdoam='cd <%SCRIPTS_DIR%>/oam'
 alias cdoss='cd /opt/oss'
-alias cdos='cd /opt/scripts'
-alias cdmon='cd /opt/scripts/monitoring'
-alias cdenv='cd /opt/deg/IUM/envVariables/'
+alias cdos='cd <%SCRIPTS_DIR%>'
+alias cdmon='cd <%SCRIPTS_DIR%>/monitoring'
+alias cdenv='cd /opt/deg/IUM/envVariables'
 [#SECTION_BEGIN:MANAGER#]
-alias standby1='sudo pcs cluster standby <%HOSTNAME_MNGR1%>-hb'
-alias standby2='sudo pcs cluster standby <%HOSTNAME_MNGR2%>-hb'
-alias unstandby1='sudo pcs cluster unstandby <%HOSTNAME_MNGR1%>-hb '
-alias unstandby2='sudo pcs cluster unstandby <%HOSTNAME_MNGR2%>-hb '
 alias cdvdb='cd /var/Mariadb'
 alias mysqlapp='mysql -u root -S /var/Mariadb/DEG_APP_MD/mysql.sock -D deg_dsn_md'
 alias mysqlmgr='mysql -u root -S /var/Mariadb/DEG_MGR_MD/mysql.sock -D siu_manager_md'
@@ -49,6 +45,6 @@ function lf
 {
   for FILE_PATH in $@
   do
-    /opt/${SIU_INSTANCE}/bin/loadconfig -f ${FILE_PATH}
+    /opt/<%SIU_INSTANCE%>/bin/loadconfig -f ${FILE_PATH}
   done
 }

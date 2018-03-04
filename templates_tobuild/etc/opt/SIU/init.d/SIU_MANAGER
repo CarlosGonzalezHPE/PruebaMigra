@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# IUM instance name
+INSTNAME='SIU_MANAGER'
+# Install root path
+INSTLROOT='/opt/SIU_MANAGER'
+BINROOT="$INSTLROOT"
+
+# source the siu_install.ini file
+. ${INSTLROOT}/siu_install.ini
+
+# set script variables from values sourced from siu_install.ini
+CFGROOT=${ConfigRoot}
+VARROOT=${VarRoot}
+INSTANCEOWNER=${InstanceOwner}
+
+if [ "$INSTANCEOWNER" != 'root' -a "$(id -u)" = '0' ]; then
+  # Proceed as the instance owner
+  exec su - "$INSTANCEOWNER" -c "$0 $*"
+fi
+
+# sbin directory
+SIUSBIN="$INSTLROOT/sbin"
+# Host name
+[ -f "$CFGROOT/SIU.ini" ] && HOSTID="$(. "$CFGROOT/SIU.ini" && echo $HOSTID)"
+# Path to siucontrol executable
+SIUCONTROL="$BINROOT/bin/siucontrol"
+# Path to SIUJava executable
+SIUJAVA="$BINROOT/bin/SIUJava"
+# Path to the service log file
+LOG_FILE="$VARROOT/log/$INSTNAME-service.log"
+
+# Null file
+DEV_NULL='/dev/null'
+# File separator
+FS='/'
+# Exe file extension
+EXE=''
+
+# Add IUM executables to PATH
+export PATH="$PATH:$INSTLROOT/bin"
+
+# Source utils
+. "$INSTLROOT/sbin/SIU-utils"
+
+# Source main config
+src "/etc/rc.config.d/$INSTNAME"
+
+# Source module configs
+src "$INSTLROOT/sbin/ium.rc.config.d"
+
+# Source modules
+src "$INSTLROOT/sbin/ium.init.d"
+
+usage() {
+  echo "Usage: $(basename "$0") [start [module]] [stop [module]] [restart [module]] [status [module]]"
+  echo "Modules: $(modules)"
+}
+
+set -- $(echo $* | tr -d '-' | tr '_' ' ')
+[ "$1" ] && action="$1" && shift
+[ "$action" ] || action='help'
+modules="$@"
+
+case $action in
+  'start')   $INSTLROOT/sbin/mariadb.sh start
+             module_start $modules
+  ;;
+  'stop')    module_stop $modules
+             $INSTLROOT/sbin/mariadb.sh stop
+  ;;
+  'restart') $INSTLROOT/sbin/mariadb.sh restart
+             module_restart $modules
+  ;;
+  'status')
+column -t -s ':' << EOF 
+Module:Name:Status
+------:----:------
+$(module_status $modules)
+EOF
+  ;;
+  'help')    usage
+  ;;
+  'h')       usage
+  ;;
+  *)         echo "Invalid option $action"; usage; exit 1
+  ;;
+esac
+
