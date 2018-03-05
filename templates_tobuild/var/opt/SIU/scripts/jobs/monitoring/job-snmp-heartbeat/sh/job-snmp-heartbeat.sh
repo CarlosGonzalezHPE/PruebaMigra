@@ -13,7 +13,7 @@ function process
 {
   logDebug "Executing function 'process'"
 
-  PMGR_PARAMETER="$(getConfigParam PMGR_PARAMETER SNMP)"
+  PMGR_PARAMETER="$(getConfigParam SNMP PMGR_PARAMETER)"
   if [ $? -lt 0 ] || [ -z "${PMGR_PARAMETER}" ]
   then
     logError "Unable to get mandatory parameter 'PMGR_PARAMETER' in section 'SNMP'"
@@ -22,7 +22,7 @@ function process
 
   logDebug "PMGR_PARAMETER = ${PMGR_PARAMETER}"
 
-  SIU_INVK_COMMAND="$(getConfigParam SIU_INVK_COMMAND SNMP)"
+  SIU_INVK_COMMAND="$(getConfigParam SNMP SIU_INVK_COMMAND)"
   if [ $? -lt 0 ] || [ -z "${PMGR_PARAMETER}" ]
   then
     logError "Unable to get mandatory parameter 'SIU_INVK_COMMAND' in section 'SNMP'"
@@ -53,7 +53,7 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/monitor-processes
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/job-snmp-heartbeat
 export SCRIPT_BASEDIR
 
 . <%SCRIPTS_DIR%>/jobs/monitoring/job-common/sh/job-common.sh

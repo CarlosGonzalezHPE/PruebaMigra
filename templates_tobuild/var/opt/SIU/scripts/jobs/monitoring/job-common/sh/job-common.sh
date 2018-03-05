@@ -111,7 +111,7 @@ function addKpi
 # Main
 #
 
-. /opt/common/common.sh
+. <%SCRIPTS_DIR%>/common/common.sh
 
 COMMON_CTRL_DIR=<%SCRIPTS_DIR%>/jobs/monitoring/ctrl
 export COMMON_CTRL_DIR

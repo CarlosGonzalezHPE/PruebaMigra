@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # IUM instance name
-INSTNAME='SIU_DEG01'
+INSTNAME='<%SIU_INSTANCE%>'
 # Install root path
-INSTLROOT='/opt/SIU_DEG01'
+INSTLROOT='/opt/<%SIU_INSTANCE%>'
 BINROOT="$INSTLROOT"
 
 # source the siu_install.ini file
@@ -12,6 +12,7 @@ BINROOT="$INSTLROOT"
 # set script variables from values sourced from siu_install.ini
 CFGROOT=${ConfigRoot}
 VARROOT=${VarRoot}
+ETCROOT='/etc/opt/<%SIU_INSTANCE%>'
 INSTANCEOWNER=${InstanceOwner}
 
 if [ "$INSTANCEOWNER" != 'root' -a "$(id -u)" = '0' ]; then
@@ -44,7 +45,7 @@ export PATH="$PATH:$INSTLROOT/bin"
 . "$INSTLROOT/sbin/SIU-utils"
 
 # Source main config
-src "/etc/rc.config.d/$INSTNAME"
+src "$ETCROOT/rc.config.d/$INSTNAME"
 
 # Source module configs
 src "$INSTLROOT/sbin/ium.rc.config.d"
@@ -63,18 +64,39 @@ set -- $(echo $* | tr -d '-' | tr '_' ' ')
 modules="$@"
 
 case $action in
-  'start')   module_start $modules
+  'start')
+[#SECTION_BEGIN:MANAGER#]
+    $INSTLROOT/sbin/mariadb.sh start
+[#SECTION_END#]
+    module_start $modules
+    ;;
+  'stop')
+    module_stop $modules
+[#SECTION_BEGIN:MANAGER#]
+    $INSTLROOT/sbin/mariadb.sh stop
+[#SECTION_END#]
   ;;
-  'stop')    module_stop $modules
-  ;;
-  'restart') module_restart $modules
-  ;;
+  'restart')
+    module_stop $modules
+[#SECTION_BEGIN:MANAGER#]
+    $INSTLROOT/sbin/mariadb.sh stop
+    $INSTLROOT/sbin/mariadb.sh start
+[#SECTION_END#]
+    module_start $modules
+    ;;
   'status')
-column -t -s ':' << EOF 
+module_status $modules >/tmp/module_status.tmp
+column -t -s ':' << EOF
 Module:Name:Status
 ------:----:------
 $(module_status $modules)
 EOF
+if [ $(cat /tmp/module_status.tmp | grep "Stopped" | wc -l) -gt 0 ]
+then
+  rm -f /tmp/module_status.tmp
+  exit 3
+fi
+rm -f /tmp/module_status.tmp
   ;;
   'help')    usage
   ;;

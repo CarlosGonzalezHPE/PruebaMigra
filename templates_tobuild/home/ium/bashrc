@@ -32,7 +32,7 @@ alias cdv='cd /var/opt/<%SIU_INSTANCE%>'
 alias cdl='cd /var/opt/<%SIU_INSTANCE%>/log'
 alias cdoam='cd <%SCRIPTS_DIR%>/oam'
 alias cdoss='cd /opt/oss'
-alias cdos='cd <%SCRIPTS_DIR%>'
+alias cds='cd <%SCRIPTS_DIR%>'
 alias cdmon='cd <%SCRIPTS_DIR%>/monitoring'
 alias cdenv='cd /opt/deg/IUM/envVariables'
 [#SECTION_BEGIN:MANAGER#]

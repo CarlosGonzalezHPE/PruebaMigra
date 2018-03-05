@@ -105,7 +105,7 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/monitor-processes
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/job-monitor-processes
 export SCRIPT_BASEDIR
 
 . <%SCRIPTS_DIR%>/jobs/monitoring/job-common/sh/job-common.sh

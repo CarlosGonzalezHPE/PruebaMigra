@@ -139,7 +139,7 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/monitor-memory
+SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/job-monitor-memory
 export SCRIPT_BASEDIR
 
 . <%SCRIPTS_DIR%>/jobs/monitoring/job-common/sh/job-common.sh

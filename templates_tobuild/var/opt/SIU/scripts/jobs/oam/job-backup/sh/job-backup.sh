@@ -181,7 +181,7 @@ function backupFiles
     logDebug "FILES_DIR = ${FILES_DIR}"
     logDebug "FILES_FILENAMEREGEX = ${FILES_FILENAMEREGEX}"
 
-    if [ -z ${FILES_DIR} ] || [ -z ${FILES_FILENAMEREGEX} ]
+    if [ -z ${FILES_DIR} ]
     then
       logWarning "Invalid line: ${LINE}. Line is skipped"
       continue
