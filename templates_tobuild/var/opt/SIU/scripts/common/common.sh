@@ -470,5 +470,5 @@ fi
 
 beginingOfExecution
 
-SUDO_ASKPASS=<%SCRIPTS_DIR%>/common/askpass.sh
+SUDO_ASKPASS=/var/opt/<%SIU_INSTANCE%>/scripts/common/askpass.sh
 export SUDO_ASKPASS

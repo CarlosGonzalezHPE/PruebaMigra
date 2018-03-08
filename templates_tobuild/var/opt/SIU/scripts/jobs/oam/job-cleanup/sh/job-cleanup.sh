@@ -212,10 +212,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/oam/job-cleaner
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/oam/job-cleaner
 export SCRIPT_BASEDIR
 
-. <%SCRIPTS_DIR%>/common/common.sh
+. /var/opt/<%SIU_INSTANCE%>/scripts/common/common.sh
 
 EXIT_CODE=0
 CURRENT_DATE=$(date +%Y%m%d)

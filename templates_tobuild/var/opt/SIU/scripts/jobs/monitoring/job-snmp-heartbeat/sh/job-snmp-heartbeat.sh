@@ -53,10 +53,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/job-snmp-heartbeat
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring/job-snmp-heartbeat
 export SCRIPT_BASEDIR
 
-. <%SCRIPTS_DIR%>/jobs/monitoring/job-common/sh/job-common.sh
+. /var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring/job-common/sh/job-common.sh
 
 
 process

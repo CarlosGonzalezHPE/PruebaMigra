@@ -36,10 +36,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/oam/job-gzipLogOLD
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/oam/job-gzipLogOLD
 export SCRIPT_BASEDIR
 
-. <%SCRIPTS_DIR%>/common/common.sh
+. /var/opt/<%SIU_INSTANCE%>/scripts/common/common.sh
 
 
 process

@@ -261,10 +261,10 @@ then
   exit 1
 fi
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/distribution/sendFiles
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles
 export SCRIPT_BASEDIR
 
-. <%SCRIPTS_DIR%>/common/common.sh
+. /var/opt/<%SIU_INSTANCE%>/scripts/common/common.sh
 
 logDebug "RUN_LABEL = ${RUN_LABEL}"
 

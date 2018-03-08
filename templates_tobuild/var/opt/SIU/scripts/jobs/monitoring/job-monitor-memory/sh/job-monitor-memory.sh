@@ -139,10 +139,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/monitoring/job-monitor-memory
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring/job-monitor-memory
 export SCRIPT_BASEDIR
 
-. <%SCRIPTS_DIR%>/jobs/monitoring/job-common/sh/job-common.sh
+. /var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring/job-common/sh/job-common.sh
 
 
 process

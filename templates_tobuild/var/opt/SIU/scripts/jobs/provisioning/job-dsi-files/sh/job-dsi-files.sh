@@ -128,7 +128,7 @@ function process
         logError "Command of file 'mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}/LOG_VOLTE' failed"
         RES_CODE=1
       else
-        <%SCRIPTS_DIR%>/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE ${OUTPUT_DIR}/LOG_VOLTE/$(basename ${VOLTE_FILEPATH})
+        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE ${OUTPUT_DIR}/LOG_VOLTE/$(basename ${VOLTE_FILEPATH})
         if [ $? -ne 0 ]
         then
           logError "Distribution of file '$(basename ${VOLTE_FILEPATH})' failed"
@@ -188,10 +188,10 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/provisioning/job-dsi-files
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/provisioning/job-dsi-files
 export SCRIPT_BASEDIR
 
-. <%SCRIPTS_DIR%>/common/common.sh
+. /var/opt/<%SIU_INSTANCE%>/scripts/common/common.sh
 
 EXIT_CODE=0
 CURRENT_DATE=$(date +%Y%m%d)

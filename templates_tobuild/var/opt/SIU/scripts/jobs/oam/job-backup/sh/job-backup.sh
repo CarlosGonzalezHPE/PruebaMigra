@@ -334,10 +334,10 @@ then
   exit 1
 fi
 
-SCRIPT_BASEDIR=<%SCRIPTS_DIR%>/jobs/oam/job-backup
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/oam/job-backup
 export SCRIPT_BASEDIR
 
-. <%SCRIPTS_DIR%>/common/common.sh
+. /var/opt/<%SIU_INSTANCE%>/scripts/common/common.sh
 
 EXIT_CODE=0
 CURRENT_DATE=$(date +%Y%m%d)
