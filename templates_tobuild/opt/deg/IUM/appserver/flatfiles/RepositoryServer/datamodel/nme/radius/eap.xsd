@@ -1,0 +1,40 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/eap"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/eap"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="eap">
+        <sequence>
+            <element name="code" type="nme:short" />
+            <element name="identifier" type="nme:short" />
+            <element name="length" type="nme:int" />
+            <element name="request" type="this:requestResponse" />
+            <element name="response" type="this:requestResponse" />
+        </sequence>
+    </complexType>
+
+    <complexType name="requestResponse">
+        <sequence>
+            <element name="type" type="nme:short" />
+            <element name="akaType" type="this:akaType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="akaType">
+        <sequence>
+            <element name="subType" type="nme:short" />
+            <element name="atNotification" type="this:atNotification" />
+        </sequence>
+    </complexType>
+
+    <complexType name="atNotification">
+        <sequence>
+            <element name="attribute" type="nme:short" />
+            <element name="reserved" type="nme:int" />
+            <element name="length" type="nme:short" />
+            <element name="value" type="nme:int" />
+        </sequence>
+    </complexType>
+</schema>

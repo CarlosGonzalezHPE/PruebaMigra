@@ -1,0 +1,471 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+	targetNamespace="http://www.hp.com/usage/datastruct/transform/radius">
+	<!-- nme imports -->
+	<import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+	<import prefix="nme-radius" ns="http://www.hp.com/usage/nme/nmeschema/radius" />
+	<!-- format imports -->
+	<import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd" />
+	<import prefix="xfd-radius" ns="http://www.hp.com/usage/datastruct/xfd/radius" />
+	<!-- standard transformers import -->
+	<import prefix="ium" ns="http://www.hp.com/usage/datastruct/transform" />
+
+	<import prefix="ium-tx"
+		ns="com.hp.usage.datastruct.transform.transformer.nme" />
+
+	<transformer id="AccountingResponseDecoder" from="xfd-radius:AccountingResponse"
+		to="nme-radius:AccountingResponse">
+		<!-- transform input="AcctSessionId" output="AcctSessionId">
+			<use-transformer from="xfd:string" to="nme:string"
+				class="ium:StringToStringCopy" />
+		</transform-->
+		<!--  transform input="AcctStatusType" output="AcctStatusType">
+			<use-transformer from="xfd:long" to="nme:long"
+				class="ium:LongToLongCopy" />
+		</transform-->
+		<transform input="ProxyStates" output="ProxyStates">
+			<transformer from="xfd-radius:ProxyState[]" to="nme-radius:ProxyState[]">
+				<array>
+					<use-transformer from="xfd-radius:ProxyState" to="nme-radius:ProxyState"
+						class="ProxyStateSetter" />
+				</array>
+			</transformer>
+		</transform>
+        <transform input="VendorSpecific" output="VendorSpecific">
+            <!-- 
+            <transformer from="xfd-radius:CiscoVendorSpecific[]" to="nme-radius:CiscoVendorSpecific[]">
+                <array>
+                    <use-transformer from="xfd-radius:CiscoVendorSpecific" to="nme-radius:CiscoVendorSpecific" class="VendorSpecificSetter" />
+                </array>
+            </transformer>
+            -->
+            <transformer from="xfd-radius:CiscoVendorSpecific[]" to="nme-radius:CiscoVendorSpecific">
+            <script language="Groovy">
+                  <![CDATA[
+                  output = null;
+		  		  if (input.length > 0) {
+		    		output = beanFactory.newInstance("radius.CiscoVendorSpecific");
+                  }
+                  
+                  for (int i=0; i<input.length; i++) {
+                    if (input[i].CiscoAvpairFlag) {
+                      output.CiscoAvpair = input[i].CiscoAvpair;
+                    } 
+                    if (input[i].CiscoNASPortFlag) {
+                      output.CiscoNASPort = input[i].CiscoNASPort;
+                    } 
+                    if (input[i].CiscoFaxAccountIDOriginFlag) {
+                      output.CiscoFaxAccountIDOrigin = input[i].CiscoFaxAccountIDOrigin;
+                    } 
+                    if (input[i].CiscoFaxMessageIDFlag) {
+                      output.CiscoFaxMessageID = input[i].CiscoFaxMessageID;
+                    } 
+                    if (input[i].CiscoFaxPagesFlag) {
+                      output.CiscoFaxPages = input[i].CiscoFaxPages;
+                    } 
+                    if (input[i].CiscoFaxCoverPageFlagFlag) {
+                      output.CiscoFaxCoverPageFlag = input[i].CiscoFaxCoverPageFlag;
+                    } 
+                    if (input[i].CiscoFaxPagesFlag) {
+                      output.CiscoFaxPages = input[i].CiscoFaxPages;
+                    } 
+                    if (input[i].CiscoFaxModemTimeFlag) {
+                      output.CiscoFaxModemTime = input[i].CiscoFaxModemTime;
+                    } 
+                    if (input[i].CiscoFaxConnectSpeedFlag) {
+                      output.CiscoFaxConnectSpeed = input[i].CiscoFaxConnectSpeed;
+                    } 
+                    if (input[i].CiscoFaxRecipientCountFlag) {
+                      output.CiscoFaxRecipientCount = input[i].CiscoFaxRecipientCount;
+                    } 
+                    if (input[i].CiscoFaxProcessAbortFlagFlag) {
+                      output.CiscoFaxProcessAbortFlag = input[i].CiscoFaxProcessAbortFlag;
+                    } 
+                    if (input[i].CiscoFaxDSNAddressFlag) {
+                      output.CiscoFaxDSNAddress = input[i].CiscoFaxDSNAddress;
+                    } 
+                    if (input[i].CiscoFaxDSNFlagFlag) {
+                      output.CiscoFaxDSNFlag = input[i].CiscoFaxDSNFlag;
+                    } 
+                    if (input[i].CiscoFaxDSNAddressFlag) {
+                      output.CiscoFaxDSNAddress = input[i].CiscoFaxDSNAddress;
+                    } 
+                    if (input[i].CiscoFaxMDNAddressFlag) {
+                        output.CiscoFaxMDNAddress = input[i].CiscoFaxMDNAddress;
+                    }
+                    if (input[i].CiscoFaxMDNFlagFlag) {
+                        output.CiscoFaxMDNFlag = input[i].CiscoFaxMDNFlag;
+                    }
+                    if (input[i].CiscoFaxAuthStatusFlag) {
+                        output.CiscoFaxAuthStatus = input[i].CiscoFaxAuthStatus;
+                    }
+                    if (input[i].CiscoEmailServerAddressFlag) {
+                        output.CiscoEmailServerAddress = input[i].CiscoEmailServerAddress;
+                    }
+                    if (input[i].CiscoEmailServerACKFlagFlag) {
+                        output.CiscoEmailServerACKFlag = input[i].CiscoEmailServerACKFlag;
+                    }
+                    if (input[i].CiscoGatewayIDFlag) {
+                        output.CiscoGatewayID = input[i].CiscoGatewayID;
+                    }
+                    if (input[i].CiscoCallTypeFlag) {
+                        output.CiscoCallType = input[i].CiscoCallType;
+                    }
+                    if (input[i].CiscoPortUsedFlag) {
+                        output.CiscoPortUsed = input[i].CiscoPortUsed;
+                    }
+                    if (input[i].CiscoAbortCauseFlag) {
+                        output.CiscoAbortCause = input[i].CiscoAbortCause;
+                    }
+                    if (input[i].CiscoCRSInfoFlag) {
+                        output.CiscoCRSInfo = input[i].CiscoCRSInfo;
+                    }
+                    if (input[i].CiscoH323RemoteAddressFlag) {
+                        output.CiscoH323RemoteAddress = input[i].CiscoH323RemoteAddress;
+                    }
+                    if (input[i].CiscoH323ConfIdFlag) {
+                        output.CiscoH323ConfId = input[i].CiscoH323ConfId;
+                    }
+                    if (input[i].CiscoH323SetupTimeFlag) {
+                        output.CiscoH323SetupTime = input[i].CiscoH323SetupTime;
+                    }
+                    if (input[i].CiscoH323CallOriginFlag) {
+                        output.CiscoH323CallOrigin = input[i].CiscoH323CallOrigin;
+                    }
+                    if (input[i].CiscoH323CallTypeFlag) {
+                        output.CiscoH323CallType = input[i].CiscoH323CallType;
+                    }
+                    if (input[i].CiscoH323ConnectTimeFlag) {
+                        output.CiscoH323ConnectTime = input[i].CiscoH323ConnectTime;
+                    }
+                    if (input[i].CiscoH323DisconnectTimeFlag) {
+                        output.CiscoH323DisconnectTime = input[i].CiscoH323DisconnectTime;
+                    }
+                    if (input[i].CiscoH323DisconnectCauseFlag) {
+                        output.CiscoH323DisconnectCause = input[i].CiscoH323DisconnectCause;
+                    }
+                    if (input[i].CiscoH323VoiceQualityFlag) {
+                        output.CiscoH323VoiceQuality = input[i].CiscoH323VoiceQuality;
+                    }
+                    if (input[i].CiscoH323IvrOutFlag) {
+                        output.CiscoH323IvrOut = input[i].CiscoH323IvrOut;
+                    }
+                    if (input[i].CiscoH323GwIdFlag) {
+                        output.CiscoH323GwId = input[i].CiscoH323GwId;
+                    }
+                    if (input[i].CiscoH323CallTreatmentFlag) {
+                        output.CiscoH323CallTreatment = input[i].CiscoH323CallTreatment;
+                    }
+                    if (input[i].CiscoH323IncomingConnectionIDFlag) {
+                        output.CiscoH323IncomingConnectionID = input[i].CiscoH323IncomingConnectionID;
+                    }
+                    if (input[i].CiscoH323IvrInFlag) {
+                        output.CiscoH323IvrIn = input[i].CiscoH323IvrIn;
+                    }
+                    if (input[i].CiscoH323CreditAmountFlag) {
+                        output.CiscoH323CreditAmount = input[i].CiscoH323CreditAmount;
+                    }
+                    if (input[i].CiscoH323CreditTimeFlag) {
+                        output.CiscoH323CreditTime = input[i].CiscoH323CreditTime;
+                    }
+                    if (input[i].CiscoH323ReturnCodeFlag) {
+                        output.CiscoH323ReturnCode = input[i].CiscoH323ReturnCode;
+                    }
+                    if (input[i].CiscoH323PromptIdFlag) {
+                        output.CiscoH323PromptId = input[i].CiscoH323PromptId;
+                    }
+                    if (input[i].CiscoH323TimeAndDayFlag) {
+                        output.CiscoH323TimeAndDay = input[i].CiscoH323TimeAndDay;
+                    }
+                    if (input[i].CiscoH323RedirectNumberFlag) {
+                        output.CiscoH323RedirectNumber = input[i].CiscoH323RedirectNumber;
+                    }
+                    if (input[i].CiscoH323PreferredLangFlag) {
+                        output.CiscoH323PreferredLang = input[i].CiscoH323PreferredLang;
+                    }
+                    if (input[i].CiscoH323RedirectIpAddrFlag) {
+                        output.CiscoH323RedirectIpAddr = input[i].CiscoH323RedirectIpAddr;
+                    }
+                    if (input[i].CiscoH323BillingModelFlag) {
+                        output.CiscoH323BillingModel = input[i].CiscoH323BillingModel;
+                    }
+                    if (input[i].CiscoH323CurrencyTypeFlag) {
+                        output.CiscoH323CurrencyType = input[i].CiscoH323CurrencyType;
+                    }
+                    if (input[i].CiscoUCPIPPoolIDFlag) {
+                        output.CiscoUCPIPPoolID = input[i].CiscoUCPIPPoolID;
+                    }
+                    if (input[i].CiscoUCPUserMaxSessionsFlag) {
+                        output.CiscoUCPUserMaxSessions = input[i].CiscoUCPUserMaxSessions;
+                    }
+                    if (input[i].CiscoUCPUserSessionCountFlag) {
+                        output.CiscoUCPUserSessionCount = input[i].CiscoUCPUserSessionCount;
+                    }
+                    if (input[i].CiscoUCPNextSessionIDFlag) {
+                        output.CiscoUCPNextSessionID = input[i].CiscoUCPNextSessionID;
+                    }
+                    if (input[i].CiscoUCPVPDNMaxSessionsFlag) {
+                        output.CiscoUCPVPDNMaxSessions = input[i].CiscoUCPVPDNMaxSessions;
+                    }
+                    if (input[i].CiscoUCPVPDNSessionCountFlag) {
+                        output.CiscoUCPVPDNSessionCount = input[i].CiscoUCPVPDNSessionCount;
+                    }
+                    if (input[i].CiscoUCPBChannelMaxSessionsFlag) {
+                        output.CiscoUCPBChannelMaxSessions = input[i].CiscoUCPBChannelMaxSessions;
+                    }
+                    if (input[i].CiscoUCPBChannelSessionCountFlag) {
+                        output.CiscoUCPBChannelSessionCount = input[i].CiscoUCPBChannelSessionCount;
+                    }
+                    if (input[i].CiscoUCPStatusFlag) {
+                        output.CiscoUCPStatus = input[i].CiscoUCPStatus;
+                    }
+                    if (input[i].CiscoUCPBLOBAttributeLengthFlag) {
+                        output.CiscoUCPBLOBAttributeLength = input[i].CiscoUCPBLOBAttributeLength;
+                    }
+                    if (input[i].CiscoUCPDisableStatusFlag) {
+                        output.CiscoUCPDisableStatus = input[i].CiscoUCPDisableStatus;
+                    }
+                    if (input[i].CiscoUCPBlockAccessRangeFlag) {
+                        output.CiscoUCPBlockAccessRange = input[i].CiscoUCPBlockAccessRange;
+                    }
+                    if (input[i].CiscoUCPHomePOPIDFlag) {
+                        output.CiscoUCPHomePOPID = input[i].CiscoUCPHomePOPID;
+                    }
+                    if (input[i].CiscoUCPIPAddressesFlag) {
+                        output.CiscoUCPIPAddresses = input[i].CiscoUCPIPAddresses;
+                    }
+                    if (input[i].CiscoUCPSessionInfoFlag) {
+                        output.CiscoUCPSessionInfo = input[i].CiscoUCPSessionInfo;
+                    }
+                    if (input[i].CiscoAscendAVpairsFlag) {
+                        output.CiscoAscendAVpairs = input[i].CiscoAscendAVpairs;
+                    }
+                    if (input[i].CiscoSSGAccountInfoFlag) {
+                        output.CiscoSSGAccountInfo = input[i].CiscoSSGAccountInfo;
+                    }
+                    if (input[i].CiscoSSGServiceInfoFlag) {
+                        output.CiscoSSGServiceInfo = input[i].CiscoSSGServiceInfo;
+                    }
+                    if (input[i].CiscoSSGCommandCodeFlag) {
+                        output.CiscoSSGCommandCode = input[i].CiscoSSGCommandCode;
+                    }
+                    if (input[i].CiscoSSGControlInfoFlag) {
+                        output.CiscoSSGControlInfo = input[i].CiscoSSGControlInfo;
+                    }
+                  }
+                  return output;
+                  ]]>
+            </script>
+        </transformer>
+        </transform>
+	</transformer>
+	<transformer id="ProxyStateSetter" from="xfd-radius:ProxyState"
+		to="nme-radius:ProxyState">
+		<transform input="value" output="value">
+			<use-transformer from="byte[]" to="nme:byte-array"
+				class="ium-tx:ByteArrayToByteArrayWrapper" />
+		</transform>
+	</transformer>
+    <transformer id="VendorSpecificSetter" from="xfd-radius:CiscoVendorSpecific" to="nme-radius:CiscoVendorSpecific">
+         <transform input="CiscoAvpair" output="CiscoAvpair">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoNASPort" output="CiscoNASPort">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxAccountIDOrigin" output="CiscoFaxAccountIDOrigin">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxMessageID" output="CiscoFaxMessageID">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxPages" output="CiscoFaxPages">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxCoverPageFlag" output="CiscoFaxCoverPageFlag">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxModemTime" output="CiscoFaxModemTime">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxConnectSpeed" output="CiscoFaxConnectSpeed">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxRecipientCount" output="CiscoFaxRecipientCount">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxProcessAbortFlag" output="CiscoFaxProcessAbortFlag">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxDSNAddress" output="CiscoFaxDSNAddress">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxDSNFlag" output="CiscoFaxDSNFlag">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxMDNAddress" output="CiscoFaxMDNAddress">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxMDNFlag" output="CiscoFaxMDNFlag">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoFaxAuthStatus" output="CiscoFaxAuthStatus">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoEmailServerAddress" output="CiscoEmailServerAddress">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoEmailServerACKFlag" output="CiscoEmailServerACKFlag">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoGatewayID" output="CiscoGatewayID">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoCallType" output="CiscoCallType">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoPortUsed" output="CiscoPortUsed">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoAbortCause" output="CiscoAbortCause">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoCRSInfo" output="CiscoCRSInfo">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323RemoteAddress" output="CiscoH323RemoteAddress">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323ConfId" output="CiscoH323ConfId">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323SetupTime" output="CiscoH323SetupTime">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323CallOrigin" output="CiscoH323CallOrigin">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323CallType" output="CiscoH323CallType">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323ConnectTime" output="CiscoH323ConnectTime">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323DisconnectTime" output="CiscoH323DisconnectTime">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323DisconnectCause" output="CiscoH323DisconnectCause">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323VoiceQuality" output="CiscoH323VoiceQuality">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323IvrOut" output="CiscoH323IvrOut">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323GwId" output="CiscoH323GwId">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323CallTreatment" output="CiscoH323CallTreatment">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323IncomingConnectionID" output="CiscoH323IncomingConnectionID">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323IvrIn" output="CiscoH323IvrIn">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323CreditAmount" output="CiscoH323CreditAmount">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323CreditTime" output="CiscoH323CreditTime">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323ReturnCode" output="CiscoH323ReturnCode">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323PromptId" output="CiscoH323PromptId">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323TimeAndDay" output="CiscoH323TimeAndDay">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323RedirectNumber" output="CiscoH323RedirectNumber">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323PreferredLang" output="CiscoH323PreferredLang">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323RedirectIpAddr" output="CiscoH323RedirectIpAddr">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323BillingModel" output="CiscoH323BillingModel">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoH323CurrencyType" output="CiscoH323CurrencyType">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPIPPoolID" output="CiscoUCPIPPoolID">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPUserMaxSessions" output="CiscoUCPUserMaxSessions">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPUserSessionCount" output="CiscoUCPUserSessionCount">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPNextSessionID" output="CiscoUCPNextSessionID">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPVPDNMaxSessions" output="CiscoUCPVPDNMaxSessions">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPVPDNSessionCount" output="CiscoUCPVPDNSessionCount">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPBChannelMaxSessions" output="CiscoUCPBChannelMaxSessions">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPBChannelSessionCount" output="CiscoUCPBChannelSessionCount">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPStatus" output="CiscoUCPStatus">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPBLOBAttributeLength" output="CiscoUCPBLOBAttributeLength">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPDisableStatus" output="CiscoUCPDisableStatus">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPBlockAccessRange" output="CiscoUCPBlockAccessRange">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPHomePOPID" output="CiscoUCPHomePOPID">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPIPAddresses" output="CiscoUCPIPAddresses">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoUCPSessionInfo" output="CiscoUCPSessionInfo">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoAscendAVpairs" output="CiscoAscendAVpairs">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoSSGAccountInfo" output="CiscoSSGAccountInfo">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoSSGServiceInfo" output="CiscoSSGServiceInfo">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoSSGCommandCode" output="CiscoSSGCommandCode">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+        <transform input="CiscoSSGControlInfo" output="CiscoSSGControlInfo">
+            <use-transformer from="string" to="string" class="ium:StringToStringIdentity" />
+        </transform>
+    </transformer>
+</transformations>
+
+
+

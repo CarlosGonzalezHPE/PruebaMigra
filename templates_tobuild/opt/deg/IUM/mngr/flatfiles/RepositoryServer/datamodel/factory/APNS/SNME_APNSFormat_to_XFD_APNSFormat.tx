@@ -1,0 +1,53 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_APNSFormat_to_XFD_APNSFormat">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+    <import prefix="tnme" ns="http://www.hp.com/usage/datastruct/transform/nme" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/APNSFormat" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/APNSFormat" />
+    <import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+
+    <transformer id="SNME_ApplePushNotificationMessage_to_XFD_ApplePushNotificationMessage" from="snme:ApplePushNotificationMessage" to="xfd:ApplePushNotificationMessage">
+        <transform input="command" output="command">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="frameLength" output="frameLength">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="frameArray" output="frameArray">
+            <transformer from="snme:FrameData[]" to="xfd:FrameData[]">
+                <array>
+                    <use-transformer from="snme:FrameData" to="xfd:FrameData" class="SNME_FrameData_to_XFD_FrameData" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_FrameData_to_XFD_FrameData" from="snme:FrameData" to="xfd:FrameData">
+        <transform input="deviceToken" output="deviceToken">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="payload" output="payload">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="notificationIdentifier" output="notificationIdentifier">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="expirationDate" output="expirationDate">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="priority" output="priority">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ItemHeader_to_XFD_ItemHeader" from="snme:ItemHeader" to="xfd:ItemHeader">
+        <transform input="itemNumber" output="itemNumber">
+            <use-transformer from="byte" to="byte" class="t:ByteToByteCopy" />
+        </transform>
+        <transform input="itemLength" output="itemLength">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+    </transformer>
+</transformations>

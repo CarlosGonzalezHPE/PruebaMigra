@@ -1,0 +1,59 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_eap_to_XFD_eap">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/eap" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/eap" />
+
+    <transformer id="SNME_eap_to_XFD_eap" from="snme:eap" to="xfd:eap">
+        <transform input="code" output="code">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="identifier" output="identifier">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="length" output="length">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="request" output="request">
+            <use-transformer from="snme:requestResponse" to="xfd:requestResponse" class="SNME_requestResponse_to_XFD_requestResponse" />
+        </transform>
+        <transform input="response" output="response">
+            <use-transformer from="snme:requestResponse" to="xfd:requestResponse" class="SNME_requestResponse_to_XFD_requestResponse" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_requestResponse_to_XFD_requestResponse" from="snme:requestResponse" to="xfd:requestResponse">
+        <transform input="type" output="type">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="akaType" output="akaType">
+            <use-transformer from="snme:akaType" to="xfd:akaType" class="SNME_akaType_to_XFD_akaType" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_akaType_to_XFD_akaType" from="snme:akaType" to="xfd:akaType">
+        <transform input="subType" output="subType">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="atNotification" output="atNotification">
+            <use-transformer from="snme:atNotification" to="xfd:atNotification" class="SNME_atNotification_to_XFD_atNotification" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_atNotification_to_XFD_atNotification" from="snme:atNotification" to="xfd:atNotification">
+        <transform input="attribute" output="attribute">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="reserved" output="reserved">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="length" output="length">
+            <use-transformer from="short" to="short" class="t:ShortToShortCopy" />
+        </transform>
+        <transform input="value" output="value">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+</transformations>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.hp.com/deg/PushNotification.wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:PushMsg="http://www.hp.com/deg/interfaces/PushNotificationMessage.xsd" targetNamespace="http://www.hp.com/deg/PushNotification.wsdl">
+	<wsdl:types>
+		<xsd:schema xmlns:tns="http://www.hp.com/deg/PushNotification.wsdl" targetNamespace="http://www.hp.com/deg/PushNotification.wsdl">
+			<xsd:import namespace="http://www.hp.com/deg/interfaces/PushNotificationMessage.xsd" schemaLocation="PushNotificationMessage.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="PushNotificationMessageRequest">
+		<wsdl:part name="PushNotificationMessageRequest" element="PushMsg:PushNotificationMessage"/>
+	</wsdl:message>
+	<wsdl:message name="PushNotificationMessageResponse">
+		<wsdl:part name="PushNotificationMessageResponse" element="PushMsg:PushNotificationMessageResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="PushNotificationPortType">
+		<wsdl:operation name="PushNotificationMessage">
+			<wsdl:input message="tns:PushNotificationMessageRequest"/>
+			<wsdl:output message="tns:PushNotificationMessageResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="PushNotificationSOAPBinding" type="tns:PushNotificationPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="PushNotificationMessage">
+			<soap:operation soapAction="PushNotificationMessage"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="PushNotificationService">
+		<wsdl:port name="PushNotificationPortType" binding="tns:PushNotificationSOAPBinding">
+			<soap:address location="http://localhost:8183"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
