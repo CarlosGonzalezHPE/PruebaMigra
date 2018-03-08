@@ -1,0 +1,170 @@
+<project name="DEG Orange Spain / HPE CMS Iberia, 2017-2018" default="build" basedir=".">
+
+  <description>
+  </description>
+
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+    <classpath>
+      <pathelement location="lib/ant-contrib-0.6.jar"/>
+    </classpath>
+  </taskdef>
+
+  <target name="build" description="">
+    <echo></echo>
+    <echo>Building files for all nodes'</echo>
+    <echo></echo>
+
+    <antcall target="build-node">
+      <param name="node" value="mxfuodeg20"/>
+    </antcall>
+  </target>
+
+  <target name="build-node"
+          description="Expected parameters: -Dnode=mxfuodeg20|mxfuodeg21|mxfuodeg22|mxfuodeg23|mxfuodeg31|mxfuodeg32|mxfuodeg33|mxulodeg20|mxulodeg21|mxulodeg22|mxulodeg31|mxulodeg32 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
+          depends="check,prepare-node">
+    <property name="build.profiles.scripts">
+       profiles/common.properties private_${node}/common.properties
+    </property>
+
+    <echo></echo>
+    <echo>Building Scripts files for node '${node}'</echo>
+    <echo></echo>
+
+    <exec executable="perl"
+          dir="."
+          failonerror="true">
+      <arg line="-w scripts/build.pl"/>
+      <arg line="-R"/>
+      <arg line="-t .work/${node}/tmp/templates_tobuild"/>
+      <arg line="-p ${build.profiles.scripts}"/>
+      <arg line="-d .work/${node}/built"/>
+      <arg line="-l ${buildloglevel}"/>
+    </exec>
+  </target>
+
+  <target name="prepare-node"
+          depends="check-node,clean-node">
+    <mkdir dir=".work/${node}/tmp/templates_tobuild"/>
+    <mkdir dir=".work/${node}/built"/>
+    <copy todir=".work/${node}/tmp/templates_tobuild">
+      <fileset dir="../templates_tobuild"/>
+    </copy>
+  </target>
+
+  <target name="deploy-node"
+          depends="check-node">
+    <property file="deploy/${node}.properties"/>
+
+    <scp todir="${user}:${passwd}@${host}:${destdir}" port="${port}" trust="yes">
+      <fileset dir=".work/${node}">
+        <include name="built-${host}.tar"/>
+      </fileset>
+    </scp>
+  </target>
+
+  <target name="clean"
+          description=""
+          depends="check">
+    <antcall target="clean-node">
+      <param name="node" value="mxfuodeg20"/>
+    </antcall>
+  </target>
+
+  <target name="clean-node"
+          description="Expected parameters: -Dnode=mxfuodeg20|mxfuodeg21|mxfuodeg22|mxfuodeg23|mxfuodeg31|mxfuodeg32|mxfuodeg33|mxulodeg20|mxulodeg21|mxulodeg22|mxulodeg31|mxulodeg32"
+          depends="check-node">
+
+    <delete dir=".work/${node}/tmp" includeemptydirs="true"/>
+    <delete dir=".work/${node}/built" includeemptydirs="true"/>
+    <delete dir=".work/${node}/to_build" includeemptydirs="true"/>
+  </target>
+
+  <target name="check">
+    <condition property="loglevel" value="INFO">
+      <not>
+        <isset property="loglevel"/>
+      </not>
+    </condition>
+
+    <fail message="Bad value '${loglevel}' for parameter 'loglevel'. Expected values: CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4">
+      <condition>
+        <not>
+          <or>
+            <equals arg1="${loglevel}" arg2="CRITICAL"/>
+            <equals arg1="${loglevel}" arg2="ERROR"/>
+            <equals arg1="${loglevel}" arg2="WARNING"/>
+            <equals arg1="${loglevel}" arg2="INFO"/>
+            <equals arg1="${loglevel}" arg2="DEBUG"/>
+            <equals arg1="${loglevel}" arg2="DEBUG2"/>
+            <equals arg1="${loglevel}" arg2="DEBUG3"/>
+            <equals arg1="${loglevel}" arg2="DEBUG4"/>
+          </or>
+        </not>
+      </condition>
+    </fail>
+
+    <condition property="buildloglevel" value="1">
+      <equals arg1="${loglevel}" arg2="CRITICAL"/>
+    </condition>
+
+    <condition property="buildloglevel" value="2">
+      <equals arg1="${loglevel}" arg2="ERROR"/>
+    </condition>
+
+    <condition property="buildloglevel" value="3">
+      <equals arg1="${loglevel}" arg2="WARNING"/>
+    </condition>
+
+    <condition property="buildloglevel" value="4">
+      <equals arg1="${loglevel}" arg2="INFO"/>
+    </condition>
+
+    <condition property="buildloglevel" value="5">
+      <equals arg1="${loglevel}" arg2="DEBUG"/>
+    </condition>
+
+    <condition property="buildloglevel" value="6">
+      <equals arg1="${loglevel}" arg2="DEBUG2"/>
+    </condition>
+
+    <condition property="buildloglevel" value="7">
+      <equals arg1="${loglevel}" arg2="DEBUG3"/>
+    </condition>
+
+    <condition property="buildloglevel" value="8">
+      <equals arg1="${loglevel}" arg2="DEBUG4"/>
+    </condition>
+  </target>
+
+  <target name="check-node">
+    <fail message="Missing parameter 'node'">
+      <condition>
+        <not>
+          <isset property="node"/>
+        </not>
+      </condition>
+    </fail>
+
+    <fail message="Bad value '${node}' for parameter 'node'. Expected values: mngr|mngr1|mngr2|app1|app2">
+      <condition>
+        <not>
+          <or>
+            <equals arg1="${node}" arg2="mxfuodeg20"/>
+            <equals arg1="${node}" arg2="mxfuodeg21"/>
+            <equals arg1="${node}" arg2="mxfuodeg22"/>
+            <equals arg1="${node}" arg2="mxfuodeg31"/>
+            <equals arg1="${node}" arg2="mxfuodeg32"/>
+            <equals arg1="${node}" arg2="mxulodeg20"/>
+            <equals arg1="${node}" arg2="mxulodeg21"/>
+            <equals arg1="${node}" arg2="mxulodeg22"/>
+            <equals arg1="${node}" arg2="mxulodeg23"/>
+            <equals arg1="${node}" arg2="mxulodeg31"/>
+            <equals arg1="${node}" arg2="mxulodeg32"/>
+            <equals arg1="${node}" arg2="mxulodeg33"/>
+          </or>
+        </not>
+      </condition>
+    </fail>
+  </target>
+
+</project>
