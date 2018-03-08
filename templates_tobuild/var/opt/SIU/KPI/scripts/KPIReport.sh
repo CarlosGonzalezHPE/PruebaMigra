@@ -14,11 +14,14 @@
 #-------------------------------------------------------------------------------
 
 export TZ=GMT
-KPI_LOG=/var/opt/SIU_MANAGER/KPI/log
-touch $KPI_LOG/KPI.log.$(date +%Y%m%d%H%M%S)
-LOG_FILE=`ls -1rt $KPI_LOG|tail -1`
-JAVA_LOG=$LOG_FILE
-echo "$(date +"%F %H:%M:%S %3N") INFO : ==================================START====================================" >> $KPI_LOG/$LOG_FILE
+KPI_LOG_DIR=/var/opt/SIU_MANAGER/KPI/log
+SUFFIX=$(date +%Y%m%d%H%M%S)
+KPI_LOG_FILENAMENAME=KPI.log.$(date +%Y%m%d%H%M%S)
+
+touch ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
+
+JAVA_LOG=${KPI_LOG_FILENAME}
+echo "$(date +"%F %H:%M:%S %3N") INFO : ==================================START====================================" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
 
 
 
@@ -31,26 +34,26 @@ then
 		check_pid=$(ps -p ${pid} | grep KPI | wc -l)
 		if [ $check_pid -gt 0 ]
 		then
-        echo "$(date +"%F %H:%M:%S %3N")  PID  ${pid} belongs to KPI " >> $KPI_LOG/$LOG_FILE
-	    echo "$(date +"%F %H:%M:%S %3N") ERROR : Can not run $0: Exiting from KPI report execution as Process ${pid} is still running." >> $KPI_LOG/$LOG_FILE
-		echo "$(date +"%F %H:%M:%S %3N") INFO : ==================================END======================================" >> $KPI_LOG/$LOG_FILE
+        echo "$(date +"%F %H:%M:%S %3N")  PID  ${pid} belongs to KPI " >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
+	    echo "$(date +"%F %H:%M:%S %3N") ERROR : Can not run $0: Exiting from KPI report execution as Process ${pid} is still running." >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
+		echo "$(date +"%F %H:%M:%S %3N") INFO : ==================================END======================================" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
         exit 0
     else
-		echo "$(date +"%F %H:%M:%S %3N")  PID ${pid}  not belongs to KPI " >> $KPI_LOG/$LOG_FILE
+		echo "$(date +"%F %H:%M:%S %3N")  PID ${pid}  not belongs to KPI " >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
         # Clean up previous instance.pid file
         rm -f $InstancePIDFile
         fi
 	else
         # Clean up previous instance.pid file
-		echo "$(date +"%F %H:%M:%S %3N") INFO : No other KPI instance is running." >> $KPI_LOG/$LOG_FILE
+		echo "$(date +"%F %H:%M:%S %3N") INFO : No other KPI instance is running." >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
         rm -f $InstancePIDFile
     fi
 fi
 
        # Inserting new pid
         echo "$$" > ${InstancePIDFile}
-echo "$(date +"%F %H:%M:%S %3N") INFO : KPI program is about to start executing." >> $KPI_LOG/$LOG_FILE
-echo "$(date +"%F %H:%M:%S %3N") INFO : ==================================END======================================" >> $KPI_LOG/$LOG_FILE
+echo "$(date +"%F %H:%M:%S %3N") INFO : KPI program is about to start executing." >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
+echo "$(date +"%F %H:%M:%S %3N") INFO : ==================================END======================================" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
 
 
 CURDIR=`dirname $0`
@@ -85,9 +88,9 @@ do
   cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}
   if [ $? -ne 0 ]
   then
-    echo "$(date +"%F %H:%M:%S %3N") ERROR : Command 'cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}' failed." >> $KPI_LOG/$LOG_FILE
+    echo "$(date +"%F %H:%M:%S %3N") ERROR : Command 'cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}' failed." >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
   else
-    echo "$(date +"%F %H:%M:%S %3N") INFO : Copied and renamed file '/opt/oss/kpis/${NEW_FILENAME}'" >> $KPI_LOG/$LOG_FILE
+    echo "$(date +"%F %H:%M:%S %3N") INFO : Copied and renamed file '/opt/oss/kpis/${NEW_FILENAME}'" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
     mv ${FILEPATH} ${FILEPATH}.moved
   fi
 done
@@ -100,9 +103,9 @@ do
   cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}
   if [ $? -ne 0 ]
   then
-    echo "$(date +"%F %H:%M:%S %3N") ERROR : Command 'cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}' failed." >> $KPI_LOG/$LOG_FILE
+    echo "$(date +"%F %H:%M:%S %3N") ERROR : Command 'cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}' failed." >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
   else
-    echo "$(date +"%F %H:%M:%S %3N") INFO : Copied and renamed file '/opt/oss/kpis/${NEW_FILENAME}'" >> $KPI_LOG/$LOG_FILE
+    echo "$(date +"%F %H:%M:%S %3N") INFO : Copied and renamed file '/opt/oss/kpis/${NEW_FILENAME}'" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
     mv ${FILEPATH} ${FILEPATH}.moved
   fi
 done

@@ -60,13 +60,26 @@ function process
 
   while read LINE
   do
-    INTERFACE=$(echo ${LINE} | cut -d ":" -f 1)
-    IP_ADDRESS=$(echo ${LINE} | cut -d ":" -f 2)
+    HOST=$(echo ${LINE} | cut -d ";" -f 1)
+    INTERFACE=$(echo ${LINE} | cut -d ";" -f 2)
+    IP_ADDRESS=$(echo ${LINE} | cut -d ";" -f 3)
+    CURRENT_HOST=$(hostname | cut -d "." -f 1)
+
+    logDebug "HOST = ${HOST}"
+    logDebug "INTERFACE = ${INTERFACE}"
+    logDebug "IP_ADDRESS = ${IP_ADDRESS}"
+    logDebug "CURRENT_HOST = ${CURRENT_HOST}"
+
+    if [ "${HOST}" != "${CURRENT_HOST}" ]
+    then
+      logDebug "Host '${HOST}' does not match current host '${CURRENT_HOST}'"
+      continue
+    fi
 
     logInfo "Checking status of Network Interface '${INTERFACE} (${IP_ADDRESS})'"
 
     set +e
-    ping -c 4 -w 10 ${IP_ADDRESS} >> ${LOG_FILEPATH} 2>&1
+    ping -c 4 -w 10 ${IP_ADDRESS} >> ${TMP_DIR}/ping.out_err 2>&1
     PING_RESULT=$?
     set -e
 

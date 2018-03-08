@@ -3,7 +3,7 @@
 #
 # Project : HP-DEG
 #
-# Version : 1.0                                                                 
+# Version : 1.0
 # Author : HP CMS
 #
 # Component: oam-show_processes.sh
@@ -285,5 +285,5 @@ done
 for REMOTE_SERVER in $(cat ${OAM_DIR}/cfg/oam-processes.cfg | grep -v "^#" | grep "^REMOTE_SERVER")
 do
   SERVER=$(echo ${REMOTE_SERVER} | cut -d "=" -f 2)
-  ssh ium@${SERVER} ". ./.bash_profile; oam-show_processes.sh"
+  >/dev/null 2>&1 ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${SERVER} ". ./.bash_profile; oam-show_processes.sh"
 done
