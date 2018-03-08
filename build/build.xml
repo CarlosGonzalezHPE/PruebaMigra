@@ -14,9 +14,7 @@
     <echo>Building files for all nodes'</echo>
     <echo></echo>
 
-    <antcall target="build-node">
-      <param name="node" value="mxfuodeg20"/>
-    </antcall>
+    <foreach param="node" list="mxulodeg20,mxulodeg21,mxulodeg22,mxulodeg23,mxulodeg31,mxulodeg32,mxulodeg33,mxfuodeg21,mxfuodeg22,mxfuodeg31,mxfuodeg32" target="build-node"/>
   </target>
 
   <target name="build-node"
@@ -27,7 +25,7 @@
     </property>
 
     <echo></echo>
-    <echo>Building Scripts files for node '${node}'</echo>
+    <echo>Building files for node '${node}'</echo>
     <echo></echo>
 
     <exec executable="perl"
