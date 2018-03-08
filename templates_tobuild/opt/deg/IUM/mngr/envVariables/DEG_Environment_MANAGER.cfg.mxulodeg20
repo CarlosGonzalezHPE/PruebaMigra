@@ -1,0 +1,798 @@
+[/deployment/SIU_MANAGER/Environment]
+
+######################################################### DEG CORE ENVIRONMENT VARIABLES ###############################################################################
+
+#{
+#IUM_Process= DEG_AAA_Simulator and DEG_HSS_Simulator
+HSS_HOST_NAME=mxulodeg20.degaaa1.swa.com
+#Configured By= Product Team
+#Description= This variable specifies the host name of the device where the HSS simulator will be running.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_AAA_HOST_1=mxulodeg31.degaaa1.swx.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_AAA_HOST_2=mxulodeg31.degaaa1.swx.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_AAA_HOST_3=mxulodeg31.degaaa1.swx.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_DEVICE_HOST_1=mxulodeg31.degdevice.swa.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_DEVICE_HOST_2=mxulodeg31.degdevice.swa.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_DEVICE_HOST_3=mxulodeg31.degdevice.swa.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_JOBS_HOST_1=mxulodeg31.degjobs.swa.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_JOBS_HOST_2=mxulodeg31.degjobs.swa.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_JOBS_HOST_3=mxulodeg31.degjobs.swa.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_DIAMETER_SERVER_NAME=mxulodeg31.degaaa1.swx.com
+#Configured By= Product Team
+#Description= Specifies the HSS diameter server name.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_DIAMETER_CLIENT_NAME=mxulodeg20.deghss.swx.com
+#Configured By= Product Team
+#Description= Specifies the HSS diameter client name.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_DIAMETER_SERVER_IP=10.192.153.194
+#Configured By= Product Team
+#Description= Specifies the diameter server IP.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_DIAMETER_CLIENT_IP=10.192.153.189
+#Configured By= Product Team
+#Description= Specifies the diameter client IP.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_HTTP_SERVER_PORT=8185
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_DIAMETER_SERVER_PORT=1821
+#Configured By= Product Team
+#Description= Specifies the HSS diameter server port.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_DIAMETER_CLIENT_PORT=3869
+#Configured By= Product Team
+#Description= Specifies the HSS diameter client port.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_REALM_NAME=swx.com
+#Configured By= Product Team
+#Description= This variable holds the realm/domain name for the HSS simulator.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_HTTP_TIMEOUT=2000
+#Configured By= Product Team
+#Description= These variables are used for internal simulators
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_HTTP_MAX_PROCESSORS=20
+#Configured By= Product Team
+#Description= These variables are used for internal simulators
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_HTTP_MIN_PROCESSORS=20
+#Configured By= Product Team
+#Description= These variables are used for internal simulators
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_MIN_DMPOOL_SIZE=10
+#Configured By= Product Team
+#Description= These variables are used for internal simulators
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_MAX_DMPOOL_SIZE=10
+#Configured By= Product Team
+#Description= These variables are used for internal simulators
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_GSMQUEUE_SIZE=10
+#Configured By= Product Team
+#Description= These variables are used for internal simulators
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_RADIUS_IOCORE_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description= Minimum /Initial pool size.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_RADIUS_IOMAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description= Maximum pool size.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_RADIUS_PROC_CORE_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description= Minimum /Initial pool size.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_RADIUS_PROC_MAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description= Maximum pool size.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_THREAD_POOL_SIZE=150
+#Configured By= Product Team
+#Description= This variable specifies maximum pool size for threads.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_RADIUS_SERVER_HOST_IP=10.192.153.189
+#Configured By= Product Team
+#Description= This parameter describes the IP address where the HSS radius server is running.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+PRIMARY_RADIUS_SERVER_HOST_PORT=1817
+#Configured By= Delivery Team
+#Description= This variable specifies the port to which the primary radius server will be connected.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_HOST_PORT=3870
+#Configured By= Product Team
+#Description= This variable specifies the port number to which the HSS simulator will be connected.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator and DEG_JobsInterface
+JOBS_DIAMETER_SERVER_PORT=1816
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server Port where diameter server is running for Jobs Interface.
+#}
+
+#{
+#IUM_Process= All
+IUM_LOG_DIR=/var/opt/SIU_MANAGER/log
+#Configured By= Delivery Team
+#Description=The directory path where the log files from all the IUM components are stored. Upon process start,log files are created and stored in this directory.
+#}
+
+#{
+#IUM_Process= KPI
+KPI_LOG_DIR=/var/opt/SIU_MANAGER/KPI/log
+#Configured By= Delivery Team
+#Description= When the KPI script is run,log file is created that is stored in this directory path.
+#}
+
+#{
+#IUM_Process= License
+LIC_LOG_DIR=/var/opt/SIU_MANAGER/License/log
+#Configured By= Delivery Team
+#Description= When the License script is run,log file is created that is stored in this directory path.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+NRBGUI_LOG_DIR=/app/DEG/NRBGUI/log
+#Configured By= Delivery Team
+#Description= The directory path where the log files generated from the NRBGUI components are stored.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_AGENT=DEG_AlarmAgent
+#Configured By= Delivery Team
+#Description= Variable to set the process name of Alarm Agent in the manager server.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_CLEANUP_DIR=/var/opt/SIU_MANAGER/DEG_AlarmAgent/cleanupfiles
+#Configured By= Delivery Team
+#Description= As part of the default cleanup operation,collector writes all the names of the log files those are already processed into this directory.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRBTOOL_PROCESS_NAME=DEG_NRBToolInterface
+#Configured By= Product Team
+#Description= Variable to set the process name of <NRB Tool Interface> in the manager server.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRB_WSDL_FILE=/var/opt/SIU_MANAGER/flatfiles/NRBToolInterface/soap/NrbTool2IUMInterface.wsdl
+#Configured By= Product Team
+#Description= Specifies the location of the WSDL file that will be hosted as a web service by the HTTPConnector which is used for NRB communication.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+PROCESSED_NRB_FILES_DATADIR=/data/auditData/NRBTool
+#Configured By= Delivery Team
+#Description= This variable stores the path of the data directory in which ".NRB" processed files will be stored.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRB_HTTP_CON_PORT=17080
+#Configured By= Delivery Team
+#Description= Specifies the port on which the NRBTool soap server will be running
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRBIMSI_SEARCH_ROOT=imsi=%DEG_NrbIMSIString%,dc=deg,dc=com
+#Configured By= Product Team
+#Description= Specifies the starting point for the search of the LDAP directory.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRBMDN_SEARCH_ROOT=mdn=%DEG_NrbMobileNumberString%,dc=deg,dc=com
+#Configured By= Product Team
+#Description= Specifies the starting point for the search of the LDAP directory.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRBUNIQUEID_SEARCH_ROOT=uniqueid=%DEG_NrbUniqueIDString%,dc=deg,dc=com
+#Configured By= Product Team
+#Description= Specifies the starting point for the search of the LDAP directory.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRBLDAP_CREDENTIALS=secret
+#Configured By= Product Team
+#Description= Specifies the credentials of the Principal to be authenticated.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRBLDAP_PRINCIPAL=cn=Manager, dc=deg,dc=com
+#Configured By= Product Team
+#Description= Specifies a string that is the identity of the principal to be authenticated.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_KNOWN_HOST_FILE=/home/ium/.ssh/known_hosts
+#Configured By= Delivery Team
+#Description= This parameter holds the known host files that has the public keys for all hosts with which the client can communicate by using Secure Shell.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_PRIV_KEY_FILE=/home/ium/.ssh/id_rsa
+#Configured By= Delivery Team
+#Description= This variable contains the file that has the RSA authentication identity of the user. This file should not be readable by anyone but the user.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_01_USER=ium
+#Configured By= Delivery Team
+#Description= This specifies the name of the user configured.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_02_USER=ium
+#Configured By= Delivery Team
+#Description= This specifies the name of the user configured.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_01_AUDIT_OUTPUT_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/audit/Distribution
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for Audit files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_01_NRB_OUTPUT_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/NRBTool/Distribution
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for NRB files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_02_AUDIT_OUTPUT_DIR=/var/opt/SIU_DEG02/auditData/AuditProcessorOuput/audit/Distribution
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for Audit files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_02_NRB_OUTPUT_DIR=/var/opt/SIU_DEG02/auditData/AuditProcessorOuput/NRBTool/Distribution
+#Configured By= Delivery Team
+#Description= This variable contains the directory path where the NRB files from AUDIT_PRE_DISTRIBUTION_AUDIT_DIR are modified and saved.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_02_USER=ium
+#Configured By= Delivery Team
+#Description= DEG_FSC is a file collection process that pulls files from application servers over password less sftp. This variable mentions the user name configured.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_02_AUDIT_ARCH_DIR=/data/auditData/audit
+#Configured By= Delivery Team
+#Description= Directory to store NRB audit files
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_02_AUDIT_CACHE_DIR=/data/auditData/audit/cache
+#Configured By= Delivery Team
+#Description= Directory to store cache NRB audit files
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_02_NRB_ARCH_DIR=/data/auditData/NRBTool
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for NRB arch files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_02_NRB_CACHE_DIR=/data/auditData/NRBTool/cache
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path of cache NRB files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_AUDIT_CACHE_DIR=/var/opt/SIU_MANAGER/auditData/Cache/audit
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for cache audit files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_NRB_CACHE_DIR=/var/opt/SIU_MANAGER/auditData/Cache/NRBTool
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path of cache NRB files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_AUDIT_ARCH_DIR=/data/auditData/audit
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for Audit arch files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_AUDIT_ERROR_DIR=/data/auditData/audit/error
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for Audit error files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_NRB_ARCH_DIR=/data/auditData/NRBTool
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for NRB arch files.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_NRB_ERROR_DIR=/data/auditData/NRBTool/error
+#Configured By= Delivery Team
+#Description= This specifies the Directory / Path for NRB error files.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICEINTERFACE_PROCESS_NAME=DEG_DeviceInterface
+#Configured By= Delivery Team
+#Description= This variable describes the process name  <Device Interface>.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+DEVICE_DIAMETER_SERVER_PORT=1815
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server Port where diameter server is running.
+#}
+
+#{
+#IUM_Process= DEG_DeviceTokenManager_Simulator
+SUBSCRIBERUSAGEINFO_WSDL_FILE=/var/opt/SIU_MANAGER/flatfiles/DeviceTokenManager_Simulator/soap/QueryUsageService/QueryUsageService.wsdl
+#Configured By= Delivery Team
+#Description=This variable contains  path to WSDL file for SOAP communication used for subscriber usage information in device token manager simulator.
+#}
+
+#{
+#IUM_Process= DEG_DeviceTokenManager_Simulator
+DEVICEMANAGEMENTSERVICE_WSDL_FILE=/var/opt/SIU_MANAGER/flatfiles/DeviceTokenManager_Simulator/soap/DeviceManagementService/DeviceManagementService.wsdl
+#Configured By= Delivery Team
+#Description= This variable contains the path to WSDL file for SOAP communication used for device management service in device token manager simulator.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+WIFI_PROCESS_NAME=DEG_WifiAuthInterface
+#Configured By= Delivery Team
+#Description= This variable is used to set the process name <WiFi Authentication>
+#}
+
+#{
+#IUM_Process= DEGDROID_DeviceInterface
+DEGDROID_DEVICEINTERFACE_PROCESS_NAME=DEGDROID_DeviceInterface
+#Configured By= Delivery Team
+#Description= This variable is used to set the process name <DEGDROID_DeviceInterface>
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+DEGDROID_DEVICE_DIAMETER_SERVER_PORT=1830
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server Port where diameter server is running.
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+ALARM_HEARTBEAT_DATA_DIR=/var/opt/SIU_MANAGER/DEG_AlarmAgent/READY/HeartBeat
+#Configured By= Delivery Team
+#Description=This variable contains the destination directory where the HeartBeat (traps) files generated from Alarm Agent will be saved.
+#}
+
+#{
+#IUM_Process=DEG_AlarmAgent
+#Configured By= Delivery Team
+DEG_ALARM_FLUSH_TIME=5m
+#Description=The attribute is defined for 'm' suffix to represent minutes, and 'h' suffix to represent hour.This specifies duration of an aggregation interval in terms of minutes or hours.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_INTERFACE_PROCESS_NAME=DEG_ProvisioningInterface 
+#Configured By= Product Team
+#Description=This variable is used to set the process name
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface 
+JOBSINTERFACE_PROCESS_NAME=DEG_JobsInterface
+#Configured By= Product Team
+#Description=This variable is used to set the process name <JobsInterface>
+#}
+
+######################################################### SYSTEM PARAMETERS ############################################################################################
+
+#{
+#IUM_Process= All
+HOST_NAME=mxulodeg20
+#Configured By= Delivery Team
+#Description=Name of the host where the Manager Server will be installed.
+#}
+
+#{
+#IUM_Process= ALL
+DATABASECLASS=org.mariadb.jdbc.Driver
+#Configured By= Delivery Team
+#Description=Specify JDBC driver class used by IUM configuration.
+#}
+
+{
+#IUM_Process= ALL
+DATABASEPASSWORD=siu20
+#Configured By= Delivery Team
+#Description= Specifies database password used by IUM configuration.
+#}
+
+#{
+#IUM_Process= ALL
+DATABASEURL=jdbc:mysql://localhost:3306/siu20
+#Configured By= Delivery Team
+#Description= Specifies JDBC connection URL used by IUM configuration.
+#}
+
+#{
+#IUM_Process= ALL
+DATABASEUSER=siu20
+#Configured By= Delivery Team
+#Description= Specifies database user used by IUM configuration.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_AGENT_ADDRESS_PORT=10.192.153.189:9162
+#Configured By= Delivery Team
+#Description= This parameter specifies the UDP address from where the traps is sent to NOC system.The format is <hostname>:<port>
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_STRING_CONNECTION=jdbc:mariadb://10.192.153.189:3306/siu_manager_md?relaxAutoCommit=true
+#Configured By= Delivery Team
+#Description= The URL that Alarm Agent in manager server uses to connect directly to database.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_JDBC_DRIVER=org.mariadb.jdbc.Driver
+#Configured By= Product Team
+#Description= The driver class that Alarm Agent in manager server uses to connect to database.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+FIRSTENDPOINT_NRBLDAP_HOST_URL=ldap://10.192.153.189:389/
+#Configured By= Delivery Team
+#Description= First URL of the ServiceProvider of the server supporting LDAP services. This URL is used for loading the LDAP context.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+SECONDENDPOINT_NRBLDAP_HOST_URL=ldap://10.192.153.189:389/
+#Configured By= Delivery Team
+#Description= Second URL of the ServiceProvider of the server supporting LDAP services. This URL is used for loading the LDAP context.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+THIRDENDPOINT_NRBLDAP_HOST_URL=ldap://10.192.153.189:389/
+#Configured By= Delivery Team
+#Description= Third URL of the ServiceProvider of the server supporting LDAP services. This URL is used for loading the LDAP context.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_01_SERVER=10.192.153.194
+#Configured By= Delivery Team
+#Description=The name or IP address of the FTP server.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_DEG_02_SERVER=10.192.153.196
+#Configured By= Delivery Team
+#Description=The name or IP address of the FTP server.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+SIU_MANAGER_02_SERVER=10.192.153.189
+#Configured By= Delivery Team
+#Description= DEG_FSC is a file collection process that pulls files from application servers over password less sftp. This variable mentions the IP address in use. 
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+DEVICE1_DIAMETER_SERVER_HOST_IP=10.192.153.194
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server host where diameter server is running.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+DEVICE1_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server host name where diameter server is running.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+DEVICE2_DIAMETER_SERVER_HOST_IP=10.192.153.196
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server host IP where diameter server is running.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+DEVICE2_DIAMETER_SERVER_HOST_NAME=mxulodeg32.deg.aes.orange.es
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server host name where diameter server is running.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+JOBS1_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server host where diameter server is running for Jobs Interface.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+JOBS2_DIAMETER_SERVER_HOST_NAME=mxulodeg32.deg.aes.orange.es
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server host name where diameter server is running.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_HOST_IP=10.192.153.189
+#Configured By= Product Team
+#Description= This variable specifies the IP address of the device where the HSS simulator will be running.
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+AAA_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
+#Configured By= Delivery Team
+#Description= This variable is used as diameter server host name where diameter server is running
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator
+HSS_APPLICATION_DEGDORID_DEVICE_HOST_1=mxulodeg31.degdroiddevice.swa.com
+#Configured By= Delivery Team
+#Description= These variables are used for internal simulator.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+DEG_NRBTOOL_INTERFACE_LISTEN_PORT=9988
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for DEG_NRBToolInterface _01 Interface.
+#}
+
+######################################################### PERFORMANCE PARAMETERS #######################################################################################
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRB_HTTP_CON_MAX_PROCESSORS=5
+#Configured By= Delivery Team
+#Description= This determines the maximum number of simultaneous requests that can be handled by this process.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRB_HTTP_CON_MIN_PROCESSORS=5
+#Configured By= Delivery Team
+#Description= This determines the minimum number of simultaneous requests that can be handled by this process.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRB_MIN_HEAP_SIZE=-Xms128m
+#Configured By= Factory setting can be used as it is. Can be modified only by Delivery team for any performance issues.
+#Description= JVM Options
+#}
+
+#{
+#IUM_Process=  DEG_NRBToolInterface
+NRB_MAX_HEAP_SIZE=-Xmx128m
+#Configured By= Factory setting can be used as it is. Can be modified only by Delivery team for any performance issues.
+#Description= JVM options
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRB_RULECHAIN_MAX_POOL_SIZE=10
+#Configured By= Delivery TeamNRB_RULECHAIN_MAX_POOL_SIZE=10
+#Description= Integer value specifying the maximum number of threads of a rule chain that will be created in a pool.
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface
+NRB_RULECHAIN_MIN_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description= Integer value specifying the maximum number of threads of a rule chain that will be created in a pool.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+DEVICE_LDAP_NUM_CONN=10
+#Configured By= Delivery Team
+#Description= Specifies the number of connections to be established with the LDAP.
+#}
+
+#{
+#IUM_Process= DEG_FSC
+FSC_MIN_HEAP_SIZE=-Xms128m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description= JVM options
+#}
+
+#{
+#IUM_Process= DEG_FSC
+FSC_MAX_HEAP_SIZE=-Xmx128m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description= JVM options
+#}
+
+#{
+#IUM_Process= DEG_DeviceTokenManager_Simulator
+DEVICEMANAGEMENTSERVICE_MIN_HEAP_SIZE=-Xms128m
+#Configured By=Factory setting can be used as it is. Can be modified only by Delivery team for any performance issues.
+#Description= JVM options
+#}
+
+#{
+#IUM_Process= DEG_DeviceTokenManager_Simulator
+DEVICEMANAGEMENTSERVICE_MAX_HEAP_SIZE=-Xmx128m
+#Configured By=Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description= JVM options
+#}

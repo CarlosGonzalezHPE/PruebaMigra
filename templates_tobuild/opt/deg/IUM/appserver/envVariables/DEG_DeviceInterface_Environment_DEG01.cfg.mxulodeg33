@@ -1,0 +1,26 @@
+[/deployment/SIU_DEG01/DEG_DeviceInterface_01]
+
+[/deployment/SIU_DEG01/DEG_DeviceInterface_01/Environment]
+
+######################################################### SYSTEM PARAMETERS ############################################################################################
+
+#{
+#IUM_Process =DEG_DeviceInterface
+DEVICE_HTTP_PORT=8181
+#Configured By= Delivery Team
+#Description=DEG_DeviceInterface process is running on this port
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_HEARTBEAT_HTTP_PORT=8182
+#Configured By= Delivery Team
+#Description=DEG_DeviceInterface process Heart beat is running on this port.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_GBA_HTTP_PORT=8281
+#Configured By= Delivery Team
+#Description=DEG_DeviceInterface GBA is running on this port.
+#}

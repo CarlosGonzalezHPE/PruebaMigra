@@ -1,0 +1,1204 @@
+[/Environment]
+
+######################################################### DEG CORE ENVIRONMENT VARIABLES ###############################################################################
+
+#{
+#IUM_Process = All
+STARTUPMODE=Manual
+#Configured By=Product Team
+#Description=Properties
+#}
+
+#{
+#IUM_Process = All
+MANAGED_SETUP=true
+#Configured By= Product Team
+#Description= Management Server
+#}
+
+#{
+#IUM_Process= DEG_Audit  
+AUDIT_PROCESS_NAME=DEG_Audit
+#Configured By= Product Team
+#Description=This variable is used to set the process name for <Audit Interface>
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator,DEG_JobsInterface
+DEVICE_SERVER_REALM=deg.aes.orange.es
+#Configured By= Delivery Team
+#Description=This variable is used to hold realm/domain the server will use to determine whether communication can be satisfied locally,or they must be routed.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_URL_ENCODING_REQUIRED=ENABLED
+#Configured By= Delivery Team
+#Description=This variable is to check if token and Post Data needs to be encoded i.e,making them URL safe.DEG_DeviceInterface_Common_V2Customize is for customizing.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_GETSUBSCRIPTIONUSAGE_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if getSubscriptionAndUsageStatus action is Enabled or Disabled.If it is Enabled,the action will be recognized as known action
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_SELFPROVISIONING_STATUS=ENABLED
+#Configured By= Delivery team
+#Description=When this is enabled DEG will send the service-mngt-url and service-mngt-url-postdata back to the device which will allow the device to perform self-provisioning of a service via a websheet.Websheet is reachable through the service-mgmt-url.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface 
+PROVISINING_SOAP_SERVER_PORT=8190
+#Configured By= Delivery Team
+#Description=Specifies the port number on which connector is used to listen for HTTP requests 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface  
+VOWIFI_ENTITLEMENT_NAME=VoWiFi
+#Configured By= Delivery Team
+#Description=This variable sets the entitlement name <VoWiFi> 
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+ALARM_AGENT_STALETIME=3600
+#Configured By= Delivery Team
+#Description=Time in seconds after which an active NME in memory should be considered stale.NME are removed when EndTime is not updated for amount of flush time.
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+SNMP_VERSION=1
+#Configured By= Delivery team to modify SNMP versions to either 1 (or) 2 (or) 3
+#Description=Specifies protocol version to be used
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+NRBGUI_PROCESS_NAME=NRBGUI
+#Configured By= Product Team
+#Description=Variable to set process name for NRBGUI
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
+KPI_PROCESS_NAME=KPI
+#Configured By= Product Team
+#Description=This variable is used to set the process name for <KPI Tool>
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
+LIC_PROCESS_NAME=LIC
+#Configured By= Product Team
+#Description=This variable is used to set the process name for <LIC Tool>
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
+LIC3_PROCESS_NAME=LIC3
+#Configured By= Product Team
+#Description=This variable is used to set the process name for <LIC Tool>
+#}
+
+#{
+#IUM_Process = DEG_FSC
+FSC_PROCESS_NAME=DEG_FSC
+#Configured By= Product Team
+#Description=This variable is used to set the process name for FSC.
+#}
+
+#{
+#IUM_Process= DEG_HSS_Simulator,DEG_JobsInterface 
+AAA_SERVER_REALM=aaa.ims.mnc003.mcc214.3gppnetwork.org
+#Configured By= Delivery Team
+#Description=This variable is used to hold realm/domain the server will use to determine whether communication can be satisfied locally, or they must be routed.
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication 
+AAA_PROCESS_NAME=DEG_AAAuthentication
+#Configured By= Delivery Team
+#Description=This variable is used to set the process name for <AAAuthentication Interface>
+#}
+
+#{
+#IUM_Process = DEG_AAAuthentication
+AAA_EAP_SIM_NO_OF_VECTORS=3
+#Configured By= Product Team
+#Description=This variable specifies the number of authentication vectors the EAP-SIM server typically obtains from the Authentication Centre (AuC)
+#}
+
+#{
+#IUM_Process = DEG_AAAuthentication
+AAA_MAPGW_OPERATION=20
+#Configured By= Delivery Team
+#Description=MAPGW is a HTTP interface through which AAA communicates with carrier’s HLR/HSS.These are MAPGW specs shared by Rogers team for their MAPGW interface.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface 
+WIFI_PROCESS_NAME=DEG_WifiAuthInterface
+#Configured By= Delivery Team
+#Description=This variable is used to set the process name appended with the sequence number depending on the number of applications servers to be implemented. 
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_ADDRESS_UPDATE_URL=http://websheet.deg.com
+#Configured By= Delivery Team
+#Description=This variable provides the URL that will allow users to provide updates on the address registered. This environment is applicable only for Apple request. 
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_URL_SAFE_PROCESSING=Enabled
+#Configured By= Delivery Team
+#Description=This variable is used to check IMS External core connectivity.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+ICLOUDVOWIFI_ENTITLEMENT_NAME=iCloudVoWiFi
+#Configured By= Delivery Team
+#Description=This variable sets the entitlement name <iCloudVoWiFi>
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_IMS_CONNECTIVITY=DISABLED
+#Configured By= Delivery team needs to write their custom code for IMS system interface as part of this rule chain “219m.DEG21NotifyIMSCoreRuleChain”.  
+#Description=This variable controls the invocation of the setProvisioning custom logic. This variable value is set to ‘ENABLED’ if the connectivity to external IMS Core is enabled.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_CERTIFICATE_AUTHORITY_CONNECTIVITY=DISABLED
+#Configured By= Delivery Team
+#Description=Enabled if DEG communicates to Certificate Authority however, it is not currently in use but will be in a future release of the product.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEG_IMSDATA_APPLICABILITY=ENABLED
+#Configured By= Delivery team
+#Description=This is used to check the IMSDATA lookup is required or not in case of GPSAS
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_ENABLEPUSHNOTIFICATION_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if the Push Notification is enabled.If the value is Enabled,the action will be recognized as known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_PREPROVISIONING_STATUS=ENABLED
+#Configured By= Delivery team
+#Description=If this is set to ENABLED, then VoWiFi objects will be available in the response.  Otherwise, VoWiFi objects will NOT be available.  The getProvisioning response attribute is: provisioning-elements-> data.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_GETPROVISIONING_STATUS=ENABLED
+#Configured By= Delivery team
+#Description=This parameter describes if getprovisioning Status is Enabled or Disabled. If the value is Enabled, the action will be recognized as a known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface.
+DEVICE_SERVICE_MNGT_URL=http://arcticselfprovision.carrier.com
+#Configured By=Delivery Team
+#Description=This variable provides the URL that will allow users to perform self-provisioning of a service via websheet when VoWifi/iCloudVoWiFi service is disabled or enabled.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEG_APNFRAMEWORK_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=If this variable is Enabled then apns-token need to share with Carrier’s external system.Carriers can implement their logic in the custom template.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_DISABLEPUSHNOTIFICATION_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if the Push Notification is enabled. If the value is Enabled, the action will be recognized as known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_GETPHONENUMBER_STATUS=ENABLED
+#Configured By=Delivery Team
+#Description=This parameter describes if the getPhoneNumber action is Enabled or Disabled.If the value is Enabled,then this action will be recognized as known action 
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_GETENTITLEMENT_STATUS=ENABLED
+#Configured By=Delivery Team
+#Description=This parameter describes if the getEntitlement action is Enabled or Disabled.If the value is Enabled,then this action will be recognized as known action
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_UPDATEPUSHTOKEN_STATUS=ENABLED
+#Configured By=Delivery Team
+#Description=This parameter describes if updatePushToken is Enabled or Disabled.If the value is Enabled,then this action will be recognized as a known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_SETPROVISIONING_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if setprovisioning is Enabled or Disabled.If the value is Enabled,the action will be recognized as a known action
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_GETPHONESERVICESACCOUNT_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if getPhoneServiceAccount is Enabled or Disabled.If the value is Enabled,the action will be recognized as a known action
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+BLACKLIST_TIMEWINDOW=60000
+#Configured By=Delivery Team
+#Description=Time in milli seconds, A subscriber is blacklisted if number of requests sent in this window reaches threshold auth count.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+COMPANIONDEVICE_COUNT=5
+#Configured By=Delivery Team
+#Description=Behavior of DEG will be as follows if the companion device count is changed, say for e.g., from 5 to 8. There will be some subscribers already using previously configured (5) number of companions.  After the new value (8) is configured, all the subscribers who initiate getAuth newly from primary will get 8 service-tokens.  It is recommended to drop all the companion service-tokens from DEG_COMPANION_TOKENS table when the COMPANIONDEVICE_COUNT value is changed.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+CONNECTIVITY_AUTH_TYPE=none
+#Configured By=Delivery Team
+#Description=Defines the type of authentication for the connectivity layer.Supported values “EAP-TLS”, “X509”,“EAP-MSCHAPv2”, “none”.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+SERVICE_TOKEN_TYPE=limited
+#Configured By=Delivery Team
+#Description=Identifies the type of (in terms of number) of companion devices
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_IPSEC_CREDENTIALS_PREPROVISIONED=true
+#Configured By= Product Team
+#Description=Gives Provisioning status of access to IMS system.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+FEATURECODE_TYPE=iCloudVoWiFi
+#Configured By=Delivery Team
+#Description=Identifies the feature code, if it is "Icloud" then if the IMSI has Companion devices and generates service tokens.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_SETENTITLEMENT_STATUS=ENABLED
+#Configured By=Delivery Team
+#Description=setEntitlement will process the request only when this variable is enabled
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICE_GETEMERGENCYADDRESSINFO_STATUS=ENABLED
+#Configured By=Delivery Team
+#Description=To check if getEmergencyInfo action is enabled or not  
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+DEGDROID_DEVICE_TOKEN_VALIDITY=172800
+#Configured By= Delivery Team
+#Description= This variable indicates the validity of the DEGDROID Token
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+DEGDROID_VOWIFI_CONFIG_VALIDITY=172800
+#Configured By= Delivery Team
+#Description= This variable indicates the validity of the DEGDROID VOWIFI configuration validity 
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+ANDROIDVOWIFI_ENTITLEMENT_NAME=Android_VoWiFi
+#Configured By= Product Team
+#Description=This variable sets the entitlement name for the Android devices VoWiFi service.This is the only entitlement name used for Android devices as of DEG3.0.1. This environment is used where ever entitlement name is needed in DEG logic. For example reocrd in DEG_DEVICE_DATA table is created only with this environment variable.
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+DEGDROID_DEVICE_ADDRESS_UPDATE_URL=http://websheet.degdroid.com
+#Configured By= Delivery Team
+#Description=This variable provides the URL that will allow users to provide updates on the address registered. This environment is applicable only for Android Devices. 
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_GETSIMSTATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if the getSIMStatus is enabled.If the value is Enabled,the action will be recognized as known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_SIGNUPFORSIMSERVICE_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if the SignupForSIMService is enabled.If the value is Enabled,the action will be recognized as known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_GETPREFERREDROAMINGNETWORKS_STATUS=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if the GetPreferredRoamingNetworks is enabled.If the value is Enabled,the action will be recognized as known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_GETCARRIER_SPACE_UPDATES=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if the getCarrierSpaceUpdate action is enabled.If the value is Enabled,the action will be recognized as known action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_GCSP_MODE=PULL
+#Configured By= Delivery Team
+#Description=This parameter describes the mode(PUSH/PULL) used in getCarrierSpaceUpdateAction to fetch response parameters.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_UPDATE_ACCOUNT=ENABLED
+#Configured By= Delivery Team
+#Description=This parameter describes if the updateAccountWithFeatureOrService is enabled.If the value is Enabled,the action will be recognized as known action.
+#}
+
+#{
+#IUM_Process = ALL IUM PROCESS 
+SYSTIMEZONE=UTC
+#Configured By= Delivery Team
+#Description=This parameter gives timezone which will be used for all the session.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface 
+DEVICE_USER_CONSENT_OPT_IN_URL=https://www.example.com
+#Configured By= Delivery Team
+#Description=This variable provides the URL that will allow users to accept user consent agreement when user Opt-in or consent is required before retreiving any Sweetgum Entitlement data.This is used as part of getCarrierSpaceUpdate action.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEG_BLACKLIST_STATUS=DISABLED
+#Configured By=Delivery Team
+#Description=This parameter enables or disables the blacklisting functionality.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DENIAL_OF_ACTION_WINDOW=60000
+#Configured By=Delivery Team
+#Description=Time in milli seconds, in which for this particular time duration the IMSI can not use the services.
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+ANDROIDVOLTE_ENTITLEMENT_NAME=Android_VoLTE
+#Configured By= Product Team
+#Description=This variable sets the entitlement name for the Android devices VoLTE service.This entitlement name used for Android devices as of DEG3.2.4. This environment is used where ever entitlement name is needed in DEGDROID logic.
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent 
+ALARM_FREQUENCY_CRITICAL=300
+#Configured By= Delivery Team
+#Description=Time configured in seconds, which specifies when the critical alarms need to send to NOC system.
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent 
+ALARM_FREQUENCY_MAJOR=600
+#Configured By= Delivery Team
+#Description=Time configured in seconds, which specifies when the major alarms need to send to NOC system.
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent 
+ALARM_FREQUENCY_MINOR=900
+#Configured By= Delivery Team
+#Description=Time configured in seconds, which specifies when the minor alarms need to send to NOC system.
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent 
+ALARM_AGENT_CLEANUP_TIME=30d0h0m0s
+#Configured By= Delivery Team
+#Description=This variable is used to remove old files generated by Alarm Agent in (/var/opt/<SIU_INSTANCE>/DEG_AlarmAgent/READY/) folder beyond this time configured.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEG_DB_TYPE=mariadb
+#Configured By=Delivery Team
+#Description= This variable specifies data base used for device interface.
+#}
+
+######################################################### SYSTEM PARAMETERS ############################################################################################
+
+#{
+#IUM_Process= All
+DBSCHEMA_NRB=NRB_DSN_MD
+#Configured By= Delivery team
+#Description= This variable holds the schema/database name configured to connect and access the tables for NRB DSN. While querying in session store tables connections check for access to connect to table
+#}
+
+#{
+#IUM_Process= All
+DBSCHEMA_MGR=SIU_MANAGER_MD
+#Configured By= Delivery team
+#Description= This variable holds the schema/database name configured to connect and access the tables for MANAGER DSN. While querying in session store tables connections check for access to connect to table
+#}
+
+
+#{
+#IUM_Process= All
+DBSCHEMA_DEG=DEG_DSN_MD
+#Configured By= Delivery team
+#Description= This variable holds the schema/database name configured to connect and access the tables for DEG DSN. While querying in session store tables connections check for access to connect to table
+#}
+
+#{
+#IUM_Process= All
+DBSCHEMA_HSS=HSS_DSN_MD
+#Configured By= Delivery team
+#Description= This variable holds the schema/database name configured to connect and access the tables for HSS DSN. While querying in session store tables connections check for access to connect to table
+#}
+
+#{
+#IUM_Process= All
+USER_NRB_DSN=mddeguser
+#Configured By= Delivery Team
+#Description= This variable holds the user name configured to connect and access NRB DSN.
+#}
+
+#{
+#IUM_Process= All
+USER_MGR_DSN=mddeguser
+#Configured By= Delivery Team
+#Description= This variable holds the user name configured to connect and access MANAGER DSN.
+#}
+
+#{
+#IUM_Process= All
+USER_DEG_DSN=mddeguser
+#Configured By= Delivery Team
+#Description= This variable holds the user name configured to connect and access DEG DSN.
+#}
+
+#{
+#IUM_Process= All
+USER_HSS_DSN=mddeguser
+#Configured By= Delivery Team
+#Description= This variable holds the user name configured to connect and access HSS DSN.
+#}
+
+#{
+#IUM_Process= All
+PASSWD_NRB_DSN=mddeguser
+#Configured By=Delivery Team
+#Description= This variable holds the password to connect to and access NRB DSN
+#}
+
+#{
+#IUM_Process= All
+PASSWD_MGR_DSN=mddeguser
+#Configured By=Delivery Team
+#Description= This variable holds the password to connect to and access MANAGER DSN
+#}
+
+#{
+#IUM_Process= All
+PASSWD_DEG_DSN=mddeguser
+#Configured By=Delivery Team
+#Description= This variable holds the password to connect to and access DEG DSN
+#}
+
+#{
+#IUM_Process= All
+PASSWD_HSS_DSN=mddeguser
+#Configured By=Delivery Team
+#Description= This variable holds the password to connect to and access HSS DSN
+#}
+
+#{
+#IUM_Process = All
+JDBC_DIRECT_DRIVER=org.mariadb.jdbc.Driver
+#Configured By= Delivery team
+#Description= This variable specifies the name of the JDBC driver of the database.
+#}
+
+#{
+#IUM_Process= All
+JDBC_CLIENT_DRIVER=org.mariadb.jdbc.Driver
+#Configured By= Product Team
+#Description=This variable holds the component enabling application to interact with database
+#}
+
+#{
+#IUM_Process= All
+DEG_DIRECT_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3307/deg_dsn_md?relaxAutoCommit=true
+#Configured By= Delivery team
+#Description=Database URL to establish a connection between application and  manager server.
+#}
+
+#{
+#IUM_Process= All
+DEG_CLIENT_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3307/deg_dsn_md?relaxAutoCommit=true
+#Configured By=Product Team
+#Description=Database URL to establish a connection between application and  manager server
+#}
+
+#{
+#IUM_Process= All
+DEG_CLIENT2_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3307/deg_dsn_md?relaxAutoCommit=true
+#Configured By=Product Team
+#Description=Database URL to establish a connection between application and  manager server 
+#}
+
+#{
+#IUM_Process = ALL
+NRB_CLIENT_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3306/nrb_dsn_md?relaxAutoCommit=true
+#Configured By= Delivery team
+#Description=Database URL to establish a connection between application and  manager server
+#}
+
+#{
+#IUM_Process= DEG_FSC
+MANAGER_DIRECT_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3306/siu_manager_md?relaxAutoCommit=true
+#Configured By=Delivery team
+#Description=Database URL to establish a connection between application and manager server
+#}
+
+#{
+#IUM_Process= DEG_Audit 
+MANAGER_CLIENT_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3306/siu_manager_md?relaxAutoCommit=true
+#Configured By=Product Team
+#Description=Database URL to establish a connection between application and  manager server
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator
+HSS_DIRECT_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3306/hss_dsn_md?relaxAutoCommit=true
+#Configured By=Product Team
+#Description=Database URL to establish a connection between application and  manager server 
+#}
+
+#{
+#IUM_Process= DEG_NRBToolInterface_Core 
+NRB_DIRECT_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3306/nrb_dsn_md?relaxAutoCommit=true
+#Configured By= Delivery team
+#Description=Database URL to establish a connection between application and manager server  
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent 
+TRAP_DESTINATION1=127.0.0.1,162,public
+#Configured By= Delivery Team
+#Description=Specifies the SNMP server destination to which traps will be sent during faults or security events
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+TRAP_DESTINATION2=127.0.0.1,162,public
+#Configured By= Delivery Team
+#Description=Specifies the SNMP server destination to which traps will be sent during faults or security events
+#}
+
+#{
+#IUM_Process= DEG_AlarmAgent
+DEG_ALARMAGENT_LISTEN_PORT=9993
+#Configured By= Product Team
+#Description= Specifies the refreshcache port for Alarmagent
+#}
+######################################################### PERFORMANCE PARAMETERS #######################################################################################
+
+#{
+#IUM_Process = All
+DEVICE_RULECHAIN_MAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=Integer value specifying the maximum number of threads of a rule chain that will be created in a pool
+#}
+
+#{
+#IUM_Process = All
+DEVICE_RULECHAIN_MIN_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=Integer value specifying the minimum number of threads of a rule chain that will be created in a pool.
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator 
+HSS_CON_INITIAL_POOL_SIZE=5
+#Configured By= Delivery team
+#Description=This variable specifies the initial/minimum number of connection objects to be pooled.  
+#}
+
+#{
+#IUM_Process= DEG_AAA_Simulator  
+HSS_CON_MAX_POOL_SIZE=5
+#Configured By= Delivery team
+#Description=This variable specifies the maximum number of connection objects to be pooled. 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface,DEG_DeviceInterface,DEGDRIOD_DeviceInterface
+DEVICE_HTTP_CON_MAX_PROCESSORS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of request processing threads to be created by HTTPConnector 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_MAX_DBCONN_DEG_SUBS=20
+#Configured By= Delivery team
+#Description=Specifies the maximum number of concurrent database connections to be opened  
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface  
+PROV_MAX_DBCONN_MONI_TRANS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened. 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_MAX_DBCONN_DEG_PROV_SERV_DATA=20
+#Configured By= Delivery Team
+#Description=Specifies maximum number of concurrent database connections to be opened.When this attribute is configured with a value of zero/less,one connection is open.
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+DEGDROID_HTTP_HEARTBEAT_CON_MAX_PROCESSORS=10
+#Configured By= Delivery Team
+#Description= Specifies the maximum number of request processing threads to be created by the HttpConnector.
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+DEGDROID_HTTP_HEARTBEAT_CON_MIN_PROCESSORS=10
+#Configured By= Delivery Team
+#Description= Specifies the minimum number of request processing threads to be created by the HttpConnector.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+DEVICE_MAX_DBCONN_DEG_TOKENS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface
+DEVICE_RADIUS_PROC_MAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=This parameter specifies the maximum number of request processor threads to be kept running for this connector
+#}
+
+#{
+#IUM_Process = DEG_WifiAuthInterface
+WIFI_RULECHAIN_MIN_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=This variable specifies the initial/minimum number of connection objects to be pooled.
+#}
+
+#{
+#IUM_Process=DEG_ProvisioningInterface
+DEG_WAIT_FOR_CON_TIME=2000
+#Configured By= Delivery team
+#Description=Wait time in seconds within which TT connection needs to be established. 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface ,DEG_WifiAuthInterface ,DEG_APNSClientInterface   
+DEG_CON_INITIAL_POOL_SIZE=5
+#Configured By= Delivery team
+#Description=This variable specifies the initial/minimum number of connection objects to be pooled.
+#}
+
+#{
+#IUM_Process = DEG_NRBToolInterface
+NRB_RULECHAIN_MAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=Integer value specifying the maximum number of threads of a rule chain that will be created in a pool.
+#}
+
+#{
+#IUM_Process = DEG_NRBToolInterface
+NRB_RULECHAIN_MIN_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=Integer value specifying the maximum number of threads of a rule chain that will be created in a pool.
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface,DEG_ProvisioningInterface,DEG_ProvisioningInterface_Get
+NRB_CON_INITIAL_POOL_SIZE=5
+#Configured By= Delivery team
+#Description=This variable specifies the initial/minimum number of connection objects to be pooled.  
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface,DEG_ProvisioningInterface,DEG_ProvisioningInterface_Get 
+NRB_CON_MAX_POOL_SIZE=5
+#Configured By= Delivery team
+#Description=This variable specifies the maximum number of connection objects to be pooled. 
+#}
+
+#{
+#IUM_Process= DEG_APNSClientInterface,DEG_WifiAuthInterface
+DEG_CON_MAX_POOL_SIZE=5
+#Configured By= Delivery team
+#Description=This variable specifies the maximum number of connection objects to be pooled.   
+#}
+
+#{
+#IUM_Process = DEG_WifiAuthInterface,DEG_DeviceInterface
+DEVICE_MAX_DBCONN_MONI_TRANS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened
+#}
+
+#{
+#IUM_Process = DEG_WifiAuthInterface,DEG_DeviceInterface
+DEVICE_RADIUS_PROC_CORE_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=This parameter specifies the maximum number of request processor threads to be kept running for this connector
+#}
+
+#{
+#IUM_Process =DEG_DeviceInterface, DEG_WifiAuthInterface
+DEVICE_MAX_DBCONN_DEG_SUBS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface,DEG_DeviceInterface,DEGDRIOD_DeviceInterface
+DEVICE_HTTP_CON_MIN_PROCESSORS=20
+#Configured By= Delivery Team
+#Description=Specifies the number of request processing threads that will be kept running idle when there are no requests to be processed.
+#}
+
+#{
+#IUM_Process = DEG_NRBToolInterface, DEG_DeviceInterface
+DEVICE_LDAP_NUM_CONN=10
+#Configured By= Delivery Team
+#Description=Specifies the number of connections to be established with this host.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface 
+JOBS_RULECHAIN_MAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=Integer value specifying the maximum number of threads of a rule chain that will be created in a pool. 
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface 
+JOBS_RULECHAIN_MIN_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=Integer value specifying the minimum number of threads of a rule chain that will be created in a pool
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+DEVICE_MAX_DBCONN_SSL_SESSION=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened.  
+#}
+
+#{
+#IUM_Process= DEG_APNSClientInterface,DEG_ProvisioningInterface 
+PROV_HTTP_CON_MIN_PROCESSORS=10
+#Configured By= Delivery Team
+#Description=Specifies the number of request processing threads that will be kept running idle when there are no requests to be processed. 
+#}
+
+#{
+#IUM_Process= DEG_APNSClientInterface  ,DEG_ProvisioningInterface 
+PROV_HTTP_ACCEPT_COUNT=10
+#Configured By= Delivery Team
+#Description=Specifies the maximum queue length for incoming connection requests when all possible request processing threads are in use.
+#}
+
+#{
+#IUM_Process= DEG_APNSClientInterface,DEG_ProvisioningInterface 
+PROV_RULECHAIN_MIN_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=This variable specifies the minimum number of connection objects to be pooled.
+#}
+
+#{
+#IUM_Process= DEG_APNSClientInterface,DEG_ProvisioningInterface 
+PROV_MAX_DBCONN_DEG_TOKENS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened.
+#}
+
+#{
+#IUM_Process= DEG_APNSClientInterface,DEG_ProvisioningInterface 
+PROV_RULECHAIN_MAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description= This variable specifies the maximum number of connection objects to be pooled. 
+#}
+
+#{
+#IUM_Process= DEG_APNSClientInterface
+PROV_HTTP_CON_MAX_PROCESSORS=10
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of request processing threads to be created by the HttpConnector.   
+#}
+
+#{
+#IUM_Process= PROV_GET_HTTP_ACCEPT_COUNT
+PROV_GET_HTTP_ACCEPT_COUNT=10
+#Configured By= Delivery Team
+#Description=Specifies the maximum queue length for incoming connection requests when all possible request processing threads are in use
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get 
+PROV_GET_MAX_DBCONN_DEG_SUBS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened. 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get  
+PROV_GET_MAX_DBCONN_MONI_TRANS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of concurrent database connections to be opened.
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get
+PROV_GET_RULECHAIN_MAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description= Integer value specifying the maximum number of instances (threads) of a RuleChain that are created at start-up. 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get 
+PROV_GET_RULECHAIN_MIN_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=Integer value specifying the minimum number of instances (threads) of a RuleChain that are created at start-up.  
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+AAA_MAX_DBCONN_AAA_SESSION=20
+#Configured By= Delivery Team 
+#Description=Maximum number of allowed DB connections
+#}
+
+#{
+#IUM_Process = DEG_AAAuthentication
+AAA_MAX_DBCONN_MONI_TRANS=20
+#Configured By= Delivery Team
+#Description=This parameter specifies the maximum number of allowed DB connections for monitoring session transactions.
+#}
+
+#{
+#IUM_Process = DEG_AAAuthentication
+AAA_MAX_DBCONN_SSL_SESSION=5
+#Configured By= Delivery Team
+#Description=This parameter specifies the maximum number of allowed DB connections for SSL sessions
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication
+AAA_MAX_DBCONN_WIFI_RADIUSSESSION=5
+#Configured By= Delivery Team
+#Description=This parameter specifies the maximum number of allowed DB connections for WiFi Radius Sessions.
+#}
+
+#{
+#IUM_Process= DEG_FSC 
+FSC_MIN_HEAP_SIZE=-Xms128m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option  
+#}
+
+#{
+#IUM_Process= DEG_FSC 
+FSC_MAX_HEAP_SIZE=-Xmx128m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option 
+#}
+
+#{
+#IUM_Process = DEG_Audit
+AUDIT_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process = DEG_Audit
+AUDIT_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option  
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface
+PROV_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface 
+PROV_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option 
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
+ALARMAGENT_MIN_HEAP_SIZE=-Xms128m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
+ALARMAGENT_MAX_HEAP_SIZE=-Xmx128m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process =DEG_JobsInterface, DEG_HSS_Simulator 
+JOBS_MIN_HEAP_SIZE=-Xms256m
+#Configured By=Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process = DEG_JobsInterface, DEG_HSS_Simulator 
+JOBS_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process = DEG_NRBToolInterface
+NRB_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option  
+#}
+
+#{
+#IUM_Process = DEG_NRBToolInterface
+NRB_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process= DEG_EAI_Simulator
+LOCATIONINTERFACE_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process= DEG_EAI_Simulator
+LOCATIONINTERFACE_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option  
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get  
+PROV_GET_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get
+PROV_GET_MAX_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option 
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get_Simulator 
+PROV_SIMULATOR_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process= DEG_ProvisioningInterface_Get_Simulator 
+PROV_SIMULATOR_MAX_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option 
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication 
+AAA_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process= DEG_AAAuthentication  
+AAA_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option 
+#}
+
+#{
+#IUM_Process = DEG_WifiAuthInterface
+WIFI_RULECHAIN_MAX_POOL_SIZE=50
+#Configured By= Delivery Team
+#Description=This variable specifies the maximum number of connection objects to be pooled.
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface 
+WIFI_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
+#Description=JVM option 
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface 
+DEVICE_RADIUS_IOMAX_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=This parameter specifies the minimum number of threads in the pool
+#}
+
+#{
+#IUM_Process= DEG_WifiAuthInterface 
+WIFI_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues
+#Description=JVM option 
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICE_MIN_HEAP_SIZE=-Xms256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface 
+DEVICE_MAX_HEAP_SIZE=-Xmx256m
+#Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
+#Description=JVM option
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_RADIUS_IOCORE_POOL_SIZE=10
+#Configured By= Delivery Team
+#Description=This parameter specifies the minimum number of threads in the pool.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_HEARTBEAT_CONN_TIMEOUT=2000
+#Configured By= Delivery Team
+#Description= This variable specifies how long the HttpConnector will wait after accepting a connection for the request URI line to be presented.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_HTTP_HEARTBEAT_CON_MAX_PROCESSORS=10
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of request processing threads to be created by the HttpConnector.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_HTTP_HEARTBEAT_CON_MIN_PROCESSORS=10
+#Configured By= Delivery Team
+#Description= This variable specifies the number of request processing threads that will be kept running idle when there are no requests to be processed. 
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_HTTP_ACCEPT_COUNT=100
+#Configured By= Product Team
+#Description=This variable indicates maximum queue length for incoming connection requests when all possible request processing threads are in use.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_HTTP_HEARTBEAT_ACCEPT_COUNT=100
+#Configured By= Product Team
+#Description=This variable indicates maximum queue length for incoming connection requests when all possible request processing threads are in use(LB).
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+DEGDROID_HTTP_ACCEPT_COUNT=1000
+#Configured By= Delivery Team
+#Description= This variable indicates maximum queue length for incoming connection requests when all possible request processing threads are in use.
+#}
+
+#{
+#IUM_Process = DEGDROID_DeviceInterface
+DEGDROID_HEARTBEAT_CONN_TIMEOUT=2000
+#Configured By= Delivery Team
+#Description= This variable specifies how long the HttpConnector will wait after accepting a connection for the request URI line to be presented.
+#}
+
+#{
+#IUM_Process = DEG_DeviceInterface
+DEVICE_GBA_HTTP_ACCEPT_COUNT=100
+#Configured By= Product Team
+#Description=This variable indicates maximum queue length for incoming connection requests when all possible request processing threads are in use.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICE_GBA_HTTP_CON_MAX_PROCESSORS=20
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of request processing threads to be created by HTTPConnector for GBA.
+#}
+
+#{
+#IUM_Process= DEG_DeviceInterface
+DEVICE_GBA_HTTP_CON_MIN_PROCESSORS=20
+#Configured By= Delivery Team
+#Description=Specifies the number of request processing threads that will be kept running idle when there are no requests to be processed for GBA.
+#}
