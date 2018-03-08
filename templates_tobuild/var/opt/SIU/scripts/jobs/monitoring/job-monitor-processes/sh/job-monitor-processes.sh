@@ -64,7 +64,7 @@ function process
     PATTERN=$(echo ${LINE} | cut -d ":" -f 2 | cut -d "," -f 1)
     MIN_INSTANCES=$(echo ${LINE} | cut -d ":" -f 2 | cut -d "," -f 2)
     MAX_INSTANCES=$(echo ${LINE} | cut -d ":" -f 2 | cut -d "," -f 3)
-    SEVERITY=$(echo ${LINE} | cut -d ":" -f 2 | cut -d "," -f 3)
+    SEVERITY=$(echo ${LINE} | cut -d ":" -f 2 | cut -d "," -f 4)
 
     logInfo "Checking running status of process '${PROCESS}'"
 
