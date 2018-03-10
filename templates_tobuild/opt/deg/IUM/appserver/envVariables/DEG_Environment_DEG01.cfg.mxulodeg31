@@ -1,9 +1,9 @@
-[/deployment/<%SIU_INSTANCE%>/Environment]
+[/deployment/SIU_DEG01/Environment]
 
 ######################################################### DEG CORE ENVIRONMENT VARIABLES ###############################################################################
 
 #{
-#IUM_Process= ALL 
+#IUM_Process= ALL
 STARTUPMODE=MANUAL
 #Configured By= Product Team
 #Description= Specifies the Process startup mode
@@ -31,19 +31,19 @@ APNS_INTERFACE_PORT=10000
 
 #{
 #IUM_Process= DEG_DeviceInterface
-DEVICE_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+DEVICE_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 #Configured By= Delivery Team
 #Description= This variable contains the destination directory where the Audit files generated from Device Interface will be saved.
 #}
 
 #{
 #IUM_Process=DEG_DeviceInterface
-SERVER_CERT_KEYSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/DEGServer.ks
+SERVER_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/DEGServer.ks
 #Configured By= Delivery Team
 #Description=This variable holds keystore file in it while generating the SSL certificate for HTTPS connections.Keystore file has signature certificate embedded in it.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_DeviceInterface
 SERVER_CERT_SIGNATURE_PASSWORD=Madrid2018
 #Configured By= Delivery Team
@@ -59,14 +59,14 @@ PHONENUM_CERT_SIGNATURE_ALIAS=test-aes.orange.es
 
 #{
 #IUM_Process=DEG_DeviceInterface
-SERVER_XML_TEMPLATE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/server_template.xml
+SERVER_XML_TEMPLATE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/server_template.xml
 #Configured By= Delivery Team
 #Description= Location of the xml file that will be used by the Apache TOMCAT instance for communication.
 #}
 
 #{
 #IUM_Process=DEG_DeviceInterface
-SERVER_OEM_XSD_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/OEMInterface.xsd
+SERVER_OEM_XSD_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/OEMInterface.xsd
 #Configured By= Product Team
 #Description= This variable has the XSD file that will be used for JSON communication.  This has the request/response schema definition.
 #}
@@ -104,7 +104,7 @@ ENTITLEMENT_SERVERADDRESS=" "
 #IUM_Process=DEG_DeviceInterface
 GATEWAY_ADDRESS_PRIMARY=" "
 #Configured By= Carrier
-#Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for primary device's getAuthentication request. 
+#Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for primary device's getAuthentication request.
 #}
 
 #{
@@ -237,7 +237,7 @@ DEVICE_DIAMETER_SERVER_PORT=3868
 #IUM_Process= DEG_JobsInterface
 PRIMARY_AAA_HOST_PORT=3868
 #Configured By= Carrier
-#Description= This variable holds the port number where the primary remote diameter AAA server will be connected. 
+#Description= This variable holds the port number where the primary remote diameter AAA server will be connected.
 #}
 
 #{
@@ -284,7 +284,7 @@ AAA_RADIUS_CLIENT_SECRET_CODE=hpium
 
 #{
 #IUM_Process= DEG_AAAuthentication
-AAA_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+AAA_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 #Configured By= Delivery Team
 #Description= This variable contains the destination directory where the Audit files generated from AAA Authentication Interface will be saved.
 #}
@@ -305,7 +305,7 @@ AAA_WX_DIAMETER_CLIENT_REALM=wx.com
 
 #{
 #IUM_Process=ALL
-IUM_LOG_DIR=/var/opt/<%SIU_INSTANCE%>/log
+IUM_LOG_DIR=/var/opt/SIU_DEG01/log
 #Configured By= Delivery Team
 #Description= This variable holds the directory path where the log files from all the IUM components are stored
 #}
@@ -319,14 +319,14 @@ NRBGUI_LOG_DIR=/app/DEG/NRBGUI/log
 
 #{
 #IUM_Process=DEG_AlarmAgent
-KPI_LOG_DIR=/var/opt/<%SIU_INSTANCE%>/KPI/log
+KPI_LOG_DIR=/var/opt/SIU_DEG01/KPI/log
 #Configured By= Delivery Team
 #Description= This variable holds the directory path where the log files generated from the KPI Tool are stored
 #}
 
 #{
 #IUM_Process=DEG_AlarmAgent
-LIC_LOG_DIR=/var/opt/<%SIU_INSTANCE%>/License/log
+LIC_LOG_DIR=/var/opt/SIU_DEG01/License/log
 #Configured By= Delivery Team
 #Description= This variable holds the directory path where the log files generated from the LIC Tool are stored
 #}
@@ -340,7 +340,7 @@ ALARM_AGENT=DEG_AlarmAgent_01
 
 #{
 #IUM_Process= DEG_AlarmAgent
-ALARM_CLEANUP_DIR=/var/opt/<%SIU_INSTANCE%>/DEG_AlarmAgent_01/cleanupfiles
+ALARM_CLEANUP_DIR=/var/opt/SIU_DEG01/DEG_AlarmAgent_01/cleanupfiles
 #Configured By= Delivery Team
 #Description=As part of the cleanup operation the collector logs processed log file names into a file located in the directory specified by CleanupDir.
 #}
@@ -375,28 +375,28 @@ PROV_INTERFACE_PROCESS_NAME=DEG_ProvisioningInterface_01
 
 #{
 #IUM_Process= DEG_ProvisioningInterface
-PROV_STORE_WSDL_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/ProvisioningInterface/soap/SubscriberProvisioningInterface.wsdl
+PROV_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/ProvisioningInterface/soap/SubscriberProvisioningInterface.wsdl
 #Configured By= Delivery Team
 #Description= This variable contains the path to WSDL file in Provisioning interface used for SOAP communication.
 #}
 
 #{
 #IUM_Process= DEG_ProvisioningInterface
-PROV_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+PROV_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 #Configured By= Delivery Team
 #Description= This variable contains the destination directory where the Audit files generated from provisioning Interface will be saved.
 #}
 
 #{
 #IUM_Process= DEG_ProvisioningInterface_Get
-PROV_STORE_GET_WSDL_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/ProvisioningInterface_Get/soap/SubscriberProvisioningInterface_Get.wsdl
+PROV_STORE_GET_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/ProvisioningInterface_Get/soap/SubscriberProvisioningInterface_Get.wsdl
 #Configured By=Product Team
 #Description= This variable specifies the path for the WSDL file used for SOAP communication for Provisioning Interface
 #}
 
 #{
 #IUM_Process= DEG_ProvisioningInterface
-PROV_GET_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+PROV_GET_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 #Configured By= Product Team
 #Description=This variable contains the destination directory where the Audit files generated from Provisioning Interface_Get will be saved.
 #}
@@ -410,7 +410,7 @@ DEVICE_PROVGET_SERVER_PORT=8989
 
 #{
 #IUM_Process= DEG_EAI_simulator
-LOCATION_INTERFACE_WSDL_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/soap/DeviceManagementService/DeviceManagementService.wsdl
+LOCATION_INTERFACE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/soap/DeviceManagementService/DeviceManagementService.wsdl
 #Configured By= Delivery Team
 #Description= This variable contains the path to the WSDL file in provisioning interface used for SOAP communication.
 #}
@@ -431,7 +431,7 @@ WIFI_RADIUS_SERVER_HOST_PORT=1812
 
 #{
 #IUM_Process= DEG_WifiAuthInterface
-WIFI_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+WIFI_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 #Configured By= Delivery Team
 #Description= This variable contains the destination directory where the Audit files generated from WifiAuth Interface will be saved.
 #}
@@ -447,7 +447,7 @@ LOCAL_WIFI_RADIUS_CLIENT_PORT=1820
 #IUM_Process=DEG_WifiAuthInterface
 PRIMARY_WIFI_RADIUS_CLIENT_HOST_PORT=1817
 #Configured By= Carrier
-#Description= This variable holds the port number where the primary WiFi radius client will be connected for communication. 
+#Description= This variable holds the port number where the primary WiFi radius client will be connected for communication.
 #}
 
 #{
@@ -466,35 +466,35 @@ AUDIT_PROCESS_NAME=DEG_Audit_01
 
 #{
 #IUM_Process= DEG_Audit
-AUDIT_COLLECTION_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+AUDIT_COLLECTION_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 #Configured By= Delivery Team
 #Description= This variable contains the directory path where the audit collector stores the audit files collected from Audit Binary folder.
 #}
 
 #{
 #IUM_Process= DEG_Audit
-AUDIT_PRE_DISTRIBUTION_NRB_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/AuditProcessorOuput/NRBTool/PreDistDataDir
+AUDIT_PRE_DISTRIBUTION_NRB_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/NRBTool/PreDistDataDir
 #Configured By= Delivery Team
 #Description= This variable contains the directory path where the NRB files generated from the Audit binary files are stored.
 #}
 
 #{
 #IUM_Process= DEG_Audit
-AUDIT_DISTRIBUTION_NRB_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/AuditProcessorOuput/NRBTool/Distribution
+AUDIT_DISTRIBUTION_NRB_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/NRBTool/Distribution
 #Configured By= Delivery Team
 #Description= This variable contains the directory path where the NRB files from AUDIT_PRE_DISTRIBUTION_NRB_DIR are modified and saved.
 #}
 
 #{
 #IUM_Process= DEG_Audit
-AUDIT_PRE_DISTRIBUTION_AUDIT_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/AuditProcessorOuput/audit/PreDistDataDir
+AUDIT_PRE_DISTRIBUTION_AUDIT_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/audit/PreDistDataDir
 #Configured By= Delivery Team
 #Description= This variable contains the directory path where the Audit files generated from the Audit binary files are stored.
 #}
 
 #{
 #IUM_Process= DEG_Audit
-AUDIT_DISTRIBUTION_AUDIT_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/AuditProcessorOuput/audit/Distribution
+AUDIT_DISTRIBUTION_AUDIT_DIR=/var/opt/SIU_DEG01/auditData/AuditProcessorOuput/audit/Distribution
 #Configured By= Delivery Team
 #Description= This variable contains the directory path where the NRB files from AUDIT_PRE_DISTRIBUTION_AUDIT_DIR are modified and saved.
 #}
@@ -508,7 +508,7 @@ APNS_SOAP_SERVER_PORT=8199
 
 #{
 #IUM_Process= DEG_APNClientInterface
-APNS_STORE_WSDL_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/soap/APNSInterface.wsdl
+APNS_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/soap/APNSInterface.wsdl
 #Configured By= Delivery Team
 #Description= This variable provides the location where the WSDL file used for web services is placed.
 #}
@@ -522,14 +522,14 @@ CARRIER_INTERFACE_PROCESS_NAME=DEG_APNS_ClientInterface_01
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+APNS_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 #Configured By= Delivery Team
 #Description= This variable contains the destination directory where the Audit files generated from APNS Interface will be saved.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_PAYLOAD_XSD_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/APNSPayload.xsd
+APNS_PAYLOAD_XSD_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/APNSPayload.xsd
 #Configured By= Delivery Team
 #Description= Absolute path name of APNSPayload.xsd file.
 #}
@@ -538,7 +538,7 @@ APNS_PAYLOAD_XSD_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/APN
 #IUM_Process=DEG_APNSInterface
 APNS_HOST_NAME=DEG_APNSInterface_01
 #Configured By=Delivery Team
-#Description=APNSInterface Host name 
+#Description=APNSInterface Host name
 #}
 
 #{
@@ -585,7 +585,7 @@ ESME_PORT=2775
 
 #{
 #IUM_Process= DEGDROID_DeviceInterface
-DEGDROID_SERVER_CERT_KEYSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DEGDROID_DeviceInterface/http/DEGServer.ks
+DEGDROID_SERVER_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DEGDROID_DeviceInterface/http/DEGServer.ks
 #Configured By=Product Team
 #Description= This variable holds keystore file in it while generating the SSL certificate for HTTPS connections.Keystore file has signature certificate embedded in it.
 #}
@@ -647,7 +647,7 @@ MULTISIM_MANAGED_ACCOUNT_WEBSHEET_URL=https://MultiSimSignManagedAccount.carrier
 #}
 
 #{
-#IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface 
+#IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface
 SUBSCRIBERID_PATTERN=^0[0-9]{6,15}@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppnetwork\.org$
 #Configured By= Product Team
 #Description=This variable holds the RegExPattern of SubscriberId with IMSI.
@@ -657,7 +657,7 @@ SUBSCRIBERID_PATTERN=^0[0-9]{6,15}@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppn
 #IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface
 IMSIIN_SUBSCRIBERID_PATTERN=^@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppnetwork\.org$
 #Configured By= Product Team
-#Description=This variable holds the RegExPattern of SubscriberId with IMSI as null. 
+#Description=This variable holds the RegExPattern of SubscriberId with IMSI as null.
 #}
 
 #{
@@ -713,29 +713,29 @@ DEG_DEFAULT_TC_STATUS=2
 #IUM_Process=DEG_Notification_Simulator.cfg
 NOTIFICATION_SIMULATOR_PORT=8776
 #configured By=Product Team
-#Description=Specifies the TCP port at which the server socket will listen for connections 
+#Description=Specifies the TCP port at which the server socket will listen for connections
 
 #{
 #IUM_Process=DEG_Notification_Simulator
-NOTIFICATION_CUSTOM_XSD_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/NotificationSimulator/http/NotificationSimulator_Custom.xsd
+NOTIFICATION_CUSTOM_XSD_FILE=/var/opt/SIU_DEG01/flatfiles/NotificationSimulator/http/NotificationSimulator_Custom.xsd
 #Configured By= Product Team
 #Description= This variable has the XSD file that will be used for JSON communication.  This has the request/response schema definition over RestClient.
 #}
 
 #IUM_Process=DEG_DeviceInterface
-PHONENUM_CERT_KEYSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/GetPhoneNumber.ks
+PHONENUM_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/GetPhoneNumber.ks
 #Configured By= Delivery Team
 #Description=This variable is used only for signing the MSISDN (getPhoneNumber action)
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_DeviceInterface
 PHONENUM_CERT_SIGNATURE_PASSWORD=Madrid2018
 #Configured By= Delivery Team
 #Description= This variable stores the password for the keystore file.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_ProvisioningInterface
 PROV_INTERFACE_MDN_LENGTH=10
 #Configured By= Delivery Team
@@ -751,14 +751,14 @@ DEG_DAIMETER_APLLICATION_ID=16777264
 
 #{
 #IUM_Process=DEG_AlarmAgent
-ALARM_HEARTBEAT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/DEG_AlarmAgent_01/READY/HeartBeat
+ALARM_HEARTBEAT_DATA_DIR=/var/opt/SIU_DEG01/DEG_AlarmAgent_01/READY/HeartBeat
 #Configured By= Delivery Team
 #Description=This variable contains the destination directory where the HeartBeat (traps) files generated from Alarm Agent will be saved.
 #}
 
 #{
 #IUM_Process=DEG_Secondary_DeviceInterface
-DEG_SECONDARY_SERVER_CERT_KEYSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/DEGServer.ks
+DEG_SECONDARY_SERVER_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/DEGServer.ks
 #Configured By= Delivery Team
 #Description=This variable holds keystore file in it while generating the SSL certificate for HTTPS connections.Keystore file has signature certificate embedded in it.
 #}
@@ -805,7 +805,7 @@ DEG_ALARM_FLUSH_TIME=5m
 #Description=The attribute is defined for 'm' suffix to represent minutes, and 'h' suffix to represent hour.This specifies duration of an aggregation interval in terms of minutes or hours.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_ProvisioningInterface
 PROV_INTERFACE_IMSI_LENGTH=15
 #Configured By= Delivery Team
@@ -843,7 +843,7 @@ DEG_DI_GBA_NAF_FQDN=www.jianxizt.com
 ######################################################### SYSTEM PARAMETERS ############################################################################################
 
 #{
-#IUM_Process= ALL 
+#IUM_Process= ALL
 HOST_NAME=mxulodeg31
 #Configured By= Delivery Team
 #Description=Name of the host where the Application Server will be installed.
@@ -895,7 +895,7 @@ SECONDARY_RADIUS_SERVER_HOST_IP=10.192.153.194
 #IUM_Process=DEG_DeviceInterface
 PRIMARY_AAA_HOST_IP=10.223.2.118
 #Configured By= Carrier
-#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted. 
+#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
 #}
 
 #{
@@ -958,14 +958,14 @@ DEVICE_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxulodeg31.deg.aes.orange.es
 #IUM_Process= DEG_JobsInterface
 PRIMARY_AAA_HOST_NAME=mxulaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
 #Configured By= Carrier
-#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted. 
+#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted.
 #}
 
 #{
 #IUM_Process= DEG_JobsInterface
 SECONDARY_AAA_HOST_IP=10.223.6.118
 #Configured By= Carrier
-#Description= This variable holds the IP address where the secondary remote AAA server will be hosted. 
+#Description= This variable holds the IP address where the secondary remote AAA server will be hosted.
 #}
 
 #{
@@ -986,7 +986,7 @@ AAA_DIAMETER_HOST_IP=10.223.0.81
 #IUM_Process=DEG_AAAuthentication
 AAA_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
 #Configured By= Delivery Team
-#Description=This variable holds the host name  where the AAA local server will be hosted. 
+#Description=This variable holds the host name  where the AAA local server will be hosted.
 #}
 
 #{
@@ -1063,7 +1063,7 @@ ALARM_AGENT_ADDRESS_PORT=10.192.153.194:9162
 #IUM_Process= DEG_AlarmAgent
 ALARM_STRING_CONNECTION=jdbc:mariadb://10.192.153.189:3306/siu_manager_md?relaxAutoCommit=true
 #Configured By= Product Team
-#Description= Database URL to establish a connection from application server to manager server 
+#Description= Database URL to establish a connection from application server to manager server
 #}
 
 #{
@@ -1167,7 +1167,7 @@ APNS_PRODUCTION_PORT=2195
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_PRODUCTION_TRUST_STORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/Production_Trust.ks
+APNS_PRODUCTION_TRUST_STORE_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Production_Trust.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Trust Store file for Production Server
 #}
@@ -1209,7 +1209,7 @@ APNS_SANDBOX_PORT=2195
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_SANDBOX_TRUST_STORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/Sandbox_Trust.ks
+APNS_SANDBOX_TRUST_STORE_FILE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Sandbox_Trust.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Trust Store file for Sandbox Server
 #}
@@ -1258,7 +1258,7 @@ DEGDROID_HEALTHCHECK_REQUEST_URL=https://10.192.153.194:9014/DEGDROIDInterface/
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_VOWIFI=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/VoWiFi_Production_Key.ks
+APNS_PRODUCTION_KEY_STORE_FILE_VOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoWiFi_Production_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server for VoWiFi topic
 #}
@@ -1272,7 +1272,7 @@ APNS_PRODUCTION_KEY_STORE_PWD_VOWIFI=Madrid2018
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_SANDBOX_KEY_STORE_FILE_VOWIFI=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/VoWiFi_Sandbox_Key.ks
+APNS_SANDBOX_KEY_STORE_FILE_VOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoWiFi_Sandbox_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Sandbox Server for VoWiFi topic.
 #}
@@ -1286,7 +1286,7 @@ APNS_SANDBOX_KEY_STORE_PWD_VOWIFI=Madrid2018
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_CAMBIO=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/Cambio_Production_Key.ks
+APNS_PRODUCTION_KEY_STORE_FILE_CAMBIO=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Cambio_Production_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server for Cambio topic.
 #}
@@ -1300,7 +1300,7 @@ APNS_PRODUCTION_KEY_STORE_PWD_CAMBIO=Madrid2018
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_SANDBOX_KEY_STORE_FILE_CAMBIO=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/Cambio_Sandbox_Key.ks
+APNS_SANDBOX_KEY_STORE_FILE_CAMBIO=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Cambio_Sandbox_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Sandbox Server for Cambio topic.
 #}
@@ -1314,7 +1314,7 @@ APNS_SANDBOX_KEY_STORE_PWD_CAMBIO=Madrid2018
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_VOLTE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/VoLTE_Production_Key.ks
+APNS_PRODUCTION_KEY_STORE_FILE_VOLTE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoLTE_Production_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server for Entitlements topic
 #}
@@ -1328,7 +1328,7 @@ APNS_PRODUCTION_KEY_STORE_PWD_VOLTE=Madrid2018
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_SANDBOX_KEY_STORE_FILE_VOLTE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/VoLTE_Sandbox_Key.ks
+APNS_SANDBOX_KEY_STORE_FILE_VOLTE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/VoLTE_Sandbox_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Sandbox Server for Entitlements topic.
 #}
@@ -1342,7 +1342,7 @@ APNS_SANDBOX_KEY_STORE_PWD_VOLTE=Madrid2018
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_ICLOUDVOWIFI=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/iCloudVoWiFi_Production_Key.ks
+APNS_PRODUCTION_KEY_STORE_FILE_ICLOUDVOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/iCloudVoWiFi_Production_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server for iCloudVoWiFi topic
 #}
@@ -1356,7 +1356,7 @@ APNS_PRODUCTION_KEY_STORE_PWD_ICLOUDVOWIFI=secret
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_SANDBOX_KEY_STORE_FILE_ICLOUDVOWIFI=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/iCloudVoWiFi_Sandbox_Key.ks
+APNS_SANDBOX_KEY_STORE_FILE_ICLOUDVOWIFI=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/iCloudVoWiFi_Sandbox_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Sandbox Server for iCloudVoWiFi topic.
 #}
@@ -1370,7 +1370,7 @@ APNS_SANDBOX_KEY_STORE_PWD_ICLOUDVOWIFI=secret
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_MULTISIM=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/production_com.orange.sp.aes.multisim.p12
+APNS_PRODUCTION_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/production_com.orange.sp.aes.multisim.p12
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server for Multi-SIM topic
 #}
@@ -1384,7 +1384,7 @@ APNS_PRODUCTION_KEY_STORE_PWD_MULTISIM=nouvelhommenelavezvousjamaisentenduparler
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_SANDBOX_KEY_STORE_FILE_MULTISIM=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/MultiSIM_Sandbox_Key.ks
+APNS_SANDBOX_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/MultiSIM_Sandbox_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Sandbox Server for Multi-SIM topic.
 #}
@@ -1398,7 +1398,7 @@ APNS_SANDBOX_KEY_STORE_PWD_MULTISIM=Madrid2018
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_CARRIERSPACE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/Sweetgum_Production_Key.ks
+APNS_PRODUCTION_KEY_STORE_FILE_CARRIERSPACE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Sweetgum_Production_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server CarrierSpace topic.
 #}
@@ -1412,7 +1412,7 @@ APNS_PRODUCTION_KEY_STORE_PWD_CARRIERSPACE=secret
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_SANDBOX_KEY_STORE_FILE_CARRIERSPACE=/var/opt/<%SIU_INSTANCE%>/flatfiles/APNSInterface/http/Sweetgum_Sandbox_Key.ks
+APNS_SANDBOX_KEY_STORE_FILE_CARRIERSPACE=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/Sweetgum_Sandbox_Key.ks
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Sandbox Server for CarrierSpace topic.
 #}
@@ -1456,7 +1456,7 @@ DEG_DEVICE_INTERFACE_LISTEN_PORT=9989
 #IUM_Process= DEG_JobsInterface
 JOBSINTERFACE_LISTEN_PORT=9990
 #Configured By= Product Team
-#Description= Specifies the refreshcache port for DEG_JobsInterface 
+#Description= Specifies the refreshcache port for DEG_JobsInterface
 #}
 
 #{
@@ -1602,7 +1602,7 @@ DEGAPPLE_SOCKET_TIMEOUT=2000
 #Description=This variable specifies time to wait for the response after sending a HTTP request.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_DeviceInterface
 DEVICEINTERFACE_REQUEST_TIMEOUT=1000
 #Configured By= Delivery Team
@@ -1657,12 +1657,12 @@ DEVICE_MAX_DBCONN_DEG_DI_HTTPGBA=20
 #Configured By=Delivery Team
 #Description= Specifies the maximum number of concurrent database connections to be opened.
 #}
-ENT_STORE_WSDL_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/EntitlementNotificationInterface/soap/EntitlementChangeNotification.wsdl
+ENT_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/EntitlementNotificationInterface/soap/EntitlementChangeNotification.wsdl
 ENT_APNS_RECONNECT_DELAY=5
 ENT_APNS_TIMEOUT=1000
 ENT_APNS_ALLOWED_TIMEOUTS=5
 CHECK_SECOND_PUSH_TOKEN_TABLE=true
-ENT_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+ENT_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 ENT_AUDIT_BINARY_FILE_NAME='mxulodeg31_ENT_'yyyyMMddHHmmssSSS'.DAT'
 
 PGWSERVER_HTTPS_ULISES_1_URL=https://10.192.209.24:443/ProvisioningGateway/services/SPMLSubscriber10Service
@@ -1671,21 +1671,21 @@ PGWSERVER_HTTPS_COSLADA_1_URL=https://10.192.210.24:443/ProvisioningGateway/serv
 PGWSERVER_HTTPS_COSLADA_2_URL=https://10.192.210.39:443/ProvisioningGateway/services/SPMLSubscriber10Service
 PGWSERVER_HTTPS_GARCILASO_1_URL=https://10.192.211.24:443/ProvisioningGateway/services/SPMLSubscriber10Service
 PGWSERVER_HTTPS_GARCILASO_2_URL=https://10.192.211.39:443/ProvisioningGateway/services/SPMLSubscriber10Service
-PGWSERVER_INTERFACE_WSDL_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/soap/GetSubscriberDetails/GetSubscriberDetails.wsdl
-PGWSERVER_KEYSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/degPGW.CertAndKey.jks
+PGWSERVER_INTERFACE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/soap/GetSubscriberDetails/GetSubscriberDetails.wsdl
+PGWSERVER_KEYSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/degPGW.CertAndKey.jks
 PGWSERVER_KEYSTORE_PASS=Madrid2018
 PGWSERVER_KEYSTORE_TYPE=JKS
 PGWSERVER_NUMCONNECTIONS=10
-PGWSERVER_TRUSTSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/server.jks
+PGWSERVER_TRUSTSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/server.jks
 PGWSERVER_TRUSTSTORE_PASS=Madrid2018
 PGWSERVER_TRUSTSTORE_TYPE=JKS
 PGWSERVER_NUMCONNECTIONS=10
-PGWSERVER_ULISES_1_TRUSTSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/server_ulises1.jks
-PGWSERVER_ULISES_2_TRUSTSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/server_ulises2.jks
-PGWSERVER_COSLADA_1_TRUSTSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/server_coslada1.jks
-PGWSERVER_COSLADA_2_TRUSTSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/server_coslada2.jks
-PGWSERVER_GARCILASO_1_TRUSTSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/server_garcilaso1.jks
-PGWSERVER_GARCILASO_2_TRUSTSTORE_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/DeviceInterface/http/PGWSERVER/server_garcilaso2.jks
+PGWSERVER_ULISES_1_TRUSTSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/server_ulises1.jks
+PGWSERVER_ULISES_2_TRUSTSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/server_ulises2.jks
+PGWSERVER_COSLADA_1_TRUSTSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/server_coslada1.jks
+PGWSERVER_COSLADA_2_TRUSTSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/server_coslada2.jks
+PGWSERVER_GARCILASO_1_TRUSTSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/server_garcilaso1.jks
+PGWSERVER_GARCILASO_2_TRUSTSTORE_FILE=/var/opt/SIU_DEG01/flatfiles/DeviceInterface/http/PGWSERVER/server_garcilaso2.jks
 PGWSERVER_TRUSTSTORE_PASS=Madrid2018
 PGWSERVER_TRUSTSTORE_TYPE=JKS
 
@@ -1693,7 +1693,7 @@ ESIM_APNS_ALLOWED_TIMEOUTS=5
 ESIM_APNS_RECONNECT_DELAY=5
 ESIM_APNS_TIMEOUT=1000
 ESIM_AUDIT_BINARY_FILE_NAME='mxfuodeg31_eSIMProv_'yyyyMMddHHmmssSSS'.DAT'
-ESIM_AUDIT_DATA_DIR=/var/opt/<%SIU_INSTANCE%>/auditData/binary
+ESIM_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 ESIM_HTTP_ACCEPT_COUNT=10
 ESIM_HTTP_CON_MAX_PROCESSORS=10
 ESIM_HTTP_CON_MAX_SPARE_PROCESSORS=8
@@ -1701,4 +1701,4 @@ ESIM_HTTP_CON_MIN_PROCESSORS=5
 ESIM_HTTP_PORT=8321
 ESIM_RULECHAIN_MAX_POOL_SIZE=10
 ESIM_RULECHAIN_MIN_POOL_SIZE=5
-ESIM_STORE_WSDL_FILE=/var/opt/<%SIU_INSTANCE%>/flatfiles/eSIMProvisioningInterface/soap/eSIMProvisioningInterface.wsdl
+ESIM_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/eSIMProvisioningInterface/soap/eSIMProvisioningInterface.wsdl

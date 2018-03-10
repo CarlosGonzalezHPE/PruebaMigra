@@ -1,6 +1,6 @@
-#[/deployment/<%SIU_INSTANCE%>/DEG_DeviceInterface_01]
+#[/deployment/SIU_DEG01/DEG_DeviceInterface_01]
 
-[/deployment/<%SIU_INSTANCE%>/DEG_DeviceInterface_01/Environment]
+[/deployment/SIU_DEG01/DEG_DeviceInterface_01/Environment]
 
 ######################################################### SYSTEM PARAMETERS ############################################################################################
 
