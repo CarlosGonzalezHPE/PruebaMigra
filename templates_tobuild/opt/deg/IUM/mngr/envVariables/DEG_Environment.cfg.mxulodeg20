@@ -645,14 +645,14 @@ DEG_ALARMAGENT_LISTEN_PORT=9993
 
 #{
 #IUM_Process = All
-DEVICE_RULECHAIN_MAX_POOL_SIZE=10
+DEVICE_RULECHAIN_MAX_POOL_SIZE=100
 #Configured By= Delivery Team
 #Description=Integer value specifying the maximum number of threads of a rule chain that will be created in a pool
 #}
 
 #{
 #IUM_Process = All
-DEVICE_RULECHAIN_MIN_POOL_SIZE=100
+DEVICE_RULECHAIN_MIN_POOL_SIZE=10
 #Configured By= Delivery Team
 #Description=Integer value specifying the minimum number of threads of a rule chain that will be created in a pool.
 #}
