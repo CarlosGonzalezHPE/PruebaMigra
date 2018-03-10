@@ -3,7 +3,7 @@
 ######################################################### DEG CORE ENVIRONMENT VARIABLES ###############################################################################
 
 #{
-#IUM_Process= ALL 
+#IUM_Process= ALL
 STARTUPMODE=MANUAL
 #Configured By= Product Team
 #Description= Specifies the Process startup mode
@@ -43,7 +43,7 @@ SERVER_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG02/flatfiles/DeviceInterface/http/DEGS
 #Description=This variable holds keystore file in it while generating the SSL certificate for HTTPS connections.Keystore file has signature certificate embedded in it.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_DeviceInterface
 SERVER_CERT_SIGNATURE_PASSWORD=Madrid2018
 #Configured By= Delivery Team
@@ -104,7 +104,7 @@ ENTITLEMENT_SERVERADDRESS=AbC
 #IUM_Process=DEG_DeviceInterface
 GATEWAY_ADDRESS_PRIMARY=ABC
 #Configured By= Carrier
-#Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for primary device's getAuthentication request. 
+#Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for primary device's getAuthentication request.
 #}
 
 #{
@@ -237,7 +237,7 @@ DEVICE_DIAMETER_SERVER_PORT=1815
 #IUM_Process= DEG_JobsInterface
 PRIMARY_AAA_HOST_PORT=3868
 #Configured By= Carrier
-#Description= This variable holds the port number where the primary remote diameter AAA server will be connected. 
+#Description= This variable holds the port number where the primary remote diameter AAA server will be connected.
 #}
 
 #{
@@ -447,7 +447,7 @@ LOCAL_WIFI_RADIUS_CLIENT_PORT=1820
 #IUM_Process=DEG_WifiAuthInterface
 PRIMARY_WIFI_RADIUS_CLIENT_HOST_PORT=1817
 #Configured By= Carrier
-#Description= This variable holds the port number where the primary WiFi radius client will be connected for communication. 
+#Description= This variable holds the port number where the primary WiFi radius client will be connected for communication.
 #}
 
 #{
@@ -538,7 +538,7 @@ APNS_PAYLOAD_XSD_FILE=/var/opt/SIU_DEG02/flatfiles/APNSInterface/http/APNSPayloa
 #IUM_Process=DEG_APNSInterface
 APNS_HOST_NAME=DEG_APNSInterface_02
 #Configured By=Delivery Team
-#Description=APNSInterface Host name 
+#Description=APNSInterface Host name
 #}
 
 #{
@@ -647,7 +647,7 @@ MULTISIM_MANAGED_ACCOUNT_WEBSHEET_URL=https://MultiSimSignManagedAccount.carrier
 #}
 
 #{
-#IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface 
+#IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface
 SUBSCRIBERID_PATTERN=^0[0-9]{6,15}@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppnetwork\.org$
 #Configured By= Product Team
 #Description=This variable holds the RegExPattern of SubscriberId with IMSI.
@@ -657,7 +657,7 @@ SUBSCRIBERID_PATTERN=^0[0-9]{6,15}@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppn
 #IUM_Process=DEGDROID_DeviceInterface/DEG_DeviceInterface
 IMSIIN_SUBSCRIBERID_PATTERN=^@nai\.epc\.mnc[0-9]{2,3}\.mcc[0-9]{2,3}\.3gppnetwork\.org$
 #Configured By= Product Team
-#Description=This variable holds the RegExPattern of SubscriberId with IMSI as null. 
+#Description=This variable holds the RegExPattern of SubscriberId with IMSI as null.
 #}
 
 #{
@@ -713,7 +713,7 @@ DEG_DEFAULT_TC_STATUS=2
 #IUM_Process=DEG_Notification_Simulator.cfg
 NOTIFICATION_SIMULATOR_PORT=8776
 #configured By=Product Team
-#Description=Specifies the TCP port at which the server socket will listen for connections 
+#Description=Specifies the TCP port at which the server socket will listen for connections
 
 #{
 #IUM_Process=DEG_Notification_Simulator
@@ -728,14 +728,14 @@ PHONENUM_CERT_KEYSTORE_FILE=/var/opt/SIU_DEG02/flatfiles/DeviceInterface/http/Ge
 #Description=This variable is used only for signing the MSISDN (getPhoneNumber action)
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_DeviceInterface
 PHONENUM_CERT_SIGNATURE_PASSWORD=Madrid2018
 #Configured By= Delivery Team
 #Description= This variable stores the password for the keystore file.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_ProvisioningInterface
 PROV_INTERFACE_MDN_LENGTH=10
 #Configured By= Delivery Team
@@ -805,7 +805,7 @@ DEG_ALARM_FLUSH_TIME=5m
 #Description=The attribute is defined for 'm' suffix to represent minutes, and 'h' suffix to represent hour.This specifies duration of an aggregation interval in terms of minutes or hours.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_ProvisioningInterface
 PROV_INTERFACE_IMSI_LENGTH=15
 #Configured By= Delivery Team
@@ -843,7 +843,7 @@ DEG_DI_GBA_NAF_FQDN=www.jianxizt.com
 ######################################################### SYSTEM PARAMETERS ############################################################################################
 
 #{
-#IUM_Process= ALL 
+#IUM_Process= ALL
 HOST_NAME=mxulodeg32
 #Configured By= Delivery Team
 #Description=Name of the host where the Application Server will be installed.
@@ -895,7 +895,7 @@ SECONDARY_RADIUS_SERVER_HOST_IP=10.192.153.196
 #IUM_Process=DEG_DeviceInterface
 PRIMARY_AAA_HOST_IP=10.223.6.118
 #Configured By= Carrier
-#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted. 
+#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
 #}
 
 #{
@@ -958,14 +958,14 @@ DEVICE_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxulodeg32.deg.aes.orange.es
 #IUM_Process= DEG_JobsInterface
 PRIMARY_AAA_HOST_NAME=mxfuaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
 #Configured By= Carrier
-#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted. 
+#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted.
 #}
 
 #{
 #IUM_Process= DEG_JobsInterface
 SECONDARY_AAA_HOST_IP=10.223.2.118
 #Configured By= Carrier
-#Description= This variable holds the IP address where the secondary remote AAA server will be hosted. 
+#Description= This variable holds the IP address where the secondary remote AAA server will be hosted.
 #}
 
 #{
@@ -986,7 +986,7 @@ AAA_DIAMETER_HOST_IP=10.223.0.82
 #IUM_Process=DEG_AAAuthentication
 AAA_DIAMETER_SERVER_HOST_NAME=mxulodeg32.deg.aes.orange.es
 #Configured By= Delivery Team
-#Description=This variable holds the host name  where the AAA local server will be hosted. 
+#Description=This variable holds the host name  where the AAA local server will be hosted.
 #}
 
 #{
@@ -1063,7 +1063,7 @@ ALARM_AGENT_ADDRESS_PORT=10.192.153.196:9162
 #IUM_Process= DEG_AlarmAgent
 ALARM_STRING_CONNECTION=jdbc:mariadb://10.192.153.189:3306/siu_manager_md?relaxAutoCommit=true
 #Configured By= Product Team
-#Description= Database URL to establish a connection from application server to manager server 
+#Description= Database URL to establish a connection from application server to manager server
 #}
 
 #{
@@ -1370,7 +1370,7 @@ APNS_SANDBOX_KEY_STORE_PWD_ICLOUDVOWIFI=secret
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG02/flatfiles/APNSInterface/http/production_com.orange.sp.aes.multisim.p12 
+APNS_PRODUCTION_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG02/flatfiles/APNSInterface/http/production_com.orange.sp.aes.multisim.p12
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server for Multi-SIM topic
 #}
@@ -1456,7 +1456,7 @@ DEG_DEVICE_INTERFACE_LISTEN_PORT=9989
 #IUM_Process= DEG_JobsInterface
 JOBSINTERFACE_LISTEN_PORT=9990
 #Configured By= Product Team
-#Description= Specifies the refreshcache port for DEG_JobsInterface 
+#Description= Specifies the refreshcache port for DEG_JobsInterface
 #}
 
 #{
@@ -1602,7 +1602,7 @@ DEGAPPLE_SOCKET_TIMEOUT=2000
 #Description=This variable specifies time to wait for the response after sending a HTTP request.
 #}
 
-#{ 
+#{
 #IUM_Process=DEG_DeviceInterface
 DEVICEINTERFACE_REQUEST_TIMEOUT=1000
 #Configured By= Delivery Team
@@ -1702,3 +1702,6 @@ ESIM_HTTP_PORT=8321
 ESIM_RULECHAIN_MAX_POOL_SIZE=10
 ESIM_RULECHAIN_MIN_POOL_SIZE=5
 ESIM_STORE_WSDL_FILE=/var/opt/SIU_DEG02/flatfiles/eSIMProvisioningInterface/soap/eSIMProvisioningInterface.wsdl
+
+APNSINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.153.196/jndi/rmi://10.192.153.196:36556/jmxconnector
+DEVICEINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.153.196/jndi/rmi://10.192.153.196:39312/jmxconnector
