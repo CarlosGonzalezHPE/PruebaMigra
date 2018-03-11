@@ -1,4 +1,9 @@
 #!/bin/sh
+#-------------------------------------------------------------------------------
+# DEG for Orange Spain
+#
+# HPE CMS Iberia, 2017-2018
+#-------------------------------------------------------------------------------
 
 # IUM instance name
 INSTNAME='<%SIU_INSTANCE%>'
@@ -54,54 +59,72 @@ src "$INSTLROOT/sbin/ium.rc.config.d"
 src "$INSTLROOT/sbin/ium.init.d"
 
 usage() {
-  echo "Usage: $(basename "$0") [start [module]] [stop [module]] [restart [module]] [status [module]]"
-  echo "Modules: $(modules)"
+[#SECTION_BEGIN:MANAGER#]
+  echo "Usage: $(basename "$0") start | start_siu | start_db | stop | stop_siu | stop_db | restart | status | help"
+[#SECTION_END#]
+[#SECTION_BEGIN:APP_SERVER#]
+  echo "Usage: $(basename "$0") start | stop | restart | status | help"
+[#SECTION_END#]
 }
 
-set -- $(echo $* | tr -d '-' | tr '_' ' ')
-[ "$1" ] && action="$1" && shift
-[ "$action" ] || action='help'
-modules="$@"
+if [ $# -ne 1 ]
+then
+  usage
+  exit 0
+fi
+
+action="$1"
 
 case $action in
   'start')
 [#SECTION_BEGIN:MANAGER#]
     $INSTLROOT/sbin/mariadb.sh start
 [#SECTION_END#]
-    module_start $modules
+    agent_start
     ;;
+  'start_siu')
+    agent_start
+    ;;
+[#SECTION_BEGIN:MANAGER#]
+  'start_db')
+    $INSTLROOT/sbin/mariadb.sh start
+    ;;
+[#SECTION_END#]
   'stop')
-    module_stop $modules
+    agent_stop
 [#SECTION_BEGIN:MANAGER#]
     $INSTLROOT/sbin/mariadb.sh stop
 [#SECTION_END#]
   ;;
+  'stop_siu')
+    agent_stop
+    ;;
+[#SECTION_BEGIN:MANAGER#]
+  'stop_db')
+    $INSTLROOT/sbin/mariadb.sh stop
+    ;;
+[#SECTION_END#]
   'restart')
-    module_stop $modules
+    agent_stop
 [#SECTION_BEGIN:MANAGER#]
     $INSTLROOT/sbin/mariadb.sh stop
     $INSTLROOT/sbin/mariadb.sh start
 [#SECTION_END#]
-    module_start $modules
+    agent_start
     ;;
   'status')
-module_status $modules >/tmp/module_status.tmp
-column -t -s ':' << EOF
-Module:Name:Status
-------:----:------
-$(module_status $modules)
-EOF
-if [ $(cat /tmp/module_status.tmp | grep "Stopped" | wc -l) -gt 0 ]
-then
-  rm -f /tmp/module_status.tmp
-  exit 3
-fi
-rm -f /tmp/module_status.tmp
+    agent_status >/tmp/module_status.tmp
+    if [ $(cat /tmp/module_status.tmp | grep "Stopped" | wc -l) -gt 0 ]
+    then
+      rm -f /tmp/module_status.tmp
+      exit 3
+    fi
+    rm -f /tmp/module_status.tmp
   ;;
-  'help')    usage
-  ;;
-  'h')       usage
-  ;;
-  *)         echo "Invalid option $action"; usage; exit 1
-  ;;
+  'help')
+    usage
+    ;;
+  *)
+    echo "Invalid option $action"; usage; exit 1
+    ;;
 esac

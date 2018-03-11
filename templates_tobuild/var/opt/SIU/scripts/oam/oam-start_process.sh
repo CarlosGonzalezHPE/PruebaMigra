@@ -1,295 +1,290 @@
 #!/bin/bash
 #-------------------------------------------------------------------------------
+# DEG for Orange Spain
 #
-# Project : HP-DEG
-#
-# Version : 1.0                                                                 
-# Author : HP CMS
-#
-# Component: oam-start_process.sh
-# Description: Script to start DEG processes.
-#
+# HPE CMS Iberia, 2017-2018
 #-------------------------------------------------------------------------------
 
 SCRIPT=oam-start_process
 . /home/ium/.bash_profile
 . /var/opt/${SIU_INSTANCE}/scripts/oam/oam-common.sh
 
-function start_session_server
-{
-  PROCESS=${1}
+EXIT_CODE=0
 
-  /opt/${SIU_INSTANCE}/bin/siucontrol -n ${PROCESS} -c startproc > ${TMPLOGFILE_PATH}.$$ 2>&1
-  if [ $? -eq 0 ]
+function showUsage
+{
+  if [ "${SIU_INSTANCE}" = "SIU_MANAGER" ]
   then
-    echo "OK: Process ${PROCESS} started"
+    echo "Usage: oam-start_process.sh [-h HOSTNAME] [PROCESS_NAME ... PROCESS_NAME | SIU | MariaDB | ALL]"
   else
-    if [ $(cat ${TMPLOGFILE_PATH}.$$ | grep "has been started already" | wc -l) -eq 1 ]
-    then
-      echo "WARNING: Process ${PROCESS} has been started already"
-    else
-      echo "ERROR: Process ${PROCESS} not started"
-    fi
+    echo "Usage: oam-start_process.sh [-h HOSTNAME] [PROCESS_NAME ... PROCESS_NAME | ALL]"
   fi
-  rm -f ${TMPLOGFILE_PATH}.$$ > /dev/null 2>&1
+  echo
 }
+
+
+function start_SIU
+{
+  /etc/init.d/${SIU_INSTANCE} start_siu > /tmp/start_SIU.$$ 2>&1
+  if [ $? -ne 0 ]
+  then
+    EXIT_CODE=1
+    echo -n "["
+    setColorError
+    echo -n "ERROR"
+    setColorNormal
+    echo "] Unable to start SIU instance '${SIU_INSTANCE}'"
+  else
+    echo -n "["
+    setColorSuccess
+    echo -n "OK"
+    setColorNormal
+    echo "] SIU instance '${SIU_INSTANCE}' successfully started"
+  fi
+  rm -f /tmp/start_SIU.$$
+}
+
+
+function start_MariaDB
+{
+  if [ "${SIU_INSTANCE}" = "SIU_MANAGER" ]
+  then
+    /etc/init.d/${SIU_INSTANCE} start_db > /tmp/start_MariaDB.$$ 2>&1
+    if [ $? -ne 0 ]
+    then
+      EXIT_CODE=1
+      echo -n "["
+      setColorError
+      echo -n "ERROR"
+      setColorNormal
+      echo "] Unable to start MariaDB"
+    else
+      echo -n "["
+      setColorSuccess
+      echo -n "OK"
+      setColorNormal
+      echo "] MariaDB successfully started"
+    fi
+    rm -f /tmp/start_MariaDB.$$
+  fi
+}
+
 
 function start_collector
 {
   PROCESS=${1}
 
-  /opt/${SIU_INSTANCE}/bin/siucontrol -n ${PROCESS} -c startproc > ${TMPLOGFILE_PATH}.$$ 2>&1
-  if [ $? -eq 0 ]
-  then
-    echo "OK: Process ${PROCESS} started"
-  else
-    if [ $(cat ${TMPLOGFILE_PATH}.$$ | grep "has been started already" | wc -l) -eq 1 ]
-    then
-      echo "WARNING: Process ${PROCESS} has been started already"
-    else
-      echo "ERROR: Process ${PROCESS} not started"
-    fi
-  fi
-  rm -f ${TMPLOGFILE_PATH}.$$ > /dev/null 2>&1
-}
-
-function start_jcs
-{
-  start_collector "$*"
-}
-
-function start_SIU
-{
-  if [ ${SIU_INSTANCE} = "SIU_MANAGER" ] && [ -f /etc/opt/${SIU_INSTANCE}/init.d/${SIU_INSTANCE} ]
-  then
-    PATH_SIU=/etc/opt/${SIU_INSTANCE}/init.d/${SIU_INSTANCE}
-  else
-    PATH_SIU=/etc/init.d/${SIU_INSTANCE}
-  fi
-  ${PATH_SIU} start > ${TMPLOGFILE_PATH}.$$ 2>&1
+  /opt/${SIU_INSTANCE}/bin/siucontrol -n ${PROCESS} -c startproc > /tmp/start_collector.$$ 2>&1
   if [ $? -ne 0 ]
   then
-    echo "ERROR: ${SIU_INSTANCE} instance not started"
+    if [ $(cat /tmp/start_collector.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    then
+      echo -n "["
+      setColorWarning
+      echo -n "WARNING"
+      setColorNormal
+      echo "] Collector '${PROCESS}' already started"
+    else
+      EXIT_CODE=1
+      echo -n "["
+      setColorError
+      echo -n "ERROR"
+      setColorNormal
+      echo "] Unable to start Collector '${PROCESS}'"
+    fi
   else
-    echo "OK: ${SIU_INSTANCE} instance started"
+    echo -n "["
+    setColorSuccess
+    echo -n "OK"
+    setColorNormal
+    echo "] Collector '${PROCESS}' successfully started"
   fi
-  rm -f ${TMPLOGFILE_PATH}.$$ > /dev/null 2>&1
-  if [ ${SIU_INSTANCE} = "SIU_MANAGER" ] && [ -f /etc/opt/${SIU_INSTANCE}/init.d/${SIU_INSTANCE} ]
-  then
-    rm -f /etc/opt/${SIU_INSTANCE}/init.d/${SIU_INSTANCE}.status.ok > /dev/null 2>&1
-  fi
+
+  rm -f /tmp/start_collector.$$
 }
+
+
+function start_session_server
+{
+  PROCESS=${1}
+
+  /opt/${SIU_INSTANCE}/bin/siucontrol -n ${PROCESS} -c startproc > /tmp/start_session_server.$$ 2>&1
+  if [ $? -ne 0 ]
+  then
+    if [ $(cat /tmp/start_session_server.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    then
+      echo -n "["
+      setColorWarning
+      echo -n "WARNING"
+      setColorNormal
+      echo "] Session Server '${PROCESS}' already started"
+    else
+      EXIT_CODE=1
+      echo -n "["
+      setColorError
+      echo -n "ERROR"
+      setColorNormal
+      echo "] Unable to start Session Server '${PROCESS}'"
+    fi
+  else
+    echo -n "["
+    setColorSuccess
+    echo -n "OK"
+    setColorNormal
+    echo "] Session Server '${PROCESS}' successfully started"
+  fi
+
+  rm -f /tmp/start_session_server.$$
+}
+
+
+function start_fcs
+{
+  PROCESS=${1}
+
+  /opt/${SIU_INSTANCE}/bin/siucontrol -n ${PROCESS} -c startproc > /tmp/start_fcs.$$ 2>&1
+  if [ $? -ne 0 ]
+  then
+    if [ $(cat /tmp/start_fcs.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    then
+      echo -n "["
+      setColorWarning
+      echo -n "WARNING"
+      setColorNormal
+      echo "] File Collection Service '${PROCESS}' already started"
+    else
+      EXIT_CODE=1
+      echo -n "["
+      setColorError
+      echo -n "ERROR"
+      setColorNormal
+      echo "] Unable to start File Collection Service '${PROCESS}'"
+    fi
+  else
+    echo -n "["
+    setColorSuccess
+    echo -n "OK"
+    setColorNormal
+    echo "] File Collection Service '${PROCESS}' successfully started"
+  fi
+
+  rm -f /tmp/start_fcs.$$
+}
+
 
 function start_NRBGUITool
 {
-  /app/DEG/NRBGUI/deploy.sh start > ${TMPLOGFILE_PATH}.$$ 2>&1
-  if [ $? -ne 0 ]
+  if [ "${SIU_INSTANCE}" = "SIU_MANAGER" ]
   then
-    echo "ERROR: NRBGUITool not started"
-  else
-    echo "OK: NRBGUITool started"
-  fi
-  rm -f ${TMPLOGFILE_PATH}.$$ > /dev/null 2>&1
-}
-
-function start_MySQL
-{
-	if [ "${SIU_INSTANCE}" = 'SIU_MANAGER' ] && [ -f /etc/opt/${SIU_INSTANCE}/init.d/${SIU_INSTANCE} ]
-	then
-		PATH_SIU=/etc/opt/${SIU_INSTANCE}/init.d/${SIU_INSTANCE}
-	else
-		PATH_SIU=/etc/init.d/${SIU_INSTANCE}
-		PATH_SIU_APP1=/etc/init.d/SIU_DEG01
-		PATH_SIU_APP2=/etc/init.d/SIU_DEG02
-	fi
-
-	if [ -f "$PATH_SIU" ]
-	then
-		${PATH_SIU} start_dbs > ${TMPLOGFILE_PATH}.$$ 2>&1
-		if [ $? -ne 0 ]
-		then
-		echo "ERROR: MySQL instance not started"
-		else
-		echo "OK: MySQL instance started"
-		fi
-	fi
-
-	if [ -f "$PATH_SIU_APP1" ]
-	then
-		${PATH_SIU_APP1} start_dbs > ${TMPLOGFILE_PATH}.$$ 2>&1
-		if [ $? -ne 0 ]
-		then
-		echo "ERROR: Application MySQL instance not started"
-		else
-		echo "OK: Application MySQL instance started"
-		fi
-	fi
-	
-	if [ -f "$PATH_SIU_APP2" ]
-	then
-		${PATH_SIU_APP2} start_dbs > ${TMPLOGFILE_PATH}.$$ 2>&1
-		if [ $? -ne 0 ]
-		then
-		echo "ERROR: Application MySQL instance not started"
-		else
-		echo "OK: Application MySQL instance started"
-		fi
-	fi
-}
-
-function start_TimesTen
-{
-  if [ ${SIU_INSTANCE} = "SIU_MANAGER" ] && [ -f /etc/opt/${SIU_INSTANCE}/init.d/tt_${SIU_INSTANCE}_TT ]
-  then
-    PATH_SIU=/etc/opt/${SIU_INSTANCE}/init.d/tt_${SIU_INSTANCE}_TT
-    PATH_TT_APP1_INIT=/etc/init.d/tt_SIU_DEG01_TT
-    PATH_TT_APP2_INIT=/etc/init.d/tt_SIU_DEG02_TT
-  else
-    PATH_SIU=/etc/init.d/tt_${SIU_INSTANCE}_TT
-  fi
-
-  if [ -f "$PATH_SIU" ]
-   then
-     sudo ${PATH_SIU} start > ${TMPLOGFILE_PATH}.$$ 2>&1
-   if [ $? -ne 0 ]
-   then
-    echo "ERROR: TimesTen instance not started"
-   else
-    echo "OK: TimesTen instance started"
-   fi
-  fi
-
-  if [ -f "$PATH_TT_APP1_INIT" ]
-  then
-    sudo ${PATH_TT_APP1_INIT} start > ${TMPLOGFILE_PATH}.$$ 2>&1
+    /app/DEG/NRBGUI/deploy.sh start  > /tmp/start_NRBGUITool.$$ 2>&1
     if [ $? -ne 0 ]
     then
-      echo "ERROR: Application TimesTen instance not started"
+      EXIT_CODE=1
+      echo -n "["
+      setColorError
+      echo -n "ERROR"
+      setColorNormal
+      echo "] Unable to start process 'NRBGUITool'"
     else
-      echo "OK: Application TimesTen instance started"
+      echo -n "["
+      setColorSuccess
+      echo -n "OK"
+      setColorNormal
+      echo "] 'NRBGUITool' successfully started"
     fi
-  fi
 
-  if [ -f "$PATH_TT_APP2_INIT" ]
-  then
-    sudo ${PATH_TT_APP2_INIT} start > ${TMPLOGFILE_PATH}.$$ 2>&1
-    if [ $? -ne 0 ]
-    then
-      echo "ERROR: Application TimesTen instance not started"
-    else
-      echo "OK: Application TimesTen instance started"
-    fi
-  fi
-
-  rm -f ${TMPLOGFILE_PATH}.$$ > /dev/null 2>&1
-  if [ ${SIU_INSTANCE} = "SIU_MANAGER" ] && [ -f /etc/opt/${SIU_INSTANCE}/init.d/tt_${SIU_INSTANCE}_TT ]
-  then
-    rm -f /etc/opt/${SIU_INSTANCE}/init.d/tt_${SIU_INSTANCE}_TT.status.ok > /dev/null 2>&1
+    rm -f /tmp/start_NRBGUITool.$$
   fi
 }
+
 
 if [ $# -lt 1 ]
 then
-  echo
-  echo "Usage: oam-start_process.sh [-h HOSTNAME] [PROCESS_NAME ... PROCESS_NAME | IUM | TimesTen | ALL]"
-  echo
-else
-  HOST="localhost"
-  while getopts h: OPC
-  do
-    case $OPC in
-    h ) HOST=${OPTARG}
-        ;;
-    [?] )   echo
-            echo "Usage: oam-start_process.sh [-h HOSTNAME] [PROCESS_NAME ... PROCESS_NAME | IUM | TimesTen | ALL]"
-            echo
-    esac
-  done
-  shift $(expr ${OPTIND} - 1)
-
-  for ARG in $*
-  do
-    if [ ${ARG} = "ALL" ]
-    then
-      if [ ${HOST} = "localhost" ]
-      then
-        start_TimesTen
-	start_MySQL
-        start_SIU
-        if [ ${SIU_INSTANCE} = "SIU_MANAGER" ]
-        then
-          start_NRBGUITool
-        fi
-	
-		collectorArray=($(grep "Collector" ${OAM_DIR}/cfg/oam-processes.cfg | awk '{print $1}' | grep -v "^#"))
-		for i in "${collectorArray[@]}"
-		do
-			:
-			start_collector $i
-		done
-
-		fileServiceArray=($(grep "FileService" ${OAM_DIR}/cfg/oam-processes.cfg | awk '{print $1}' | grep -v "^#"))
-		for i in "${fileServiceArray[@]}"
-		do
-        		:
-			start_jcs $i
-		done
-		
-		sessionServerArray=($(grep "SessionServer" ${OAM_DIR}/cfg/oam-processes.cfg | awk '{print $1}' | grep -v "^#"))
-                for i in "${sessionServerArray[@]}"
-                do
-                        :
-                        start_session_server $i
-                done
-
-      else
-        ssh ium@${HOST} ". ./.bash_profile; oam-start_process.sh ALL"
-      fi
-    else
-      if [ ${HOST} = "localhost" ]
-      then
-        NUM_PROCESS=$(grep "^${ARG}" ${OAM_DIR}/cfg/oam-processes.cfg | wc -l)
-        if [ ${NUM_PROCESS} -eq 1 ]
-        then
-          PROCESS=$(grep "^${ARG}" ${OAM_DIR}/cfg/oam-processes.cfg | awk '{print $1}')
-          if [ ${PROCESS} = ${ARG} ]
-          then
-            PROCESS_TYPE=$(grep "^${ARG}" ${OAM_DIR}/cfg/oam-processes.cfg | awk '{print $2}')
-            case ${PROCESS_TYPE} in
-              Collector )
-                start_collector ${ARG}
-                ;;
-              SessionServer )
-                start_session_server ${ARG}
-                ;;
-              FileService )
-                start_jcs ${ARG}
-                ;;
-              IUM )
-                start_SIU
-                ;;
-              NRB )
-                start_NRBGUITool
-                ;;
-              DDBB )
-                start_MySQL
-		;;
-	      DDBB )
-		start_TimesTen
-                ;;
-              * )
-                echo "WARNING: Process ${ARG} of type ${PROCESS_TYPE} does not exist in server $(hostname)"
-                ;;
-            esac
-          else
-            echo "WARNING: Process ${ARG} does not exist in server $(hostname)"
-          fi
-        else
-          echo "WARNING: Process ${ARG} does not exist in server $(hostname)"
-        fi
-      else
-        ssh ium@${HOST} ". ./.bash_profile; oam-start_process.sh ${ARG}"
-      fi
-    fi
-  done
+  showUsage
+  exit 1
 fi
+
+HOST="localhost"
+while getopts h: OPC
+do
+  case ${OPC} in
+    h)
+      HOST=${OPTARG}
+      ;;
+  [?])
+    showUsage
+    exit 1
+  esac
+done
+
+shift $(expr ${OPTIND} - 1)
+
+for ARG in $*
+do
+  if [ "${ARG}" = "ALL" ]
+  then
+    if [ "${HOST}" = "localhost" ]
+    then
+      start_MariaDB
+      start_SIU
+      start_NRBGUITool
+
+      cat /var/opt/${SIU_INSTANCE}/scripts/oam/cfg/oam-processes.cfg | grep -v "^#" | sort | while read PROCESS TYPE
+      do
+        case "${TYPE}" in
+          "Collector")
+            start_collector ${PROCESS}
+            ;;
+          "SessionServer")
+            start_session_server ${PROCESS}
+            ;;
+          "FileService")
+            start_fcs ${PROCESS}
+            ;;
+          *)
+            continue
+            ;;
+        esac
+      done
+    else
+      ssh ium@${HOST} ". ./.bash_profile; oam-start_process.sh ALL"
+    fi
+  else
+    if [ ${HOST} = "localhost" ]
+    then
+      case "${ARG}" in
+        "SIU")
+          start_SIU
+          ;;
+        "MariaDB")
+          start_MariaDB
+          ;;
+        "NRBGUITool")
+          start_NRBGUITool
+          ;;
+        *)
+        cat /var/opt/${SIU_INSTANCE}/scripts/oam/cfg/oam-processes.cfg | grep -v "^#" | grep "^${ARG}" | while read PROCESS TYPE
+        do
+          case "${TYPE}" in
+            "Collector")
+              start_collector ${PROCESS}
+              ;;
+            "SessionServer")
+              start_session_server ${PROCESS}
+              ;;
+            "FileService")
+              start_fcs ${PROCESS}
+              ;;
+            *)
+              continue
+              ;;
+          esac
+        done
+      esac
+    else
+      ssh ium@${HOST} ". ./.bash_profile; oam-start_process.sh ${ARG}"
+    fi
+  fi
+done
+
+exit ${EXIT_CODE}

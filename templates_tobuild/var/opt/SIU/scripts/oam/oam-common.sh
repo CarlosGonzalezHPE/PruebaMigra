@@ -1,22 +1,9 @@
 #!/bin/bash
 #-------------------------------------------------------------------------------
+# DEG for Orange Spain
 #
-# Project : HP-DEG
-#
-# Version : 1.0                                                                 
-# Author : HP CMS
-#
-# Component: oam-common.sh
-# Description: Common functions to be used by O&M tools.
-#
+# HPE CMS Iberia, 2017-2018
 #-------------------------------------------------------------------------------
-
-OAM_DIR=/var/opt/${SIU_INSTANCE}/scripts/oam
-export OAM_DIR
-
-TMPLOGFILE_PATH=${OAM_DIR}/${SCRIPT}.log
-export TMPLOGFILE_PATH
-
 
 function check_if_already_running
 {
@@ -24,7 +11,7 @@ function check_if_already_running
   NUMBER_OF_INSTANCES=$2
   CURRENT_INSTANCES=$(ps -e -o pid,ppid,cmd | grep -E "^ *[0-9]+ *[0-9]+ *$1*" | grep -Ev "^ *$$ " | grep -Ev "^ *[0-9]+ *$$ " | wc -l)
   if [ ${CURRENT_INSTANCES} -eq ${NUMBER_OF_INSTANCES} ]
-  then    
+  then
     echo 0
   else
     echo 1
