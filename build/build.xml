@@ -47,6 +47,31 @@
     <copy todir=".work/${node}/tmp/templates_tobuild">
       <fileset dir="../templates_tobuild"/>
     </copy>
+
+    <if>
+      <or>
+        <equals arg1="${node}" arg2="mxfuodeg31"/>
+        <equals arg1="${node}" arg2="mxfuodeg32"/>
+        <equals arg1="${node}" arg2="mxulodeg31"/>
+        <equals arg1="${node}" arg2="mxulodeg32"/>
+        <equals arg1="${node}" arg2="mxulodeg33"/>
+      </or>
+      <then>
+         <delete dir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM/mngr" includeemptydirs="true"/>
+          <move todir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM">
+            <fileset dir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM/appserver"/>
+          </move>
+          <delete dir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM/appserver" includeemptydirs="true"/>
+      </then>
+      <else>
+        <delete dir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM/appserver" includeemptydirs="true"/>
+        <move todir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM">
+          <fileset dir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM/mngr"/>
+        </move>
+        <delete dir=".work/${node}/tmp/templates_tobuild/opt/deg/IUM/mngr" includeemptydirs="true"/>
+      </else>
+    </if>
+
   </target>
 
   <target name="deploy-node"
