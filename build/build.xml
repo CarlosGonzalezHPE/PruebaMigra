@@ -75,14 +75,15 @@
   </target>
 
   <target name="deploy-node"
-          depends="check-node">
-    <property file="deploy/${node}.properties"/>
-
-    <scp todir="${user}:${passwd}@${host}:${destdir}" port="${port}" trust="yes">
-      <fileset dir=".work/${node}">
-        <include name="built-${host}.tar"/>
-      </fileset>
-    </scp>
+          depends="check-node,check-tree">
+    <echo></echo>
+    <echo>Deploying files for node '${node}'</echo>
+    <echo></echo>
+    <exec executable="bash"
+          dir="."
+          failonerror="true">
+      <arg line="-c 'scripts/deploy.sh -h ${node} -t ${tree} -p'"/>
+    </exec>
   </target>
 
   <target name="clean"
@@ -185,6 +186,16 @@
             <equals arg1="${node}" arg2="mxulodeg32"/>
             <equals arg1="${node}" arg2="mxulodeg33"/>
           </or>
+        </not>
+      </condition>
+    </fail>
+  </target>
+
+  <target name="check-tree">
+    <fail message="Missing parameter 'tree'">
+      <condition>
+        <not>
+          <isset property="tree"/>
         </not>
       </condition>
     </fail>
