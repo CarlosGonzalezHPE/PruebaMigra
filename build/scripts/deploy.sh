@@ -183,12 +183,20 @@ then
 fi
 logDebug "PORT = ${PORT}"
 
+SIU_INSTANCE="$(getConfigParam ${HOSTNAME} SIU_INSTANCE)"
+if [ $? -lt 0 ] || [ -z "${SIU_INSTANCE}" ]
+then
+  logError "Unable to get mandatory parameter 'SIU_INSTANCE' in section '${HOSTNAME}'"
+  exit 1
+fi
+logDebug "PORT = ${PORT}"
+
 logDebug "MODE = ${MODE}"
 if [ "${CREATE_DIR}" = "TRUE" ]
 then
   find .work/${HOSTNAME}/built/${TREE} -type d | while read DIR_PATH
   do
-    DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4-)
+    DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
     logInfo "Creating directory '${DEST_DIR}'"
     logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"mkdir -p ${DEST_DIR}; chmod 755 ${DEST_DIR}\""
     ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "mkdir -p ${DEST_DIR}; chmod 755 ${DEST_DIR}"
@@ -205,7 +213,7 @@ fi
 
 find .work/${HOSTNAME}/built/${TREE} -type d | while read DIR_PATH
 do
-  DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4-)
+  DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
   logInfo "Deploying files in directory '${DEST_DIR}'"
   logDebug "scp -P ${PORT} ${DIR_PATH}/* ium@${IP_ADDRESS}:${DEST_DIR}"
   2>/dev/null scp -P ${PORT} ${DIR_PATH}/* ium@${IP_ADDRESS}:${DEST_DIR}
@@ -216,6 +224,6 @@ done
 if [ "${CHANGE_PERMS}" = "TRUE" ]
 then
   logInfo "Changing file permissions"
-  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "2>/dev/null find /${TREE} -type f | xargs chmod 644"
-  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "2>/dev/null find /${TREE} -type f -name *.sh | xargs chmod 744"
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${TREE} -type f | xargs chmod 644 2>/dev/null"
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null"
 fi
