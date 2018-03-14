@@ -13,6 +13,9 @@
       <element name="auc" type="obj:AUC" minOccurs="0"/>
       <element name="hlr" type="obj:HLR" minOccurs="0"/>
       <element name="hss" type="obj:HSS" minOccurs="1"/>
+      <element name="profile" type="obj:Profile" minOccurs="0"/>
+      <element name="isVoid" type="string" minOccurs="0"/>
+      <element name="masteredBy" type="int" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	
@@ -1004,19 +1007,35 @@
       <element name="commonMsisdn" type="string" minOccurs="0"/>
       <element name="suppressAliasForImsiMsisdn" type="string" minOccurs="0"/>
       <element name="privateUserId" type="obj:privateUserId" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="implicitRegisteredSet" type="obj:implicitRegisteredSet" minOccurs="0"/>
+      <element name="implicitRegisteredSet" type="obj:implicitRegisteredSet" minOccurs="0" maxOccurs="unbounded"/>
       <element name="publicUserId" type="obj:publicUserId" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="serviceProfile" type="obj:serviceProfile" minOccurs="0"/>
+      <element name="serviceProfile" type="obj:serviceProfile" minOccurs="0" maxOccurs="unbounded"/>
       <element name="repositoryData" type="obj:RepositoryData" minOccurs="0" maxOccurs="unbounded"/>
       <element name="notification" type="obj:Notification" minOccurs="0" maxOccurs="unbounded"/>
       <element name="pprTriggerInfo" type="obj:PPRTriggerInfo" minOccurs="0" maxOccurs="unbounded"/>
       <element name="gussData" type="obj:GussData" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="aliasGroup" type="obj:aliasGroup" minOccurs="0"/>
+      <element name="aliasGroup" type="obj:aliasGroup" minOccurs="0" maxOccurs="unbounded"/>
       <element name="aliasRepositoryData" type="obj:aliasRepositoryData" minOccurs="0" maxOccurs="unbounded"/>
       <element name="refSharedUserProfile" type="string" minOccurs="0"/> 
       <element name="refCxRestrictionVPLMNId" type="string" minOccurs="0"/>
 		</sequence>
 	</complexType>
+	
+	
+	<complexType name="Profile">
+				<sequence>
+					<element name="givenName" type="string" minOccurs="0"/>
+					<element name="surname" type="string" minOccurs="0"/>
+					<element name="username" type="string" minOccurs="0"/>
+					<element name="password" type="string" minOccurs="0"/>
+					<element name="loginPassword" type="string" minOccurs="0"/>
+					<element name="prepaid" type="string" minOccurs="0"/>
+					<element name="roamingAllowed" type="string" minOccurs="0"/>
+					<element name="notificationEmail" type="string" minOccurs="0"/>
+					<element name="preferredLanguage" type="string" minOccurs="0"/>		
+				</sequence>
+	</complexType>
+	
 	
 	<complexType name="PPRTriggerInfo">
     <sequence>
