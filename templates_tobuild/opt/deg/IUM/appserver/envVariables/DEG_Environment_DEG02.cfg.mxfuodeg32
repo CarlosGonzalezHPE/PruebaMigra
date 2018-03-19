@@ -634,14 +634,14 @@ VOWIFI_PROVISIONING_STATUS_RESET_WINDOW=120
 
 #{
 #IUM_Process=DEG_DeviceInterface
-DEVICE_MULTISIM_SERVICE_SIGNUP_URL=https://ecare.uat.si.orange.es/cmsmvl/public/ss/post.jsp?goto=contract
+DEVICE_MULTISIM_SERVICE_SIGNUP_URL=https://areaprivada.orange.es/cmsmvl/public/ss/post.jsp?goto=contract
 #Configured By= Delivery Team
 #Description=this value will be used for the signup-url attribute in the response for signUpForSIMService action.
 #}
 
 #{
 #IUM_Process=DEGDROID_DeviceInterface
-MULTISIM_MANAGED_ACCOUNT_WEBSHEET_URL=https://ecare.uat.si.orange.es/cmsmvl/public/ss/post.jsp?goto=management
+MULTISIM_MANAGED_ACCOUNT_WEBSHEET_URL=https://areaprivada.orange.es/cmsmvl/public/ss/post.jsp?goto=management
 #Configured By= Product Team
 #Description=This variable indicates the fullauth window for DEGDROID Token
 #}
