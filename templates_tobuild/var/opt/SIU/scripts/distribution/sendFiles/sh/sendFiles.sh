@@ -9,9 +9,9 @@
 # Functions
 #
 
-function sendFiles
+function process
 {
-  logDebug "Executing function 'sendFiles'"
+  logDebug "Executing function 'process'"
 
   PROTOCOL="$(getConfigParam ${RUN_LABEL} PROTOCOL)"
   if [ $? -lt 0 ] || [ "${PROTOCOL}" == "" ]
@@ -269,7 +269,7 @@ export SCRIPT_BASEDIR
 logDebug "RUN_LABEL = ${RUN_LABEL}"
 
 EXIT_CODE=0
-CURRENT_DATE=$(date +%Y%m%d)
+CURRENT_DATE=$(date +"%Y%m%d")
 
 process
 if [ $? -ne 0 ]

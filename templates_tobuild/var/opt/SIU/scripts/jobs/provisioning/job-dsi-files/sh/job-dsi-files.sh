@@ -97,7 +97,7 @@ function process
   UPDATE_FILEPATH=${TMP_DIR}/updateDEG_AUTOPROVISIONING.sql
 
   awk -F \; -v out_VoWIFI=${VOWIFI_FILEPATH} -v out_VoLTE=${VOLTE_FILEPATH} -v out_update=${UPDATE_FILEPATH} '{
-    timestamp_query-dsi-files = $1;
+    timestamp_query = $1;
     username = $2;
     node_id = $3;
     command = $4;
@@ -108,33 +108,38 @@ function process
     result_code = $9;
     provisioned = $10;
     if (toupper(details) == "VOWIFI") {
-      print timestamp_query-dsi-files ";" timestamp_system ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoWiFi;" request_id ";" result_code >> out_VoWIFI;
+      print timestamp_query ";" timestamp_system ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoWiFi;" request_id ";" result_code >> out_VoWIFI;
       print "UPDATE DEG_AUTOPROVISIONING SET PROVISIONED = \x27yes\x27 WHERE UNIQUE_ID = \x27"unique_id"\x27;" >> out_update;
     } else if (toupper(details) == "VOLTE") {
-   	  print timestamp_query-dsi-files ";" timestamp_system ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoLTE;" request_id ";" result_code >> out_VoLTE;
+   	  print timestamp_query ";" timestamp_system ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoLTE;" request_id ";" result_code >> out_VoLTE;
     }
   }' ${TMP_DIR}/cdr-result.csv
 
+  NUM_REGISTERS=0
+
   if [ -s ${VOLTE_FILEPATH} ]
   then
-    if [ -f ${OUTPUT_DIR}/LOG_VOLTE/$(basename ${VOLTE_FILEPATH}) ]
+    if [ -f ${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH}) ]
     then
-      logError "File '${OUTPUT_DIR}/LOG_VOLTE/$(basename ${VOLTE_FILEPATH})' already exists"
+      logError "File '${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH})' already exists"
       RES_CODE=1
     else
-      mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}/LOG_VOLTE
+      let NUM_REGISTERS_VOLTE=$(wc -l ${VOLTE_FILEPATH} | cut -d " " -f 1)
+      mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}
+
       if [ $? -ne 0 ]
       then
-        logError "Command of file 'mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}/LOG_VOLTE' failed"
+        logError "Command 'mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}' failed"
         RES_CODE=1
       else
-        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE ${OUTPUT_DIR}/LOG_VOLTE/$(basename ${VOLTE_FILEPATH})
+        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE ${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH})
         if [ $? -ne 0 ]
         then
-          logError "Distribution of file '$(basename ${VOLTE_FILEPATH})' failed"
+          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE ${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH})' failed"
           RES_CODE=1
         else
           logInfo "File '$(basename ${VOLTE_FILEPATH})' succesfully sent"
+          let NUM_REGISTERS=${NUM_REGISTERS}+${NUM_REGISTERS_VOLTE}
         fi
       fi
     fi
@@ -144,29 +149,50 @@ function process
 
   if [ -s ${VOWIFI_FILEPATH} ]
   then
-    if [ -f ${OUTPUT_DIR}/LOG_VOWIFI/$(basename ${VOWIFI_FILEPATH}) ]
+    if [ -f ${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH}) ]
     then
-      logError "File '${OUTPUT_DIR}/LOG_VOWIFI/$(basename ${VOWIFI_FILEPATH})' already exists"
+      logError "File '${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH})' already exists"
       RES_CODE=1
     else
-      mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}/LOG_VOWIFI
+      let NUM_REGISTERS_VOWIFI=$(wc -l ${VOWIFI_FILEPATH} | cut -d " " -f 1)
+      mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}
       if [ $? -ne 0 ]
       then
-        logError "Command of file 'mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}/LOG_VOWIFI' failed"
+        logError "Command 'mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}' failed"
         RES_CODE=1
       else
-        /opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI ${OUTPUT_DIR}/LOG_VOWIFI/$(basename ${VOWIFI_FILEPATH})
+        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI ${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH})
         if [ $? -ne 0 ]
         then
-          logError "Distribution of file '$(basename ${VOWIFI_FILEPATH})' failed"
+          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI ${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH})' failed"
           RES_CODE=1
         else
           logInfo "File '$(basename ${VOWIFI_FILEPATH})' succesfully sent"
+          let NUM_REGISTERS=${NUM_REGISTERS}+${NUM_REGISTERS_VOWIFI}
         fi
       fi
     fi
   else
     logWarning "File '${VOWIFI_FILEPATH}' is empty"
+  fi
+
+  HOSTNAME_OSS=$(getOssHostname $(hostname | cut -d "." -f 1))
+  if [ $? -ne 0 ]
+  then
+    logError "Unable to get OSS hostname"
+    RES_CODE=1
+  else
+    logDebug "HOSTNAME_OSS = ${HOSTNAME_OSS}"
+
+    KPI_FILENAME=hpedeg-service_kpis_provisioning-${HOSTNAME_OSS}-$(date +"%Y%m%d%H%M")
+    echo ${NUM_REGISTERS} > ${TMP_DIR}/${KPI_FILENAME}
+
+    mv ${TMP_DIR}/${KPI_FILENAME} /var/opt/<%SIU_INSTANCE%>/KPI/OSS
+    if [ $? -ne 0 ]
+    then
+      logError "Command 'mv ${TMP_DIR}/${KPI_FILENAME} /var/opt/<%SIU_INSTANCE%>/KPI/OSS' failed"
+      RES_CODE=1
+    fi
   fi
 
   if [ -s ${UPDATE_FILEPATH} ]

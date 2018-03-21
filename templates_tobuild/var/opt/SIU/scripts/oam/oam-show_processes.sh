@@ -148,6 +148,5 @@ echo
 for REMOTE_SERVER in $(cat /var/opt/${SIU_INSTANCE}/scripts/oam/cfg/oam-processes.cfg | grep -v "^#" | grep "^REMOTE_SERVER")
 do
   SERVER=$(echo ${REMOTE_SERVER} | cut -d "=" -f 2)
-  >/dev/null 2>&1 ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${SERVER} "oam-show_processes.sh"
+  2> /dev/null ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${SERVER} ". .bash_profile; oam-show_processes.sh"
 done
-

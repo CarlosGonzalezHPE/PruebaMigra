@@ -212,7 +212,7 @@ function process
 # Main
 #
 
-SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/oam/job-cleaner
+SCRIPT_BASEDIR=/var/opt/<%SIU_INSTANCE%>/scripts/jobs/oam/job-cleanup
 export SCRIPT_BASEDIR
 
 . /var/opt/<%SIU_INSTANCE%>/scripts/common/common.sh

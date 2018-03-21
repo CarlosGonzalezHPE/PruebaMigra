@@ -6,14 +6,6 @@
 # .bash_profile
 #-------------------------------------------------------------------------------
 
-# Get the aliases and functions
-
-if [ -f ~/.bashrc ]
-then
-  . ~/.bashrc
-fi
-
-
 # User specific environment and startup programs
 
 export JAVA_HOME=<%JAVA_HOME%>
@@ -36,6 +28,8 @@ export DEG_INSTALL_HOST_ID=<%DEG_INSTALL_HOST_ID%>
 export USER_INPUT_MANAGER_PRIM_SEC_NUM=1
 export LOG_FILE=/opt/deg/deg_install.log
 
+export SUDO_ASKPASS=/var/opt/${SIU_INSTANCE}/scripts/common/askpass.sh
+
 [#SECTION_BEGIN:MANAGER#]
 export IS_DEG_MANAGER=YES
 export DEG_MANAGER_SIU_INSTANCE_NAME=${SIU_INSTANCE}
@@ -45,6 +39,13 @@ export DEG_APP_ID=<%DEG_APP_ID%>
 export IS_DEG_APP=YES
 export DEG_APP_SIU_INSTANCE_NAME=${SIU_INSTANCE}
 [#SECTION_END#]
+
+# Get the aliases and functions
+
+if [ -f ~/.bashrc ]
+then
+  . ~/.bashrc
+fi
 
 PS1='[${SIU_INSTANCE} \u@\h \w]
 $ '

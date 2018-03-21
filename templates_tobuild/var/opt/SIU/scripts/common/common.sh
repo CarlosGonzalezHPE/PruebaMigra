@@ -24,6 +24,9 @@ export SITE_INDEX
 SIU_INSTANCE=<%SIU_INSTANCE%>
 export SIU_INSTANCE
 
+JAVA_HOME=<%JAVA_HOME%>
+export JAVA_HOME
+
 
 #
 # Functions
@@ -451,6 +454,56 @@ function purgeLogFiles
     gzip -f ${FILEPATH}
     logInfo "File '${FILEPATH}' has been compressed"
   done
+}
+
+
+function getOssHostname
+{
+  if [ $# -ne 1 ]
+  then
+    echo
+    return 1
+  fi
+
+  HNAME=$1
+  logDebug "HNAME = ${HNAME}"
+
+  case "${HNAME}" in
+    "<%COSLADA_APPSERVER1_HOSTNAME%>")
+      echo <%COSLADA_APPSERVER1_HOSTNAME_OSS%>
+      ;;
+    "<%COSLADA_APPSERVER2_HOSTNAME%>")
+      echo <%COSLADA_APPSERVER2_HOSTNAME_OSS%>
+      ;;
+    "<%COSLADA_MNGR1_HOSTNAME%>")
+      echo <%COSLADA_MNGR1_HOSTNAME_OSS%>
+      ;;
+    "<%COSLADA_MNGR2_HOSTNAME%>")
+      echo <%COSLADA_MNGR2_HOSTNAME_OSS%>
+      ;;
+    "<%ULISES_APPSERVER1_HOSTNAME%>")
+      echo <%ULISES_APPSERVER1_HOSTNAME_OSS%>
+      ;;
+    "<%ULISES_APPSERVER2_HOSTNAME%>")
+      echo <%ULISES_APPSERVER2_HOSTNAME_OSS%>
+      ;;
+    "<%ULISES_APPSERVER3_HOSTNAME%>")
+      echo <%ULISES_APPSERVER3_HOSTNAME_OSS%>
+      ;;
+    "<%ULISES_MNGR1_HOSTNAME%>")
+      echo <%ULISES_MNGR1_HOSTNAME_OSS%>
+      ;;
+    "<%ULISES_MNGR2_HOSTNAME%>")
+      echo <%ULISES_MNGR2_HOSTNAME_OSS%>
+      ;;
+    "<%ULISES_MNGR3_HOSTNAME%>")
+      echo <%ULISES_MNGR3_HOSTNAME_OSS%>
+      ;;
+    *)
+      echo
+      return 1
+      ;;
+  esac
 }
 
 

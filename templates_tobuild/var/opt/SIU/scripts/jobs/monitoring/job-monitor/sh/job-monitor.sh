@@ -13,6 +13,13 @@ function process
 {
   logDebug "Executing function 'process'"
 
+  HOSTNAME_OSS=$(getOssHostname $(hostname | cut -d "." -f 1))
+  if [ $? -ne 0 ]
+    logError "Unable to get OSS hostname"
+    return 1
+  fi
+  logDebug "HOSTNAME_OSS = ${HOSTNAME_OSS}"
+
   ALARMS_DIR="$(getConfigParam SERVER_ALARMS DIRECTORY)"
   if [ $? -lt 0 ] || [ -z ${ALARMS_DIR} ]
   then

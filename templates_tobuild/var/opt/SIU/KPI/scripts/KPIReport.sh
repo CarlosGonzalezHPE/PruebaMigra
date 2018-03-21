@@ -13,16 +13,15 @@
 #
 #-------------------------------------------------------------------------------
 
-export TZ=GMT
+#export TZ=GMT
 KPI_LOG_DIR=/var/opt/SIU_MANAGER/KPI/log
 SUFFIX=$(date +%Y%m%d%H%M%S)
-KPI_LOG_FILENAMENAME=KPI.log.$(date +%Y%m%d%H%M%S)
+KPI_LOG_FILENAME=KPI.log.${SUFFIX}
 
 touch ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
 
 JAVA_LOG=${KPI_LOG_FILENAME}
 echo "$(date +"%F %H:%M:%S %3N") INFO : ==================================START====================================" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
-
 
 
 InstancePIDFile="/tmp/KPIinstance.pid"
@@ -64,7 +63,8 @@ cd $CURDIR
 sleep 1
 
 #$JAVA_HOME/bin/java  -Duser.timezone=GMT com.hp.deg.kpi.KPIReport
-$JAVA_HOME/bin/java  -Duser.timezone=GMT com.hp.deg.kpi.KPIReport $JAVA_LOG
+#$JAVA_HOME/bin/java  -Duser.timezone=GMT com.hp.deg.kpi.KPIReport $JAVA_LOG
+$JAVA_HOME/bin/java com.hp.deg.kpi.KPIReport $JAVA_LOG
 rm /var/opt/SIU_MANAGER/KPI/log/$JAVA_LOG
 
 cd /var/opt/SIU_MANAGER/KPI/log
@@ -72,40 +72,3 @@ if [ -e KPI.log.yyyyMMddHHmmss ]
 then
   rm KPI.log.yyyyMMddHHmmss
 fi
-
-
-#
-# Added by HPE CMS Iberia delivery team
-#
-
-mkdir -p /opt/oss/kpis
-
-for FILEPATH in $(2>/dev/null ls /var/opt/SIU_MANAGER/KPI/reports/*_RequestType_KPI.dat)
-do
-  FILENAME=$(basename ${FILEPATH})
-  NEW_FILENAME="hpedeg-service_kpis_request_types-"$(echo ${FILENAME} | cut -d "_" -f 1)"-"$(echo ${FILENAME} | cut -d "_" -f 2 | cut -c 1-12)
-
-  cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}
-  if [ $? -ne 0 ]
-  then
-    echo "$(date +"%F %H:%M:%S %3N") ERROR : Command 'cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}' failed." >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
-  else
-    echo "$(date +"%F %H:%M:%S %3N") INFO : Copied and renamed file '/opt/oss/kpis/${NEW_FILENAME}'" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
-    mv ${FILEPATH} ${FILEPATH}.moved
-  fi
-done
-
-for FILEPATH in $(2>/dev/null ls /var/opt/SIU_MANAGER/KPI/reports/*_ReturnCode_KPI.dat)
-do
-  FILENAME=$(basename ${FILEPATH})
-  NEW_FILENAME="hpedeg-service_kpis_return_codes-"$(echo ${FILENAME} | cut -d "_" -f 1)"-"$(echo ${FILENAME} | cut -d "_" -f 2 | cut -c 1-12)
-
-  cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}
-  if [ $? -ne 0 ]
-  then
-    echo "$(date +"%F %H:%M:%S %3N") ERROR : Command 'cp ${FILEPATH} /opt/oss/kpis/${NEW_FILENAME}' failed." >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
-  else
-    echo "$(date +"%F %H:%M:%S %3N") INFO : Copied and renamed file '/opt/oss/kpis/${NEW_FILENAME}'" >> ${KPI_LOG_DIR}/${KPI_LOG_FILENAME}
-    mv ${FILEPATH} ${FILEPATH}.moved
-  fi
-done

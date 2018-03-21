@@ -83,15 +83,15 @@ function process
       fi
     else
       logDebug "No alarm condition detected for process '${PROCESS}'"
-
-      ACTUAL_KPI_DESCRIPTION=$(eval echo "${KPI_DESCRIPTION}")
-      ACTUAL_KPI_ADDITIONAL_INFO=$(eval echo "${KPI_ADDITIONAL_INFO}")
-
-      logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
-      logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
-
-      addKpi "$(hostname | cut -d "." -f 1)-cpu" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
     fi
+
+    ACTUAL_KPI_DESCRIPTION=$(eval echo "${KPI_DESCRIPTION}")
+    ACTUAL_KPI_ADDITIONAL_INFO=$(eval echo "${KPI_ADDITIONAL_INFO}")
+
+    logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
+    logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
+
+    addKpi "$(hostname | cut -d "." -f 1)-cpu" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
   done < ${TMP_DIR}/processes
 
   if [ ! -s ${WORK_DIR}/alarms ]

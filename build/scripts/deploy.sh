@@ -167,6 +167,12 @@ then
   exit 1
 fi
 
+if [ "$(echo ${TREE} | cut -c 1)" != "/" ]
+then
+  TREE="/${TREE}"
+  logInfo "Normalized TREE = ${TREE}"
+fi
+
 IP_ADDRESS="$(getConfigParam ${HOSTNAME} IP_ADDRESS)"
 if [ $? -lt 0 ] || [ -z "${IP_ADDRESS}" ]
 then
@@ -189,29 +195,34 @@ then
   logError "Unable to get mandatory parameter 'SIU_INSTANCE' in section '${HOSTNAME}'"
   exit 1
 fi
-logDebug "PORT = ${PORT}"
+logDebug "SIU_INSTANCE = ${SIU_INSTANCE}"
 
-logDebug "MODE = ${MODE}"
-if [ "${CREATE_DIR}" = "TRUE" ]
+if [ ! -d .work/${HOSTNAME}/built${TREE} ]
 then
-  find .work/${HOSTNAME}/built/${TREE} -type d | while read DIR_PATH
-  do
-    DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
-    logInfo "Creating directory '${DEST_DIR}'"
-    logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"mkdir -p ${DEST_DIR}; chmod 755 ${DEST_DIR}\""
-    ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "mkdir -p ${DEST_DIR}; chmod 755 ${DEST_DIR}"
-  done
+  logError "Directory '.work/${HOSTNAME}/built${TREE}' does not exist"
+  exit 1
 fi
 
-#find .work/${HOSTNAME}/built/${TREE} -type f | while read FILE_PATH
-#do
-#  DEST_DIR="/"$(dirname ${FILE_PATH} | cut -d "/" -f 4-)
-#  logInfo "Deploying file "$(basename ${FILE_PATH})" in directory ${DEST_DIR}"
-#  logDebug "scp -P ${PORT} ${FILE_PATH} ium@${IP_ADDRESS}:${DEST_DIR}"
-#  scp -P ${PORT} ${FILE_PATH} ium@${IP_ADDRESS}:${DEST_DIR}
-#done
+echo ".work/${HOSTNAME}/built${TREE}" > /tmp/deploy.${HOSTNAME}.dir_list
+find .work/${HOSTNAME}/built${TREE} -type d >> /tmp/deploy.${HOSTNAME}.dir_list
 
-find .work/${HOSTNAME}/built/${TREE} -type d | while read DIR_PATH
+if [ "${CREATE_DIR}" = "TRUE" ]
+then
+  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"echo '#!/bin/bash' > /tmp/sudoaskium$$.sh; echo 'echo hpinvent' >> /tmp/sudoaskium$$.sh; chmod 700 /tmp/sudoaskium$$.sh\""
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "echo '#!/bin/bash' > /tmp/sudoaskium$$.sh; echo 'echo hpinvent' >> /tmp/sudoaskium$$.sh; chmod 700 /tmp/sudoaskium$$.sh"
+
+  for DIR_PATH in $(cat /tmp/deploy.${HOSTNAME}.dir_list)
+  do
+    DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
+    logInfo "Creating (if needed) directory '${DEST_DIR}'"
+    logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"export SUDO_ASKPASS=/tmp/sudoaskium$$.sh; if [ ! -d ${DEST_DIR} ]; then sudo -A mkdir -p ${DEST_DIR}; sudo -A chown ium:ium ${DEST_DIR}; chmod 755 ${DEST_DIR}; fi\""
+    ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "export SUDO_ASKPASS=/tmp/sudoaskium$$.sh; if [ ! -d ${DEST_DIR} ]; then sudo -A mkdir -p ${DEST_DIR}; sudo -A chown ium:ium ${DEST_DIR}; chmod 755 ${DEST_DIR}; fi"
+  done
+  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"rm -f /tmp/sudoaskium$$.sh\""
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "rm -f /tmp/sudoaskium$$.sh"
+fi
+
+for DIR_PATH in $(cat /tmp/deploy.${HOSTNAME}.dir_list)
 do
   DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
   logInfo "Deploying files in directory '${DEST_DIR}'"
@@ -223,7 +234,12 @@ done
 
 if [ "${CHANGE_PERMS}" = "TRUE" ]
 then
+  ACTUAL_TREE=$(echo ${TREE} | sed -e "s|SIU|${SIU_INSTANCE}|g")
   logInfo "Changing file permissions"
-  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${TREE} -type f | xargs chmod 644 2>/dev/null"
-  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null"
+  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"find /${ACTUAL_TREE} -type f | xargs chmod 644 2>/dev/null\""
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${ACTUAL_TREE} -type f | xargs chmod 644 2>/dev/null"
+  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"find /${ACTUAL_TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null\""
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${ACTUAL_TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null"
 fi
+
+exit 0

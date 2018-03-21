@@ -18,7 +18,7 @@
   </target>
 
   <target name="build-node"
-          description="Expected parameters: -Dnode=mxfuodeg20|mxfuodeg21|mxfuodeg22|mxfuodeg23|mxfuodeg31|mxfuodeg32|mxfuodeg33|mxulodeg20|mxulodeg21|mxulodeg22|mxulodeg31|mxulodeg32 [-Dloglevel=CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4]"
+          description="Expected parameters: -Dnode=mxfuodeg20|mxfuodeg21|mxfuodeg22|mxfuodeg23|mxfuodeg31|mxfuodeg32|mxfuodeg33|mxulodeg20|mxulodeg21|mxulodeg22|mxulodeg31|mxulodeg32 [-Dloglevel=INFO|DEBUG"
           depends="check,prepare-node">
     <property name="build.profiles.scripts">
        profiles/common.properties private_${node}/common.properties
@@ -75,15 +75,30 @@
   </target>
 
   <target name="deploy-node"
+          description="Expected parameters: -Dnode=mxfuodeg20|mxfuodeg21|mxfuodeg22|mxfuodeg23|mxfuodeg31|mxfuodeg32|mxfuodeg33|mxulodeg20|mxulodeg21|mxulodeg22|mxulodeg31|mxulodeg32 -Dtree=... [-Dcreatedir=true] [-Dloglevel=INFO|DEBUG]"
           depends="check-node,check-tree">
     <echo></echo>
     <echo>Deploying files for node '${node}'</echo>
     <echo></echo>
-    <exec executable="bash"
-          dir="."
-          failonerror="true">
-      <arg line="-c 'scripts/deploy.sh -h ${node} -t ${tree} -p'"/>
-    </exec>
+
+    <if>
+      <equals arg1="${loglevel}" arg2="DEBUG"/>
+      <then>
+        <exec executable="bash"
+              dir="."
+              failonerror="true">
+          <arg line="-c 'scripts/deploy.sh -h ${node} -t ${tree} -c -p -g'"/>
+        </exec>
+      </then>
+      <else>
+        <exec executable="bash"
+              dir="."
+              failonerror="true">
+          <arg line="-c 'scripts/deploy.sh -h ${node} -t ${tree} -c -p'"/>
+        </exec>
+      </else>
+    </if>
+
   </target>
 
   <target name="clean"
@@ -110,7 +125,7 @@
       </not>
     </condition>
 
-    <fail message="Bad value '${loglevel}' for parameter 'loglevel'. Expected values: CRITICAL|ERROR|WARNING|INFO|DEBUG|DEBUG2|DEBUG3|DEBUG4">
+    <fail message="Bad value '${loglevel}' for parameter 'loglevel'. Expected values: INFO|DEBUG">
       <condition>
         <not>
           <or>
@@ -127,36 +142,12 @@
       </condition>
     </fail>
 
-    <condition property="buildloglevel" value="1">
-      <equals arg1="${loglevel}" arg2="CRITICAL"/>
-    </condition>
-
-    <condition property="buildloglevel" value="2">
-      <equals arg1="${loglevel}" arg2="ERROR"/>
-    </condition>
-
-    <condition property="buildloglevel" value="3">
-      <equals arg1="${loglevel}" arg2="WARNING"/>
-    </condition>
-
     <condition property="buildloglevel" value="4">
       <equals arg1="${loglevel}" arg2="INFO"/>
     </condition>
 
     <condition property="buildloglevel" value="5">
       <equals arg1="${loglevel}" arg2="DEBUG"/>
-    </condition>
-
-    <condition property="buildloglevel" value="6">
-      <equals arg1="${loglevel}" arg2="DEBUG2"/>
-    </condition>
-
-    <condition property="buildloglevel" value="7">
-      <equals arg1="${loglevel}" arg2="DEBUG3"/>
-    </condition>
-
-    <condition property="buildloglevel" value="8">
-      <equals arg1="${loglevel}" arg2="DEBUG4"/>
     </condition>
   </target>
 
