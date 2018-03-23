@@ -5,6 +5,9 @@
 # HPE CMS Iberia, 2017-2018
 #-------------------------------------------------------------------------------
 
+SCRIPT_NAME=oam-stop_processes.sh
+export SCRIPT_NAME
+
 . /var/opt/<%SIU_INSTANCE%>/scripts/oam/oam-common.sh
 
 function showUsageAndExit
@@ -16,7 +19,6 @@ function showUsageAndExit
 [#SECTION_BEGIN:APP_SERVER#]
   echo "Usage: oam-stop_processes.sh ALL| PROCESS_NAME [... PROCESS_NAME]"
 [#SECTION_END#]
-  echo
   exit 1
 }
 
@@ -31,7 +33,7 @@ function stop_MariaDB
     SILENT_MODE=false
   fi
 
-  /etc/init.d/<%SIU_INSTANCE%> stop_db > /tmp/stop_MariaDB.$$ 2>&1
+  /etc/init.d/<%SIU_INSTANCE%> stop_db > /var/opt/<%SIU_INSTANCE%>/scripts/oam/tmp/stop_MariaDB.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1

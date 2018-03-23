@@ -5,6 +5,9 @@
 # HPE CMS Iberia, 2017-2018
 #-------------------------------------------------------------------------------
 
+SCRIPT_NAME=oam-show_processes.sh
+export SCRIPT_NAME
+
 . /var/opt/<%SIU_INSTANCE%>/scripts/oam/oam-common.sh
 
 function showUsageAndExit
@@ -16,7 +19,6 @@ function showUsageAndExit
 [#SECTION_BEGIN:APP_SERVER#]
   echo "Usage: oam-show_processes"
 [#SECTION_END#]
-  echo
   exit 1
 }
 
