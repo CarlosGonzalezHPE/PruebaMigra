@@ -9,6 +9,8 @@ function process
 {
   logDebug "Executing function 'process'"
 
+  export TZ=UTC
+
   OUTPUT_DIR=$(getConfigParam GENERAL OUTPUT_DIR)
   if [ ${?} -ne 0 ] || [ -z ${OUTPUT_DIR} ]
   then
@@ -119,23 +121,25 @@ function process
 
   if [ -s ${VOLTE_FILEPATH} ]
   then
-    if [ -f ${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH}) ]
+    mkdir -p ${OUTPUT_DIR}/LOG_VOLTE
+
+    if [ -f ${OUTPUT_DIR}/LOG_VOLTE/$(basename ${VOLTE_FILEPATH}) ]
     then
-      logError "File '${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH})' already exists"
+      logError "File '${OUTPUT_DIR}/LOG_VOLTE/$(basename ${VOLTE_FILEPATH})' already exists"
       RES_CODE=1
     else
       let NUM_REGISTERS_VOLTE=$(wc -l ${VOLTE_FILEPATH} | cut -d " " -f 1)
-      mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}
+      mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}/LOG_VOLTE
 
       if [ $? -ne 0 ]
       then
-        logError "Command 'mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}' failed"
+        logError "Command 'mv ${VOLTE_FILEPATH} ${OUTPUT_DIR}/LOG_VOLTE' failed"
         RES_CODE=1
       else
-        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE ${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH})
+        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE
         if [ $? -ne 0 ]
         then
-          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE ${OUTPUT_DIR}/$(basename ${VOLTE_FILEPATH})' failed"
+          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE' failed"
           RES_CODE=1
         else
           logInfo "File '$(basename ${VOLTE_FILEPATH})' succesfully sent"
@@ -149,22 +153,24 @@ function process
 
   if [ -s ${VOWIFI_FILEPATH} ]
   then
-    if [ -f ${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH}) ]
+    mkdir -p ${OUTPUT_DIR}/LOG_VOWIFI
+
+    if [ -f ${OUTPUT_DIR}/LOG_VOWIFI/$(basename ${VOWIFI_FILEPATH}) ]
     then
-      logError "File '${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH})' already exists"
+      logError "File '${OUTPUT_DIR}/LOG_VOWIFI/$(basename ${VOWIFI_FILEPATH})' already exists"
       RES_CODE=1
     else
       let NUM_REGISTERS_VOWIFI=$(wc -l ${VOWIFI_FILEPATH} | cut -d " " -f 1)
-      mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}
+      mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}/LOG_VOWIFI
       if [ $? -ne 0 ]
       then
-        logError "Command 'mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}' failed"
+        logError "Command 'mv ${VOWIFI_FILEPATH} ${OUTPUT_DIR}/LOG_VOWIFI' failed"
         RES_CODE=1
       else
-        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI ${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH})
+        /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI
         if [ $? -ne 0 ]
         then
-          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI ${OUTPUT_DIR}/$(basename ${VOWIFI_FILEPATH})' failed"
+          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI' failed"
           RES_CODE=1
         else
           logInfo "File '$(basename ${VOWIFI_FILEPATH})' succesfully sent"

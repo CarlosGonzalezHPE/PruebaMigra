@@ -9,7 +9,6 @@
 
 function showUsageAndExit
 {
-  echo
 [#SECTION_BEGIN:MANAGER#]
   echo "Usage: oam-show_processes [-f]"
   echo "       -f: show status of all processes in site, including Manager and Application Servers"
@@ -21,7 +20,6 @@ function showUsageAndExit
   exit 1
 }
 
-echo
 setColorEmphasized
 [#SECTION_BEGIN:MANAGER#]
 echo "OAM Tools on Manager '$(hostname)' - Show processes status"
@@ -170,8 +168,6 @@ else
 fi
 setColorNormal
 echo "] NRBGUITool"
-
-
 [#SECTION_END#]
 
 [#SECTION_BEGIN:MANAGER#]
@@ -179,6 +175,8 @@ if [ ! -z ${FULL_MODE} ]
 then
   for REMOTE_SERVER in $(cat /var/opt/<%SIU_INSTANCE%>/scripts/oam/cfg/oam-processes.cfg | grep -v "^#" | grep "^REMOTE_SERVER")
   do
+    echo
+
     SERVER=$(echo ${REMOTE_SERVER} | cut -d "=" -f 2)
     2> /dev/null ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${SERVER} ". .bash_profile; oam-show_processes.sh"
   done

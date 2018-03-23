@@ -133,7 +133,8 @@ CHANGE_PERMS=
 DEBUG=
 HOSTNAME=
 TREE=
-while getopts "cgh:pt:" OPT
+FILEPATTERN=
+while getopts "cgh:pt:f:" OPT
 do
   case ${OPT} in
     c)
@@ -150,6 +151,9 @@ do
       ;;
     t)
       TREE=${OPTARG}
+      ;;
+    f)
+      FILEPATTERN=${OPTARG}
       ;;
     *)
       showUsage
@@ -206,6 +210,9 @@ fi
 echo ".work/${HOSTNAME}/built${TREE}" > /tmp/deploy.${HOSTNAME}.dir_list
 find .work/${HOSTNAME}/built${TREE} -type d >> /tmp/deploy.${HOSTNAME}.dir_list
 
+cat /tmp/deploy.${HOSTNAME}.dir_list | sort -u > /tmp/deploy.${HOSTNAME}.dir_list.new
+mv /tmp/deploy.${HOSTNAME}.dir_list.new /tmp/deploy.${HOSTNAME}.dir_list
+
 if [ "${CREATE_DIR}" = "TRUE" ]
 then
   logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"echo '#!/bin/bash' > /tmp/sudoaskium$$.sh; echo 'echo hpinvent' >> /tmp/sudoaskium$$.sh; chmod 700 /tmp/sudoaskium$$.sh\""
@@ -222,24 +229,40 @@ then
   ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "rm -f /tmp/sudoaskium$$.sh"
 fi
 
-for DIR_PATH in $(cat /tmp/deploy.${HOSTNAME}.dir_list)
-do
-  DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
-  logInfo "Deploying files in directory '${DEST_DIR}'"
-  logDebug "scp -P ${PORT} ${DIR_PATH}/* ium@${IP_ADDRESS}:${DEST_DIR}"
-  2>/dev/null scp -P ${PORT} ${DIR_PATH}/* ium@${IP_ADDRESS}:${DEST_DIR}
-  logDebug "scp -P ${PORT} ${DIR_PATH}/.* ium@${IP_ADDRESS}:${DEST_DIR}"
-  2>/dev/null scp -P ${PORT} ${DIR_PATH}/.* ium@${IP_ADDRESS}:${DEST_DIR}
-done
+if [ ! -z ${FILEPATTERN} ]
+then
+  logInfo "Considering filepattern '${FILEPATTERN}'"
+
+  for DIR_PATH in $(cat /tmp/deploy.${HOSTNAME}.dir_list)
+  do
+    DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
+    logInfo "Deploying files in directory '${DEST_DIR}'"
+    for FILENAME in $(2>/dev/null ls ${DIR_PATH} | grep -P ${FILEPATTERN})
+    do
+      logDebug "scp -P ${PORT} ${DIR_PATH}/${FILENAME} ium@${IP_ADDRESS}:${DEST_DIR}"
+      2>/dev/null scp -P ${PORT} ${DIR_PATH}/${FILENAME} ium@${IP_ADDRESS}:${DEST_DIR}
+    done
+  done
+else
+  for DIR_PATH in $(cat /tmp/deploy.${HOSTNAME}.dir_list)
+  do
+    DEST_DIR="/"$(echo ${DIR_PATH} | cut -d "/" -f 4- | sed -e "s|SIU|${SIU_INSTANCE}|g")
+    logInfo "Deploying files in directory '${DEST_DIR}'"
+    logDebug "scp -P ${PORT} ${DIR_PATH}/* ium@${IP_ADDRESS}:${DEST_DIR}"
+    2>/dev/null scp -P ${PORT} ${DIR_PATH}/* ium@${IP_ADDRESS}:${DEST_DIR}
+    logDebug "scp -P ${PORT} ${DIR_PATH}/.* ium@${IP_ADDRESS}:${DEST_DIR}"
+    2>/dev/null scp -P ${PORT} ${DIR_PATH}/.* ium@${IP_ADDRESS}:${DEST_DIR}
+  done
+fi
 
 if [ "${CHANGE_PERMS}" = "TRUE" ]
 then
   ACTUAL_TREE=$(echo ${TREE} | sed -e "s|SIU|${SIU_INSTANCE}|g")
   logInfo "Changing file permissions"
-  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"find /${ACTUAL_TREE} -type f | xargs chmod 644 2>/dev/null\""
-  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${ACTUAL_TREE} -type f | xargs chmod 644 2>/dev/null"
-  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"find /${ACTUAL_TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null\""
-  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find /${ACTUAL_TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null"
+  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"find ${ACTUAL_TREE} -type f | xargs chmod 644 2>/dev/null\""
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find ${ACTUAL_TREE} -type f | xargs chmod 644 2>/dev/null"
+  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"find ${ACTUAL_TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null\""
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "find ${ACTUAL_TREE} -type f -name *.sh | xargs chmod 744 2>/dev/null"
 fi
 
 exit 0

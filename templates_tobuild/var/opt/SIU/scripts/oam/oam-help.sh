@@ -17,10 +17,9 @@ echo "OAM Tools on Application '$(hostname)' - Help"
 [#SECTION_END#]
 setColorNormal
 echo
-echo "oam-show_processes.sh  : show processes running status"
-echo "oam-start_process.sh   : start processes"
-echo "oam-stop_process.sh    : stop processes"
-echo "oam-restart_process.sh : restart processes"
-echo "oam-dump_blacklist.sh  : dump IMSI black list to output file"
-echo "oam-load_blacklist.sh  : load IMSI black list from input file"
+echo "oam-show_processes.sh    : show processes running status"
+echo "oam-start_processes.sh   : start processes"
+echo "oam-stop_processes.sh    : stop processes"
+echo "oam-dump_blacklist.sh    : dump IMSI black list to output file"
+echo "oam-load_blacklist.sh    : load IMSI black list from input file"
 echo
