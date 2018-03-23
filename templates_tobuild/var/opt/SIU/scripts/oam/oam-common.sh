@@ -41,3 +41,9 @@ function setColorNormal
 {
   echo -en "\033[0;39m"
 }
+
+
+function setColorEmphasized
+{
+  echo -en "\033[0;34m"
+}
