@@ -19,6 +19,40 @@ function check_if_already_running
 }
 
 
+function lockExec
+{
+  if [ ! -z ${SCRIPT_NAME} ]
+  then
+    exec 200>${TMP_DIR}/.lock.${SCRIPT_NAME}
+    flock 200
+  fi
+}
+
+
+function unlockExec
+{
+  if [ ! -z ${SCRIPT_NAME} ]
+  then
+    flock -u 200
+  fi
+}
+
+
+function exitAndUnlock
+{
+  if [ $# -gt 0 ]
+  then
+    EXIT_CODE=$1
+  else
+    EXIT_CODE=0
+  fi
+
+  unlockExec
+
+  exit ${EXIT_CODE}
+}
+
+
 function setColorSuccess
 {
   echo -en "\033[0;32m"
@@ -43,8 +77,29 @@ function setColorNormal
 }
 
 
-function setColorEmphasized
+function setColorTitle
 {
   echo -en "\033[0;34m"
 }
 
+
+function setColorArgs
+{
+  echo -en "\033[0;36m"
+}
+
+
+TMP_DIR=/var/opt/<%SIU_INSTANCE%>/scripts/oam/tmp
+export TMP_DIR
+
+mkdir -p ${TMP_DIR}
+
+OUTPUT_DIR=/var/opt/<%SIU_INSTANCE%>/scripts/oam/output
+export OUTPUT_DIR
+
+mkdir -p ${OUTPUT_DIR}
+
+BACKUP_DIR=/var/opt/<%SIU_INSTANCE%>/scripts/oam/backup
+export BACKUP_DIR
+
+mkdir -p ${BACKUP_DIR}

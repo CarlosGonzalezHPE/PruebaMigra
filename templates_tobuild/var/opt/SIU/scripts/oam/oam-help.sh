@@ -8,7 +8,7 @@
 . /var/opt/<%SIU_INSTANCE%>/scripts/oam/oam-common.sh
 
 echo
-setColorEmphasized
+setColorTitle
 [#SECTION_BEGIN:MANAGER#]
 echo "OAM Tools on Manager '$(hostname)' - Help"
 [#SECTION_END#]

@@ -19,7 +19,7 @@ function showUsageAndExit
 [#SECTION_BEGIN:APP_SERVER#]
   echo "Usage: oam-start_processes.sh ALL| PROCESS_NAME [... PROCESS_NAME]"
 [#SECTION_END#]
-  exit 1
+  exit ${EXIT_CODE}
 }
 
 
@@ -33,7 +33,7 @@ function start_MariaDB
     SILENT_MODE=false
   fi
 
-  /etc/init.d/<%SIU_INSTANCE%> start_db > /var/opt/<%siu_instance%>/scripts/oam/tmp/start_MariaDB.$$ 2>&1
+  /etc/init.d/<%SIU_INSTANCE%> start_db > ${tmp_dir}/start_MariaDB.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -56,7 +56,7 @@ function start_MariaDB
       echo "] MariaDB successfully started"
     fi
   fi
-  rm -f /var/opt/<%siu_instance%>/scripts/oam/tmp/start_MariaDB.$$
+  rm -f ${tmp_dir}/start_MariaDB.$$
 }
 
 
@@ -69,7 +69,7 @@ function start_NRBGUITool
     SILENT_MODE=false
   fi
 
-  /app/DEG/NRBGUI/deploy.sh start  > /var/opt/<%siu_instance%>/scripts/oam/tmp/start_NRBGUITool.$$ 2>&1
+  /app/DEG/NRBGUI/deploy.sh start  > ${tmp_dir}/start_NRBGUITool.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -92,7 +92,7 @@ function start_NRBGUITool
     fi
   fi
 
-  rm -f /var/opt/<%siu_instance%>/scripts/oam/tmp/start_NRBGUITool.$$
+  rm -f ${tmp_dir}/start_NRBGUITool.$$
 }
 [#SECTION_END#]
 
@@ -106,7 +106,7 @@ function start_SIU
     SILENT_MODE=false
   fi
 
-  /etc/init.d/<%SIU_INSTANCE%> start_siu > /var/opt/<%siu_instance%>/scripts/oam/tmp/start_SIU.$$ 2>&1
+  /etc/init.d/<%SIU_INSTANCE%> start_siu > ${tmp_dir}/start_SIU.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -128,7 +128,7 @@ function start_SIU
       echo "] SIU instance '<%SIU_INSTANCE%>' successfully started"
     fi
   fi
-  rm -f /var/opt/<%siu_instance%>/scripts/oam/tmp/start_SIU.$$
+  rm -f ${tmp_dir}/start_SIU.$$
 }
 
 
@@ -142,10 +142,10 @@ function start_collector
     SILENT_MODE=false
   fi
 
-  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > /var/opt/<%siu_instance%>/scripts/oam/tmp/start_collector.$$ 2>&1
+  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${tmp_dir}/start_collector.$$ 2>&1
   if [ $? -ne 0 ]
   then
-    if [ $(cat /var/opt/<%siu_instance%>/scripts/oam/tmp/start_collector.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    if [ $(cat ${tmp_dir}/start_collector.$$ | grep "has been started already" | wc -l) -gt 0 ]
     then
       if [ "${SILENT_MODE}" = "false" ]
       then
@@ -177,7 +177,7 @@ function start_collector
     fi
   fi
 
-  rm -f /var/opt/<%siu_instance%>/scripts/oam/tmp/start_collector.$$
+  rm -f ${tmp_dir}/start_collector.$$
 }
 
 
@@ -191,10 +191,10 @@ function start_session_server
     SILENT_MODE=false
   fi
 
-  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > /var/opt/<%siu_instance%>/scripts/oam/tmp/start_session_server.$$ 2>&1
+  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${tmp_dir}/start_session_server.$$ 2>&1
   if [ $? -ne 0 ]
   then
-    if [ $(cat /var/opt/<%siu_instance%>/scripts/oam/tmp/start_session_server.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    if [ $(cat ${tmp_dir}/start_session_server.$$ | grep "has been started already" | wc -l) -gt 0 ]
     then
       if [ "${SILENT_MODE}" = "false" ]
       then
@@ -226,7 +226,7 @@ function start_session_server
     fi
   fi
 
-  rm -f /var/opt/<%siu_instance%>/scripts/oam/tmp/start_session_server.$$
+  rm -f ${tmp_dir}/start_session_server.$$
 }
 
 
@@ -240,10 +240,10 @@ function start_fcs
     SILENT_MODE=false
   fi
 
-  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > /var/opt/<%siu_instance%>/scripts/oam/tmp/start_fcs.$$ 2>&1
+  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${tmp_dir}/start_fcs.$$ 2>&1
   if [ $? -ne 0 ]
   then
-    if [ $(cat /var/opt/<%siu_instance%>/scripts/oam/tmp/start_fcs.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    if [ $(cat ${tmp_dir}/start_fcs.$$ | grep "has been started already" | wc -l) -gt 0 ]
     then
       if [ "${SILENT_MODE}" = "false" ]
       then
@@ -275,13 +275,13 @@ function start_fcs
     fi
   fi
 
-  rm -f /var/opt/<%siu_instance%>/scripts/oam/tmp/start_fcs.$$
+  rm -f ${tmp_dir}/start_fcs.$$
 }
 
 
 EXIT_CODE=0
 
-setColorEmphasized
+setColorTitle
 [#SECTION_BEGIN:MANAGER#]
 echo "OAM Tools on Manager '$(hostname)' - Start processes"
 [#SECTION_END#]
@@ -321,7 +321,7 @@ for ARG in $*
 do
   if [ "${ARG}" = "ALL" ]
   then
-    > /var/opt/<%siu_instance%>/scripts/oam/tmp/args_ok.$$
+    > ${tmp_dir}/args_ok.$$
 
     if [ "${HOST}" = "localhost" ]
     then
@@ -376,22 +376,22 @@ do
             continue
             ;;
         esac
-        > /var/opt/<%siu_instance%>/scripts/oam/tmp/args_ok.$$
+        > ${tmp_dir}/args_ok.$$
       done
 [#SECTION_BEGIN:MANAGER#]
     else
-      > /var/opt/<%siu_instance%>/scripts/oam/tmp/args_ok.$$
+      > ${tmp_dir}/args_ok.$$
       ssh ium@${HOST} ". ./.bash_profile; oam-start_processes.sh ${ARG}"
 [#SECTION_END#]
     fi
   fi
 done
 
-if [ ! -f /var/opt/<%siu_instance%>/scripts/oam/tmp/args_ok.$$ ]
+if [ ! -f ${tmp_dir}/args_ok.$$ ]
 then
   showUsageAndExit
 else
-  rm -f /var/opt/<%siu_instance%>/scripts/oam/tmp/args_ok.$$
+  rm -f ${tmp_dir}/args_ok.$$
 fi
 
 exit ${EXIT_CODE}

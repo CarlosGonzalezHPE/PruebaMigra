@@ -19,7 +19,7 @@ function showUsageAndExit
 [#SECTION_BEGIN:APP_SERVER#]
   echo "Usage: oam-stop_processes.sh ALL| PROCESS_NAME [... PROCESS_NAME]"
 [#SECTION_END#]
-  exit 1
+  exit ${EXIT_CODE}
 }
 
 
@@ -33,7 +33,7 @@ function stop_MariaDB
     SILENT_MODE=false
   fi
 
-  /etc/init.d/<%SIU_INSTANCE%> stop_db > /var/opt/<%SIU_INSTANCE%>/scripts/oam/tmp/stop_MariaDB.$$ 2>&1
+  /etc/init.d/<%SIU_INSTANCE%> stop_db > ${TMP_DIR}/stop_MariaDB.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -281,7 +281,7 @@ function stop_fcs
 
 EXIT_CODE=0
 
-setColorEmphasized
+setColorTitle
 [#SECTION_BEGIN:MANAGER#]
 echo "OAM Tools on Manager '$(hostname)' - stop processes"
 [#SECTION_END#]

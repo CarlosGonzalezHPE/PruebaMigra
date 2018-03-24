@@ -19,10 +19,10 @@ function showUsageAndExit
 [#SECTION_BEGIN:APP_SERVER#]
   echo "Usage: oam-show_processes"
 [#SECTION_END#]
-  exit 1
+  exit ${EXIT_CODE}
 }
 
-setColorEmphasized
+setColorTitle
 [#SECTION_BEGIN:MANAGER#]
 echo "OAM Tools on Manager '$(hostname)' - Show processes status"
 [#SECTION_END#]
@@ -33,6 +33,7 @@ setColorNormal
 echo
 
 [#SECTION_BEGIN:MANAGER#]
+EXIT_CODE=0
 FULL_MODE=
 while getopts f OPC
 do
@@ -54,7 +55,7 @@ fi
 [#SECTION_END#]
 
 [#SECTION_BEGIN:MANAGER#]
-setColorEmphasized
+setColorTitle
 echo -n "DB"
 setColorNormal
 echo -n "  ["
@@ -84,7 +85,7 @@ echo "] MariaDb (MNGR Instance)"
 echo
 [#SECTION_END#]
 
-setColorEmphasized
+setColorTitle
 echo -n "SIU"
 setColorNormal
 echo -n " ["
@@ -115,7 +116,7 @@ setColorNormal
 echo "] ConfigServer"
 [#SECTION_END#]
 echo
-setColorEmphasized
+setColorTitle
 echo -n "DEG"
 setColorNormal
 FIRST=true
