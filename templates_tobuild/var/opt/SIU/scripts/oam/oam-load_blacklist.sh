@@ -114,7 +114,7 @@ then
   echo "TRUNCATE TABLE DEG_BLACKLIST_RANGES;" > ${TMP_DIR}/load_blacklist.sql
 fi
 
-cat ${LOAD_FILEPATH} | grep -v "^#" | awk -F \; -v OUT=${TMP_DIR}/load_blacklist.sql -v ERR=${OUTPUT_DIR}/load_blacklist.err '{
+cat ${LOAD_FILEPATH} | grep -v "^#" | awk -F \; -v OUT=${TMP_DIR}/load_blacklist.sql -v ERR=${OUTPUT_DIR}/load_blacklist.err -v DBG=${OUTPUT_DIR}/load_blacklist.dbg '{
   if (NF < 3) {
     print $0 >> ERR;
     next;
@@ -124,17 +124,35 @@ cat ${LOAD_FILEPATH} | grep -v "^#" | awk -F \; -v OUT=${TMP_DIR}/load_blacklist
   range_start = $2;
   range_end = $3;
 
+  print "range_name  = "range_name >> DBG;
+  print "range_start = "range_start >> DBG;
+  print "range_end   = "range_end >> DBG;
+
+  print "length(range_name)  = "length(range_name) >> DBG;
+  print "length(range_start) = "length(range_start) >> DBG;
+  print "length(range_end)   = "length(range_end) >> DBG;
+
   if (length(range_name) < 1) {
     print $0 >> ERR;
     next;
   }
 
-  if (length(range_start) != 15) {
+  if (range_start != "0" && length(range_start) != 15) {
+    print $0 >> ERR;
+    next;
+  }
+
+  if (! match(range_start, /^[0-9]+$/)) {
     print $0 >> ERR;
     next;
   }
 
   if (length(range_end) != 15) {
+    print $0 >> ERR;
+    next;
+  }
+
+  if (! match(range_end, /^[0-9]+$/)) {
     print $0 >> ERR;
     next;
   }
