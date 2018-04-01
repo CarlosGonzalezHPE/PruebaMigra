@@ -24,6 +24,7 @@ function showUsageAndExit
 
 setColorTitle
 [#SECTION_BEGIN:MANAGER#]
+
 echo "OAM Tools on Manager '$(hostname)' - Show processes status"
 [#SECTION_END#]
 [#SECTION_BEGIN:APP_SERVER#]
@@ -35,13 +36,13 @@ echo
 [#SECTION_BEGIN:MANAGER#]
 EXIT_CODE=0
 FULL_MODE=
-while getopts f OPC
+while 2>/dev/null getopts f OPC
 do
   case ${OPC} in
     f)
       FULL_MODE=true
       ;;
-  [?])
+    *)
     showUsageAndExit
   esac
 done

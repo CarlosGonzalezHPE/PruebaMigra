@@ -85,6 +85,12 @@ function setColorTitle
 
 function setColorArgs
 {
+  echo -en "\033[0;35m"
+}
+
+
+function setColorArgs2
+{
   echo -en "\033[0;36m"
 }
 

@@ -30,12 +30,17 @@ function showUsageAndExit
 # Main
 #
 
+setColorTitle
+echo "OAM Tools on Manager '$(hostname)' - Dump IMSI Ranges black list"
+setColorNormal
+echo
+
 lockExec
 
 EXIT_CODE=0
 DUMP_FILEPATH=
 
-while getopts f: OPC
+while 2>/dev/null getopts f: OPC
 do
   case ${OPC} in
     f)

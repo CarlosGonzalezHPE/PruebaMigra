@@ -15,6 +15,7 @@ function process
 
   HOSTNAME_OSS=$(getOssHostname $(hostname | cut -d "." -f 1))
   if [ $? -ne 0 ]
+  then
     logError "Unable to get OSS hostname"
     return 1
   fi

@@ -42,13 +42,18 @@ function showUsageAndExit
 # Main
 #
 
+setColorTitle
+echo "OAM Tools on Manager '$(hostname)' - Load IMSI Ranges black list"
+setColorNormal
+echo
+
 lockExec
 
 EXIT_CODE=0
 LOAD_FILEPATH=
 DUMP_BACKUP=false
 OVERWRITE=false
-while getopts f:bo OPC
+while 2>/dev/null getopts f:bo OPC
 do
   case ${OPC} in
     b)
@@ -114,7 +119,9 @@ then
   echo "TRUNCATE TABLE DEG_BLACKLIST_RANGES;" > ${TMP_DIR}/load_blacklist.sql
 fi
 
-cat ${LOAD_FILEPATH} | grep -v "^#" | awk -F \; -v OUT=${TMP_DIR}/load_blacklist.sql -v ERR=${OUTPUT_DIR}/load_blacklist.err -v DBG=${OUTPUT_DIR}/load_blacklist.dbg '{
+> ${OUTPUT_DIR}/load_blacklist.err
+
+cat ${LOAD_FILEPATH} | grep -v "^#" | awk -F \; -v OUT=${TMP_DIR}/load_blacklist.sql -v ERR=${OUTPUT_DIR}/load_blacklist.err '{
   if (NF < 3) {
     print $0 >> ERR;
     next;
@@ -123,14 +130,6 @@ cat ${LOAD_FILEPATH} | grep -v "^#" | awk -F \; -v OUT=${TMP_DIR}/load_blacklist
   range_name = $1;
   range_start = $2;
   range_end = $3;
-
-  print "range_name  = "range_name >> DBG;
-  print "range_start = "range_start >> DBG;
-  print "range_end   = "range_end >> DBG;
-
-  print "length(range_name)  = "length(range_name) >> DBG;
-  print "length(range_start) = "length(range_start) >> DBG;
-  print "length(range_end)   = "length(range_end) >> DBG;
 
   if (length(range_name) < 1) {
     print $0 >> ERR;

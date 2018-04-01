@@ -13,13 +13,60 @@ export SCRIPT_NAME
 function showUsageAndExit
 {
 [#SECTION_BEGIN:MANAGER#]
-  echo "Usage: oam-start_processes.sh ALL | PROCESS_NAME [... PROCESS_NAME]"
-  echo "       oam-start_processes.sh -h HOSTANME ALL | PROCESS_NAME [... PROCESS_NAME]"
+  echo -n "Usage: oam-start_processes.sh ["
+  setColorArgs
+  echo -n "-h "
+  setColorArgs2
+  echo -n "<host_name>"
+  setColorNormal
+  echo -n "] "
+  setColorArgs
+  echo -n "ALL"
+  setColorNormal
+  echo -n "|"
+  setColorArgs2
+  echo -n "<process_name>"
+  setColorNormal
+  echo -n " [... "
+  setColorArgs2
+  echo -n "<process_name>"
+  setColorNormal
+  echo "]"
 [#SECTION_END#]
 [#SECTION_BEGIN:APP_SERVER#]
-  echo "Usage: oam-start_processes.sh ALL| PROCESS_NAME [... PROCESS_NAME]"
+  echo -n "Usage: oam-start_processes.sh ["
+  setColorArgs
+  echo -n "ALL"
+  setColorNormal
+  echo -n "|"
+  setColorArgs2
+  echo -n "<process_name>"
+  setColorNormal
+  echo -n " [... "
+  setColorArgs2
+  echo -n "<process_name>"
+  setColorNormal
+  echo "]"
 [#SECTION_END#]
-  exit ${EXIT_CODE}
+  echo
+  echo "Arguments:"
+[#SECTION_BEGIN:MANAGER#]
+  setColorArgs2
+  echo -n "  <host_name>"
+  setColorNormal
+  ALLOWED_REMOTE_HOSTS=
+  for REMOTE_SERVER in $(cat /var/opt/<%SIU_INSTANCE%>/scripts/oam/cfg/oam-processes.cfg | grep -v "^#" | grep "^REMOTE_SERVER" | cut -d "=" -f 2)
+  do
+    ALLOWED_REMOTE_HOSTS=${ALLOWED_REMOTE_HOSTS}" '"${REMOTE_SERVER}"'"
+  done
+  echo "    : name of host where the command is going to be executed"
+  echo "                   allowed hosts are:${ALLOWED_REMOTE_HOSTS}"
+[#SECTION_END#]
+  setColorArgs2
+  echo -n "  <process_name>"
+  setColorNormal
+  echo " : name of DEG process to be started"
+  exitAndUnlock ${EXIT_CODE}
 }
 
 
@@ -33,7 +80,7 @@ function start_MariaDB
     SILENT_MODE=false
   fi
 
-  /etc/init.d/<%SIU_INSTANCE%> start_db > ${tmp_dir}/start_MariaDB.$$ 2>&1
+  /etc/init.d/<%SIU_INSTANCE%> start_db > ${TMP_DIR}/start_MariaDB.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -56,7 +103,7 @@ function start_MariaDB
       echo "] MariaDB successfully started"
     fi
   fi
-  rm -f ${tmp_dir}/start_MariaDB.$$
+  rm -f ${TMP_DIR}/start_MariaDB.$$
 }
 
 
@@ -69,7 +116,7 @@ function start_NRBGUITool
     SILENT_MODE=false
   fi
 
-  /app/DEG/NRBGUI/deploy.sh start  > ${tmp_dir}/start_NRBGUITool.$$ 2>&1
+  /app/DEG/NRBGUI/deploy.sh start  > ${TMP_DIR}/start_NRBGUITool.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -92,7 +139,7 @@ function start_NRBGUITool
     fi
   fi
 
-  rm -f ${tmp_dir}/start_NRBGUITool.$$
+  rm -f ${TMP_DIR}/start_NRBGUITool.$$
 }
 [#SECTION_END#]
 
@@ -106,7 +153,7 @@ function start_SIU
     SILENT_MODE=false
   fi
 
-  /etc/init.d/<%SIU_INSTANCE%> start_siu > ${tmp_dir}/start_SIU.$$ 2>&1
+  /etc/init.d/<%SIU_INSTANCE%> start_siu > ${TMP_DIR}/start_SIU.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -128,7 +175,7 @@ function start_SIU
       echo "] SIU instance '<%SIU_INSTANCE%>' successfully started"
     fi
   fi
-  rm -f ${tmp_dir}/start_SIU.$$
+  rm -f ${TMP_DIR}/start_SIU.$$
 }
 
 
@@ -142,10 +189,10 @@ function start_collector
     SILENT_MODE=false
   fi
 
-  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${tmp_dir}/start_collector.$$ 2>&1
+  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${TMP_DIR}/start_collector.$$ 2>&1
   if [ $? -ne 0 ]
   then
-    if [ $(cat ${tmp_dir}/start_collector.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    if [ $(cat ${TMP_DIR}/start_collector.$$ | grep "has been started already" | wc -l) -gt 0 ]
     then
       if [ "${SILENT_MODE}" = "false" ]
       then
@@ -177,7 +224,7 @@ function start_collector
     fi
   fi
 
-  rm -f ${tmp_dir}/start_collector.$$
+  rm -f ${TMP_DIR}/start_collector.$$
 }
 
 
@@ -191,10 +238,10 @@ function start_session_server
     SILENT_MODE=false
   fi
 
-  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${tmp_dir}/start_session_server.$$ 2>&1
+  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${TMP_DIR}/start_session_server.$$ 2>&1
   if [ $? -ne 0 ]
   then
-    if [ $(cat ${tmp_dir}/start_session_server.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    if [ $(cat ${TMP_DIR}/start_session_server.$$ | grep "has been started already" | wc -l) -gt 0 ]
     then
       if [ "${SILENT_MODE}" = "false" ]
       then
@@ -226,7 +273,7 @@ function start_session_server
     fi
   fi
 
-  rm -f ${tmp_dir}/start_session_server.$$
+  rm -f ${TMP_DIR}/start_session_server.$$
 }
 
 
@@ -240,10 +287,10 @@ function start_fcs
     SILENT_MODE=false
   fi
 
-  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${tmp_dir}/start_fcs.$$ 2>&1
+  /opt/<%SIU_INSTANCE%>/bin/siucontrol -n ${PROCESS} -c startproc > ${TMP_DIR}/start_fcs.$$ 2>&1
   if [ $? -ne 0 ]
   then
-    if [ $(cat ${tmp_dir}/start_fcs.$$ | grep "has been started already" | wc -l) -gt 0 ]
+    if [ $(cat ${TMP_DIR}/start_fcs.$$ | grep "has been started already" | wc -l) -gt 0 ]
     then
       if [ "${SILENT_MODE}" = "false" ]
       then
@@ -275,11 +322,13 @@ function start_fcs
     fi
   fi
 
-  rm -f ${tmp_dir}/start_fcs.$$
+  rm -f ${TMP_DIR}/start_fcs.$$
 }
 
 
-EXIT_CODE=0
+#
+# Main
+#
 
 setColorTitle
 [#SECTION_BEGIN:MANAGER#]
@@ -291,14 +340,12 @@ echo "OAM Tools on Application Server '$(hostname)' - Start processes"
 setColorNormal
 echo
 
-if [ $# -lt 1 ]
-then
-  showUsageAndExit
-  exit 1
-fi
+lockExec
 
+EXIT_CODE=0
 HOST="localhost"
-while getopts h: OPC
+
+while 2>/dev/null getopts h: OPC
 do
   case ${OPC} in
     h)
@@ -309,7 +356,7 @@ do
       showUsageAndExit
 [#SECTION_END#]
       ;;
-    [?])
+    *)
       showUsageAndExit
       ;;
   esac
@@ -321,7 +368,7 @@ for ARG in $*
 do
   if [ "${ARG}" = "ALL" ]
   then
-    > ${tmp_dir}/args_ok.$$
+    > ${TMP_DIR}/args_ok.$$
 
     if [ "${HOST}" = "localhost" ]
     then
@@ -376,22 +423,27 @@ do
             continue
             ;;
         esac
-        > ${tmp_dir}/args_ok.$$
+        > ${TMP_DIR}/args_ok.$$
       done
 [#SECTION_BEGIN:MANAGER#]
     else
-      > ${tmp_dir}/args_ok.$$
+      if [ $(cat /var/opt/<%SIU_INSTANCE%>/scripts/oam/cfg/oam-processes.cfg | grep -v "^#" | grep "^REMOTE_SERVER" | cut -d "=" -f 2 | grep "^${HOST}$" | wc -l) -lt 1 ]
+      then
+        EXIT_CODE=1
+        showUsageAndExit
+      fi
+      > ${TMP_DIR}/args_ok.$$
       ssh ium@${HOST} ". ./.bash_profile; oam-start_processes.sh ${ARG}"
 [#SECTION_END#]
     fi
   fi
 done
 
-if [ ! -f ${tmp_dir}/args_ok.$$ ]
+if [ ! -f ${TMP_DIR}/args_ok.$$ ]
 then
   showUsageAndExit
 else
-  rm -f ${tmp_dir}/args_ok.$$
+  rm -f ${TMP_DIR}/args_ok.$$
 fi
 
-exit ${EXIT_CODE}
+exitAndUnlock ${EXIT_CODE}
