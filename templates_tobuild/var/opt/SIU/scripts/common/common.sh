@@ -59,7 +59,7 @@ function logDebug
 
   if [ "${LOG_LEVEL}" = "DEBUG" ]
   then
-    echo "${DATE} DBG [$(printf "%5.5d" $$)]--- ${1}" >> ${LOG_FILEPATH}
+    echo "${DATE} DBG [$(printf "%5.5d" $$)] --- ${1}" >> ${LOG_FILEPATH}
   fi
 }
 
@@ -380,7 +380,7 @@ function endOfExecution
   else
     CODE=$1
 
-    if [ ${CODE} -ne 0 ]
+    if [ ${CODE} -ne 0 ] && [ ${CODE} -ne 2 ]
     then
       COPY_NAME=tmp.error.$(date +"%Y%m%d%H%M%S")
       cp -r ${TMP_DIR} ${SCRIPT_BASEDIR}/${COPY_NAME}
@@ -400,10 +400,10 @@ function endOfExecution
           else
             rm -fr ${COPY_NAME}
 
-            gzip ${COPY_NAME}.tar
+            gzip -f ${COPY_NAME}.tar
             if [ $? -ne 0 ]
             then
-              logError "Command 'gzip ${COPY_NAME}.tar' failed"
+              logError "Command 'gzip -f ${COPY_NAME}.tar' failed"
             fi
           fi
           cd - >/dev/null 2>&1

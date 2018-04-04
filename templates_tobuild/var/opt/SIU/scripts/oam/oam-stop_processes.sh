@@ -348,14 +348,11 @@ HOST="localhost"
 while 2>/dev/null getopts h: OPC
 do
   case ${OPC} in
-    h)
 [#SECTION_BEGIN:MANAGER#]
+    h)
       HOST=${OPTARG}
-[#SECTION_END#]
-[#SECTION_BEGIN:APP_SERVER#]
-      showUsageAndExit
-[#SECTION_END#]
       ;;
+[#SECTION_END#]
     *)
       showUsageAndExit
       ;;
@@ -375,8 +372,6 @@ do
       stop_SIU
 [#SECTION_BEGIN:MANAGER#]
       stop_MariaDB
-[#SECTION_END#]
-[#SECTION_BEGIN:MANAGER#]
     else
       ssh ium@${HOST} ". ./.bash_profile; oam-stop_processes.sh ALL"
 [#SECTION_END#]

@@ -1083,7 +1083,7 @@ JOBS_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxfuodeg31.deg.aes.orange.es
 
 #{
 #IUM_Process= DEG_JobsInterface
-JOBS_DIAMETER_SERVER_HOST_IP=10.223.0.81
+JOBS_DIAMETER_SERVER_HOST_IP=10.223.12.81
 #Configured By= Delivery Team
 #Description= This variable Specifies the Diameter node IP address.
 #}
@@ -1224,7 +1224,7 @@ APNS_SANDBOX_TRUST_STORE_PWD=Madrid2018
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_HSS_DIAMETER_SERVER_IP=10.223.0.81
+AAA_HSS_DIAMETER_SERVER_IP=10.223.12.81
 #Configured BY=Carrier
 #Description==This variable holds the IP address where the HSS remote diameter server will be running.
 #}

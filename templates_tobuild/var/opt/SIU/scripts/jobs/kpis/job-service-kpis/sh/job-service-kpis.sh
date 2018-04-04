@@ -22,6 +22,8 @@ function process
 
   for FILEPATH in $(2>/dev/null ls /var/opt/<%SIU_INSTANCE%>/KPI/reports/*_RequestType_KPI.dat)
   do
+    logDebug "Processing file '${FILEPATH}'"
+
     FILENAME=$(basename ${FILEPATH})
     HOSTNAME=$(echo ${FILENAME} | cut -d "_" -f 1)
     logDebug "FILENAME = ${FILENAME}"
@@ -44,13 +46,21 @@ function process
       logError "Command 'cp ${FILEPATH} /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}' failed"
       RETURN_CODE=1
     else
+      logInfo "File '${FILEPATH}' successfully processed and moved to path '/var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}'"
       mv ${FILEPATH} ${FILEPATH}.processed
+      if [ $? -ne 0 ]
+      then
+        logError "Command 'mv ${FILEPATH} ${FILEPATH}.processed' failed"
+        RETURN_CODE=1
+      fi
     fi
   done
 
 
   for FILEPATH in $(2>/dev/null ls /var/opt/<%SIU_INSTANCE%>/KPI/reports/*_ReturnCode_KPI.dat)
   do
+    logDebug "Processing file '${FILEPATH}'"
+
     FILENAME=$(basename ${FILEPATH})
     HOSTNAME=$(echo ${FILENAME} | cut -d "_" -f 1)
     logDebug "FILENAME = ${FILENAME}"
@@ -73,7 +83,14 @@ function process
       logError "Command 'cp ${FILEPATH} /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}' failed"
       RETURN_CODE=1
     else
+      logInfo "File '${FILEPATH}' successfully processed and moved to path '/var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}'"
+
       mv ${FILEPATH} ${FILEPATH}.processed
+      if [ $? -ne 0 ]
+      then
+        logError "Command 'mv ${FILEPATH} ${FILEPATH}.processed' failed"
+        RETURN_CODE=1
+      fi
     fi
   done
 

@@ -9,7 +9,8 @@ function check_if_already_running
 {
   PROCESS=$1
   NUMBER_OF_INSTANCES=$2
-  CURRENT_INSTANCES=$(ps -e -o pid,ppid,cmd | grep -E "^ *[0-9]+ *[0-9]+ *$1*" | grep -Ev "^ *$$ " | grep -Ev "^ *[0-9]+ *$$ " | wc -l)
+  #CURRENT_INSTANCES=$(ps -e -o pid,ppid,cmd | grep -E "^ *[0-9]+ *[0-9]+ *$1*" | grep -Ev "^ *$$ " | grep -Ev "^ *[0-9]+ *$$ " | wc -l)
+  CURRENT_INSTANCES=$(ps -edaf | grep "${PROCESS}" | grep -v grep | wc -l)
   if [ ${CURRENT_INSTANCES} -eq ${NUMBER_OF_INSTANCES} ]
   then
     echo 0

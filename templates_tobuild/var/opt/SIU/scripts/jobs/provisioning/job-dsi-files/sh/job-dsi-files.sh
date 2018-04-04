@@ -9,8 +9,6 @@ function process
 {
   logDebug "Executing function 'process'"
 
-  export TZ=UTC
-
   OUTPUT_DIR=$(getConfigParam GENERAL OUTPUT_DIR)
   if [ ${?} -ne 0 ] || [ -z ${OUTPUT_DIR} ]
   then
@@ -110,10 +108,10 @@ function process
     result_code = $9;
     provisioned = $10;
     if (toupper(details) == "VOWIFI") {
-      print timestamp_query ";" timestamp_system ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoWiFi;" request_id ";" result_code >> out_VoWIFI;
+      print timestamp_query ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoWiFi;" request_id ";" result_code >> out_VoWIFI;
       print "UPDATE DEG_AUTOPROVISIONING SET PROVISIONED = \x27yes\x27 WHERE UNIQUE_ID = \x27"unique_id"\x27;" >> out_update;
     } else if (toupper(details) == "VOLTE") {
-   	  print timestamp_query ";" timestamp_system ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoLTE;" request_id ";" result_code >> out_VoLTE;
+   	  print timestamp_query ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoLTE;" request_id ";" result_code >> out_VoLTE;
     }
   }' ${TMP_DIR}/cdr-result.csv
 
@@ -137,13 +135,20 @@ function process
         RES_CODE=1
       else
         /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE
-        if [ $? -ne 0 ]
+
+        RESULT=$?
+        if [ ${RESULT} -eq 2 ]
         then
-          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE' failed"
-          RES_CODE=1
+          logWarning "File '$(basename ${VOLTE_FILEPATH})' successfully generated but not sent as distribution is disabled"
         else
-          logInfo "File '$(basename ${VOLTE_FILEPATH})' succesfully sent"
-          let NUM_REGISTERS=${NUM_REGISTERS}+${NUM_REGISTERS_VOLTE}
+          if [ ${RESULT} -ne 0 ]
+          then
+            logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOLTE' failed"
+            RES_CODE=1
+          else
+            logInfo "File '$(basename ${VOLTE_FILEPATH})' successfully generated and sent"
+            let NUM_REGISTERS=${NUM_REGISTERS}+${NUM_REGISTERS_VOLTE}
+          fi
         fi
       fi
     fi
@@ -168,13 +173,20 @@ function process
         RES_CODE=1
       else
         /var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI
-        if [ $? -ne 0 ]
+
+        RESULT=$?
+        if [ ${RESULT} -eq 2 ]
         then
-          logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI' failed"
-          RES_CODE=1
+          logWarning "File '$(basename ${VOWIFI_FILEPATH})' successfully generated but not sent as distribution is disabled"
         else
-          logInfo "File '$(basename ${VOWIFI_FILEPATH})' succesfully sent"
-          let NUM_REGISTERS=${NUM_REGISTERS}+${NUM_REGISTERS_VOWIFI}
+          if [ ${RESULT} -ne 0 ]
+          then
+            logError "Command '/var/opt/<%SIU_INSTANCE%>/scripts/distribution/sendFiles/sh/sendFiles.sh -o DSI_VOWIFI' failed"
+            RES_CODE=1
+          else
+            logInfo "File '$(basename ${VOWIFI_FILEPATH})' successfully generated and sent"
+            let NUM_REGISTERS=${NUM_REGISTERS}+${NUM_REGISTERS_VOWIFI}
+          fi
         fi
       fi
     fi

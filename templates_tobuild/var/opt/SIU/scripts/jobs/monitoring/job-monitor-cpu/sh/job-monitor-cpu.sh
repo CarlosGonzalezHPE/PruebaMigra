@@ -13,6 +13,14 @@ function process
 {
   logDebug "Executing function 'process'"
 
+  HOSTNAME_OSS=$(getOssHostname $(hostname | cut -d "." -f 1))
+  if [ $? -ne 0 ]
+  then
+    logError "Unable to get OSS hostname"
+    return 1
+  fi
+  logDebug "HOSTNAME_OSS = ${HOSTNAME_OSS}"
+
   CHECK_NUMBER="$(getConfigParam GENERAL CHECK_NUMBER)"
   if [ $? -lt 0 ] || [ -z ${CHECK_NUMBER} ]
   then
@@ -106,7 +114,7 @@ function process
   logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
   logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
 
-  addKpi "$(hostname | cut -d "." -f 1)-cpu" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
+  addKpi "${HOSTNAME_OSS}" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
 
   while read LIMIT
   do
@@ -134,7 +142,7 @@ function process
       logDebug "ACTUAL_ALARM_DESCRIPTION = ${ACTUAL_ALARM_DESCRIPTION}"
       logDebug "ACTUAL_ALARM_ADDITIONAL_INFO = ${ACTUAL_ALARM_ADDITIONAL_INFO}"
 
-      addAlarm "$(hostname | cut -d "." -f 1)-cpu" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+      addAlarm "${HOSTNAME_OSS}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
       if [ $? -ne 0 ]
       then
         logError "Unable to add alarm"

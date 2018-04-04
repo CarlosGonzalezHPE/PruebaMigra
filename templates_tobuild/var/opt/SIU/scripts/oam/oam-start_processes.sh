@@ -348,14 +348,11 @@ HOST="localhost"
 while 2>/dev/null getopts h: OPC
 do
   case ${OPC} in
-    h)
 [#SECTION_BEGIN:MANAGER#]
+    h)
       HOST=${OPTARG}
-[#SECTION_END#]
-[#SECTION_BEGIN:APP_SERVER#]
-      showUsageAndExit
-[#SECTION_END#]
       ;;
+[#SECTION_END#]
     *)
       showUsageAndExit
       ;;

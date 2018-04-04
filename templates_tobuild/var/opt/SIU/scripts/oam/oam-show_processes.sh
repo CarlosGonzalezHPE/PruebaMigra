@@ -24,7 +24,6 @@ function showUsageAndExit
 
 setColorTitle
 [#SECTION_BEGIN:MANAGER#]
-
 echo "OAM Tools on Manager '$(hostname)' - Show processes status"
 [#SECTION_END#]
 [#SECTION_BEGIN:APP_SERVER#]
@@ -171,7 +170,7 @@ else
   echo -n "STOPPED"
 fi
 setColorNormal
-echo "] NRBGUITool"
+echo "] DEG_NRBToolInterface"
 [#SECTION_END#]
 
 [#SECTION_BEGIN:MANAGER#]

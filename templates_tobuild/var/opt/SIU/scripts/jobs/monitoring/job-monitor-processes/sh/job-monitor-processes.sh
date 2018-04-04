@@ -13,6 +13,14 @@ function process
 {
   logDebug "Executing function 'process'"
 
+  HOSTNAME_OSS=$(getOssHostname $(hostname | cut -d "." -f 1))
+  if [ $? -ne 0 ]
+  then
+    logError "Unable to get OSS hostname"
+    return 1
+  fi
+  logDebug "HOSTNAME_OSS = ${HOSTNAME_OSS}"
+
   getConfigSection PROCESSES > ${TMP_DIR}/processes
   if [ $? -lt 0 ]
   then
@@ -75,7 +83,7 @@ function process
       ACTUAL_ALARM_DESCRIPTION=$(eval echo "${ALARM_DESCRIPTION}")
       ACTUAL_ALARM_ADDITIONAL_INFO=$(eval echo "${ALARM_ADDITIONAL_INFO}")
 
-      addAlarm "$(hostname | cut -d "." -f 1)-process-${PROCESS}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
+      addAlarm "${HOSTNAME_OSS}" "${SEVERITY}" "${ACTUAL_ALARM_DESCRIPTION}" "${ACTUAL_ALARM_ADDITIONAL_INFO}"
       if [ $? -ne 0 ]
       then
         logError "Unable to add alarm"
@@ -91,7 +99,7 @@ function process
     logDebug "ACTUAL_KPI_DESCRIPTION = ${ACTUAL_KPI_DESCRIPTION}"
     logDebug "ACTUAL_KPI_ADDITIONAL_INFO = ${ACTUAL_KPI_ADDITIONAL_INFO}"
 
-    addKpi "$(hostname | cut -d "." -f 1)-cpu" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
+    addKpi "${HOSTNAME_OSS}" "${ACTUAL_KPI_DESCRIPTION}" "${ACTUAL_KPI_ADDITIONAL_INFO}"
   done < ${TMP_DIR}/processes
 
   if [ ! -s ${WORK_DIR}/alarms ]

@@ -13,6 +13,19 @@ function process
 {
   logDebug "Executing function 'process'"
 
+  ENABLED=$(getConfigParam ${RUN_LABEL} ENABLED)
+  if [ ${?} -ne 0 ] || [ "${ENABLED}" = "" ]
+  then
+    logError "Unable to get configuration parameter 'ENABLED' in section '${RUN_LABEL}'"
+    return 1
+  fi
+
+  if [ "${ENABLED}" != "TRUE" ]
+  then
+    logWarning "Distribution is disabled"
+    return 2
+  fi
+
   PROTOCOL="$(getConfigParam ${RUN_LABEL} PROTOCOL)"
   if [ $? -lt 0 ] || [ "${PROTOCOL}" == "" ]
   then
@@ -146,7 +159,7 @@ function process
       case "${PROTOCOL}" in
         "SFTP_KEY")
            > ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "#!/bin/bash"
-          >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "/usr/bin/sftp ${DESTINATION_USER}@${DESTINATION_HOST} << EOD"
+          >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "/usr/bin/sftp -o StrictHostKeyChecking=false ${DESTINATION_USER}@${DESTINATION_HOST} << EOD"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "cd ${DESTINATION_DIR}"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "pwd"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "lcd ${OUTPUT_DIR}/${OUTPUT_TYPE}"
@@ -163,7 +176,7 @@ function process
         "SFTP_PASSWORD")
            > ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "#!/bin/bash"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "/usr/bin/expect << EOD"
-          >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "spawn /usr/bin/sftp ${DESTINATION_USER}@${DESTINATION_HOST}"
+          >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "spawn /usr/bin/sftp -o StrictHostKeyChecking=false ${DESTINATION_USER}@${DESTINATION_HOST}"
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "expect \"password:\""
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "send \"${DESTINATION_PASSWORD}\r\""
           >> ${TMP_DIR}/sftp.send_file.${FILENAME}.sh echo "expect \"sftp>\""
@@ -272,10 +285,17 @@ EXIT_CODE=0
 CURRENT_DATE=$(date +"%Y%m%d")
 
 process
-if [ $? -ne 0 ]
+
+RESULT=$?
+if [ ${RESULT} -eq 2 ]
 then
-  EXIT_CODE=$?
-  logWarning "Function 'process' executed with errors"
+  EXIT_CODE=${RESULT}
+else
+  if [ ${RESULT} -ne 0 ]
+  then
+    EXIT_CODE=1
+    logWarning "Function 'process' executed with errors"
+  fi
 fi
 
 endOfExecution ${EXIT_CODE}
