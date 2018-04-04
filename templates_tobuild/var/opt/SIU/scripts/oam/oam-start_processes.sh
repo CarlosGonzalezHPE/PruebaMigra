@@ -80,7 +80,7 @@ function start_MariaDB
     SILENT_MODE=false
   fi
 
-  /etc/init.d/<%SIU_INSTANCE%> start_db > ${TMP_DIR}/start_MariaDB.$$ 2>&1
+  /etc/opt/<%SIU_INSTANCE%>/init.d/<%SIU_INSTANCE%> start_db > ${TMP_DIR}/start_MariaDB.$$ 2>&1
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -153,7 +153,12 @@ function start_SIU
     SILENT_MODE=false
   fi
 
+[#SECTION_BEGIN:MANAGER#]
+  /etc/opt/<%SIU_INSTANCE%>/init.d/<%SIU_INSTANCE%> start_siu > ${TMP_DIR}/start_SIU.$$ 2>&1
+[#SECTION_END#]
+[#SECTION_BEGIN:APP_SERVER#]
   /etc/init.d/<%SIU_INSTANCE%> start_siu > ${TMP_DIR}/start_SIU.$$ 2>&1
+[#SECTION_END#]
   if [ $? -ne 0 ]
   then
     EXIT_CODE=1
@@ -416,6 +421,11 @@ do
           "FileService")
             start_fcs ${PROCESS}
             ;;
+[#SECTION_BEGIN:MANAGER#]
+          "NRBGUITool")
+            start_NRBGUITool
+            ;;
+[#SECTION_END#]
           *)
             continue
             ;;

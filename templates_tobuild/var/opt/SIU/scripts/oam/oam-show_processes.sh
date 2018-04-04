@@ -170,7 +170,7 @@ else
   echo -n "STOPPED"
 fi
 setColorNormal
-echo "] DEG_NRBToolInterface"
+echo "] NRBGUITool"
 [#SECTION_END#]
 
 [#SECTION_BEGIN:MANAGER#]
