@@ -1161,9 +1161,14 @@
       <element name="registrationStatus" type="string" minOccurs="0"/>
       <element name="authenticationPending" type="string" minOccurs="0"/>
       <element name="provisionedPrivateId" type="string" minOccurs="0"/>
+      <element name="privateIds" type="string" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="visitedNetworkListId" type="int" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="emergencyRegistration" type="string" minOccurs="0"/>
+      <element name="registrationTimeStamp" type="string" minOccurs="0"/>
+      <element name="defaultRegTimeStamp" type="string" minOccurs="0"/>
 		</sequence>
 	</complexType>
-	
+
 	<complexType name="publicUserId">
 		<sequence>
       <element name="publicUserId" type="string" minOccurs="0"/>
