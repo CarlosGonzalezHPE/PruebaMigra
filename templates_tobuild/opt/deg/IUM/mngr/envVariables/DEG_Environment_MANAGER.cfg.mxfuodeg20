@@ -559,7 +559,7 @@ HOST_NAME=mxfuodeg20
 
 #{
 #IUM_Process= ALL
-DATABASECLASS=com.mysql.jdbc.Driver
+DATABASECLASS=org.mariadb.jdbc.Driver
 #Configured By= Delivery Team
 #Description=Specify JDBC driver class used by IUM configuration.
 #}

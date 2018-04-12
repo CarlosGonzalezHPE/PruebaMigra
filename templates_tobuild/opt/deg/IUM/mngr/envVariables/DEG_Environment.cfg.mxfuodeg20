@@ -151,7 +151,7 @@ WIFI_PROCESS_NAME=DEG_WifiAuthInterface
 
 #{
 #IUM_Process = DEG_DeviceInterface
-DEVICE_ADDRESS_UPDATE_URL=http://websheet.deg.com
+DEVICE_ADDRESS_UPDATE_URL=" "
 #Configured By= Delivery Team
 #Description=This variable provides the URL that will allow users to provide updates on the address registered. This environment is applicable only for Apple request. 
 #}

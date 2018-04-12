@@ -53,7 +53,7 @@ SERVER_CERT_SIGNATURE_PASSWORD=Madrid2018
 
 #{
 #IUM_Process=DEG_DeviceInterface
-PHONENUM_CERT_SIGNATURE_ALIAS=test-aes.orange.es
+PHONENUM_CERT_SIGNATURE_ALIAS=aes.orange.es
 #Configured By= Delivery Team
 #Description=This variable is alias name required to read the embedded certificate in the keystore file under variable SERVER_CERT_KEYSTORE_FILE.
 #}
@@ -110,7 +110,7 @@ GATEWAY_ADDRESS_PRIMARY=" "
 
 #{
 #IUM_Process=DEG_DeviceInterface
-GATEWAY_ADDRESS_COMPANION=abc
+GATEWAY_ADDRESS_COMPANION=" "
 #Configured By= Carrier
 #Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for Companion devices getAuthentication request.
 #}
@@ -1702,3 +1702,4 @@ ESIM_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/eSIMProvisioningInterface/soap
 
 APNSINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.13.172/jndi/rmi://10.192.13.172:36556/jmxconnector
 DEVICEINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.13.172/jndi/rmi://10.192.13.172:38457/jmxconnector
+ICLOUDVoWiFI= DISABLED

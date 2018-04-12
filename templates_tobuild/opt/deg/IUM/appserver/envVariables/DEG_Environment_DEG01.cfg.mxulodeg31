@@ -52,7 +52,7 @@ SERVER_CERT_SIGNATURE_PASSWORD=Madrid2018
 
 #{
 #IUM_Process=DEG_DeviceInterface
-PHONENUM_CERT_SIGNATURE_ALIAS=test-aes.orange.es
+PHONENUM_CERT_SIGNATURE_ALIAS=aes.orange.es
 #Configured By= Delivery Team
 #Description=This variable is alias name required to read the embedded certificate in the keystore file under variable SERVER_CERT_KEYSTORE_FILE.
 #}
@@ -984,7 +984,7 @@ AAA_DIAMETER_HOST_IP=10.223.0.81
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_DIAMETER_SERVER_HOST_NAME=mxulodeg31.deg.aes.orange.es
+AAA_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxulodeg31.deg.aes.orange.es
 #Configured By= Delivery Team
 #Description=This variable holds the host name  where the AAA local server will be hosted.
 #}
@@ -1705,3 +1705,4 @@ ESIM_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/eSIMProvisioningInterface/soap
 
 APNSINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.153.194/jndi/rmi://10.192.153.194:36556/jmxconnector
 DEVICEINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.153.194/jndi/rmi://10.192.153.194:38457/jmxconnector
+ICLOUDVoWiFI= DISABLED

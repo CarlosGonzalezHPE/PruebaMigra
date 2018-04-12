@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.hp.com/deg/DEG_EntitlementChangeNotificationInterface/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DEG_EntitlementChangeNotificationInterface" targetNamespace="http://www.hp.com/deg/DEG_EntitlementChangeNotificationInterface/">
+
+<wsdl:types>
+<xsd:schema targetNamespace="http://www.hp.com/deg/DEG_EntitlementChangeNotificationInterface/">
+
+<xsd:element name="EntitlementChangeNotification">
+	<xsd:complexType>
+	<xsd:all maxOccurs="1">
+		<!--IMSI of the Subscriber -->
+		<xsd:element name="IMSI" type="xsd:string" maxOccurs="1" minOccurs="1" />
+		<!-- Comma separated FeatureCode List. For example VLTE,VWIFI.No Value is sent in case of suspension of subscriber -->
+		<xsd:element name="FeatureCode" type="xsd:string" maxOccurs="1" minOccurs="0" />
+		<!-- Comma separated Status of feature codes . For example ENABLED,DISABLED. In case of Suspension of subscriber value will be SUSPENDED -->
+		<xsd:element name="AccountStatus" type="xsd:string" maxOccurs="1" minOccurs="1" />
+		<!-- Timestamp of the request sent -->
+		<xsd:element name="Timestamp" type="xsd:string" maxOccurs="1" minOccurs="0" />
+	</xsd:all>
+	</xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="EntitlementChangeNotificationResponse">
+        <xsd:complexType>
+        <xsd:sequence maxOccurs="1">
+			<!--IMSI of the Subscriber -->
+			<xsd:element name="IMSI" type="xsd:string" />
+			<!--ReturnCode of the response -->
+          	<xsd:element name="ReturnCode" type="xsd:int" />
+			<!--Timestamp of response sent -->
+			<xsd:element name="Timestamp" type="xsd:string" />
+        </xsd:sequence>
+        </xsd:complexType>
+ </xsd:element>
+
+</xsd:schema>
+</wsdl:types>
+
+<wsdl:message name="EntitlementChangeNotificationRequest">
+    <wsdl:part element="tns:EntitlementChangeNotification" name="EntitlementChangeNotificationRequest"/>
+  </wsdl:message>
+  <wsdl:message name="EntitlementChangeNotificationResponse">
+    <wsdl:part element="tns:EntitlementChangeNotificationResponse" name="EntitlementChangeNotificationResponse"/>
+  </wsdl:message>
+
+  
+  <wsdl:portType name="EntitlementChangeNotificationInterfacePort">
+    <wsdl:operation name="EntitlementChangeNotification">
+      <wsdl:input message="tns:EntitlementChangeNotificationRequest"/>
+      <wsdl:output message="tns:EntitlementChangeNotificationResponse"/>
+    </wsdl:operation>
+</wsdl:portType>
+  
+  <wsdl:binding name="DEG_EntitlementChangeNotificationInterface" type="tns:EntitlementChangeNotificationInterfacePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="EntitlementChangeNotification">
+      <soap:operation soapAction="http://www.hp.com/deg/DEG_EntitlementChangeNotificationInterface/EntitlementChangeNotification"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+   </wsdl:binding>
+   
+     <wsdl:service name="EntitlementChangeNotificationInterface">
+    <wsdl:port binding="tns:DEG_EntitlementChangeNotificationInterface" name="EntitlementChangeNotificationInterface">
+      <soap:address location="http://www.hp.com/deg"/>
+    </wsdl:port>
+  </wsdl:service>
+   
+   
+</wsdl:definitions>

@@ -52,7 +52,7 @@ SERVER_CERT_SIGNATURE_PASSWORD=Madrid2018
 
 #{
 #IUM_Process=DEG_DeviceInterface
-PHONENUM_CERT_SIGNATURE_ALIAS=test-aes.orange.es
+PHONENUM_CERT_SIGNATURE_ALIAS=aes.orange.es
 #Configured By= Delivery Team
 #Description=This variable is alias name required to read the embedded certificate in the keystore file under variable SERVER_CERT_KEYSTORE_FILE.
 #}
@@ -109,7 +109,7 @@ GATEWAY_ADDRESS_PRIMARY=" "
 
 #{
 #IUM_Process=DEG_DeviceInterface
-GATEWAY_ADDRESS_COMPANION=abc
+GATEWAY_ADDRESS_COMPANION=" "
 #Configured By= Carrier
 #Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for Companion devices getAuthentication request.
 #}
@@ -200,7 +200,7 @@ APNS_SIMULATOR_MAX_CONN=50
 
 #{
 #IUM_Process=DEG_APNSInterface,DEG_APNS_simulator
-APNS_SIMULATOR_PORT=2195
+APNS_SIMULATOR_PORT=20000
 #Configured By= Delivery Team
 #Description= Specifies the TCP port at which the Simulator server socket will listen for connections
 #}
@@ -984,7 +984,7 @@ AAA_DIAMETER_HOST_IP=10.223.12.82
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_DIAMETER_SERVER_HOST_NAME=mxfuodeg32.deg.aes.orange.es
+AAA_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxfuodeg32.deg.aes.orange.es
 #Configured By= Delivery Team
 #Description=This variable holds the host name  where the AAA local server will be hosted.
 #}
@@ -1702,5 +1702,6 @@ ESIM_RULECHAIN_MAX_POOL_SIZE=10
 ESIM_RULECHAIN_MIN_POOL_SIZE=5
 ESIM_STORE_WSDL_FILE=/var/opt/SIU_DEG02/flatfiles/eSIMProvisioningInterface/soap/eSIMProvisioningInterface.wsdl
 
-APNSINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.153.200/jndi/rmi://10.192.153.200:36556/jmxconnector
-DEVICEINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://16.181.233.119/jndi/rmi://16.181.233.119:39312/jmxconnector
+APNSINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.13.174/jndi/rmi://10.192.13.174:36556/jmxconnector
+DEVICEINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.13.174/jndi/rmi://10.192.13.174:39312/jmxconnector
+ICLOUDVoWiFI= DISABLED
