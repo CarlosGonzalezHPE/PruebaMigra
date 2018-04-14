@@ -34,21 +34,9 @@ alias cdoam='cd /var/opt/<%SIU_INSTANCE%>/scripts/oam'
 alias cdkpi='cd /var/opt/<%SIU_INSTANCE%>/KPI/OSS'
 alias cdalarm='cd /var/opt/<%SIU_INSTANCE%>/ALARM/OSS'
 alias cds='cd /var/opt/<%SIU_INSTANCE%>/scripts'
-alias cdj='cd /var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring'
 alias cdmon='cd /var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring'
 alias cdeg='cd /opt/deg/IUM'
 alias cdenv='cd /opt/deg/IUM/envVariables'
 [#SECTION_BEGIN:MANAGER#]
 alias cdvdb='cd /var/Mariadb'
-alias mysqlapp='mysql -u root -S /var/Mariadb/DEG_APP_MD/mysql.sock -D deg_dsn_md'
-alias mysqlmgrs='mysql -u root -S /var/Mariadb/DEG_MGR_MD/mysql.sock -D siu_manager_md'
-alias mysqlmgrn='mysql -u root -S /var/Mariadb/DEG_MGR_MD/mysql.sock -D nrb_dsn_md'
 [#SECTION_END#]
-
-function lf
-{
-  for FILE_PATH in $@
-  do
-    /opt/<%SIU_INSTANCE%>/bin/loadconfig -f ${FILE_PATH}
-  done
-}

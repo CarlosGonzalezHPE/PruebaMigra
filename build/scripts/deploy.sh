@@ -215,8 +215,8 @@ mv /tmp/deploy.${HOSTNAME}.dir_list.new /tmp/deploy.${HOSTNAME}.dir_list
 
 if [ "${CREATE_DIR}" = "TRUE" ]
 then
-  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"echo '#!/bin/bash' > /tmp/sudoaskium$$.sh; echo 'echo hpinvent' >> /tmp/sudoaskium$$.sh; chmod 700 /tmp/sudoaskium$$.sh\""
-  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "echo '#!/bin/bash' > /tmp/sudoaskium$$.sh; echo 'echo hpinvent' >> /tmp/sudoaskium$$.sh; chmod 700 /tmp/sudoaskium$$.sh"
+  logDebug "ssh -p ${PORT} -o \"StrictHostKeyChecking=no\" -o \"UserKnownHostsFile=/dev/null\" ium@${IP_ADDRESS} \"echo '#!/bin/bash' > /tmp/sudoaskium$$.sh; echo 'echo d3gAdm1n' >> /tmp/sudoaskium$$.sh; chmod 700 /tmp/sudoaskium$$.sh\""
+  ssh -p ${PORT} -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ium@${IP_ADDRESS} "echo '#!/bin/bash' > /tmp/sudoaskium$$.sh; echo 'echo d3gAdm1n' >> /tmp/sudoaskium$$.sh; chmod 700 /tmp/sudoaskium$$.sh"
 
   for DIR_PATH in $(cat /tmp/deploy.${HOSTNAME}.dir_list)
   do
