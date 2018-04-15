@@ -9,45 +9,6 @@
 # Functions
 #
 
-
-function lockUnlockUserAccounts
-{
-  logDebug "Executing function 'cleanupDatabaseTables'"
-
-  /usr/bin/mysql -S /var/Mariadb/DEG_MGR_MD/mysql.sock -u root -D NRB_DSN_MD << EOF
-  UPDATE NRB_USERS SET LOCKED = 'No';
-EOF
-  if [ $? -ne 0 ]
-  then
-    logError "Command '/usr/bin/mysql -S /var/Mariadb/DEG_MGR_MD/mysql.sock -u root -D DSN_NRB_MD << EOF; UPDATE NRB_USERS SET LOCKED = 'No'; EOF' failed"
-    return 1
-  fi
-
-  logInfo "All users account have been unlocked"
-
-  getConfigSection LOCKED_USERS > ${TMP_DIR}/locked_users
-  if [ $? -lt 0 ]
-  then
-    logWarning "Unable to get section 'LOCKED_USERS'"
-  fi
-
-  while read LOCKED_USER
-  do
-    logDebug "Lockong user '${LOCKED_USER}'"
-    /usr/bin/mysql -S /var/Mariadb/DEG_MGR_MD/mysql.sock -u root -D NRB_DSN_MD << EOF
-    UPDATE NRB_USERS SET LOCKED = 'Yes' WHERE LOGIN = '${LOCKED_USER}';
-EOF
-    if [ $? -ne 0 ]
-    then
-      logError "Command '/usr/bin/mysql -S /var/Mariadb/DEG_MGR_MD/mysql.sock -u root -D DSN_NRB_MD << EOF; UPDATE NRB_USERS SET LOCKED = 'Yes' WHERE LOGIN = '${LOCKED_USER}'; EOF' failed"
-      continue
-    fi
-
-    logInfo "User account with login '${LOCKED_USER}' has been locked"
-  done < ${TMP_DIR}/locked_users
-}
-
-
 function process
 {
   logDebug "Executing function 'process'"
@@ -203,11 +164,11 @@ function process
 
     case "${DATETIME_FORMAT}" in
       "DATETIME")
-        SELECT_DATETIME="SELECT UNIX_TIMESTAMP(${DATETIME_FIELD})"
+        SELECT_DATETIME="UNIX_TIMESTAMP(${DATETIME_FIELD})"
         DATETIME_CONDITION="UNIX_TIMESTAMP(${DATETIME_FIELD}) >= ${TIMESTAMP_LAST_EXECUTION} AND UNIX_TIMESTAMP(${DATETIME_FIELD}) < ${TIMESTAMP_BEFORE_IGNORED_LAST_MINUTES}"
         ;;
       "TIMESTAMP")
-        SELECT_DATETIME="SELECT ${DATETIME_FIELD} DIV 1000"
+        SELECT_DATETIME="${DATETIME_FIELD} DIV 1000"
         DATETIME_CONDITION="${DATETIME_FIELD} >= ${TIMESTAMP_LAST_EXECUTION}000 AND ${DATETIME_FIELD} < ${TIMESTAMP_BEFORE_IGNORED_LAST_MINUTES}000"
         ;;
       *)
@@ -254,7 +215,7 @@ function process
     fi
     logDebug "SELECT_FIELDS = ${SELECT_FIELDS}"
 
-    SQL_QUERY="CONCAT_WS('', ${SELECT_KEY}), ${SELECT_DATETIME}, ${SELECT_FIELDS} FROM ${TABLE} WHERE ${DATETIME_CONDITION} ORDER BY ${DATETIME_FIELD}"
+    SQL_QUERY="SELECT CONCAT_WS('', ${SELECT_KEY}), ${SELECT_DATETIME}, CONCAT_WS('|', ${SELECT_FIELDS}) FROM ${TABLE} WHERE ${DATETIME_CONDITION} ORDER BY ${DATETIME_FIELD}"
     logDebug "SQL_QUERY = ${SQL_QUERY}"
 
     echo ${SQL_QUERY} > ${TMP_DIR}/query-${TABLE}.sql
@@ -329,10 +290,6 @@ function process
       continue
     fi
 
-    logInfo "Computing differences for table '${TABLE}'"
-
-    logDebug "Sorting files"
-
     cat ${OUTPUT_DIR}/dump-${TABLE}.csv | sort > ${OUTPUT_DIR}/dump-${TABLE}.csv.sorted
     if [ $? -ne 0 ]
     then
@@ -349,146 +306,92 @@ function process
       continue
     fi
 
-    diff -W 23 -y ${OUTPUT_DIR}/dump-${TABLE}.csv.sorted ${OUTPUT_DIR}/remote/dump-${TABLE}.csv.sorted > ${TMP_DIR}/dump-${TABLE}.diffs
-    if [ $? -ne 0 ]
-    then
-      logError "Command 'diff -W 23 -y ${OUTPUT_DIR}/dump-${TABLE}.csv.sorted ${OUTPUT_DIR}/remote/dump-${TABLE}.csv.sorted > ${TMP_DIR}/dump-${TABLE}.diffs' failed"
-      touch ${TMP_DIR}/${TABLE}.failed
-      continue
-    fi
+    logInfo "Computing differences for table '${TABLE}'"
 
-    logDebug "Processing diff file"
-
-    awk -F \% -v OUT=${TMP_DIR}/lines.${TABLE}.out -v ERR=${TMP_DIR}/lines.${TABLE}.err '
+    awk -F \, -v table=${TABLE} -v datetime_field=${DATETIME_FIELD} -v datetime_format=${DATETIME_FORMAT} -v out=${OUTPUT_DIR}/changes.${TABLE}.sql -v debug=${TMP_DIR}/changes.${TABLE}.debug -v now=$(date +"%s") '
     function ltrim(s) {
       sub(/^[ \t\r\n]+/, "", s);
       return s;
     }
     function rtrim(s) {
-      sub(/[ \t\r\n]+\$/, \"\", s);
+      sub(/[ \t\r\n]+\$/, "", s);
       return s;
     }
     function trim(s) {
       return rtrim(ltrim(s));
     }
-    BEGIN { line = 0; num_conflicts = 0 } {
-      if ($0  ~ " | ") {
-        split($0, v, "|");
-        local_timestamp = 0 + trim(v[1]);
-        remote_timestamp = 0 + trim(v[2]);
-
-        if (length(local_timestamp) != 10) {
-          print line":"$0 >> ERR;
-          line++;
-          next;
-        }
-
-        if (! match(local_timestamp, /^[0-9]+$/)) {
-          print line":"$0 >> ERR;
-          line++;
-          next;
-        }
-
-        if (length(remote_timestamp) != 10) {
-          print line":"$0 >> ERR;
-          line++;
-          next;
-        }
-
-        if (! match(remote_timestamp, /^[0-9]+$/)) {
-          print line":"$0 >> ERR;
-          line++;
-          next;
-        }
-
-        if (local_timestamp >= remote_timestamp) {
-          num_conflicts++;
-          print line",UPDATE" >> OUT;
-          line++;
-          next;
-        }
-      } else if ($0  ~ " < ") {
-        num_conflicts++;
-        print line",INSERT" >> OUT;
-      } else if ($0  ~ " > ") {
-        num_conflicts++;
-      }
-
-      line++;
+    BEGIN {
+      file_index    = 0;
+      num_conflicts = 0;
     }
-    END { print num_conflicts } ' ${TMP_DIR}/dump-${TABLE}.diffs > ${TMP_DIR}/conflicts.${TABLE}
-
-    if [ -s ${TMP_DIR}/lines.${TABLE}.err ]
-    then
-      logWarning "Some conflicts won't be resolved"
-      touch ${TMP_DIR}/${TABLE}.warning
-    fi
-
-    let NUM_CONFLICTS=$(cat ${TMP_DIR}/conflicts.${TABLE} | head -n 1)
-    logDebug "NUM_CONFLICTS = NUM_CONFLICTS"
-
-    if [ ${NUM_CONFLICTS} -gt 0 ]
-    then
-      logWarning "Conflicts have been detected in table ${TABLE}"
-    fi
-
-    awk -F \, '
-    BEGIN { index_file = 0; }
     {
       if (FNR == 1) {
-        index_file++;
-        line = 0;
+        file_index++;
       }
 
-      if (index_file == 1) {
-        lines[$1];
-        operation[$1] = $2;
+      if (file_index == 1) {
+        key_data = $1;
+        local_timestamp[key_data] = $2;
+        local_data[key_data] = $3;
+        print "file_index="file_index", key_data="key_data", local_timestamp[key_data]="local_timestamp[key_data]", local_data[key_data]="local_data[key_data] >> debug;
         next;
       }
 
-      if (index_file == 2) {
-        if (line in lines) {
-          print operation[line]";"$0;
-        }
-        line++;
-      }
-    }' ${TMP_DIR}/lines.${TABLE}.out ${OUTPUT_DIR}/dump-${TABLE}.csv.sorted > ${TMP_DIR}/changes.${TABLE}.out
+      if (file_index == 2) {
+        key_data = $1;
+        remote_timestamp = $2;
+        remote_data = $3;
 
-    if [ ! -s ${TMP_DIR}/changes.${TABLE}.out ]
+        print "file_index="file_index", key_data="key_data", remote_timestamp="remote_timestamp", remote_data="remote_data >> debug;
+        if (key_data in local_data) {
+          print "key_data is in local_data" >> debug;
+          if (remote_data != local_data[key_data]) {
+            print "remote_data != local_data[key_data]" >> debug;
+            if (local_timestamp[key_data] >= remote_timestamp) {
+              print "local_timestamp[key_data] >= remote_timestamp" >> debug;
+              where = "";
+              split(key_data, key_avps, ";");
+              for (key_avp_index in key_avps) {
+                key_avp = key_avps[key_avp_index];
+                print "key_avp="key_avp >> debug;
+                split(key_avp, key, "=");
+                key_field = key[1];
+                key_value = key[2];
+                print "key_field="key_field", key_value="key_value >> debug;
+                where = where" "key_field" = \x27"key_value"\x27 AND";
+              }
+              where = substr(where, 1, length(where) - 4);
+
+              if (datetime_format == "TIMESTAMP") {
+                print "UPDATE "table" SET "datetime_field" = "now" WHERE "where";" >> out;
+              } else if (datetime_format == "DATETIME") {
+                print "UPDATE "table" SET "datetime_field" = sysdate() WHERE "where";" >> out;
+              }
+            }
+          }
+        }
+        else {
+          remote_only_data[key_data] = $0;
+        }
+      }
+    }' ${OUTPUT_DIR}/dump-${TABLE}.csv.sorted ${OUTPUT_DIR}/remote/dump-${TABLE}.csv.sorted
+
+    if [ ! -s ${OUTPUT_DIR}/changes.${TABLE}.sql ]
     then
-      logInfo "No local operations needed"
-      touch ${TMP_DIR}/${TABLE}.skipped
-      continue
+      logInfo "No conflicts detected for table '${TABLE}'"
+    else
+      logInfo "Executing changes in local table '${TABLE}'"
+
+      > ${TMP_DIR}/changes-${TABLE}.out 2> ${TMP_DIR}/changes-${TABLE}.err /usr/bin/mysql -sN -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} -e "source ${OUTPUT_DIR}/changes.${TABLE}.sql"
+
+      if [ $(grep -i error ${TMP_DIR}/changes-${TABLE}.out | wc -l) -gt 0 ] || [ -s ${TMP_DIR}/changes-${TABLE}.err ]
+      then
+        logError "Command '> ${TMP_DIR}/changes-${TABLE}.out 2> ${TMP_DIR}/changes-${TABLE}.err /usr/bin/mysql -sN -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} -e \"source ${OUTPUT_DIR}/changes.${TABLE}.sql\"' failed"
+        touch ${TMP_DIR}/${TABLE}.failed
+        continue
+      fi
     fi
-
-    awk -F \; -v datetime_field=${DATETIME_FIELD} -v datetime_format=${DATETIME_FORMAT} -v table=${TABLE} '{
-      operation = $1:
-      key_data = $2;
-
-      where = "";
-      split(key_data, v, ",");
-      datetime = v[1];
-      split(v[2], key_avps, ";");
-      for (key_avp in key_avps) {
-        split(key_avp, key, "=");
-        key_field = key[1];
-        key_value = key[2];
-        where = where" "key_field" = \x24"key_value"\x24 AND";
-      }
-      where = substr(where, 1, length(where) - 4);
-
-      if (operation == "UPDATE") {
-        if (datetime_format == "DATETIME") {
-
-        } else if (datetime_format == "TIMESTAMP") {
-          print "UPDATE "table" set "datetime_field" = "datetime" WHERE "where";";
-        }
-      }
-    }' ${TMP_DIR}/changes.${TABLE}.out > ${OUTPUT_DIR}/changes.${TABLE}.sql
-
   done < ${TMP_DIR}/tables
-
-  logInfo "Updating control files"
 
   while read TABLE
   do
