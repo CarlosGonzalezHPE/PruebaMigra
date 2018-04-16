@@ -8,7 +8,12 @@ HSS_HOST_NAME=mxfuodeg20.degaaa1.swa.com
 #Configured By= Product Team
 #Description= This variable specifies the host name of the device where the HSS simulator will be running.
 #}
-
+#{
+#IUM_Process= DEG_Audit  
+AUDIT_PROCESS_NAME=DEG_Audit
+#Configured By= Product Team
+#Description=This variable is used to set the process name for <Audit Interface>
+#}
 #{
 #IUM_Process= DEG_HSS_Simulator
 HSS_APPLICATION_AAA_HOST_1=mxfuodeg31.degaaa1.swx.com

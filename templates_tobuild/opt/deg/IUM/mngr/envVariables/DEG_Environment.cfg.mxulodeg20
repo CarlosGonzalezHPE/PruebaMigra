@@ -17,13 +17,6 @@ MANAGED_SETUP=true
 #}
 
 #{
-#IUM_Process= DEG_Audit  
-AUDIT_PROCESS_NAME=DEG_Audit
-#Configured By= Product Team
-#Description=This variable is used to set the process name for <Audit Interface>
-#}
-
-#{
 #IUM_Process= DEG_AAA_Simulator,DEG_JobsInterface
 DEVICE_SERVER_REALM=realm-auth-node.deg.aes.orange.es
 #Configured By= Delivery Team
@@ -1209,7 +1202,6 @@ ENT_HTTP_CON_MIN_PROCESSORS=10
 ENT_SOAP_SERVER_PORT=8320
 ENT_RULECHAIN_MAX_POOL_SIZE=10
 ENT_RULECHAIN_MIN_POOL_SIZE=10
-ENT_INTERFACE_PROCESS_NAME=DEG_EntitlementChangeNotificationInterface
 ENT_MIN_HEAP_SIZE=-Xms256m
 ENT_MAX_HEAP_SIZE=-Xmx256m
 TIMEZONE=UTC
