@@ -1664,7 +1664,7 @@ ENT_APNS_ALLOWED_TIMEOUTS=5
 CHECK_SECOND_PUSH_TOKEN_TABLE=true
 ENT_AUDIT_DATA_DIR=/var/opt/SIU_DEG02/auditData/binary
 ENT_AUDIT_BINARY_FILE_NAME='mxfuodeg32_ENT_'yyyyMMddHHmmssSSS'.DAT'
-
+ENT_INTERFACE_PROCESS_NAME=DEG_EntitlementChangeNotification_02
 PGWSERVER_HTTPS_ULISES_1_URL=https://10.192.209.24:443/ProvisioningGateway/services/SPMLSubscriber10Service
 PGWSERVER_HTTPS_ULISES_2_URL=https://10.192.209.39:443/ProvisioningGateway/services/SPMLSubscriber10Service
 PGWSERVER_HTTPS_COSLADA_1_URL=https://10.192.210.24:443/ProvisioningGateway/services/SPMLSubscriber10Service
