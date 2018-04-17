@@ -8,12 +8,7 @@ HSS_HOST_NAME=mxfuodeg20.degaaa1.swa.com
 #Configured By= Product Team
 #Description= This variable specifies the host name of the device where the HSS simulator will be running.
 #}
-#{
-#IUM_Process= DEG_Audit  
-AUDIT_PROCESS_NAME=DEG_Audit
-#Configured By= Product Team
-#Description=This variable is used to set the process name for <Audit Interface>
-#}
+
 #{
 #IUM_Process= DEG_HSS_Simulator
 HSS_APPLICATION_AAA_HOST_1=mxfuodeg31.degaaa1.swx.com
@@ -800,4 +795,21 @@ DEVICEMANAGEMENTSERVICE_MIN_HEAP_SIZE=-Xms128m
 DEVICEMANAGEMENTSERVICE_MAX_HEAP_SIZE=-Xmx128m
 #Configured By=Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
 #Description= JVM options
+#}
+
+
+#{
+#IUM_Process = DEG_AlarmAgent
+JOB_DBREP_NAME=job-dbrep
+JOB_DBREP_LOG_DIR=/var/opt/SIU_MANAGER/scripts/jobs/oam/job-dbrep/log/
+#Configured By= Product Team
+#Description=This variable is used to set the name for job-dbrep.
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
+DEG_SCRIPTS_NAME=scripts
+DEG_SCRIPTS_LOG_DIR=/var/opt/SIU_MANAGER/scripts/log/
+#Configured By= Product Team
+#Description=This variable is used to set the name for scripts.
 #}

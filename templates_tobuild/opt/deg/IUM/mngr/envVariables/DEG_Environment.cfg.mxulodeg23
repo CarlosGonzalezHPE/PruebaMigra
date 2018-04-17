@@ -17,13 +17,6 @@ MANAGED_SETUP=true
 #}
 
 #{
-#IUM_Process= DEG_Audit  
-AUDIT_PROCESS_NAME=DEG_Audit
-#Configured By= Product Team
-#Description=This variable is used to set the process name for <Audit Interface>
-#}
-
-#{
 #IUM_Process= DEG_AAA_Simulator,DEG_JobsInterface
 DEVICE_SERVER_REALM=deg.aes.orange.es
 #Configured By= Delivery Team
