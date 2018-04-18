@@ -8,7 +8,6 @@ STARTUPMODE=MANUAL
 #Configured By= Product Team
 #Description= Specifies the Process startup mode
 #}
-
 #{
 #IUM_Process= ALL
 STARTUPMODE_AUTO=Automatic
@@ -110,7 +109,7 @@ GATEWAY_ADDRESS_PRIMARY=" "
 
 #{
 #IUM_Process=DEG_DeviceInterface
-GATEWAY_ADDRESS_COMPANION=abc
+GATEWAY_ADDRESS_COMPANION=" "
 #Configured By= Carrier
 #Description= This variable is used to set the optional GATEWAY_ADDRESS parameter in the response for Companion devices getAuthentication request.
 #}
@@ -229,7 +228,7 @@ AAA_RADIUS_SERVER_HOST_PORT=1817
 
 #{
 #IUM_Process=DEG_DeviceInterface,DEG_AAAuthentication
-DEVICE_DIAMETER_SERVER_PORT=1815
+DEVICE_DIAMETER_SERVER_PORT=3868
 #Configured By= Carrier
 #Description= This variable holds the port id to which the device interface local diameter server and remote AAAuthentication server is to be connect.
 #}
@@ -257,7 +256,7 @@ AAA_DIAMETER_SERVER_PORT=3868
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_DIAMETER_SERVER_REALM=swa.com
+AAA_DIAMETER_SERVER_REALM=deg.aes.orange.es
 #Configured By= Carrier
 #Description=This variable is used to hold the realm/domain the diameter will use to determine whether communication can be satisfied locally,or they must be routed.
 #}
@@ -292,7 +291,7 @@ AAA_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_SWX_DIAMETER_CLIENT_REALM=swx.com
+AAA_SWX_DIAMETER_CLIENT_REALM=deg.aes.orange.es
 #Configured By= Carrier
 #Description= This variable is used to hold the realm/domain the diameter will use to determine whether communication can be satisfied locally.
 #}
@@ -745,7 +744,7 @@ PROV_INTERFACE_MDN_LENGTH=10
 
 #{
 #IUM_Process=DEG_AAA_Simulator,DEG_DeviceInterface,DEG_JobsInterface
-DEG_DAIMETER_APLLICATION_ID=16777250
+DEG_DAIMETER_APLLICATION_ID=16777264
 #Configured By= Delivery Team
 #Description=Specifies the Application Identifiers, which are used to filter unsupported Diameter messages
 #}
@@ -815,7 +814,7 @@ PROV_INTERFACE_IMSI_LENGTH=15
 
 #{
 #IUM_Process= DEG_DeviceInterface
-DEG_DEVICE_GBA_REALM=gba.realm
+DEG_DEVICE_GBA_REALM=deg.aes.orange.es
 #Configured By=Delivery Team
 #Description= This variable specifies the realm used in GBA for device interface.
 #}
@@ -866,14 +865,14 @@ DEVICE_AUDIT_BINARY_FILE_NAME='mxulodeg33_DEVICE_'yyyyMMddHHmmssSSS'.DAT'
 
 #{
 #IUM_Process=DEG_DeviceInterface
-DEVICE_APNS_SERVER_HOST_IP=10.192.153.200
+DEVICE_APNS_SERVER_HOST_IP=gateway.push.apple.com
 #Configured By= Delivery Team
 #Description= This variable holds the IP address where the APNS external server is hosted.
 #}
 
 #{
 #IUM_Process=DEG_DeviceInterface
-DEVICE_DIAMETER_SERVER_HOST_IP=10.192.153.200
+DEVICE_DIAMETER_SERVER_HOST_IP=10.223.0.83
 #Configured By= Carrier
 #Description= This variable holds the IP address where the device interface local Diameter adapter and remote AAAuthentication interface adapter is running.
 #}
@@ -894,7 +893,7 @@ SECONDARY_RADIUS_SERVER_HOST_IP=10.192.153.200
 
 #{
 #IUM_Process=DEG_DeviceInterface
-PRIMARY_AAA_HOST_IP=10.192.153.200
+PRIMARY_AAA_HOST_IP=10.223.2.118
 #Configured By= Carrier
 #Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
 #}
@@ -950,42 +949,42 @@ DEVICE_GETPROVVoLTE_SERVER_HOST_IP=10.192.153.200
 
 #{
 #IUM_Process=DEG_DeviceInterface,DEG_AAAuthentication
-DEVICE_DIAMETER_SERVER_HOST_NAME=mxulodeg33.degdevice.swa.com
+DEVICE_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxulodeg31.deg.aes.orange.es
 #Configured By= Carrier
 #Description= This is used to set Origin-Host AVP of DIAMETER messages.  Also used in forming AAA session id.  This is used by Apple initiated requests.
 #}
 
 #{
 #IUM_Process= DEG_JobsInterface
-PRIMARY_AAA_HOST_NAME=mxulodeg33.degaaa1.swa.com
+PRIMARY_AAA_HOST_NAME=mxulaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
 #Configured By= Carrier
 #Description= This variable holds the host name where the remote diameter primary AAA server will be hosted.
 #}
 
 #{
 #IUM_Process= DEG_JobsInterface
-SECONDARY_AAA_HOST_IP=10.192.153.200
+SECONDARY_AAA_HOST_IP=10.223.6.118
 #Configured By= Carrier
 #Description= This variable holds the IP address where the secondary remote AAA server will be hosted.
 #}
 
 #{
 #IUM_Process=  DEG_JobsInterface.
-SECONDARY_AAA_HOST_NAME=mxulodeg33.degaaa1.swa.com
+SECONDARY_AAA_HOST_NAME=mxfuaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
 #Configured By= Carrier
 #Description= This variable holds the host name where the secondary remote AAA server will be hosted.
 #}
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_DIAMETER_HOST_IP=10.192.153.200
+AAA_DIAMETER_HOST_IP=10.223.0.83
 #Configured By= Delivery Team
 #Description= This variable holds the IP address where the AAA local server will be hosted.
 #}
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_DIAMETER_SERVER_HOST_NAME=mxulodeg33.degaaa1.swa.com
+AAA_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxulodeg31.deg.aes.orange.es
 #Configured By= Delivery Team
 #Description=This variable holds the host name  where the AAA local server will be hosted.
 #}
@@ -1055,7 +1054,7 @@ AAA_WX_HSS_DIAMETER_SERVER_HOST_NAME=mxulodeg23.deghss.swx.com
 
 #{
 #IUM_Process= DEG_AlarmAgent
-ALARM_AGENT_ADDRESS_PORT=10.192.153.200:9161
+ALARM_AGENT_ADDRESS_PORT=10.192.153.200:9162
 #Configured By= Delivery Team
 #Description= Specifies the UDP address the traps will be sent from. The format is <hostname>:<port>
 #}
@@ -1076,14 +1075,14 @@ ALARM_JDBC_DRIVER=org.mariadb.jdbc.Driver
 
 #{
 #IUM_Process= DEG_JobsInterface
-JOBS_DIAMETER_SERVER_HOST_NAME=mxulodeg33.degjobs.swa.com
+JOBS_DIAMETER_SERVER_HOST_NAME=mxulodeg33.deg.aes.orange.es
 #Configured By= Delivery Team
 #Description= This variable specifies the value of the Origin-Host AVP which is set in system Diameter messages sent by the connector.
 #}
 
 #{
 #IUM_Process= DEG_JobsInterface
-JOBS_DIAMETER_SERVER_HOST_IP=10.192.153.200
+JOBS_DIAMETER_SERVER_HOST_IP=10.223.0.83
 #Configured By= Delivery Team
 #Description= This variable Specifies the Diameter node IP address.
 #}
@@ -1154,14 +1153,14 @@ REP_STRING_CONNECTION=jdbc:mariadb://10.192.153.198:3307/deg_dsn_md?relaxAutoCom
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_PRODUCTION_HOST=10.192.153.200
+APNS_PRODUCTION_HOST=gateway.push.apple.com
 #Configured By= Delivery Team
 #Description= IP address of the Host on which APNS production server us running.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_PRODUCTION_PORT=30000
+APNS_PRODUCTION_PORT=2195
 #Configured By= Delivery Team
 #Description= Specifies the TCP port at which the Production server socket will listen for connections
 #}
@@ -1189,21 +1188,21 @@ APNS_SIMULATOR_HOST=10.192.153.200
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_ENDPOINT=Simulator
+APNS_ENDPOINT=Production
 #Configured By=Delivery Team
 #Description=This attribute specifies names of one/more endpoint configurations that will be used for sending requests(based on RoundRobin load balancing algorithm)
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_SANDBOX_HOST=10.192.153.200
+APNS_SANDBOX_HOST=gateway.sandbox.push.apple.com
 #Configured By= Delivery Team
 #Description= IP address of the Host on which APNS Sandbox server us running
 #}
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_SANDBOX_PORT=40000
+APNS_SANDBOX_PORT=2195
 #Configured By= Delivery Team
 #Description= Specifies the TCP port at which the Sandbox server socket will listen for connections
 #}
@@ -1224,7 +1223,7 @@ APNS_SANDBOX_TRUST_STORE_PWD=Madrid2018
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_HSS_DIAMETER_SERVER_IP=10.192.153.198
+AAA_HSS_DIAMETER_SERVER_IP=10.223.0.83
 #Configured BY=Carrier
 #Description==This variable holds the IP address where the HSS remote diameter server will be running.
 #}
@@ -1371,7 +1370,7 @@ APNS_SANDBOX_KEY_STORE_PWD_ICLOUDVOWIFI=secret
 
 #{
 #IUM_Process=  DEG_APNSInterface
-APNS_PRODUCTION_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/MultiSIM_Production_Key.p12
+APNS_PRODUCTION_KEY_STORE_FILE_MULTISIM=/var/opt/SIU_DEG01/flatfiles/APNSInterface/http/production_com.orange.sp.aes.multisim.p12
 #Configured By= Delivery Team
 #Description= Absolute path name of Key Store file for Production Server for Multi-SIM topic
 #}
@@ -1664,7 +1663,7 @@ ENT_APNS_TIMEOUT=1000
 ENT_APNS_ALLOWED_TIMEOUTS=5
 CHECK_SECOND_PUSH_TOKEN_TABLE=true
 ENT_AUDIT_DATA_DIR=/var/opt/SIU_DEG01/auditData/binary
-ENT_AUDIT_BINARY_FILE_NAME='mxfuodeg31_ENT_'yyyyMMddHHmmssSSS'.DAT'
+ENT_AUDIT_BINARY_FILE_NAME='mxulodeg33_ENT_'yyyyMMddHHmmssSSS'.DAT'
 ENT_INTERFACE_PROCESS_NAME=DEG_EntitlementChangeNotification_01
 PGWSERVER_HTTPS_ULISES_1_URL=https://10.192.209.24:443/ProvisioningGateway/services/SPMLSubscriber10Service
 PGWSERVER_HTTPS_ULISES_2_URL=https://10.192.209.39:443/ProvisioningGateway/services/SPMLSubscriber10Service
