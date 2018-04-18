@@ -18,7 +18,7 @@ MANAGED_SETUP=true
 
 #{
 #IUM_Process= DEG_AAA_Simulator,DEG_JobsInterface
-DEVICE_SERVER_REALM=deg.aes.orange.es
+DEVICE_SERVER_REALM=realm-auth-node.deg.aes.orange.es
 #Configured By= Delivery Team
 #Description=This variable is used to hold realm/domain the server will use to determine whether communication can be satisfied locally,or they must be routed.
 #}
@@ -67,7 +67,7 @@ ALARM_AGENT_STALETIME=3600
 
 #{
 #IUM_Process= DEG_AlarmAgent
-SNMP_VERSION=1
+SNMP_VERSION=2
 #Configured By= Delivery team to modify SNMP versions to either 1 (or) 2 (or) 3
 #Description=Specifies protocol version to be used
 #}
@@ -144,7 +144,7 @@ WIFI_PROCESS_NAME=DEG_WifiAuthInterface
 
 #{
 #IUM_Process = DEG_DeviceInterface
-DEVICE_ADDRESS_UPDATE_URL=http://websheet.deg.com
+DEVICE_ADDRESS_UPDATE_URL=" "
 #Configured By= Delivery Team
 #Description=This variable provides the URL that will allow users to provide updates on the address registered. This environment is applicable only for Apple request. 
 #}
@@ -638,7 +638,7 @@ DEG_ALARMAGENT_LISTEN_PORT=9993
 
 #{
 #IUM_Process = All
-DEVICE_RULECHAIN_MAX_POOL_SIZE=10
+DEVICE_RULECHAIN_MAX_POOL_SIZE=100
 #Configured By= Delivery Team
 #Description=Integer value specifying the maximum number of threads of a rule chain that will be created in a pool
 #}
@@ -666,7 +666,7 @@ HSS_CON_MAX_POOL_SIZE=5
 
 #{
 #IUM_Process= DEG_ProvisioningInterface,DEG_DeviceInterface,DEGDRIOD_DeviceInterface
-DEVICE_HTTP_CON_MAX_PROCESSORS=20
+DEVICE_HTTP_CON_MAX_PROCESSORS=100
 #Configured By= Delivery Team
 #Description=Specifies the maximum number of request processing threads to be created by HTTPConnector 
 #}
@@ -1114,7 +1114,7 @@ DEVICE_MIN_HEAP_SIZE=-Xms256m
 
 #{
 #IUM_Process= DEG_DeviceInterface 
-DEVICE_MAX_HEAP_SIZE=-Xmx256m
+DEVICE_MAX_HEAP_SIZE=-Xmx4096m
 #Configured By= Factory setting can be used as it is.Can be modified only by Delivery team for any performance issues.
 #Description=JVM option
 #}
@@ -1195,3 +1195,13 @@ DEVICE_GBA_HTTP_CON_MIN_PROCESSORS=20
 #Configured By= Delivery Team
 #Description=Specifies the number of request processing threads that will be kept running idle when there are no requests to be processed for GBA.
 #}
+
+ENT_HTTP_ACCEPT_COUNT=10
+ENT_HTTP_CON_MAX_PROCESSORS=10
+ENT_HTTP_CON_MIN_PROCESSORS=10
+ENT_SOAP_SERVER_PORT=8320
+ENT_RULECHAIN_MAX_POOL_SIZE=10
+ENT_RULECHAIN_MIN_POOL_SIZE=10
+ENT_MIN_HEAP_SIZE=-Xms256m
+ENT_MAX_HEAP_SIZE=-Xmx256m
+TIMEZONE=UTC
