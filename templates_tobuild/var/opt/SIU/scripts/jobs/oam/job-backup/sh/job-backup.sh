@@ -44,31 +44,31 @@ function backupDatabaseTables
 
     logDebug "Processing table '${DB_TABLENAME}'"
 
-    /usr/bin/mysqldump -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root ${DB_DSN} ${DB_TABLENAME} > ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt 2> ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.err
+    /usr/bin/mysqldump -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root ${DB_DSN} ${DB_TABLENAME} > ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt 2> ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.err
     if [ $? -ne 0 ] || [ -s ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.err ]
     then
-      logError "Command '/usr/bin/mysqldump -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root ${DB_DSN} ${DB_TABLENAME} >${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt' failed"
+      logError "Command '/usr/bin/mysqldump -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root ${DB_DSN} ${DB_TABLENAME} >${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt' failed"
       echo "${DB_TABLENAME}" >> ${TMP_DIR}/mysqldump.failed
     else
-      if [ -s ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt ]
+      if [ -s ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt ]
       then
-        gzip -f ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt
+        gzip -f ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt
         if [ $? -ne 0 ]
         then
-          logError "Command 'gzip -f ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt' failed"
+          logError "Command 'gzip -f ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt' failed"
           echo "${DB_TABLENAME}" >> ${TMP_DIR}/mysqldump.failed
         else
-          mv ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt.gz /data/backup
+          mv ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt.gz /data/backup
           if [ $? -ne 0 ]
           then
-            logError "Command 'mv ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt.gz /data/backup' failed"
+            logError "Command 'mv ${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt.gz /data/backup' failed"
             echo "${DB_TABLENAME}" >> ${TMP_DIR}/mysqldump.failed
           else
             logInfo "Table '${DB_TABLENAME}' backed up"
           fi
         fi
       else
-        logWarning "File '${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.txt' is empty. Table '${DB_TABLENAME}' is NOT backed up"
+        logWarning "File '${TMP_DIR}/${CURRENT_DATE}-DATABASE-${DB_INSTANCE}_${DB_DSN}_${DB_TABLENAME}.${NODE_NAME}.txt' is empty. Table '${DB_TABLENAME}' is NOT backed up"
       fi
     fi
   done < ${TMP_DIR}/database_tables
@@ -90,24 +90,24 @@ function backupIUMConfig
     return 0
   fi
 
-  > ${TMP_DIR}/saveconfig.out 2> ${TMP_DIR}/saveconfig.err /opt/SIU_MANAGER/bin/saveconfig -f ${TMP_DIR}/${CURRENT_DATE}-DEG.cfg
+  > ${TMP_DIR}/saveconfig.out 2> ${TMP_DIR}/saveconfig.err /opt/SIU_MANAGER/bin/saveconfig -f ${TMP_DIR}/${CURRENT_DATE}-DEG.${NODE_NAME}.cfg
   if [ $? -ne 0 ]
   then
-    logError "Command '/opt/SIU_MANAGER/bin/saveconfig -f ${TMP_DIR}/${CURRENT_DATE}-DEG.cfg' failed"
+    logError "Command '/opt/SIU_MANAGER/bin/saveconfig -f ${TMP_DIR}/${CURRENT_DATE}-DEG.${NODE_NAME}.cfg' failed"
     return 1
   fi
 
-  gzip -f ${TMP_DIR}/${CURRENT_DATE}-DEG.cfg
+  gzip -f ${TMP_DIR}/${CURRENT_DATE}-DEG.${NODE_NAME}.cfg
   if [ $? -ne 0 ]
   then
-    logError "Command 'gzip -f ${TMP_DIR}/${CURRENT_DATE}-DEG.cfg' failed"
+    logError "Command 'gzip -f ${TMP_DIR}/${CURRENT_DATE}-DEG.${NODE_NAME}.cfg' failed"
     return 1
   fi
 
-  mv ${TMP_DIR}/${CURRENT_DATE}-DEG.cfg.gz /data/backup
+  mv ${TMP_DIR}/${CURRENT_DATE}-DEG.${NODE_NAME}.cfg.gz /data/backup
   if [ $? -ne 0 ]
   then
-    logError "Command 'mv ${TMP_DIR}/${CURRENT_DATE}-DEG.cfg.gz /data/backup' failed"
+    logError "Command 'mv ${TMP_DIR}/${CURRENT_DATE}-DEG.${NODE_NAME}.cfg.gz /data/backup' failed"
     return 1
   fi
 }
@@ -124,31 +124,31 @@ function backupCluster
     return 0
   fi
 
-  sudo -A pcs config backup > ${TMP_DIR}/${CURRENT_DATE}-pcs.bck
+  sudo -A pcs config backup > ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck
   if [ $? -ne 0 ]
   then
-    logError "Command 'sudo -A pcs config backup > ${TMP_DIR}/${CURRENT_DATE}-pcs.bck' failed"
+    logError "Command 'sudo -A pcs config backup > ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck' failed"
     return 1
   fi
 
-  sudo -A chown ium:ium ${TMP_DIR}/${CURRENT_DATE}-pcs.bck
+  sudo -A chown ium:ium ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck
   if [ $? -ne 0 ]
   then
-    logError "Command 'sudo -A chown ium:ium ${TMP_DIR}/${CURRENT_DATE}-pcs.bck' failed"
+    logError "Command 'sudo -A chown ium:ium ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck' failed"
     return 1
   fi
 
-  gzip -f ${TMP_DIR}/${CURRENT_DATE}-pcs.bck
+  gzip -f ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck
   if [ $? -ne 0 ]
   then
-    logError "Command 'gzip -f ${TMP_DIR}/${CURRENT_DATE}-pcs.bck' failed"
+    logError "Command 'gzip -f ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck' failed"
     return 1
   fi
 
-  mv ${TMP_DIR}/${CURRENT_DATE}-pcs.bck.gz /data/backup
+  mv ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck.gz /data/backup
   if [ $? -ne 0 ]
   then
-    logError "Command 'mv ${TMP_DIR}/${CURRENT_DATE}-pcs.bck.gz /data/backup' failed"
+    logError "Command 'mv ${TMP_DIR}/${CURRENT_DATE}-pcs.${NODE_NAME}.bck.gz /data/backup' failed"
     return 1
   fi
 }
@@ -171,8 +171,8 @@ function backupFiles
     return 0
   fi
 
-  rm -f /data/backup/${CURRENT_DATE}-FILES.tar
-  > /data/backup/.tmp_${CURRENT_DATE}-FILES.tar
+  rm -f /data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar
+  > /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar
 
   while read LINE
   do
@@ -203,33 +203,33 @@ function backupFiles
     if [ "${FILES_FILENAMEREGEX}" = ".*" ]
     then
       logDebug "TAR applies to full directory"
-      >> ${TMP_DIR}/tar.out_err 2>&1 sudo -A tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.tar "${FILES_DIR}"
+      >> ${TMP_DIR}/tar.out_err 2>&1 sudo -A tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar "${FILES_DIR}"
       if [ $? -ne 0 ]
       then
-        logError "Command '>> ${TMP_DIR}/tar.out_err 2>&1 sudo -A tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.tar \"${FILES_DIR}\"' failed"
+        logError "Command '>> ${TMP_DIR}/tar.out_err 2>&1 sudo -A tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar \"${FILES_DIR}\"' failed"
         echo ${FILES_DIR} >> ${TMP_DIR}/files.failed
         echo ${FILES_DIR} >> ${TMP_DIR}/current_dir.failed
       else
-        logDebug "File '${FILEPATH}' appended to TAR file '${TMP_DIR}/${CURRENT_DATE}-FILES.tar'"
+        logDebug "File '${FILEPATH}' appended to TAR file '${TMP_DIR}/${CURRENT_DATE}-FILES.${NODE_NAME}.tar'"
         sync
       fi
     else
       sudo -A find ${FILES_DIR} -type f | grep -P "${FILES_FILENAMEREGEX}" | while read FILEPATH
       do
-        >> ${TMP_DIR}/tar.out_err 2>&1 sudo -A tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.tar "${FILEPATH}"
+        >> ${TMP_DIR}/tar.out_err 2>&1 sudo -A tar -rf /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar "${FILEPATH}"
         if [ $? -ne 0 ]
         then
-          logError "Command 'sudo -A tar -rf ${TMP_DIR}/${CURRENT_DATE}-FILES.tar \"${FILEPATH}\"' failed"
+          logError "Command 'sudo -A tar -rf ${TMP_DIR}/${CURRENT_DATE}-FILES.${NODE_NAME}.tar \"${FILEPATH}\"' failed"
           echo ${FILEPATH} >> ${TMP_DIR}/files.failed
           echo ${FILEPATH} >> ${TMP_DIR}/current_dir.failed
         else
-          logDebug "File '${FILEPATH}' appended to TAR file '${TMP_DIR}/${CURRENT_DATE}-FILES.tar'"
+          logDebug "File '${FILEPATH}' appended to TAR file '${TMP_DIR}/${CURRENT_DATE}-FILES.${NODE_NAME}.tar'"
           sync
         fi
       done
     fi
 
-    sudo -A chown ium:ium /data/backup/.tmp_${CURRENT_DATE}-FILES.tar
+    sudo -A chown ium:ium /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar
 
     if [ -s ${TMP_DIR}/current_dir.failed ]
     then
@@ -239,19 +239,19 @@ function backupFiles
     fi
   done < ${TMP_DIR}/files
 
-  mv /data/backup/.tmp_${CURRENT_DATE}-FILES.tar /data/backup/${CURRENT_DATE}-FILES.tar
+  mv /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar /data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar
   if [ $? -ne 0 ]
   then
-    logError "Command 'mv /data/backup/.tmp_${CURRENT_DATE}-FILES.tar /data/backup/${CURRENT_DATE}-FILES.tar' failed"
-    echo "mv /data/backup/.tmp_${CURRENT_DATE}-FILES.tar /data/backup/${CURRENT_DATE}-FILES.tar" >> ${TMP_DIR}/files.failed
+    logError "Command 'mv /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar /data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar' failed"
+    echo "mv /data/backup/.tmp_${CURRENT_DATE}-FILES.${NODE_NAME}.tar /data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar" >> ${TMP_DIR}/files.failed
   else
-    gzip -f /data/backup/${CURRENT_DATE}-FILES.tar
+    gzip -f /data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar
     if [ $? -ne 0 ]
     then
-      logError "Command 'gzip -f /data/backup/${CURRENT_DATE}-FILES.tar' failed"
-      echo "gzip -f /data/backup/${CURRENT_DATE}-FILES.tar" >> ${TMP_DIR}/files.failed
+      logError "Command 'gzip -f /data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar' failed"
+      echo "gzip -f /data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar" >> ${TMP_DIR}/files.failed
     else
-      logInfo "File '/data/backup/${CURRENT_DATE}-FILES.tar.gz' successfully created"
+      logInfo "File '/data/backup/${CURRENT_DATE}-FILES.${NODE_NAME}.tar.gz' successfully created"
     fi
   fi
 
@@ -341,6 +341,9 @@ export SCRIPT_BASEDIR
 
 EXIT_CODE=0
 CURRENT_DATE=$(date +%Y%m%d)
+
+NODE_NAME=$(hostname | cut -d "." -f 1)
+logDebug "NODE_NAME = ${NODE_NAME}"
 
 case "${BACKUP_MODE}" in
   "FULL" | "LITE")
