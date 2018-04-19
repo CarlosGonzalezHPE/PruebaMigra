@@ -4,7 +4,7 @@
 
 #{
 #IUM_Process= ALL
-STARTUPMODE=MANUAL
+STARTUPMODE=Manual
 #Configured By= Product Team
 #Description= Specifies the Process startup mode
 #}

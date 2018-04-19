@@ -207,7 +207,7 @@ DEVICE_GETPROVISIONING_STATUS=ENABLED
 
 #{
 #IUM_Process = DEG_DeviceInterface.
-DEVICE_SERVICE_MNGT_URL=http://arcticselfprovision.carrier.com
+DEVICE_SERVICE_MNGT_URL=" "
 #Configured By=Delivery Team
 #Description=This variable provides the URL that will allow users to perform self-provisioning of a service via websheet when VoWifi/iCloudVoWiFi service is disabled or enabled.
 #}
