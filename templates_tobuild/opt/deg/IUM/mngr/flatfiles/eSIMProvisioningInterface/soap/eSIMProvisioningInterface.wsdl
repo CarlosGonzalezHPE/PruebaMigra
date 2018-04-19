@@ -34,7 +34,7 @@
             <xsd:element name="IMSI" type="xsd:string" maxOccurs="1" minOccurs="1"/>
             <xsd:element name="EID" type="xsd:string" maxOccurs="1" minOccurs="1"/>
             <xsd:element name="eIMSI" type="xsd:string" maxOccurs="1" minOccurs="1"/>
-	    			<xsd:element name="eICCID" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+	    <xsd:element name="eICCID" type="xsd:string" maxOccurs="1" minOccurs="1"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -69,13 +69,31 @@
           <xsd:sequence maxOccurs="1">
             <xsd:element name="IMSI" type="xsd:string" maxOccurs="1" minOccurs="1"/>
             <xsd:element name="newIMSI" type="xsd:string" maxOccurs="1" minOccurs="1"/>
-            <xsd:element name="ICCID" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+            <xsd:element name="newICCID" type="xsd:string" maxOccurs="1" minOccurs="1"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
       
       
 			<xsd:element name="eSIMChangeImsiResponse">
+        <xsd:complexType>
+          <xsd:sequence maxOccurs="1">
+            <xsd:element name="Response" type="tns:eSIMResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="eSIMChangeSecondaryImsi">
+        <xsd:complexType>
+          <xsd:sequence maxOccurs="1">
+            <xsd:element name="SecondaryIMSI" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+            <xsd:element name="newSecondaryIMSI" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+            <xsd:element name="newSecondaryICCID" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="eSIMChangeSecondaryImsiResponse">
         <xsd:complexType>
           <xsd:sequence maxOccurs="1">
             <xsd:element name="Response" type="tns:eSIMResponse"/>
@@ -140,6 +158,14 @@
   <wsdl:message name="eSIMChangeImsiResponse">
     <wsdl:part element="tns:eSIMChangeImsiResponse" name="eSIMChangeImsiResponse"/>
   </wsdl:message>
+  
+  <wsdl:message name="eSIMChangeSecondaryImsiRequest">
+    <wsdl:part element="tns:eSIMChangeSecondaryImsi" name="eSIMChangeSecondaryImsiRequest"/>
+  </wsdl:message>
+  
+  <wsdl:message name="eSIMChangeSecondaryImsiResponse">
+    <wsdl:part element="tns:eSIMChangeSecondaryImsiResponse" name="eSIMChangeSecondaryImsiResponse"/>
+  </wsdl:message>
 
   <wsdl:message name="eSIMDeleteRequest">
     <wsdl:part element="tns:eSIMDelete" name="eSIMDeleteRequest"/>
@@ -168,6 +194,11 @@
 		<wsdl:operation name="eSIMChangeImsi">
       <wsdl:input message="tns:eSIMChangeImsiRequest"/>
       <wsdl:output message="tns:eSIMChangeImsiResponse"/>
+    </wsdl:operation>
+
+		<wsdl:operation name="eSIMChangeSecondaryImsi">
+      <wsdl:input message="tns:eSIMChangeSecondaryImsiRequest"/>
+      <wsdl:output message="tns:eSIMChangeSecondaryImsiResponse"/>
     </wsdl:operation>
 
     <wsdl:operation name="eSIMDelete">
@@ -218,6 +249,16 @@
       </wsdl:output>
     </wsdl:operation>
 
+    <wsdl:operation name="eSIMChangeSecondaryImsi">
+      <soap:operation soapAction="http://www.hp.com/deg/DEG_eSIMProvisioningInterface/eSIMChangeSecondaryImsi"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
     <wsdl:operation name="eSIMDelete">
       <soap:operation soapAction="http://www.hp.com/deg/DEG_eSIMProvisioningInterface/eSIMDelete"/>
       <wsdl:input>
