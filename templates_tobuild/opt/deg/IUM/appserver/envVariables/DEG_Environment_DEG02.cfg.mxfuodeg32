@@ -256,7 +256,7 @@ AAA_DIAMETER_SERVER_PORT=3868
 
 #{
 #IUM_Process=DEG_AAAuthentication
-AAA_DIAMETER_SERVER_REALM=deg.aes.orange.es
+AAA_DIAMETER_SERVER_REALM=realm-auth-node.deg.aes.orange.es
 #Configured By= Carrier
 #Description=This variable is used to hold the realm/domain the diameter will use to determine whether communication can be satisfied locally,or they must be routed.
 #}
@@ -1075,7 +1075,7 @@ ALARM_JDBC_DRIVER=org.mariadb.jdbc.Driver
 
 #{
 #IUM_Process= DEG_JobsInterface
-JOBS_DIAMETER_SERVER_HOST_NAME=mxfuodeg32.deg.aes.orange.es
+JOBS_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxfuodeg32.deg.aes.orange.es
 #Configured By= Delivery Team
 #Description= This variable specifies the value of the Origin-Host AVP which is set in system Diameter messages sent by the connector.
 #}
@@ -1675,9 +1675,6 @@ PGWSERVER_INTERFACE_WSDL_FILE=/var/opt/SIU_DEG02/flatfiles/DeviceInterface/soap/
 PGWSERVER_KEYSTORE_FILE=/var/opt/SIU_DEG02/flatfiles/DeviceInterface/http/PGWSERVER/degPGW.CertAndKey.jks
 PGWSERVER_KEYSTORE_PASS=Madrid2018
 PGWSERVER_KEYSTORE_TYPE=JKS
-PGWSERVER_NUMCONNECTIONS=10
-PGWSERVER_TRUSTSTORE_PASS=Madrid2018
-PGWSERVER_TRUSTSTORE_TYPE=JKS
 PGWSERVER_NUMCONNECTIONS=10
 PGWSERVER_ULISES_1_TRUSTSTORE_FILE=/var/opt/SIU_DEG02/flatfiles/DeviceInterface/http/PGWSERVER/server_ulises1.jks
 PGWSERVER_ULISES_2_TRUSTSTORE_FILE=/var/opt/SIU_DEG02/flatfiles/DeviceInterface/http/PGWSERVER/server_ulises2.jks

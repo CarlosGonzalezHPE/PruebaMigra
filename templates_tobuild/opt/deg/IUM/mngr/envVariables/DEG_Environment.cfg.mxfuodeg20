@@ -623,7 +623,7 @@ TRAP_DESTINATION1=10.118.246.9,162,public
 
 #{
 #IUM_Process= DEG_AlarmAgent
-TRAP_DESTINATION2=127.0.0.1,162,public
+TRAP_DESTINATION2=10.118.246.9,162,public
 #Configured By= Delivery Team
 #Description=Specifies the SNMP server destination to which traps will be sent during faults or security events
 #}
@@ -743,7 +743,7 @@ DEG_CON_INITIAL_POOL_SIZE=5
 
 #{
 #IUM_Process = DEG_NRBToolInterface
-NRB_RULECHAIN_MAX_POOL_SIZE=10
+NRB_RULECHAIN_MAX_POOL_SIZE=50
 #Configured By= Delivery Team
 #Description=Integer value specifying the maximum number of threads of a rule chain that will be created in a pool.
 #}
@@ -764,7 +764,7 @@ NRB_CON_INITIAL_POOL_SIZE=5
 
 #{
 #IUM_Process= DEG_APNSInterface,DEG_ProvisioningInterface,DEG_ProvisioningInterface_Get 
-NRB_CON_MAX_POOL_SIZE=5
+NRB_CON_MAX_POOL_SIZE=50
 #Configured By= Delivery team
 #Description=This variable specifies the maximum number of connection objects to be pooled. 
 #}
@@ -1016,7 +1016,7 @@ NRB_MIN_HEAP_SIZE=-Xms256m
 
 #{
 #IUM_Process = DEG_NRBToolInterface
-NRB_MAX_HEAP_SIZE=-Xmx256m
+NRB_MAX_HEAP_SIZE=-Xmx1024m
 #Configured By= Factory setting can be used as it is.  Can be modified only by Delivery team for any performance issues.
 #Description=JVM option
 #}
