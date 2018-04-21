@@ -64,6 +64,50 @@ function logDebug
 }
 
 
+function logAlarmCritical
+{
+  typeset local EVENT_ID=$1
+  typeset local MESSAGE=$2
+
+  typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
+
+  echo "${DATE};${EVENT_ID};CRITICAL;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+}
+
+
+function logAlarmError
+{
+  typeset local EVENT_ID=$1
+  typeset local MESSAGE=$2
+
+  typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
+
+  echo "${DATE};${EVENT_ID};ERROR;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+}
+
+
+function logAlarmWarning
+{
+  typeset local EVENT_ID=$1
+  typeset local MESSAGE=$2
+
+  typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
+
+  echo "${DATE};${EVENT_ID};WARNING;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+}
+
+
+function logAlarmAccounting
+{
+  typeset local EVENT_ID=$1
+  typeset local MESSAGE=$2
+
+  typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
+
+  echo "${DATE};${EVENT_ID};ACCOUNTING;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+}
+
+
 function getConfigParam
 {
   typeset local SECTION
@@ -308,6 +352,9 @@ function beginingOfExecution
 
   LOG_FILEPATH=${LOG_DIR}/${SCRIPT_NAME}-$(date "+%Y%m%d").log
   export LOG_FILEPATH
+
+  LOG_ALARM_FILEPATH=${LOG_DIR}/Alarming_${SCRIPT_NAME}-$(date "+%Y%m%d%H%M").log
+  export LOG_ALARM_FILEPATH
 
   logInfo "Begining of execution"
 

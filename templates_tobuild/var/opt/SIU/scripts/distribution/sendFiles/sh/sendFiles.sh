@@ -298,4 +298,10 @@ else
   fi
 fi
 
+case "${EXIT_CODE}" in
+  "1")
+    logAlarmError DEGAlarm10.2 "Autoprovisioning file distribution failed"
+    ;;
+esac
+
 endOfExecution ${EXIT_CODE}

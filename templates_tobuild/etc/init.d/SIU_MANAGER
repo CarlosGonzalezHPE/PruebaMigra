@@ -37,16 +37,24 @@ then
       fi
       log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start'... "
       >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh start'"
+      >>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh start
       ;;
     "stop")
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh stop'"
+      >>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh stop
       log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop'... "
       >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop
       ;;
     'restart')
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh stop'"
+      >>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh stop
       log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop'... "
       >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER stop
       log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start'... "
       >>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER start
+      log "Executing command '>>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh start'"
+      >>${LOG_FILEPATH} 2>&1 /app/DEG/NRBGUI/deploy.sh start
       ;;
     'status')
       log "Executing command '>>${LOG_FILEPATH} 2>&1 /etc/opt/SIU_MANAGER/init.d/SIU_MANAGER status'... "

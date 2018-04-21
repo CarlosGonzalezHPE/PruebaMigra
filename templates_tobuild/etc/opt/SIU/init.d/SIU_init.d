@@ -5,6 +5,8 @@
 # HPE CMS Iberia, 2017-2018
 #-------------------------------------------------------------------------------
 
+umask 0022
+
 # IUM instance name
 INSTNAME='<%SIU_INSTANCE%>'
 # Install root path

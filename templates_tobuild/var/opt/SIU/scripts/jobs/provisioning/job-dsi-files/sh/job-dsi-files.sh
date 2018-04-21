@@ -247,4 +247,10 @@ then
   logWarning "Function 'process' executed with errors"
 fi
 
+case "${EXIT_CODE}" in
+  "1")
+    logAlarmError DegAlarm10.1 "Autoprovisioning file generation failed"
+    ;;
+esac
+
 endOfExecution ${EXIT_CODE}

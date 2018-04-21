@@ -13,6 +13,21 @@ function process
 {
   logDebug "Executing function 'process'"
 
+  RETURN_CODE=0
+
+  ALARMING_ENABLED="$(getConfigParam GENERAL ALARMING_ENABLED)"
+  if [ $? -ne 0 ]
+  then
+    logWarning "Unable to get parameter 'ALARMING_ENABLED' in section 'GENERAL'. Set to default TRUE"
+    ALARMING_ENABLED=TRUE
+  else
+    if [ "${ALARMING_ENABLED}" != "FALSE" ]
+    then
+      ALARMING_ENABLED=TRUE
+    fi
+  fi
+  logDebug "ALARMING_ENABLED = ${ALARMING_ENABLED}"
+
   OUTPUT_DIR=${WORK_DIR}/$(date +"%Y%m%d%H%M")
   mkdir -p ${OUTPUT_DIR}/remote
 
@@ -57,14 +72,6 @@ function process
   fi
   logDebug "SLEEP_MINUTES_BEFORE_FECTH = ${SLEEP_MINUTES_BEFORE_FECTH}"
 
-  REMOTE_PEER_IPADDRESS="$(getConfigParam GENERAL REMOTE_PEER_IPADDRESS)"
-  if [ $? -lt 0 ] || [ -z ${REMOTE_PEER_IPADDRESS} ]
-  then
-    logError "Unable to get mandatory parameter 'REMOTE_PEER_IPADDRESS' in section 'GENERAL'"
-    return 1
-  fi
-  logDebug "REMOTE_PEER_IPADDRESS = ${REMOTE_PEER_IPADDRESS}"
-
   TIMESTAMP_NOW=$(date +"%s")
   TIMESTAMP_BEFORE_IGNORED_LAST_MINUTES=$(date +"%s" -d "-${IGNORED_LAST_MINUTES} minutes")
   TIMESTAMP_START_FETCHING_REMOTE_FILES=$(date +"%s" -d "+${SLEEP_MINUTES_BEFORE_FECTH} minutes")
@@ -82,6 +89,74 @@ function process
   then
     return 0
   fi
+
+  REMOTE_PEER_IPADDRESS="$(getConfigParam GENERAL REMOTE_PEER_IPADDRESS)"
+  if [ $? -lt 0 ] || [ -z ${REMOTE_PEER_IPADDRESS} ]
+  then
+    logError "Unable to get mandatory parameter 'REMOTE_PEER_IPADDRESS' in section 'GENERAL'"
+    return 1
+  fi
+  logDebug "REMOTE_PEER_IPADDRESS = ${REMOTE_PEER_IPADDRESS}"
+
+  REPLICATION_PORTS="$(getConfigParam GENERAL REPLICATION_PORTS)"
+  if [ $? -lt 0 ] || [ -z ${REPLICATION_PORTS} ]
+  then
+    logError "Unable to get mandatory parameter 'REPLICATION_PORTS' in section 'GENERAL'"
+    return 1
+  fi
+
+  logDebug "REPLICATION_PORTS = ${REPLICATION_PORTS}"
+  IFS=','
+  read -ra REPLICATION_PORTS_FIELDS <<< "${REPLICATION_PORTS}"
+  for REPLICATION_PORTS_FIELD in "${REPLICATION_PORTS_FIELDS[@]}"
+  do
+    logDebug "REPLICATION_PORTS_FIELD = ${REPLICATION_PORTS_FIELD}"
+
+    DB_INSTANCE=$(echo ${REPLICATION_PORTS_FIELD} | cut -d ":" -f 1)
+    DB_DSN=$(echo ${REPLICATION_PORTS_FIELD} | cut -d ":" -f 2)
+    DB_PORT=$(echo ${REPLICATION_PORTS_FIELD} | cut -d ":" -f 3)
+
+    logDebug "DB_INSTANCE = ${DB_INSTANCE}"
+    logDebug "DB_DSN = ${DB_DSN}"
+    logDebug "DB_PORT = ${DB_PORT}"
+
+    ncat ${REMOTE_PEER_IPADDRESS} ${DB_PORT} </dev/null >/dev/null 2> ${TMP_DIR}/ncat.${REMOTE_PEER_IPADDRESS}:${DB_PORT}.err
+    if [ -s ${TMP_DIR}/ncat.${REMOTE_PEER_IPADDRESS}:${DB_PORT}.err ]
+    then
+      logError "Unable to connect to peer '${REMOTE_PEER_IPADDRESS}:${DB_PORT}' for replication with DSN '${DB_DSN}'"
+      if [ "${ALARMING_ENABLED}" = "TRUE" ]
+      then
+        logAlarmError DegAlarm10.3 "Communication lost between sites"
+      fi
+      return 1
+    fi
+
+    logInfo "Connection to peer '${REMOTE_PEER_IPADDRESS}:${DB_PORT}' OK"
+
+    > ${TMP_DIR}/show_slave_status.out 2>&1 /usr/bin/mysql -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} << EOF
+    show slave status\G;
+EOF
+    if [ $? -ne 0 ]
+    then
+      logError "Command '> ${TMP_DIR}/show_slave_status.out 2>&1 /usr/bin/mysql -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} << EOF; show slave status\G; EOF' failed"
+      return 1
+    fi
+
+    if [ $(cat ${TMP_DIR}/show_slave_status.out | grep -e "Slave_IO_Running: Yes" -e "Slave_SQL_Running: Yes" | wc -l) -ne 2 ]
+    then
+      logError "Replication is NOT running for DB Instance '${DB_INSTANCE}', DSN '${DB_DSN}'"
+      logError "----"
+      cat ${TMP_DIR}/show_slave_status.out | grep -e "Slave_IO_Running:" -e "Slave_SQL_Running:" >> ${LOG_FILEPATH}
+      logError "----"
+      if [ "${ALARMING_ENABLED}" = "TRUE" ]
+      then
+        logAlarmError DegAlarm10.4 "Replication is not active"
+      fi
+      return 1
+    fi
+
+    logInfo "Replication is running for DB Instance '${DB_INSTANCE}', DSN '${DB_DSN}'"
+  done
 
   logDebug "Dumping local tables"
 
@@ -150,7 +225,7 @@ function process
       if [ -z ${TIMESTAMP_LAST_EXECUTION} ] || [ ${TIMESTAMP_LAST_EXECUTION} -lt $(date +"%s" -d "-${MAX_INTERVAL_MINUTES} minutes") ] || [ ${TIMESTAMP_LAST_EXECUTION} -ge $(date +"%s") ]
       then
         logWarning "Invalid value '${TIMESTAMP_LAST_EXECUTION}' for parameter 'TIMESTAMP_LAST_EXECUTION'. Set to default"
-        TIMESTAMP_LAST_EXECUTION=$(date +"%s" -d '-${DEFAULT_INTERVAL_MINUTES} minutes')
+        TIMESTAMP_LAST_EXECUTION=$(date +"%s" -d "-${DEFAULT_INTERVAL_MINUTES} minutes")
       fi
     fi
     logDebug "TIMESTAMP_LAST_EXECUTION = ${TIMESTAMP_LAST_EXECUTION}"
@@ -198,7 +273,7 @@ function process
     logDebug "AUX_SELECT_FIELDS = ${AUX_SELECT_FIELDS}"
 
     SELECT_KEY=${AUX_SELECT_KEY/%?????/}
-    if [ -z ${SELECT_KEY} ]
+    if [ -z "${SELECT_KEY}" ]
     then
       logError "No key defined to select data from table '${TABLE}'"
       touch ${TMP_DIR}/${TABLE}.failed
@@ -207,7 +282,7 @@ function process
     logDebug "SELECT_KEY = ${SELECT_KEY}"
 
     SELECT_FIELDS=${AUX_SELECT_FIELDS/%?/}
-    if [ -z ${SELECT_FIELDS} ]
+    if [ -z "${SELECT_FIELDS}" ]
     then
       logError "No fields defined to select data from table '${TABLE}'"
       touch ${TMP_DIR}/${TABLE}.failed
@@ -218,7 +293,7 @@ function process
     SQL_QUERY="SELECT CONCAT_WS('', ${SELECT_KEY}), ${SELECT_DATETIME}, CONCAT_WS('|', ${SELECT_FIELDS}) FROM ${TABLE} WHERE ${DATETIME_CONDITION} ORDER BY ${DATETIME_FIELD}"
     logDebug "SQL_QUERY = ${SQL_QUERY}"
 
-    echo ${SQL_QUERY} > ${TMP_DIR}/query-${TABLE}.sql
+    echo "${SQL_QUERY}" > ${TMP_DIR}/query-${TABLE}.sql
     echo "INTO OUTFILE '"${OUTPUT_DIR}/dump-${TABLE}.csv"'" >> ${TMP_DIR}/query-${TABLE}.sql
     echo "FIELDS TERMINATED BY ','" >> ${TMP_DIR}/query-${TABLE}.sql
     echo "LINES TERMINATED BY '\n';" >> ${TMP_DIR}/query-${TABLE}.sql
@@ -232,9 +307,15 @@ function process
       continue
     fi
 
+    if [ ! -f ${OUTPUT_DIR}/dump-${TABLE}.csv ]
+    then
+      touch ${OUTPUT_DIR}/dump-${TABLE}.csv
+    fi
+
     if [ ! -s ${OUTPUT_DIR}/dump-${TABLE}.csv ]
     then
       touch ${TMP_DIR}/${TABLE}.skipped
+      logWarning "No changes found in table '${TABLE}' for the selected time window"
       continue
     fi
   done < ${TMP_DIR}/tables
@@ -254,7 +335,7 @@ function process
     logInfo "Fetching dump of remote table '${TABLE}'"
 
     > ${TMP_DIR}/scp-${TABLE}.out 2> ${TMP_DIR}/scp-${TABLE}.err scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ium@${REMOTE_PEER_IPADDRESS}:${OUTPUT_DIR}/dump-${TABLE}.csv ${OUTPUT_DIR}/remote
-    if [ $? -ne 0 ]
+    if [ $? -ne 0 ] || [ $(grep "No such file or directory" ${TMP_DIR}/scp-${TABLE}.err | wc -l) -gt 0 ] || [ ! -f ${OUTPUT_DIR}/remote/dump-${TABLE}.csv ]
     then
       logError "Command '> ${TMP_DIR}/scp-${TABLE}.out 2> ${TMP_DIR}/scp-${TABLE}.err scp ium@${REMOTE_PEER_IPADDRESS}:${OUTPUT_DIR}/dump-${TABLE}.csv ${OUTPUT_DIR}/remote' failed"
       touch ${TMP_DIR}/${TABLE}.failed
@@ -266,6 +347,20 @@ function process
 
   while read TABLE
   do
+    logDebug "Resolving conflicts for table '${TABLE}'"
+
+    if [ -f ${TMP_DIR}/${TABLE}.failed ]
+    then
+      logWarning "As previous operations failed, conflict resolution is aborted for table '${TABLE}'"
+      continue
+    fi
+
+    if [ -f ${TMP_DIR}/${TABLE}.skipped ]
+    then
+      logWarning "Conflict resolution is skipped for table '${TABLE}'"
+      continue
+    fi
+
     CONFLICT_RESOLUTION_ENABLED="$(getConfigParam ${TABLE} CONFLICT_RESOLUTION_ENABLED)"
     if [ $? -lt 0 ] || [ -z "${CONFLICT_RESOLUTION_ENABLED}" ]
     then
@@ -285,9 +380,7 @@ function process
 
     if [ "${CONFLICT_RESOLUTION_ENABLED}" = "FALSE" ]
     then
-      logWarning "Conflict resolution is not enabled for table '${TABLE}'"
       touch ${TMP_DIR}/${TABLE}.conflict_resolution_disabled
-      continue
     fi
 
     cat ${OUTPUT_DIR}/dump-${TABLE}.csv | sort > ${OUTPUT_DIR}/dump-${TABLE}.csv.sorted
@@ -297,6 +390,7 @@ function process
       touch ${TMP_DIR}/${TABLE}.failed
       continue
     fi
+    logDebug "Dump of local table has been sorted"
 
     cat ${OUTPUT_DIR}/remote/dump-${TABLE}.csv | sort > ${OUTPUT_DIR}/remote/dump-${TABLE}.csv.sorted
     if [ $? -ne 0 ]
@@ -305,6 +399,7 @@ function process
       touch ${TMP_DIR}/${TABLE}.failed
       continue
     fi
+    logDebug "Dump of remote table has been sorted"
 
     logInfo "Computing differences for table '${TABLE}'"
 
@@ -376,28 +471,65 @@ function process
       }
     }' ${OUTPUT_DIR}/dump-${TABLE}.csv.sorted ${OUTPUT_DIR}/remote/dump-${TABLE}.csv.sorted
 
-    if [ ! -s ${OUTPUT_DIR}/changes.${TABLE}.sql ]
+    if [ ! -f ${OUTPUT_DIR}/changes.${TABLE}.sql ]
     then
       logInfo "No conflicts detected for table '${TABLE}'"
-    else
-      logInfo "Executing changes in local table '${TABLE}'"
+      continue
+    fi
 
-      > ${TMP_DIR}/changes-${TABLE}.out 2> ${TMP_DIR}/changes-${TABLE}.err /usr/bin/mysql -sN -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} -e "source ${OUTPUT_DIR}/changes.${TABLE}.sql"
+    let NUM_CONFLICTS=$(cat ${OUTPUT_DIR}/changes.${TABLE}.sql | grep "^UPDATE " | wc -l)
+    logDebug "NUM_CONFLICTS = ${NUM_CONFLICTS}"
 
-      if [ $(grep -i error ${TMP_DIR}/changes-${TABLE}.out | wc -l) -gt 0 ] || [ -s ${TMP_DIR}/changes-${TABLE}.err ]
-      then
-        logError "Command '> ${TMP_DIR}/changes-${TABLE}.out 2> ${TMP_DIR}/changes-${TABLE}.err /usr/bin/mysql -sN -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} -e \"source ${OUTPUT_DIR}/changes.${TABLE}.sql\"' failed"
-        touch ${TMP_DIR}/${TABLE}.failed
-        continue
-      fi
+    if [ ${NUM_CONFLICTS} -lt 1  ]
+    then
+      logInfo "No conflicts detected for table '${TABLE}'"
+      continue
+    fi
+
+    touch ${TMP_DIR}/conflicts.flag
+
+    if [ -f ${TMP_DIR}/${TABLE}.conflict_resolution_disabled ]
+    then
+      logWarning "Conflict resolution is not enabled for table '${TABLE}'. No changes will be done"
+      continue
+    fi
+
+    logInfo "Executing changes in local table '${TABLE}'"
+
+    > ${TMP_DIR}/changes-${TABLE}.out 2> ${TMP_DIR}/changes-${TABLE}.err /usr/bin/mysql -sN -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} -e "source ${OUTPUT_DIR}/changes.${TABLE}.sql"
+
+    if [ $(grep -i error ${TMP_DIR}/changes-${TABLE}.out | wc -l) -gt 0 ] || [ -s ${TMP_DIR}/changes-${TABLE}.err ]
+    then
+      logError "Command '> ${TMP_DIR}/changes-${TABLE}.out 2> ${TMP_DIR}/changes-${TABLE}.err /usr/bin/mysql -sN -S /var/Mariadb/${DB_INSTANCE}/mysql.sock -u root -D ${DB_DSN} -e \"source ${OUTPUT_DIR}/changes.${TABLE}.sql\"' failed"
+      touch ${TMP_DIR}/${TABLE}.failed
+      touch ${TMP_DIR}/uncorrected_conflicts.flag
     fi
   done < ${TMP_DIR}/tables
+
+  if [ -f ${TMP_DIR}/uncorrected_conflicts.flag ]
+  then
+    if [ "${ALARMING_ENABLED}" = "TRUE" ]
+    then
+      logWarning "Replication conflicts detected and not corrected"
+      logAlarmError DegAlarm10.6 "Replication conflicts detected and not corrected"
+    fi
+  else
+    if [ -f ${TMP_DIR}/conflicts.flag ]
+    then
+      if [ "${ALARMING_ENABLED}" = "TRUE" ]
+      then
+        logWarning "Replication conflicts detected and corrected"
+        logAlarmWarning DegAlarm10.5 "Replication conflicts detected and corrected"
+      fi
+    fi
+  fi
 
   while read TABLE
   do
     if [ -f ${TMP_DIR}/${TABLE}.failed ]
     then
       logWarning "Processing of table '${TABLE}' failed. Control file is not updated "
+      RETURN_CODE=1
       continue
     fi
 
@@ -432,6 +564,15 @@ if [ ${RESULT} -ne 0 ]
 then
   EXIT_CODE=${RESULT}
   logWarning "Function 'process' executed with errors"
+  if [ "${ALARMING_ENABLED}" = "TRUE" ]
+  then
+    logAlarmError DegAlarm10.9 "Job execution failed (job-dbrep)"
+  fi
+
+  tar cvf ${OUTPUT_DIR}.tar ${OUTPUT_DIR}
+  gzip -f ${OUTPUT_DIR}.tar
 fi
+
+rm -fr ${OUTPUT_DIR}
 
 endOfExecution ${EXIT_CODE}

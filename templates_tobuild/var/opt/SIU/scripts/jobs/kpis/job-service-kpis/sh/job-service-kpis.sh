@@ -11,6 +11,8 @@
 
 function process
 {
+  umask 0002
+
   logDebug "Executing function 'process'"
 
   ENABLE_SIMULATION="$(getConfigParam GENERAL ENABLE_SIMULATION)"
@@ -52,6 +54,7 @@ function process
     NEW_FILENAME="hpedeg-service_kpis_request_types-${HOSTNAME_OSS}-"$(echo ${FILENAME} | cut -d "_" -f 2 | cut -c 1-12)
     logDebug "NEW_FILENAME = ${NEW_FILENAME}"
 
+    RESULT=0
     if [ "${ENABLE_SIMULATION}" = "FALSE" ]
     then
       cp ${FILEPATH} /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}
@@ -80,7 +83,6 @@ function process
           print $0;
         }
       }' > /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}
-      RESULT=$?
     fi
 
     if [ ${RESULT} -ne 0 ]
