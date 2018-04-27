@@ -1703,3 +1703,24 @@ ESIM_STORE_WSDL_FILE=/var/opt/SIU_DEG01/flatfiles/eSIMProvisioningInterface/soap
 APNSINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.13.172/jndi/rmi://10.192.13.172:36556/jmxconnector
 DEVICEINTERFACE_MBEANSERVERCONNECTION=service:jmx:rmi://10.192.13.172/jndi/rmi://10.192.13.172:38457/jmxconnector
 ICLOUDVoWiFI=DISABLED
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_CONNECTION_INACTIVE_TIME=12
+#Configured By= Product Team
+#Description= Maximum retry to establish TCP connection between Client and server
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_CONNECTION_NUMBER=50
+#Configured By= Product Team
+#Description= Maximum retry to establish TCP connection between Client and server
+#}
+
+#{
+#IUM_Process= DEG_APNSInterface
+APNS_MAX_RETRIES=23
+#Configured By= Product Team
+#Description= Maximum retry to establish TCP connection between Client and server
+#}

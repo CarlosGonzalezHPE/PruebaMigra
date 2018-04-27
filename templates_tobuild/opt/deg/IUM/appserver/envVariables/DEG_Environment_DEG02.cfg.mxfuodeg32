@@ -1611,42 +1611,42 @@ DEVICEINTERFACE_REQUEST_TIMEOUT=1000
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_VOWIFI=50
+APNS_MAX_CONN_VOWIFI=10
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production or Sandbox server for VoWiFi topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_CAMBIO=50
+APNS_MAX_CONN_CAMBIO=1
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for  Cambio topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_VOLTE=50
+APNS_MAX_CONN_VOLTE=10
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for VoLTE topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_ICLOUDVOWIFI=50
+APNS_MAX_CONN_ICLOUDVOWIFI=1
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for iCloudVoWiFi topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_MULTISIM=50
+APNS_MAX_CONN_MULTISIM=10
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for Multi-SIM topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_CARRIERSPACE=50
+APNS_MAX_CONN_CARRIERSPACE=1
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for CarrierSpace topic.
 #}
