@@ -109,9 +109,10 @@ function process
     provisioned = $10;
     if (toupper(details) == "VOWIFI") {
       print timestamp_query ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoWiFi;" request_id ";" result_code >> out_VoWIFI;
-      print "UPDATE DEG_AUTOPROVISIONING SET PROVISIONED = \x27yes\x27 WHERE UNIQUE_ID = \x27"unique_id"\x27;" >> out_update;
+      print "UPDATE DEG_AUTOPROVISIONING SET PROVISIONED = \x27yes\x27 WHERE USERNAME = \x27"username"\x27 and DETAILS = \x27"details"\x27;" >> out_update;
     } else if (toupper(details) == "VOLTE") {
    	  print timestamp_query ";" username ";" node_id ";" command ";" unique_id ";" realm ";VoLTE;" request_id ";" result_code >> out_VoLTE;
+      print "UPDATE DEG_AUTOPROVISIONING SET PROVISIONED = \x27yes\x27 WHERE USERNAME = \x27"username"\x27 and DETAILS = \x27"details"\x27;" >> out_update;
     }
   }' ${TMP_DIR}/cdr-result.csv
 

@@ -13,7 +13,7 @@
 #
 #-------------------------------------------------------------------------------
 
-#export TZ=GMT
+export TZ=GMT
 KPI_LOG_DIR=/var/opt/SIU_MANAGER/KPI/log
 SUFFIX=$(date +%Y%m%d%H%M%S)
 KPI_LOG_FILENAME=KPI.log.${SUFFIX}
@@ -63,8 +63,8 @@ cd $CURDIR
 sleep 1
 
 #$JAVA_HOME/bin/java  -Duser.timezone=GMT com.hp.deg.kpi.KPIReport
-#$JAVA_HOME/bin/java  -Duser.timezone=GMT com.hp.deg.kpi.KPIReport $JAVA_LOG
-$JAVA_HOME/bin/java com.hp.deg.kpi.KPIReport $JAVA_LOG
+$JAVA_HOME/bin/java  -Duser.timezone=GMT com.hp.deg.kpi.KPIReport $JAVA_LOG
+
 rm /var/opt/SIU_MANAGER/KPI/log/$JAVA_LOG
 
 cd /var/opt/SIU_MANAGER/KPI/log

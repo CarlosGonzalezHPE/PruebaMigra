@@ -40,8 +40,23 @@ function process
 
     FILENAME=$(basename ${FILEPATH})
     HOSTNAME=$(echo ${FILENAME} | cut -d "_" -f 1)
+    TIMESTAMP=$(echo ${FILENAME} | cut -d "_" -f 2)
+    YEAR=$(echo ${TIMESTAMP} | cut -c 1-4)
+    MONTH=$(echo ${TIMESTAMP} | cut -c 5-6)
+    DAY=$(echo ${TIMESTAMP} | cut -c 7-8)
+    HOUR=$(echo ${TIMESTAMP} | cut -c 9-10)
+    MINUTES=$(echo ${TIMESTAMP} | cut -c 11-12)
+    NEW_TIMESTAMP=$(TZ=Europe/Madrid date +"%Y%m%d%H%M" -d "${YEAR}/${MONTH}/${DAY} ${HOUR}:${MINUTES} GMT")
+
     logDebug "FILENAME = ${FILENAME}"
     logDebug "HOSTNAME = ${HOSTNAME}"
+    logDebug "TIMESTAMP = ${TIMESTAMP}"
+    logDebug "YEAR = ${YEAR}"
+    logDebug "MONTH = ${MONTH}"
+    logDebug "DAY = ${DAY}"
+    logDebug "HOUR = ${HOUR}"
+    logDebug "MINUTES = ${MINUTES}"
+    logDebug "NEW_TIMESTAMP = ${NEW_TIMESTAMP}"
 
     HOSTNAME_OSS=$(getOssHostname ${HOSTNAME})
     if [ $? -ne 0 ]
@@ -51,41 +66,11 @@ function process
     fi
     logDebug "HOSTNAME_OSS = ${HOSTNAME_OSS}"
 
-    NEW_FILENAME="hpedeg-service_kpis_request_types-${HOSTNAME_OSS}-"$(echo ${FILENAME} | cut -d "_" -f 2 | cut -c 1-12)
+    NEW_FILENAME="hpedeg-service_kpis_request_types-${HOSTNAME_OSS}-${NEW_TIMESTAMP}"
     logDebug "NEW_FILENAME = ${NEW_FILENAME}"
 
-    RESULT=0
-    if [ "${ENABLE_SIMULATION}" = "FALSE" ]
-    then
-      cp ${FILEPATH} /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}
-      RESULT=$?
-    else
-      cat ${FILEPATH} | awk -F \| -v seed=${RANDOM} '
-      function randint(n)
-      {
-        return int(n * rand());
-      }
-      BEGIN
-      {
-        srand(seed);
-      }
-      {
-        prefix = $1"|"$2"|"$3"|"$4"|"$5"|"$6"|"$7;
-        action = $5;
-
-        if ((action == "DER") || (action == "getAuthentication") || (action == "postChallenge") || (action == "getPhoneNumber") || (action == "getEntitlement") || (action == "enablePushNotificationEntitlement") || (action == "getPhoneServicesAccountStatus") || (action == "updatePushToken")) {
-          success = randint(1000);
-          unsuccess = int(success * rand());
-          average_time = sprintf("%.3f", rand());
-          print prefix"|"success"|"unsuccess"|"average_time;
-        }
-        else {
-          print $0;
-        }
-      }' > /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}
-    fi
-
-    if [ ${RESULT} -ne 0 ]
+    cp ${FILEPATH} /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}
+    if [ $? -ne 0 ]
     then
       logError "Command 'cp ${FILEPATH} /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}' failed"
       RETURN_CODE=1
@@ -107,8 +92,23 @@ function process
 
     FILENAME=$(basename ${FILEPATH})
     HOSTNAME=$(echo ${FILENAME} | cut -d "_" -f 1)
+    TIMESTAMP=$(echo ${FILENAME} | cut -d "_" -f 2)
+    YEAR=$(echo ${TIMESTAMP} | cut -c 1-4)
+    MONTH=$(echo ${TIMESTAMP} | cut -c 5-6)
+    DAY=$(echo ${TIMESTAMP} | cut -c 7-8)
+    HOUR=$(echo ${TIMESTAMP} | cut -c 9-10)
+    MINUTES=$(echo ${TIMESTAMP} | cut -c 11-12)
+    NEW_TIMESTAMP=$(TZ=Europe/Madrid date +"%Y%m%d%H%M" -d "${YEAR}/${MONTH}/${DAY} ${HOUR}:${MINUTES} GMT")
+
     logDebug "FILENAME = ${FILENAME}"
     logDebug "HOSTNAME = ${HOSTNAME}"
+    logDebug "TIMESTAMP = ${TIMESTAMP}"
+    logDebug "YEAR = ${YEAR}"
+    logDebug "MONTH = ${MONTH}"
+    logDebug "DAY = ${DAY}"
+    logDebug "HOUR = ${HOUR}"
+    logDebug "MINUTES = ${MINUTES}"
+    logDebug "NEW_TIMESTAMP = ${NEW_TIMESTAMP}"
 
     HOSTNAME_OSS=$(getOssHostname ${HOSTNAME})
     if [ $? -ne 0 ]
@@ -118,9 +118,8 @@ function process
     fi
     logDebug "HOSTNAME_OSS = ${HOSTNAME_OSS}"
 
-    NEW_FILENAME="hpedeg-service_kpis_return_codes-${HOSTNAME_OSS}-"$(echo ${FILENAME} | cut -d "_" -f 2 | cut -c 1-12)
+    NEW_FILENAME="hpedeg-service_kpis_return_codes-${HOSTNAME_OSS}-${NEW_TIMESTAMP}"
     logDebug "NEW_FILENAME = ${NEW_FILENAME}"
-
 
     cp ${FILEPATH} /var/opt/<%SIU_INSTANCE%>/KPI/OSS/${NEW_FILENAME}
     if [ $? -ne 0 ]
