@@ -256,6 +256,14 @@
       <element name="meId" type="string" minOccurs="0"/>
       <element name="accessRestr" type="string" minOccurs="0" maxOccurs="6"/>
       <element name="odbBaroam" type="string" minOccurs="0"/>
+      <element name="sgsnIdentity" type="string" minOccurs="0"/>
+      <element name="sgsnRealm" type="string" minOccurs="0"/>
+      <element name="sgsnSupportedFeatures" type="obj:SgsnSupportedFeatures" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="refHplmnListName" type="string" minOccurs="0"/>
+      <element name="s6dSgsnNumber" type="string" minOccurs="0"/>
+      <element name="s6dCombinedFlag" type="string" minOccurs="0"/>
+      <element name="notification" type="obj:AppSrvNotificationData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="s6dLocUpdateTimestamp" type="dateTime" minOccurs="0"/>
       <element name="eps" type="obj:eps" minOccurs="0"/>
       <element name="epsPdnContext" type="obj:EPSPdnContext" minOccurs="0" maxOccurs="100"/>
       <element name="epsRoamAreaName" type="string" minOccurs="0"/>
@@ -268,14 +276,6 @@
       <element name="epsAdditionalHssServiceData" type="obj:EPSAdditionalHssServiceData" minOccurs="0"/>
       <element name="epsSharedUserProfile" type="string" minOccurs="0"/>
       <element name="epsS6dULAHostId" type="string" minOccurs="0"/>
-      <element name="sgsnIdentity" type="string" minOccurs="0"/>
-      <element name="sgsnRealm" type="string" minOccurs="0"/>
-      <element name="sgsnSupportedFeatures" type="obj:SgsnSupportedFeatures" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="refHplmnListName" type="string" minOccurs="0"/>
-      <element name="s6dSgsnNumber" type="string" minOccurs="0"/>
-      <element name="s6dCombinedFlag" type="string" minOccurs="0"/>
-      <element name="notification" type="obj:AppSrvNotificationData" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="s6dLocUpdateTimestamp" type="dateTime" minOccurs="0"/>
     </sequence>
   </complexType>
 
