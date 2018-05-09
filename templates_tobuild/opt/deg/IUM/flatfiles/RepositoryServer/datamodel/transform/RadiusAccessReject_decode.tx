@@ -1,0 +1,62 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+	targetNamespace="http://www.hp.com/usage/datastruct/transform/radius">
+	<!-- nme imports -->
+	<import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+	<import prefix="nme-radius" ns="http://www.hp.com/usage/nme/nmeschema/radius" />
+	<!-- format imports -->
+	<import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd" />
+	<import prefix="xfd-radius" ns="http://www.hp.com/usage/datastruct/xfd/radius" />
+	<!-- standard transformers import -->
+	<import prefix="ium" ns="http://www.hp.com/usage/datastruct/transform" />
+
+	<import prefix="ium-tx"
+		ns="com.hp.usage.datastruct.transform.transformer.nme" />
+
+	<transformer id="AccessRejectDecoder" from="xfd-radius:AccessReject"
+		to="nme-radius:AccessReject">
+
+		<transform input="ReplyMessages" output="ReplyMessages">
+			<transformer from="xfd-radius:ReplyMessage[]" to="nme-radius:ReplyMessage[]">
+				<array>
+					<use-transformer from="xfd-radius:ReplyMessage" to="nme-radius:ReplyMessage"
+						class="ReplyMessageSetter" />
+				</array>
+			</transformer>
+		</transform>
+		<!-- <transform input="ReplyMessage" output="ReplyMessage"> <use-transformer 
+			from="xfd:string" to="nme:string" class="ium:StringToStringCopy" /> </transform> -->
+		<transform input="EAPMessage" output="EAPMessage">
+			<use-transformer from="xfd:byte[]" to="nme:byte-array"
+				class="ium-tx:ByteArrayToByteArrayWrapper" />
+		</transform>
+		<transform input="MessageAuthenticator" output="MessageAuthenticator">
+			<use-transformer from="xfd:byte[]" to="nme:byte-array"
+				class="ium-tx:ByteArrayToByteArrayWrapper" />
+		</transform>
+		<transform input="ProxyStates" output="ProxyStates">
+			<transformer from="xfd-radius:ProxyState[]" to="nme-radius:ProxyState[]">
+				<array>
+					<use-transformer from="xfd-radius:ProxyState" to="nme-radius:ProxyState"
+						class="ProxyStateSetter" />
+				</array>
+			</transformer>
+		</transform>
+	</transformer>
+	<transformer id="ProxyStateSetter" from="xfd-radius:ProxyState"
+		to="nme-radius:ProxyState">
+		<transform input="value" output="value">
+			<use-transformer from="byte[]" to="nme:byte-array"
+				class="ium-tx:ByteArrayToByteArrayWrapper" />
+		</transform>
+	</transformer>
+	<transformer id="ReplyMessageSetter" from="xfd-radius:ReplyMessage"
+		to="nme-radius:ReplyMessage">
+		<transform input="value" output="value">
+			<use-transformer from="xfd:string" to="nme:string"
+				class="ium:StringToStringCopy" />
+		</transform>
+	</transformer>
+</transformations>
+
+
+

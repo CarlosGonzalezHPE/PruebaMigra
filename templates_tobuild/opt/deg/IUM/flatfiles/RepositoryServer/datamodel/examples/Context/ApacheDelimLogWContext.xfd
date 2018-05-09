@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+    targetNamespace="http://www.hp.com/usage/datastruct/xfd/apacheContext">
+
+    <root type="ApacheWebLogRecords" />
+    <context type="Context"/>
+
+	<type id="Context">
+		<codec>
+			<raw/>
+		</codec>
+		<sequence>
+			<field id="recordsCount" type="int"/>
+			<array id="offsets">
+				<field type="int"/>
+			</array>
+			<array id="rawUsageInfo">
+				<field type="string"/>
+			</array>
+		</sequence>
+	</type>
+	
+    <type id="ApacheWebLogRecords">
+        <codec>
+            <text mode="delimiter" delimiter="\r\n" />
+        </codec>
+        <script language="MVEL" trigger="before">
+            <![CDATA[
+                // Array of integers that will be filled up with the offset of "authUser" field
+                context.offsets = new int[3];
+                
+                // array of strings to store raw input for "usage data"
+                context.rawUsageInfo = new String[3];
+                
+             ]]>
+        </script>
+        <sequence>
+            <field id="header" type="string">
+                <codec>
+                    <text delimiter="\r\n" />
+                </codec>
+            </field>
+            <array id="records" length="3">
+                <field type="ApacheWebLogRecord">
+                    <codec>
+                        <text delimiter="\r\n" />
+
+                    </codec>
+                </field>
+            </array>
+        </sequence>
+    </type>
+
+    <type id="ApacheWebLogRecord" EOR="true">
+        <codec>
+            <text mode="delimiter" />
+        </codec>
+        <script language="Groovy" trigger="after">
+            <![CDATA[
+                // increment records count
+                context.recordsCount = context.recordsCount + 1;
+             ]]>
+        </script>
+        <sequence>
+            <field id="clientIp" type="string"> <!-- {24.192.15.132 - } -->
+                <codec>
+                    <text delimiter=";" />
+                </codec>
+            </field>
+
+            <field id="authUser" type="string">
+                <codec>
+                    <text delimiter=";" />
+                </codec>
+                <script language="MVEL" trigger="before">
+                    <![CDATA[
+                    	// store offset of current record in the context
+                        context.offsets[context.recordsCount] = position;
+                     ]]>
+                </script>
+            </field>
+
+            <field id="sysDate" type="string"> <!-- {[14/Nov/1998:16:06:45 +0800] } -->
+                <codec>
+                    <text delimiter=";" />
+                </codec>
+            </field>
+
+            <field id="usageInfo" type="UsageInfo"> <!-- "GET /gif/netsoft.gif HTTP/1.1" 304 100 -->
+                <codec>
+                    <text delimiter=";" />
+                </codec>
+            </field>
+
+            <field id="requestStatus" type="int">
+                <codec>
+                    <text delimiter=";" />
+                </codec>
+            </field>
+
+            <field id="responseSize" type="int">
+                <codec>
+                    <text delimiter=";" />
+                </codec>
+            </field>
+
+        </sequence>
+    </type>
+
+    <type id="UsageInfo">
+        <codec>
+            <text mode="delimiter" />
+        </codec>
+        <script language="MVEL" trigger="before">
+                    <![CDATA[
+                    
+                    // store raw input
+                   	context.getRawUsageInfo()[context.recordsCount] = inputString;
+                    ]]>
+        </script>
+        <sequence>
+            <field id="requestType" type="string">
+                <codec>
+                    <text delimiter=" " /> <!-- {"GET } -->
+                </codec>
+            </field>
+            <field id="resource" type="string">
+                <codec>
+                    <text delimiter=" " /> <!-- {/hplogo.gif } -->
+                </codec>
+            </field>
+            <field id="protocol" type="string">
+                <codec>
+                    <text delimiter=" " /> <!-- {HTTP/1.1" } -->
+                </codec>
+            </field>
+        </sequence>
+    </type>
+
+</format>

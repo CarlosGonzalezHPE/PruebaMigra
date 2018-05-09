@@ -1,0 +1,58 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/APNSFormat"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/APNSFormat"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="ApplePushNotificationMessage">
+        <sequence>
+            <element name="command" type="nme:byte" />
+            <element name="frameLength" type="nme:int" />
+            <element name="frameArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:FrameData" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="FrameData">
+        <sequence>
+            <element name="deviceToken" type="nme:byte-array" />
+            <element name="payload" type="nme:string" />
+            <element name="notificationIdentifier" type="nme:int" />
+            <element name="expirationDate" type="nme:int" />
+            <element name="priority" type="nme:byte" />
+        </sequence>
+    </complexType>
+
+    <complexType name="ItemHeader">
+        <sequence>
+            <element name="itemNumber" type="nme:byte" />
+            <element name="itemLength" type="nme:short" />
+        </sequence>
+    </complexType>
+    
+     <complexType name="APNSFeedbackMessage">
+        <sequence>
+            <element name="feedbackArray">
+                <complexType>
+                    <sequence>
+                        <element type="this:Feedback" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Feedback">
+        <sequence>
+            <element name="timestamp" type="nme:int" />
+            <element name="tokenLength" type="nme:short" />
+            <element name="deviceToken" type="nme:byte-array" />
+        </sequence>
+    </complexType>
+</schema>

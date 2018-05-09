@@ -1,0 +1,415 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/SNME_diameter_to_XFD_diameter">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+    <import prefix="tnme" ns="http://www.hp.com/usage/datastruct/transform/nme" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/diameter" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/diameter" />
+    <import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+
+    <transformer id="SNME_CreditControlAnswer_to_XFD_CreditControlAnswer" from="snme:CreditControlAnswer" to="xfd:CreditControlAnswer">
+        <transform input="sessionID" output="sessionID">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="resultCode" output="resultCode">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="originHost" output="originHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="originRealm" output="originRealm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="authApplicationId" output="authApplicationId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccRequestType" output="ccRequestType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="ccRequestNumber" output="ccRequestNumber">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="userName" output="userName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="ccSessionFailover" output="ccSessionFailover">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="ccSubSessionId" output="ccSubSessionId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="acctMultiSessionId" output="acctMultiSessionId">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="originStateId" output="originStateId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="eventTimestamp" output="eventTimestamp">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="grantedServiceUnit" output="grantedServiceUnit">
+            <use-transformer from="snme:GrantedServiceUnit" to="xfd:GrantedServiceUnit" class="SNME_GrantedServiceUnit_to_XFD_GrantedServiceUnit" />
+        </transform>
+        <transform input="multipleServicesCreditControl" output="multipleServicesCreditControl">
+            <transformer from="snme:MultipleServicesCreditControl[]" to="xfd:MultipleServicesCreditControl[]">
+                <array>
+                    <use-transformer from="snme:MultipleServicesCreditControl" to="xfd:MultipleServicesCreditControl" class="SNME_MultipleServicesCreditControl_to_XFD_MultipleServicesCreditControl" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="costInformation" output="costInformation">
+            <use-transformer from="snme:CostInformation" to="xfd:CostInformation" class="SNME_CostInformation_to_XFD_CostInformation" />
+        </transform>
+        <transform input="finalUnitIndication" output="finalUnitIndication">
+            <use-transformer from="snme:FinalUnitIndication" to="xfd:FinalUnitIndication" class="SNME_FinalUnitIndication_to_XFD_FinalUnitIndication" />
+        </transform>
+        <transform input="checkBalanceResult" output="checkBalanceResult">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="creditControlFailureHandling" output="creditControlFailureHandling">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="directDebitingFailureHandling" output="directDebitingFailureHandling">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="validityTime" output="validityTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="redirectHost" output="redirectHost">
+            <use-transformer from="nme:string-array" to="string[]" class="tnme:StringArrayWrapperToStringArray" />
+        </transform>
+        <transform input="redirectHostUsage" output="redirectHostUsage">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="redirectMaxCacheTime" output="redirectMaxCacheTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="proxyInfo" output="proxyInfo">
+            <transformer from="snme:ProxyInfo[]" to="xfd:ProxyInfo[]">
+                <array>
+                    <use-transformer from="snme:ProxyInfo" to="xfd:ProxyInfo" class="SNME_ProxyInfo_to_XFD_ProxyInfo" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="routeRecord" output="routeRecord">
+            <use-transformer from="nme:string-array" to="string[]" class="tnme:StringArrayWrapperToStringArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_CreditControlRequest_to_XFD_CreditControlRequest" from="snme:CreditControlRequest" to="xfd:CreditControlRequest">
+        <transform input="sessionID" output="sessionID">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="originHost" output="originHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="originRealm" output="originRealm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="destRealm" output="destRealm">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="authApplicationId" output="authApplicationId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="serviceContextId" output="serviceContextId">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="ccRequestType" output="ccRequestType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="ccRequestNumber" output="ccRequestNumber">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="destHost" output="destHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="userName" output="userName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="ccSubSessionId" output="ccSubSessionId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="acctMultiSessionId" output="acctMultiSessionId">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="originStateId" output="originStateId">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="eventTimestamp" output="eventTimestamp">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="subscriptionId" output="subscriptionId">
+            <transformer from="snme:SubscriptionId[]" to="xfd:SubscriptionId[]">
+                <array>
+                    <use-transformer from="snme:SubscriptionId" to="xfd:SubscriptionId" class="SNME_SubscriptionId_to_XFD_SubscriptionId" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="serviceIdentifier" output="serviceIdentifier">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="terminationCause" output="terminationCause">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="requestedServiceUnit" output="requestedServiceUnit">
+            <use-transformer from="snme:RequestedServiceUnit" to="xfd:RequestedServiceUnit" class="SNME_RequestedServiceUnit_to_XFD_RequestedServiceUnit" />
+        </transform>
+        <transform input="requestedAction" output="requestedAction">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="usedServiceUnit" output="usedServiceUnit">
+            <transformer from="snme:UsedServiceUnit[]" to="xfd:UsedServiceUnit[]">
+                <array>
+                    <use-transformer from="snme:UsedServiceUnit" to="xfd:UsedServiceUnit" class="SNME_UsedServiceUnit_to_XFD_UsedServiceUnit" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="multipleServicesIndicator" output="multipleServicesIndicator">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="multipleServicesCreditControl" output="multipleServicesCreditControl">
+            <transformer from="snme:MultipleServicesCreditControl[]" to="xfd:MultipleServicesCreditControl[]">
+                <array>
+                    <use-transformer from="snme:MultipleServicesCreditControl" to="xfd:MultipleServicesCreditControl" class="SNME_MultipleServicesCreditControl_to_XFD_MultipleServicesCreditControl" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="serviceParameterInfo" output="serviceParameterInfo">
+            <transformer from="snme:ServiceParameterInfo[]" to="xfd:ServiceParameterInfo[]">
+                <array>
+                    <use-transformer from="snme:ServiceParameterInfo" to="xfd:ServiceParameterInfo" class="SNME_ServiceParameterInfo_to_XFD_ServiceParameterInfo" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="ccCorrelationId" output="ccCorrelationId">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+        <transform input="userEquipmentInfo" output="userEquipmentInfo">
+            <use-transformer from="snme:UserEquipmentInfo" to="xfd:UserEquipmentInfo" class="SNME_UserEquipmentInfo_to_XFD_UserEquipmentInfo" />
+        </transform>
+        <transform input="proxyInfo" output="proxyInfo">
+            <transformer from="snme:ProxyInfo[]" to="xfd:ProxyInfo[]">
+                <array>
+                    <use-transformer from="snme:ProxyInfo" to="xfd:ProxyInfo" class="SNME_ProxyInfo_to_XFD_ProxyInfo" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="routeRecord" output="routeRecord">
+            <use-transformer from="nme:string-array" to="string[]" class="tnme:StringArrayWrapperToStringArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GrantedServiceUnit_to_XFD_GrantedServiceUnit" from="snme:GrantedServiceUnit" to="xfd:GrantedServiceUnit">
+        <transform input="tariffTimeChange" output="tariffTimeChange">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="ccTime" output="ccTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccMoney" output="ccMoney">
+            <use-transformer from="snme:CCMoney" to="xfd:CCMoney" class="SNME_CCMoney_to_XFD_CCMoney" />
+        </transform>
+        <transform input="ccTotalOctets" output="ccTotalOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccInputOctets" output="ccInputOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccOutputOctets" output="ccOutputOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccServiceSpecificUnits" output="ccServiceSpecificUnits">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_CCMoney_to_XFD_CCMoney" from="snme:CCMoney" to="xfd:CCMoney">
+        <transform input="unitValue" output="unitValue">
+            <use-transformer from="snme:UnitValue" to="xfd:UnitValue" class="SNME_UnitValue_to_XFD_UnitValue" />
+        </transform>
+        <transform input="currencyCode" output="currencyCode">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UnitValue_to_XFD_UnitValue" from="snme:UnitValue" to="xfd:UnitValue">
+        <transform input="valueDigits" output="valueDigits">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="exponent" output="exponent">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_MultipleServicesCreditControl_to_XFD_MultipleServicesCreditControl" from="snme:MultipleServicesCreditControl" to="xfd:MultipleServicesCreditControl">
+        <transform input="grantedServiceUnit" output="grantedServiceUnit">
+            <use-transformer from="snme:GrantedServiceUnit" to="xfd:GrantedServiceUnit" class="SNME_GrantedServiceUnit_to_XFD_GrantedServiceUnit" />
+        </transform>
+        <transform input="requestedServiceUnit" output="requestedServiceUnit">
+            <use-transformer from="snme:RequestedServiceUnit" to="xfd:RequestedServiceUnit" class="SNME_RequestedServiceUnit_to_XFD_RequestedServiceUnit" />
+        </transform>
+        <transform input="usedServiceUnit" output="usedServiceUnit">
+            <transformer from="snme:UsedServiceUnit[]" to="xfd:UsedServiceUnit[]">
+                <array>
+                    <use-transformer from="snme:UsedServiceUnit" to="xfd:UsedServiceUnit" class="SNME_UsedServiceUnit_to_XFD_UsedServiceUnit" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="tariffChangeUsage" output="tariffChangeUsage">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="serviceIdentifier" output="serviceIdentifier">
+            <use-transformer from="nme:long-array" to="long[]" class="tnme:LongArrayWrapperToLongArray" />
+        </transform>
+        <transform input="ratingGroup" output="ratingGroup">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="gsuPoolReference" output="gsuPoolReference">
+            <transformer from="snme:GSUPoolReference[]" to="xfd:GSUPoolReference[]">
+                <array>
+                    <use-transformer from="snme:GSUPoolReference" to="xfd:GSUPoolReference" class="SNME_GSUPoolReference_to_XFD_GSUPoolReference" />
+                </array>
+            </transformer>
+        </transform>
+        <transform input="validityTime" output="validityTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="resultCode" output="resultCode">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="finalUnitIndication" output="finalUnitIndication">
+            <use-transformer from="snme:FinalUnitIndication" to="xfd:FinalUnitIndication" class="SNME_FinalUnitIndication_to_XFD_FinalUnitIndication" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_RequestedServiceUnit_to_XFD_RequestedServiceUnit" from="snme:RequestedServiceUnit" to="xfd:RequestedServiceUnit">
+        <transform input="ccTime" output="ccTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccMoney" output="ccMoney">
+            <use-transformer from="snme:CCMoney" to="xfd:CCMoney" class="SNME_CCMoney_to_XFD_CCMoney" />
+        </transform>
+        <transform input="ccTotalOctets" output="ccTotalOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccInputOctets" output="ccInputOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccOutputOctets" output="ccOutputOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccServiceSpecificUnits" output="ccServiceSpecificUnits">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UsedServiceUnit_to_XFD_UsedServiceUnit" from="snme:UsedServiceUnit" to="xfd:UsedServiceUnit">
+        <transform input="tariffChangeUsage" output="tariffChangeUsage">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="ccTime" output="ccTime">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccMoney" output="ccMoney">
+            <use-transformer from="snme:CCMoney" to="xfd:CCMoney" class="SNME_CCMoney_to_XFD_CCMoney" />
+        </transform>
+        <transform input="ccTotalOctets" output="ccTotalOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccInputOctets" output="ccInputOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccOutputOctets" output="ccOutputOctets">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccServiceSpecificUnits" output="ccServiceSpecificUnits">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_GSUPoolReference_to_XFD_GSUPoolReference" from="snme:GSUPoolReference" to="xfd:GSUPoolReference">
+        <transform input="gsuPoolIdentifier" output="gsuPoolIdentifier">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="ccUnitType" output="ccUnitType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="unitValue" output="unitValue">
+            <use-transformer from="snme:UnitValue" to="xfd:UnitValue" class="SNME_UnitValue_to_XFD_UnitValue" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_FinalUnitIndication_to_XFD_FinalUnitIndication" from="snme:FinalUnitIndication" to="xfd:FinalUnitIndication">
+        <transform input="finalUnitAction" output="finalUnitAction">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="restrictionFilterRule" output="restrictionFilterRule">
+            <use-transformer from="nme:string-array" to="string[]" class="tnme:StringArrayWrapperToStringArray" />
+        </transform>
+        <transform input="filterId" output="filterId">
+            <use-transformer from="nme:string-array" to="string[]" class="tnme:StringArrayWrapperToStringArray" />
+        </transform>
+        <transform input="redirectServer" output="redirectServer">
+            <use-transformer from="snme:RedirectServer" to="xfd:RedirectServer" class="SNME_RedirectServer_to_XFD_RedirectServer" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_RedirectServer_to_XFD_RedirectServer" from="snme:RedirectServer" to="xfd:RedirectServer">
+        <transform input="redirectAddressType" output="redirectAddressType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="redirectServerAddress" output="redirectServerAddress">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_CostInformation_to_XFD_CostInformation" from="snme:CostInformation" to="xfd:CostInformation">
+        <transform input="unitValue" output="unitValue">
+            <use-transformer from="snme:UnitValue" to="xfd:UnitValue" class="SNME_UnitValue_to_XFD_UnitValue" />
+        </transform>
+        <transform input="currencyCode" output="currencyCode">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="costUnit" output="costUnit">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ProxyInfo_to_XFD_ProxyInfo" from="snme:ProxyInfo" to="xfd:ProxyInfo">
+        <transform input="proxyHost" output="proxyHost">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="proxyState" output="proxyState">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_SubscriptionId_to_XFD_SubscriptionId" from="snme:SubscriptionId" to="xfd:SubscriptionId">
+        <transform input="subscriptionIdType" output="subscriptionIdType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="subscriptionIdData" output="subscriptionIdData">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_ServiceParameterInfo_to_XFD_ServiceParameterInfo" from="snme:ServiceParameterInfo" to="xfd:ServiceParameterInfo">
+        <transform input="serviceParameterType" output="serviceParameterType">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+        <transform input="serviceParameterValue" output="serviceParameterValue">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+
+    <transformer id="SNME_UserEquipmentInfo_to_XFD_UserEquipmentInfo" from="snme:UserEquipmentInfo" to="xfd:UserEquipmentInfo">
+        <transform input="userEquipmentInfoType" output="userEquipmentInfoType">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="userEquipmentInfoValue" output="userEquipmentInfoValue">
+            <use-transformer from="nme:byte-array" to="byte[]" class="tnme:ByteArrayWrapperToByteArray" />
+        </transform>
+    </transformer>
+</transformations>

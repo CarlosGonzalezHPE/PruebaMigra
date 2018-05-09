@@ -1,0 +1,59 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/cdrsample"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/cdrsample"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="CDRFile">
+        <sequence>
+            <element name="header" type="this:Header" />
+            <element name="records">
+                <complexType>
+                    <sequence>
+                        <element type="this:CDR" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Header">
+        <sequence>
+            <element name="fileType" type="nme:int" />
+            <element name="dataFormatType" type="nme:int" />
+            <element name="recordsSourceLen" type="nme:int" />
+            <element name="recordsSource" type="nme:string" />
+            <element name="someChar" type="nme:char" />
+            <element name="fileSeqNum" type="nme:long" />
+            <element name="fileCreationType" type="nme:int" />
+        </sequence>
+    </complexType>
+
+    <complexType name="CDR">
+        <sequence>
+            <element name="recordType" type="nme:int" />
+            <element name="fixedLengthCDR" type="this:FixedLengthCDR" />
+            <element name="domesticCDR" type="this:DomesticCDR" />
+        </sequence>
+    </complexType>
+
+    <complexType name="FixedLengthCDR">
+        <sequence>
+            <element name="originalCallerId" type="nme:string" />
+            <element name="destinationCallerId" type="nme:string" />
+            <element name="audioCodec" type="nme:string" />
+            <element name="terminationReason" type="nme:string" />
+            <element name="connectionTime" type="nme:long" />
+        </sequence>
+    </complexType>
+
+    <complexType name="DomesticCDR">
+        <sequence>
+            <element name="originalCallerId" type="nme:string" />
+            <element name="connectionTime" type="nme:long" />
+            <element name="appData" type="nme:byte-array" />
+            <element name="mobile" type="nme:short" />
+        </sequence>
+    </complexType>
+</schema>

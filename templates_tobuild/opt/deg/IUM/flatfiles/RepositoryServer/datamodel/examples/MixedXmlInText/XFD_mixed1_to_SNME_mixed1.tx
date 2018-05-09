@@ -1,0 +1,75 @@
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+    targetNamespace="http://www.hp.com/usage/datastruct/transform/XFD_mixed1_to_SNME_mixed1">
+
+    <import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+
+    <import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd/mixed1" />
+    <import prefix="snme" ns="http://www.hp.com/usage/nme/nmeschema/mixed1" />
+
+    <transformer id="XFD_EnclosingText_to_SNME_EnclosingText" from="xfd:EnclosingText" to="snme:EnclosingText">
+        <transform input="header" output="header">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="xml" output="xml">
+            <use-transformer from="xfd:XmlRoot" to="snme:XmlRoot" class="XFD_XmlRoot_to_SNME_XmlRoot" />
+        </transform>
+        <transform input="trailer" output="trailer">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_XmlRoot_to_SNME_XmlRoot" from="xfd:XmlRoot" to="snme:XmlRoot">
+        <transform input="phoneBook" output="phoneBook">
+            <use-transformer from="xfd:PhoneBook" to="snme:PhoneBook" class="XFD_PhoneBook_to_SNME_PhoneBook" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_PhoneBook_to_SNME_PhoneBook" from="xfd:PhoneBook" to="snme:PhoneBook">
+        <transform input="version" output="version">
+            <use-transformer from="int" to="int" class="t:IntToIntCopy" />
+        </transform>
+        <transform input="ownerType" output="ownerType">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="description" output="description">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="owner" output="owner">
+            <use-transformer from="xfd:Owner" to="snme:Owner" class="XFD_Owner_to_SNME_Owner" />
+        </transform>
+        <transform input="contacts" output="contacts">
+            <use-transformer from="xfd:Contacts" to="snme:Contacts" class="XFD_Contacts_to_SNME_Contacts" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Owner_to_SNME_Owner" from="xfd:Owner" to="snme:Owner">
+        <transform input="name1" output="name1">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="name2" output="name2">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_Contacts_to_SNME_Contacts" from="xfd:Contacts" to="snme:Contacts">
+        <transform input="persons" output="persons">
+            <transformer from="xfd:PersonInfo[]" to="snme:PersonInfo[]">
+                <array>
+                    <use-transformer from="xfd:PersonInfo" to="snme:PersonInfo" class="XFD_PersonInfo_to_SNME_PersonInfo" />
+                </array>
+            </transformer>
+        </transform>
+    </transformer>
+
+    <transformer id="XFD_PersonInfo_to_SNME_PersonInfo" from="xfd:PersonInfo" to="snme:PersonInfo">
+        <transform input="firstName" output="firstName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="lastName" output="lastName">
+            <use-transformer from="string" to="string" class="t:StringToStringCopy" />
+        </transform>
+        <transform input="phoneNumber" output="phoneNumber">
+            <use-transformer from="long" to="long" class="t:LongToLongCopy" />
+        </transform>
+    </transformer>
+</transformations>

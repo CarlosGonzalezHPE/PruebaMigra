@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transformations xmlns="http://www.hp.com/usage/datastruct/transform"
+targetNamespace="http://www.hp.com/usage/datastruct/transform/CDR_encode">
+
+<!-- XFD imports -->
+<!-- XFD builtin types -->
+<import prefix="xfd" ns="http://www.hp.com/usage/datastruct/xfd" />
+<!-- XFD format types -->
+<import prefix="xfd-cdr" ns="http://www.hp.com/usage/datastruct/xfd/cdrsamplecrc" />
+
+<!-- NME imports -->
+<!-- NME builtin types -->
+<import prefix="nme" ns="http://www.hp.com/usage/nme/nmeschema" />
+<!-- NME structural types -->
+<import prefix="cdr" ns="http://www.hp.com/usage/nme/nmeschema/CDRSample" />
+
+<!-- IUM standard transformers -->
+<import prefix="ium" ns="http://www.hp.com/usage/datastruct/transform" />
+
+<import prefix="ium-tx"
+        ns="com.hp.usage.datastruct.transform.transformer.nme" />
+         
+         
+    
+    <!-- HEADER -->
+
+  <transformer id="HeaderGetter" to="xfd-cdr:Header" from="cdr:FileHeader">
+    <transform input="fileType" output="fileType">
+      <use-transformer to="xfd:int" from="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="dataFormatType" output="dataFormatType">
+      <use-transformer to="xfd:int" from="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="fileCreationType" output="fileCreationType">
+      <use-transformer to="xfd:int" from="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="fileSeqNum" output="fileSeqNum">
+      <use-transformer to="xfd:long" from="nme:long" class="ium:LongToLongCopy" />
+    </transform>
+    <transform input="recordsSourceLen" output="recordsSourceLen">
+      <use-transformer to="xfd:int" from="nme:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="recordsSource" output="recordsSource">
+      <use-transformer to="xfd:string" from="nme:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="someChar" output="someChar">
+      <use-transformer to="xfd:char" from="nme:char" class="ium:CharToCharCopy" />
+    </transform>
+  </transformer>
+
+  <!-- CDR -->
+  
+  <!-- getter -->
+  <transformer id="CDRGetter" from="cdr:CDRData" to="xfd-cdr:CDR">
+    <transform input="recordType" output="recordType">
+      <use-transformer from="nme:int" to="xfd:int" class="ium:IntToIntCopy" />
+    </transform>
+    <transform input="fixedLengthCDR" output="fixedLengthCDR">
+      <use-transformer from="cdr:FixedLengthCDRData" to="xfd-cdr:FixedLengthCDR" class="FixedLengthCDRGetter" />
+    </transform>
+    <transform input="domesticCDR" output="domesticCDR" >
+      <use-transformer from="cdr:DomesticCDRData" to="xfd-cdr:DomesticCDR" class="DomesticCDRGetter" />
+    </transform>
+  </transformer>
+  
+  
+  <!--  FixedLengthCDR -->
+  
+
+    <!-- getter -->
+      <transformer id="FixedLengthCDRGetter"  from="cdr:FixedLengthCDRData" to="xfd-cdr:FixedLengthCDR" >
+    <transform input="originalCallerId" output="originalCallerId">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="destinationCallerId" output="destinationCallerId">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+        <transform input="audioCodec" output="audioCodec">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+        <transform input="terminationReason" output="terminationReason">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="connectionTime" output="connectionTime">
+      <use-transformer from="nme:long" to="xfd:long" class="ium:LongToLongCopy" />
+    </transform>
+  </transformer>
+  
+    <!--  DomesticCDR -->
+    
+  
+   <!--getter-->
+     <transformer id="DomesticCDRGetter" from="cdr:DomesticCDRData" to="xfd-cdr:DomesticCDR" >
+    <transform input="callerId" output="originalCallerId">
+      <use-transformer from="nme:string" to="xfd:string" class="ium:StringToStringCopy" />
+    </transform>
+    <transform input="connectionTime" output="connectionTime">
+      <use-transformer from="nme:long" to="xfd:long" class="ium:LongToLongCopy" />
+    </transform>
+    <transform input="appData" output="appData">
+      <use-transformer from="nme:byte-array" to="byte[]" class="ium-tx:ByteArrayWrapperToByteArray" />
+    </transform>
+    <transform input="mobile" output="mobile">
+      <use-transformer from="nme:short" to="xfd:short" class="ium:ShortToShortCopy" />
+    </transform>
+  </transformer>
+   
+</transformations>

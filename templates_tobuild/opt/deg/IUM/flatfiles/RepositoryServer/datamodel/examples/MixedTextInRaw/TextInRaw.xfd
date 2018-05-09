@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+	targetNamespace="http://www.hp.com/usage/datastruct/xfd/rawtxt">
+
+	<root type="Record" />
+
+	<type id="Record" EOR="true">
+		<codec>
+			<raw />
+		</codec>
+		<sequence>
+			<field id="header" type="long" codec="UInt4" />
+			<field id="text" type="Text">
+				<codec>
+					<raw size="10"/>
+				</codec>
+			</field>
+			<field id="footer" type="long" codec="UInt4" />
+		</sequence>
+	</type>
+
+	<type id="Text">
+		<codec>
+			<text mode="size" />
+		</codec>
+		<sequence>
+			<field id="field1" type="string">
+				<codec>
+					<text size="5" />
+				</codec>
+			</field>
+			<field id="field2" type="string">
+				<codec>
+					<text size="5" />
+				</codec>
+			</field>
+		</sequence>
+	</type>
+
+  <codec id="UInt4">
+    <raw type="long" size="4" unit="Byte" order="big-endian" unsigned="true" />
+  </codec>
+</format>

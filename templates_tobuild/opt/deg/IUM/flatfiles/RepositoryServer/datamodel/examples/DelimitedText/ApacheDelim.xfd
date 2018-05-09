@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+  targetNamespace="http://www.hp.com/usage/datastruct/xfd/apacheDelim">
+
+  <root type="ApacheWebLogRecords" />
+  
+  <type id="ApacheWebLogRecords">
+  <codec>
+    <text mode="delimiter"/>
+  </codec>
+  <sequence>
+  <array id="records" length="3">
+    <field type="ApacheWebLogRecord">
+		<codec>
+			<text delimiter="\r\n"/>
+		</codec>
+	</field>
+  </array>
+  </sequence>
+  </type>
+  
+  <type id="ApacheWebLogRecord" EOR="true">
+    <codec>
+      <text mode="delimiter" delimiter=";" quote-character="&quot;" escape-character="&quot;"/>
+    </codec>
+    <sequence>
+      <field id="clientIp" type="string"> <!-- {24.192.15.132 - } -->
+		<codec>
+			<text/>
+		</codec>
+	  </field>
+	  
+      <field id="authUser" type="string"> <!-- {- } -->
+	  	<codec>
+			<text/>
+		</codec>
+	  </field>
+	  
+      <field id="sysDate" type="string"> <!-- {[14/Nov/1998:16:06:45 +0800] } -->
+	  	<codec>
+			<text/>
+		</codec>
+	  </field>
+	  
+      <field id="usageInfo" type="UsageInfo"> <!--  "GET /gif/netsoft.gif HTTP/1.1" 304 100 -->
+	  	<codec>
+			<text/>
+		</codec>
+	  </field>
+	  
+      <field id="requestStatus" type="int">
+	  	<codec>
+			<text/>
+		</codec>
+	  </field>
+	  
+      <field id="responseSize" type="int">
+	  	<codec>
+			<text/>
+		</codec>
+	  </field>
+	  
+    </sequence>
+  </type>
+
+  <type id="UsageInfo">
+    <codec>
+      <text mode="delimiter" delimiter=" "/>
+    </codec>
+  <sequence>
+    <field id="requestType" type="string">
+      <codec>
+        <text/> <!-- {"GET } -->
+      </codec>
+    </field>
+    <field id="resource" type="string">
+      <codec>
+        <text/> <!-- {/hplogo.gif } -->
+      </codec>
+    </field>
+    <field id="protocol" type="string">
+      <codec>
+        <text/> <!-- {HTTP/1.1" } -->
+      </codec>
+    </field>
+
+    </sequence>
+  </type>
+
+</format>

@@ -1,0 +1,53 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/Warehouse"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/Warehouse"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="shiporderGlobalElementType">
+        <sequence>
+            <element name="itemGlobElem" type="this:itemGlobalElementType" />
+            <element name="shiporder" type="this:shipordertype" />
+        </sequence>
+    </complexType>
+
+    <complexType name="itemGlobalElementType">
+        <sequence>
+            <element name="item" type="this:itemtype" />
+        </sequence>
+    </complexType>
+
+    <complexType name="shiptotype">
+        <sequence>
+            <element name="name" type="nme:string" />
+            <element name="address" type="nme:string" />
+            <element name="city" type="nme:string" />
+            <element name="country" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="itemtype">
+        <sequence>
+            <element name="title" type="nme:string" />
+            <element name="note" type="nme:string" />
+            <element name="quantity" type="nme:int" />
+            <element name="price" type="nme:string" />
+        </sequence>
+    </complexType>
+
+    <complexType name="shipordertype">
+        <sequence>
+            <element name="orderperson" type="nme:string" />
+            <element name="shipto" type="this:shiptotype" />
+            <element name="item">
+                <complexType>
+                    <sequence>
+                        <element type="this:itemtype" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="attrorderid" type="nme:string" />
+        </sequence>
+    </complexType>
+</schema>

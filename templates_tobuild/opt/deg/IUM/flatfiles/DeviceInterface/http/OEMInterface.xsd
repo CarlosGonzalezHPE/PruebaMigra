@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+
+    <element name="requestRoot">
+        <complexType>
+          <all minOccurs="0">
+                <element name="request-id" type="integer"/>
+                <element name="action-name" type="string"/>
+                <element name="auth-type" type="string"/>
+                <element name="subscriber-id" type="string"/>
+                <element name="unique-id" type="string"/>
+                <element name="token" type="string"/>
+				<element name="service-token" type="string"/>
+                <element name="payload" type="string"/>
+                <element name="entitlement-names" maxOccurs="unbounded" type="string"/>
+                <element name="provisioning-elements" maxOccurs="unbounded" type="provisioningElement"/>
+                <element name="provisioning-names" maxOccurs="unbounded" type="string"/>
+                <element name="notifications" maxOccurs="unbounded" type="notification"/>
+				<element name="client-nonce" type="string"/>
+                <element name="apns-token" type="string"/>
+                <element name="subscription-types" maxOccurs="unbounded" type="string"/>
+                <element name="usage-types" maxOccurs="unbounded" type="string"/>
+				<element name="sip-username" type="string"/>
+				<element name="display-name" type="string"/>
+				<element name="primary-iccid" type="string"/>
+				<element name="eid" type="string"/>
+				<element name="secondary-device-iccids" maxOccurs="unbounded" type="string"/>
+				<element name="secondary-device-imei" type="string"/>
+				<element name="secondary-device-meid" type="string"/>
+				<element name="secondary-device-type" type="string"/>
+				<element name="device-account-identifier" type="string"/>
+				<element name="sub-actions" maxOccurs="unbounded" type="string"/>
+				
+				<element name="oauth-access-token"  type="string"/>
+				<element name="carrier-plans" maxOccurs="unbounded" type="updateAccoutRequestElement"/>
+				
+				
+			</all>
+        </complexType>
+    </element>
+
+    <element name="responseRoot">
+        <complexType>
+        <sequence>
+                <element name="response-id" type="integer"/>
+                <element name="status" type="integer"/>
+                <element name="challenge" minOccurs="0" type="string"/>
+				<element name="token" minOccurs="0" type="string"/>
+                <element name="service-tokens" minOccurs="0" maxOccurs="unbounded" type="string"/>
+                <element name="subscriber-ids" minOccurs="0" maxOccurs="unbounded" type="string"/>
+				<element name="connectivity-auth-type" minOccurs="0" type="string"/>
+				<element name="certificate-info" minOccurs="0" type="certificateInfoResponseType"/>
+				<element name="mschap-credentials" minOccurs="0" maxOccurs="unbounded" type="mschapCredentialsResponseType"/>
+				<element name="gateway-address" minOccurs="0" type="string"/>
+				<element name="entitlement-server-address" minOccurs="0" type="string"/>
+                <element name="provisioning-response" minOccurs="0" maxOccurs="unbounded" type="provisioningResponseType"/>
+                <element name="provisioning-elements" minOccurs="0" maxOccurs="unbounded" type="provisioningElementResponseType"/>
+                <element name="notifications-response" minOccurs="0" maxOccurs="unbounded" type="notificationResponseType"/>
+                <element name="address-status" minOccurs="0" type="integer"/>
+                <element name="tc-status" minOccurs="0" type="integer"/>
+                <element name="address-update-url" minOccurs="0" type="string"/>
+                <element name="address-update-url-post-data" minOccurs="0" type="string"/>
+                <element name="address-refid" minOccurs="0" type="string"/>
+                <element name="address-refid-expiration-date" minOccurs="0" type="string"/>
+				<element name="provisioning-status" minOccurs="0" type="integer"/>
+				<element name="phone-number" minOccurs="0" type="string"/>
+                <element name="signature" minOccurs="0" type="string"/>
+                <element name="response" minOccurs="0" maxOccurs="unbounded" type="entitlementResponseType"/>
+                <element name="account-info-response" minOccurs="0" type="accounInfoResponseType"/>
+				<element name="street" minOccurs="0" type="string"/>
+				<element name="sub-locality" minOccurs="0" type="string"/>
+				<element name="city" minOccurs="0" type="string"/>
+				<element name="state" minOccurs="0" type="string"/>
+				<element name="postal-code" minOccurs="0" type="string"/>
+				<element name="country" minOccurs="0" type="string"/>
+				<element name="iso-country-code" minOccurs="0" type="string"/>
+                <element name="manage-account-url" minOccurs="0" type="string"/>
+                <element name="manage-account-url-post-data" minOccurs="0" type="string"/>
+                <element name="secondary-devices-paired" minOccurs="0" maxOccurs="unbounded" type="secondaryDevicespairedResponseType"/>
+                <element name="signup-url" minOccurs="0" type="string"/>
+                <element name="signup-url-post-data" minOccurs="0" type="string"/>
+				<element name="plmn-priority-list" minOccurs="0" type="plmnPriorityListResponseType"/>
+				<element name="carrier-plans" minOccurs="1" type="carrierPlansListResponseType"/>
+				<element name="network-usage" minOccurs="1" type="networkUsageListResponseType"/>
+				<element name="carrier-apps" minOccurs="1" type="carrierAppsResponseType"/>
+				<element name="background-refresh-interval-hrs" minOccurs="0" type="string"/>
+				<element name="user-consent" minOccurs="0" type="userConsentResponseType"/>
+				
+        </sequence>
+        </complexType>
+    </element>
+
+
+	<element name="responseRoot2">
+        	<complexType>
+		        <sequence>
+				 <element name="response-id" type="integer"/>
+        		         <element name="status" type="integer"/>
+
+				<element name="carrier-plans" minOccurs="1" maxOccurs="unbounded" type="carrierPlansForUpdateAccount"/>
+           		</sequence>
+        	</complexType>
+    </element>
+
+
+
+
+	<complexType name="carrierPlansForUpdateAccount">
+ 	       <sequence>
+			<element name="plan-id" minOccurs="1" type="string"/>
+         		<element name="status"  minOccurs="1" type="integer"/>
+	       </sequence>
+    </complexType>
+
+	
+	<complexType name="updateAccoutRequestElement">
+        <all>
+                <element name="plan-id" type="string"/>
+        </all>
+    </complexType>
+
+
+
+
+    <complexType name="entitlementResponseType">
+        <sequence>
+                <element name="entitlement-name" type="string"/>
+                <element name="entitlement-status" type="integer"/>
+        </sequence>
+    </complexType>
+
+
+    <complexType name="accounInfoResponseType">
+        <sequence>
+                <element name="usage-info" type="usageInfoResponseType" minOccurs="0"/>
+                <element name="subscription-info" type="subscriptionInfoResponseType" minOccurs="0"/>
+                <element name="extended_usage_info" type="extendedUsageInfoResponseType" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+
+    <complexType name="usageInfoResponseType">
+        <sequence>
+                <element name="voice" minOccurs="0" maxOccurs="unbounded" type="usageVoiceResponseType"/>
+                <element name="data" minOccurs="0" maxOccurs="unbounded" type="usageDataResponseType"/>
+                <element name="message" minOccurs="0" maxOccurs="unbounded" type="usageMessageResponseType"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="subscriptionInfoResponseType">
+        <sequence>
+                <element name="voice" type="subsVoiceResponseType" minOccurs="0"/>
+                <element name="data" type="subsDataResponseType" minOccurs="0"/>
+                <element name="message" type="subsMessageResponseType" minOccurs="0" />
+                <element name="account-info" type="subsAccountInfoResponseType" minOccurs="0" />
+	</sequence>
+    </complexType>
+
+
+    <complexType name="usageVoiceResponseType">
+        <sequence>
+                <element name="category-id" minOccurs="0" type="integer"/>
+                <element name="voice-capacity" minOccurs="0" type="integer"/>
+                <element name="voice-used" minOccurs="0" type="integer"/>
+                <element name="timestamp" minOccurs="0" type="string"/>
+                <element name="status-code" minOccurs="0" type="integer"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="usageDataResponseType">
+        <sequence>
+                <element name="category-id" minOccurs="0" type="integer"/>
+                <element name="use-for-alert" minOccurs="0" type="boolean"/>
+                <element name="data-capacity" minOccurs="0" type="integer"/>
+                <element name="data-used" minOccurs="0" type="integer"/>
+                <element name="timestamp" minOccurs="0" type="string"/>
+		<element name="status-code" minOccurs="0" type="integer"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="usageMessageResponseType">
+        <sequence>
+                <element name="category-id" type="integer" minOccurs="0"/>
+                <element name="mo-sms" type="integer" minOccurs="0"/>
+                <element name="mt-sms" type="integer" minOccurs="0"/>
+                <element name="total-sms" type="integer" minOccurs="0"/>
+                <element name="mo-mms" type="integer" minOccurs="0"/>
+                <element name="mt-mms" type="integer" minOccurs="0"/>
+                <element name="total-mms" type="integer" minOccurs="0"/>
+                <element name="timestamp" type="string" minOccurs="0"/>
+                <element name="sms-capacity" type="integer" minOccurs="0"/>
+                <element name="mms-capacity" type="integer" minOccurs="0"/>
+		<element name="status-code" type="integer" minOccurs="0"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="subsVoiceResponseType">
+        <sequence>
+                <element name="subscription-status" minOccurs="0" type="string"/>
+                <element name="plan-type" minOccurs="0" type="string"/>
+                <element name="status-code" minOccurs="0" type="integer"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="subsDataResponseType">
+        <sequence>
+                <element name="subscription-status" minOccurs="0" type="string"/>
+                <element name="plan-type" minOccurs="0" type="string"/>
+                <element name="plan-mgt-type" minOccurs="0" type="string"/>
+		<element name="status-code" minOccurs="0" type="integer"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="subsMessageResponseType">
+        <sequence>
+		<element name="subscription-status" minOccurs="0" type="string"/>
+                <element name="plan-type" minOccurs="0" type="string"/>
+		<element name="status-code" minOccurs="0" type="integer"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="subsAccountInfoResponseType">
+        <sequence>
+                <element name="billing-cycle-start-date" type="string" minOccurs="0"/>
+                <element name="billing-cycle-end-date" type="string" minOccurs="0"/>
+                <element name="plan-type" type="string" minOccurs="0"/>
+                <element name="auto-renew" type="boolean" minOccurs="0"/>
+		<element name="stacking" type="boolean" minOccurs="0"/>
+		<element name="status-code" minOccurs="0" type="integer"/>
+	</sequence>
+    </complexType>
+
+	
+	<complexType name="extendedUsageInfoResponseType">
+        <sequence>
+                 <element name="data-usage-info" minOccurs="0" maxOccurs="unbounded" type="extendedUsageDatainfoResponseType"/>
+	</sequence>
+    </complexType>
+
+	
+	<complexType name="extendedUsageDatainfoResponseType">
+        <sequence>
+                <element name="iccid" type="string" minOccurs="0"/>
+                <element name="subscription-type" minOccurs="0"  maxOccurs="unbounded" type="string"/>
+                <element name="category-id" type="integer" minOccurs="0"/>
+                <element name="data-capacity" type="integer" minOccurs="0"/>
+                <element name="data-used" type="integer" minOccurs="0"/>
+                <element name="last-updated" type="string" minOccurs="0"/>
+       </sequence>
+    </complexType>
+	
+	
+    <complexType name="certificateInfoResponseType">
+        <sequence>
+                <element name="organization" type="string"/>
+                <element name="department" minOccurs="0" type="string"/>
+                <element name="city" minOccurs="0" type="string"/>
+                <element name="state" minOccurs="0" type="string"/>
+                <element name="country" minOccurs="0" type="string"/>
+                <element name="email" minOccurs="0" type="string"/>
+	</sequence>
+    </complexType>
+
+
+    <complexType name="mschapCredentialsResponseType">
+        <sequence>
+		<element name="mschap-username" minOccurs="0" type="string"/>
+		<element name="mschap-password" minOccurs="0" type="string"/>
+	</sequence>
+    </complexType>
+
+
+   <complexType name="provisioningElement">
+        <all>
+                <element name="name" type="string"/>
+                <element name="state" type="integer"/>
+                <element name="data" minOccurs="0" maxOccurs="unbounded" type="VoWifidata"/>
+	</all>
+    </complexType>
+
+
+   <complexType name="provisioningElementResponseType">
+        <sequence>
+                <element name="name" type="string"/>
+                <element name="status" type="integer"/>
+                <element name="data" minOccurs="0" maxOccurs="unbounded" type="VoWifidata"/>
+                <element name="service-mgmt-url" minOccurs="0" type="string"/>
+                <element name="service-mgmt-url-postdata" minOccurs="0" type="string"/>
+	</sequence>
+    </complexType>
+
+
+   <complexType name="VoWifidata">
+        <all>
+                <element name="CSR" minOccurs="0" type="string"/>
+                <element name="sip-reg-uri" minOccurs="0" type="string"/>
+                <element name="apn" minOccurs="0" type="string"/>
+                <element name="sip-username" minOccurs="0" type="string"/>
+                <element name="sip-password" minOccurs="0" type="string"/>
+                <element name="imsi" minOccurs="0" type="string"/>
+                <element name="public-id" minOccurs="0" type="string"/>
+                <element name="pcscf-address" minOccurs="0" type="string"/>
+        </all>
+    </complexType>
+
+
+   <complexType name="notification">
+        <all>
+                <element name="notification-name" type="string"/>
+                <element name="old-apns-token" minOccurs="0" type="string"/>
+                <element name="apns-token" type="string"/>
+	</all>
+    </complexType>
+
+
+   <complexType name="provisioningResponseType">
+        <sequence>
+                <element name="provisioning-name" type="string"/>
+                <element name="provisioning-status" type="integer"/>
+                <element name="certificate" minOccurs="0" type="string"/>
+                <element name="gateway-local-id" minOccurs="0" type="string"/>
+                <element name="ims-private-identity" minOccurs="0" type="string"/>
+                <element name="ims-public-identity" minOccurs="0" type="string"/>
+        </sequence>
+   </complexType>
+
+
+   <complexType name="notificationResponseType">
+        <sequence>
+                <element name="notification-status" type="integer"/>
+		<element name="notification-name" type="string"/>
+	</sequence>
+    </complexType>
+
+    <complexType name="secondaryDevicespairedResponseType">
+        <sequence>
+            <element name="eid" type="string"/>
+            <element name="imei" type="string"/>
+            <element name="meid" type="string"/>
+            <element name="iccid" type="string"/>
+            <element name="activation-status" type="string"/>
+            <element name="alt-smdp-fqdn" minOccurs="0" type="string"/>
+    </sequence>
+    </complexType>
+	
+	<complexType name="plmnPriorityListResponseType">
+        <sequence>
+                 <element name="unlimited" minOccurs="0" maxOccurs="unbounded" type="PlmnUnlimitedData"/>
+				 <element name="metered" minOccurs="0" maxOccurs="unbounded" type="PlmnMeteredData"/>
+				 <element name="others" minOccurs="0" maxOccurs="unbounded" type="PlmnOthersData"/>
+	</sequence>
+    </complexType>
+
+	<complexType name="PlmnUnlimitedData">
+        <sequence>
+            <element name="plmn" minOccurs="0" type="PlmnData"/>
+			<element name="rat-mask" minOccurs="0" type="integer"/>
+			<element name="priority" minOccurs="0" type="integer"/>
+    </sequence>
+    </complexType>
+	
+	<complexType name="PlmnMeteredData">
+        <sequence>
+            <element name="plmn" minOccurs="0" type="PlmnData"/>
+			<element name="rat-mask" minOccurs="0" type="integer"/>
+			<element name="priority" minOccurs="0" type="integer"/>
+    </sequence>
+    </complexType>
+	
+	<complexType name="PlmnOthersData">
+        <sequence>
+            <element name="plmn" minOccurs="0" type="PlmnData"/>
+			<element name="rat-mask" minOccurs="0" type="integer"/>
+			<element name="priority" minOccurs="0" type="integer"/>
+    </sequence>
+    </complexType>
+	
+	<complexType name="PlmnData">
+        <sequence>
+            <element name="mcc" minOccurs="0" type="string"/>
+            <element name="mnc" minOccurs="0" type="string"/>
+    </sequence>
+    </complexType>
+	
+	
+	<complexType name="networkUsageListResponseType">
+        <sequence>
+				 <element name="account-metrics" minOccurs="0" maxOccurs="unbounded" type="AccountMetricsListResponseType"/>
+        </sequence>
+    </complexType>
+	
+	<complexType name="carrierAppsResponseType">
+        <sequence>
+				 <element name="apps-list" minOccurs="1" maxOccurs="unbounded" type="string"/>
+				 <element name="apps-url" minOccurs="0" type="string"/>
+        </sequence>
+    </complexType>
+	
+	<complexType name="AccountMetricsListResponseType">
+        <sequence>
+				 <element name="network-usage-label" minOccurs="1"  type="string"/>
+				 <element name="device-type" minOccurs="0"  type="integer"/>
+				 <element name="local-device-metrics" minOccurs="1"  type="boolean"/>
+				 <element name="subscription-status" minOccurs="1" type="string"/>
+				 <element name="plan-type" minOccurs="1" type="string"/>
+				 <element name="billing-cycle-ends-date" minOccurs="1" type="string"/>
+				 <element name="applicable-plans" minOccurs="1" maxOccurs="unbounded" type="ApplicablePlansListResponseType"/>
+		</sequence>
+    </complexType>
+	
+	
+	<complexType name="ApplicablePlansListResponseType">
+        <sequence>
+				<element name="plan-label" minOccurs="0" type="string"/>
+				<element name="plan-category" minOccurs="0" type="integer"/>
+				 <element name="current-used-plan" minOccurs="1" type="boolean"/>
+				 <element name="data-measure-unit" minOccurs="0" type="string"/>
+				 <element name="data-capacity" minOccurs="1" type="string"/>
+				 <element name="max-data-before-throttling" minOccurs="0" type="string"/>
+				 <element name="data-used" minOccurs="1" type="string"/>
+				 <element name="shared-data-used" minOccurs="0" type="string"/>
+				 <element name="shared-plan-identifier" minOccurs="0" type="string"/>
+				 <element name="messages-capacity" minOccurs="0" type="string"/>
+				 <element name="messages-used" minOccurs="0" type="string"/>
+				 <element name="voice-minutes-capacity" minOccurs="0" type="string"/>
+				 <element name="voice-minutes-used" minOccurs="0" type="string"/>
+				 <element name="remaining-balance" minOccurs="0" type="string"/>
+				 <element name="throttled" minOccurs="0" type="boolean"/>
+				 <element name="last-updated-at" minOccurs="1" type="string"/>
+		</sequence>
+    </complexType>
+
+	
+	<complexType name="carrierPlansListResponseType">
+        <sequence>
+				<element name="plans-list" minOccurs="1" maxOccurs="unbounded" type="PlansListResponseType"/>
+				<element name="more-plans-url" minOccurs="0" type="string"/>
+		</sequence>
+    </complexType>
+	
+	
+	<complexType name="PlansListResponseType">
+        <sequence>
+				<element name="plan-category" minOccurs="0" type="integer"/>
+				<element name="plan-group-options" minOccurs="1" maxOccurs="unbounded" type="PlanGroupOptionsListResponseType"/>
+		</sequence>
+    </complexType>
+	
+	
+	<complexType name="PlanGroupOptionsListResponseType">
+        <sequence>
+                 <element name="plan-id" minOccurs="1" type="string"/>
+				 <element name="plan-label" minOccurs="1" type="string"/>
+				 <element name="plan-value" minOccurs="1" type="string"/>
+				 <element name="plan-subscribed" minOccurs="1" type="string"/>
+				 <element name="plan-purchasable" minOccurs="1" type="boolean"/>
+				 <element name="plan-details-url" minOccurs="0" type="string"/>
+				 <element name="plan-termcond-url" minOccurs="0" type="string"/>
+				 	 
+		</sequence>
+    </complexType>
+	
+	
+	<complexType name="userConsentResponseType">
+        <sequence>
+                 <element name="opt-in-url" minOccurs="0" type="string"/>
+				 <element name="opt-in-url-post-data" minOccurs="0" type="string"/>
+				 				 	 
+		</sequence>
+    </complexType>
+	
+	
+
+</schema>

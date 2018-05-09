@@ -1,0 +1,43 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.hp.com/usage/nme/nmeschema/pb"
+    xmlns:this="http://www.hp.com/usage/nme/nmeschema/pb"
+    xmlns:nme="http://www.hp.com/usage/nme/nmeschema">
+
+    <import namespace="http://www.hp.com/usage/nme/nmeschema" />
+
+    <complexType name="Root">
+        <sequence>
+            <element name="phoneBook" type="this:PhoneBook" />
+        </sequence>
+    </complexType>
+
+    <complexType name="PhoneBook">
+        <sequence>
+            <element name="version" type="nme:int" />
+            <element name="ownerType" type="nme:string" />
+            <element name="description" type="nme:string" />
+            <element name="owner" type="nme:string" />
+            <element name="contacts" type="this:Contacts" />
+        </sequence>
+    </complexType>
+
+    <complexType name="Contacts">
+        <sequence>
+            <element name="persons">
+                <complexType>
+                    <sequence>
+                        <element type="this:PersonInfo" name="value" maxOccurs="unbounded" />
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="PersonInfo">
+        <sequence>
+            <element name="firstName" type="nme:string" />
+            <element name="lastName" type="nme:string" />
+            <element name="phoneNumber" type="nme:long" />
+        </sequence>
+    </complexType>
+</schema>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+  targetNamespace="http://www.hp.com/usage/datastruct/xfd/cdrsamplecrc">
+
+<import prefix="t" ns="http://www.hp.com/usage/datastruct/transform" />
+
+  <type id="CDRFileEncode">
+    <codec> <raw /> </codec>
+    <script language="Groovy" trigger="before">
+                    <![CDATA[     
+                //reserve 4 bytes for crc    
+                outputBuffer.position(outputBuffer.position()+4);
+             ]]>
+    </script>
+    <script language="Groovy" trigger="after">
+                <![CDATA[     
+                import java.util.zip.CRC32;
+                      
+                java.util.zip.CRC32 crc = new java.util.zip.CRC32();
+                // header size is 4 bytes
+                for(int i=4; i <= outputBuffer.position(); i++) 
+                	crc.update(outputBuffer.get(i));
+
+                // write CRC32 at the beginning
+                outputBuffer.putInt(0, (int)crc.getValue());
+             ]]>
+    </script>
+    <sequence>
+      <array id="records" length="2">
+        <field type="CDR" />
+      </array>
+    </sequence>
+  </type>
+
+
+  <type id="CDR" EOR="true">
+    <codec> <raw/> </codec>
+    <sequence>
+      <field id="recordType" type="int" codec="UInt2" />
+      <switch field="recordType">
+        <case value="2">
+          <field id="fixedLengthCDR" type="FixedLengthCDR" />
+        </case>
+        <case value="3">
+          <field id="domesticCDR" type="DomesticCDR" />
+        </case>
+      </switch>
+    </sequence>
+  </type>
+
+  <type id="FixedLengthCDR">
+    <codec> <raw/> </codec>
+    <sequence>
+      <field id="originalCallerId" type="string" codec="StringUTF8Len12" />
+      <field id="destinationCallerId" type="string" codec="StringUTF8Len12" />
+      <field id="audioCodec" type="string" codec="StringUTF8Len6" />
+      <field id="terminationReason" type="string" codec="StringUTF8Len6" />
+      <field id="connectionTime" type="long" codec="UInt4" />
+    </sequence>
+  </type>
+  
+    <type id="DomesticCDR">
+    <codec> <raw /> </codec>
+    <sequence>
+      <field id="originalCallerId" type="string" codec="StringUTF8Len6" />
+      <field id="connectionTime" type="long" codec="UInt4" />
+	  <field id="appData" type="byte[]" codec="ByteArray12"/>
+      <field id="mobile" type="short" codec="UInt1" />
+    </sequence>
+  </type>
+
+<!-- Codec part -->
+  <codec id="CharCodec">
+	<raw type="char" size="1" unit="Byte"/>
+  </codec>
+
+  <codec id="UInt1">
+    <raw type="short" size="1" unit="Byte" order="big-endian" unsigned="true" />
+  </codec>
+  <codec id="UInt2">
+    <raw type="int" size="2" unit="Byte" order="big-endian" unsigned="true" />
+  </codec>
+  <codec id="UInt4">
+    <raw type="long" size="4" unit="Byte" order="big-endian" unsigned="true" />
+  </codec>
+  <codec id="UInt8">
+    <raw type="long" size="8" unit="Byte" order="big-endian" />
+  </codec>
+  <codec id="StringUTF8Len3">
+    <raw type="string" charset="UTF8" size="3" />
+  </codec>
+  <codec id="StringUTF8Len6">
+    <raw type="string" charset="UTF8" size="6" />
+  </codec>
+  <codec id="StringUTF8Len12">
+    <raw type="string" charset="UTF8" size="12" padding="zero-fill"/>
+  </codec>
+  <codec id="ByteArray12">
+	<raw type="byte[]" size="12" unit="Byte"/>
+  </codec>
+</format>

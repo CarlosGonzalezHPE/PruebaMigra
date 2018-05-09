@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<format xmlns="http://www.hp.com/usage/datastruct/xfd"
+    targetNamespace="http://www.hp.com/usage/datastruct/xfd/eap">
+    
+    <root type="eap" />
+
+    <type id="eap" EOR="true">
+    <codec><raw >
+            </raw>
+        </codec>        
+        <sequence>
+            <field id="code" type="short" codec="UByte1"/>
+            <field id="identifier" type="short" codec="UByte1"/>
+            <field id="length" type="int" codec="UByte2"/>
+            <switch field="code">                
+                <case value="1">
+                    <field id="request" type="requestResponse" />
+                </case>
+                <case value="2">
+                    <field id="response" type="requestResponse" />
+                </case>                
+            </switch>                                
+        </sequence>
+    </type>
+    
+    <type id="requestResponse">
+    <codec><raw >
+            </raw>
+        </codec>        
+        <sequence>
+            <field id="type" type="short" codec="UByte1"/>
+            <switch field="type">                
+                <case value="23">
+                    <field id="akaType" type="akaType" />
+                </case>                               
+            </switch>   
+        </sequence>
+    </type>
+    
+    
+    <type id="akaType">
+    <codec><raw >
+            </raw>
+        </codec>        
+        <sequence>
+            <field id="subType" type="short" codec="UByte1"/>
+            <switch field="subType">                
+                <case value="12">
+                    <field id="atNotification" type="atNotification" />
+                </case>                               
+            </switch>             
+        </sequence>
+    </type>
+    
+    <type id="atNotification">
+    <codec><raw >
+            </raw>
+        </codec>        
+        <sequence>
+            <field id="attribute" type="short" codec="UByte1"/>
+            <field id="reserved" type="int" codec="UByte2"/>             
+            <field id="length" type="short" codec="UByte1"/>
+            <field id="value" type="int" codec="UByte2"/>           
+        </sequence>
+    </type>           
+    
+    <!-- Codec defining area -->    
+    <codec id="UByte1">
+        <raw type="short" size="1" unit="Byte" order="big-endian"
+            unsigned="true" />
+    </codec>
+    <codec id="UByte2">
+        <raw type="short" size="2" unit="Byte" order="big-endian"
+            unsigned="true" />
+    </codec>
+</format>
