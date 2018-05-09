@@ -1507,7 +1507,7 @@ JOBS_DB_CON_MAX_POOL_SIZE=5
 
 #{
 #IUM_Process=DEG_APNSInterface
-APNS_MIN_THREADS=100
+APNS_MIN_THREADS=10
 #Configured By= Product Team
 #Description=Specifies the minimum number of threads to be kept running for this connector.
 #}
@@ -1612,42 +1612,42 @@ DEVICEINTERFACE_REQUEST_TIMEOUT=1000
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_VOWIFI=50
+APNS_MAX_CONN_VOWIFI=10
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production or Sandbox server for VoWiFi topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_CAMBIO=50
+APNS_MAX_CONN_CAMBIO=1
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for  Cambio topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_VOLTE=50
+APNS_MAX_CONN_VOLTE=10
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for VoLTE topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_ICLOUDVOWIFI=50
+APNS_MAX_CONN_ICLOUDVOWIFI=1
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for iCloudVoWiFi topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_MULTISIM=50
+APNS_MAX_CONN_MULTISIM=10
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for Multi-SIM topic.
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
-APNS_MAX_CONN_CARRIERSPACE=50
+APNS_MAX_CONN_CARRIERSPACE=1
 #Configured By= Delivery Team
 #Description=Maximum number of connection between APNS Interface and APNS Production (or) Sandbox server for CarrierSpace topic.
 #}
@@ -1707,20 +1707,27 @@ ICLOUDVoWiFI=DISABLED
 #{
 #IUM_Process= DEG_APNSInterface
 APNS_CONNECTION_INACTIVE_TIME=12
-#Configured By= Product Team
+#Configured By= Delivery Team
 #Description= Maximum retry to establish TCP connection between Client and server
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
 APNS_MAX_CONNECTION_NUMBER=50
-#Configured By= Product Team
+#Configured By= Delivery Team
 #Description= Maximum retry to establish TCP connection between Client and server
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
 APNS_MAX_RETRIES=23
-#Configured By= Product Team
+#Configured By= Delivery Team
 #Description= Maximum retry to establish TCP connection between Client and server
+#}
+
+#{
+#IUM_Process=DEG_APNSInterface
+APNS_MAX_THREADS=100
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of threads to be kept running for this connector.
 #}

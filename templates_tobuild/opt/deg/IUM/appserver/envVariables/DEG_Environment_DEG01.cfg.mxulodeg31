@@ -1706,20 +1706,29 @@ ICLOUDVoWiFI=DISABLED
 #{
 #IUM_Process= DEG_APNSInterface
 APNS_CONNECTION_INACTIVE_TIME=12
-#Configured By= Product Team
+#Configured By= Delivery Team
 #Description= Maximum retry to establish TCP connection between Client and server
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
 APNS_MAX_CONNECTION_NUMBER=50
-#Configured By= Product Team
+#Configured By= Delivery Team
 #Description= Maximum retry to establish TCP connection between Client and server
 #}
 
 #{
 #IUM_Process= DEG_APNSInterface
 APNS_MAX_RETRIES=23
-#Configured By= Product Team
+#Configured By= Delivery Team
 #Description= Maximum retry to establish TCP connection between Client and server
 #}
+
+#{
+#IUM_Process=DEG_APNSInterface
+APNS_MAX_THREADS=100
+#Configured By= Delivery Team
+#Description=Specifies the maximum number of threads to be kept running for this connector.
+#}
+
+

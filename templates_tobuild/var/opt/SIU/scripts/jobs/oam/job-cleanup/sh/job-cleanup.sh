@@ -164,7 +164,7 @@ function cleanupFiles
       do
         FILENAME=$(basename ${FILEPATH})
 
-        MATCH=$(echo ${FILENAME} | grep -P "${FILENAME_REGEX}$")
+        MATCH=$(echo ${FILENAME} | grep -P "${FILENAME_REGEX}" | grep -v ".gz$")
         if [ -z ${MATCH} ]
         then
           logDebug "File '${FILENAME}' does not match patterns '${FILENAME_REGEX}'"
@@ -183,6 +183,7 @@ function cleanupFiles
     fi
   done < ${TMP_DIR}/files
 }
+
 
 function process
 {
