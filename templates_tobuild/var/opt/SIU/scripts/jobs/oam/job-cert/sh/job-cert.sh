@@ -37,7 +37,7 @@ function process
     if [ $? -ne 0 ] || [ -z "${LABEL}" ]
     then
       logError "Unable to get mandatory parameter 'LABEL' in section '${CERTIFICATE}'"
-      RETURN_CODE=1
+      echo ${CERTIFICATE} >> ${TMP_DIR}/failed_certificates
       continue
     fi
     logDebug "LABEL = ${LABEL}"
@@ -46,16 +46,25 @@ function process
     if [ $? -ne 0 ] || [ -z "${ALIAS}" ]
     then
       logError "Unable to get mandatory parameter 'ALIAS' in section '${CERTIFICATE}'"
-      RETURN_CODE=1
+      echo ${CERTIFICATE} >> ${TMP_DIR}/failed_certificates
       continue
     fi
     logDebug "ALIAS = ${ALIAS}"
+
+    OWNER_CN="$(getConfigParam ${CERTIFICATE} OWNER_CN)"
+    if [ $? -ne 0 ] || [ -z "${OWNER_CN}" ]
+    then
+      logError "Unable to get mandatory parameter 'OWNER_CN' in section '${CERTIFICATE}'"
+      echo ${CERTIFICATE} >> ${TMP_DIR}/failed_certificates
+      continue
+    fi
+    logDebug "OWNER_CN = ${OWNER_CN}"
 
     FILEPATH="$(getConfigParam ${CERTIFICATE} FILEPATH)"
     if [ $? -ne 0 ] || [ -z "${FILEPATH}" ]
     then
       logError "Unable to get mandatory parameter 'FILEPATH' in section '${CERTIFICATE}'"
-      RETURN_CODE=1
+      echo ${CERTIFICATE} >> ${TMP_DIR}/failed_certificates
       continue
     fi
     logDebug "FILEPATH = ${FILEPATH}"
@@ -64,7 +73,7 @@ function process
     if [ $? -ne 0 ] || [ -z "${PASSPHRASE}" ]
     then
       logError "Unable to get mandatory parameter 'PASSPHRASE' in section '${CERTIFICATE}'"
-      RETURN_CODE=1
+      echo ${CERTIFICATE} >> ${TMP_DIR}/failed_certificates
       continue
     fi
     logDebug "PASSPHRASE = ${PASSPHRASE}"
@@ -72,11 +81,33 @@ function process
     > ${TMP_DIR}/keytool-${CERTIFICATE}.out_err 2>&1 keytool -v -list -keystore ${FILEPATH} -alias ${ALIAS} -storepass ${PASSPHRASE}
 
     CURRENT_TIMESTAMP=$(date +"%s")
-    EXPIRATION_TIMESTAMP=$(date +"%s" -d "$(cat ${TMP_DIR}/keytool-${CERTIFICATE}.out_err | awk '/Valid from:/ { match($0, /.*until: ([: a-zA-Z0-9]+)/, v); print v[1]; }')")
-    REMAINING_DAYS=$(echo "(${EXPIRATION_TIMESTAMP}-${CURRENT_TIMESTAMP})/24/3600" | bc)
-
     logDebug "CURRENT_TIMESTAMP = ${CURRENT_TIMESTAMP}"
+
+    cat ${TMP_DIR}/keytool-${CERTIFICATE}.out_err | awk -v OWNER_CN="${OWNER_CN}" 'BEGIN { cn_found = 0 }
+    {
+      if (cn_found == 0) {
+        if (match($0, /Owner: .*CN=([^,]+),/, v1)) {
+          if (v1[1] == OWNER_CN) {
+            cn_found = 1;
+          }
+        }
+      } else if (match($0, /.*Valid from:.*until: ([: a-zA-Z0-9]+)/, v2)) {
+        print v2[1];
+        exit;
+      }
+    }' > ${TMP_DIR}/${CERTIFICATE}.expiration_date
+
+    if [ $(cat ${TMP_DIR}/${CERTIFICATE}.expiration_date | grep -P "\w+ \w+ \d{1,2} \d{1,2}:\d{1,2}:\d{1,2} \w+ \d{4}" | wc -l) -lt 1 ]
+    then
+      logError "Unable to determine expiration date"
+      echo ${CERTIFICATE} >> ${TMP_DIR}/failed_certificates
+      continue
+    fi
+
+    EXPIRATION_TIMESTAMP=$(date +"%s" -d "$(cat ${TMP_DIR}/${CERTIFICATE}.expiration_date | head -n 1)")
     logDebug "EXPIRATION_TIMESTAMP = ${EXPIRATION_TIMESTAMP}"
+
+    REMAINING_DAYS=$(echo "(${EXPIRATION_TIMESTAMP}-${CURRENT_TIMESTAMP})/24/3600" | bc)
     logDebug "REMAINING_DAYS = ${REMAINING_DAYS}"
 
     logInfo "Remaining days before expiration of certificate '${LABEL}': ${REMAINING_DAYS}"
@@ -121,6 +152,11 @@ function process
       fi
     done < ${TMP_DIR}/alarm_limits
   done < ${TMP_DIR}/certificates
+
+  if [ -f ${TMP_DIR}/failed_certificates ]
+  then
+    RESULT_CODE=1
+  fi
 
   if [ ! -f ${TMP_DIR}/alarm_condition ]
   then
