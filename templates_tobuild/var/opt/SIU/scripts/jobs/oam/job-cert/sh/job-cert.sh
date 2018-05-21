@@ -129,29 +129,40 @@ function process
         logWarning "Alarm condition detected for certificate '${CERTIFICATE}'"
         > ${TMP_DIR}/alarm_condition
 
-        ALARM_ID="$(getConfigParam ${ALARM_LIMIT} ALARM_ID)"
-        if [ $? -lt 0 ] || [ -z "${THRESHOLD_DAYS}" ]
-        then
-          logError "Unable to get mandatory parameter 'ALARM_ID' in section '${ALARM_LIMIT}'"
-          return 1
-        fi
-        logDebug "ALARM_ID = ${ALARM_ID}"
-
-        ALARM_TEXT="$(getConfigParam ${ALARM_LIMIT} ALARM_TEXT)"
-        if [ $? -lt 0 ] || [ -z "${THRESHOLD_DAYS}" ]
-        then
-          logError "Unable to get mandatory parameter 'ALARM_TEXT' in section '${ALARM_LIMIT}'"
-          return 1
-        fi
-        logDebug "ALARM_TEXT = ${ALARM_TEXT}"
-
-        ACTUAL_ALARM_TEXT=$(eval echo "${ALARM_TEXT}")
-
-        logAlarmError ${ALARM_ID} "${ACTUAL_ALARM_TEXT}"
+        echo "${LABEL}:${REMAINING_DAYS}" >> ${TMP_DIR}/alarm_condition.${ALARM_LIMIT}
         break
       fi
     done < ${TMP_DIR}/alarm_limits
   done < ${TMP_DIR}/certificates
+
+  while read ALARM_LIMIT
+  do
+    if [ -f ${TMP_DIR}/alarm_condition.${ALARM_LIMIT} ]
+    then
+      ALARM_ID="$(getConfigParam ${ALARM_LIMIT} ALARM_ID)"
+      if [ $? -lt 0 ] || [ -z "${THRESHOLD_DAYS}" ]
+      then
+        logError "Unable to get mandatory parameter 'ALARM_ID' in section '${ALARM_LIMIT}'"
+        return 1
+      fi
+      logDebug "ALARM_ID = ${ALARM_ID}"
+
+      DETAILS=$(cat ${TMP_DIR}/alarm_condition.${ALARM_LIMIT} | awk -F: 'BEGIN { txt = "" } { if (txt == "") { txt = $1" (remaining days "$2")" } else { txt = txt", "$1" (remaining days "$2")" } } END { print txt }')
+
+      ALARM_TEXT="$(getConfigParam ${ALARM_LIMIT} ALARM_TEXT)"
+      if [ $? -lt 0 ] || [ -z "${THRESHOLD_DAYS}" ]
+      then
+        logError "Unable to get mandatory parameter 'ALARM_TEXT' in section '${ALARM_LIMIT}'"
+        return 1
+      fi
+      logDebug "ALARM_TEXT = ${ALARM_TEXT}"
+
+      ACTUAL_ALARM_TEXT=$(eval echo "${ALARM_TEXT}")
+      logDebug "ACTUAL_ALARM_TEXT = ${ACTUAL_ALARM_TEXT}"
+
+      logAlarmError ${ALARM_ID} "${ACTUAL_ALARM_TEXT}"
+    fi
+  done < ${TMP_DIR}/alarm_limits
 
   if [ -f ${TMP_DIR}/failed_certificates ]
   then

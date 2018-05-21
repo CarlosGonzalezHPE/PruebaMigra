@@ -64,6 +64,30 @@ function logDebug
 }
 
 
+function logAlarm
+{
+  typeset local SEVERITY=$1
+  typeset local EVENT_ID=$2
+  typeset local MESSAGE=$3
+
+  case "${SEVERITY}" in
+    "WARNING")
+      logAlarmWarning "${EVENT_ID}" "${MESSAGE}"
+      ;;
+    "ERROR")
+      logAlarmError "${EVENT_ID}" "${MESSAGE}"
+      ;;
+    "CRITICAL")
+      logAlarmCritical "${EVENT_ID}" "${MESSAGE}"
+      ;;
+    *)
+      logError "Unsupported severity '${SEVERITY}'. Default warning severity used"
+      logAlarmWarning "${EVENT_ID}" "${MESSAGE}"
+      ;;
+  esac
+}
+
+
 function logAlarmCritical
 {
   typeset local EVENT_ID=$1
@@ -71,7 +95,7 @@ function logAlarmCritical
 
   typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
 
-  echo "${DATE};${EVENT_ID};CRITICAL;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+  echo "${DATE};${EVENT_ID};CRITICAL;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}.tmp
 }
 
 
@@ -82,7 +106,7 @@ function logAlarmError
 
   typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
 
-  echo "${DATE};${EVENT_ID};ERROR;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+  echo "${DATE};${EVENT_ID};ERROR;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}.tmp
 }
 
 
@@ -93,7 +117,7 @@ function logAlarmWarning
 
   typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
 
-  echo "${DATE};${EVENT_ID};WARNING;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+  echo "${DATE};${EVENT_ID};WARNING;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}.tmp
 }
 
 
@@ -104,7 +128,21 @@ function logAlarmAccounting
 
   typeset local DATE=$(date +"%Y/%m/%d %H:%M:%S %Z")
 
-  echo "${DATE};${EVENT_ID};ACCOUNTING;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}
+  echo "${DATE};${EVENT_ID};ACCOUNTING;${MESSAGE}" >> ${LOG_ALARM_FILEPATH}.tmp
+}
+
+
+function renameAlarmingFile
+{
+  if [ -f ${LOG_ALARM_FILEPATH}.tmp ]
+  then
+    mv ${LOG_ALARM_FILEPATH}.tmp ${LOG_ALARM_FILEPATH}
+    if [ $? -ne 0 ]
+    then
+      logError "Command 'mv ${LOG_ALARM_FILEPATH}.tmp ${LOG_ALARM_FILEPATH}' failed"
+      return 1
+    fi
+  fi
 }
 
 
@@ -421,6 +459,8 @@ function beginingOfExecution
 
 function endOfExecution
 {
+  renameAlarmingFile
+
   if [ $# -eq 0 ]
   then
     CODE=0

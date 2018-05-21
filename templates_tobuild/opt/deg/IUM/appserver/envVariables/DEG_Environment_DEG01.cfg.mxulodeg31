@@ -1731,4 +1731,17 @@ APNS_MAX_THREADS=100
 #Description=Specifies the maximum number of threads to be kept running for this connector.
 #}
 
+#{
+#
+JOB_CERT_NAME=job-cert
+#Configured By= Delivery Team
+#Description= Name of Process for monitoring of certificate expiration date
+#}
+
+#{
+#
+JOB_CERT_LOG_DIR=/var/opt/SIU_DEG01/scripts/jobs/oam/job-cert/log
+#Configured By= Delivery Team
+#Description= Directory for Alarming files related to the monitoring of certificate expiration date
+#}
 
