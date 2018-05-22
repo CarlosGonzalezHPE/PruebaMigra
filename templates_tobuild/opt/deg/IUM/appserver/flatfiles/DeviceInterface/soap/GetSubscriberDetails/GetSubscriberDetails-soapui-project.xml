@@ -1,0 +1,1392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="c60ed9a8-7a37-484e-af26-3c72a1ad421f" activeEnvironment="Default" name="GetSubscriberDetails" resourceRoot="" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d18c2143-4e31-4c2f-a8fc-cda65d40a788" wsaVersion="NONE" name="HTTPEndpointBinding" type="wsdl" bindingName="{http://xmlns.hpe.com/map/spml/wsdl/CustomerManagement/CustomerProfileManagement/CustomerPersonalInformationManagement/GetSubscriberDetails}HTTPEndpointBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/_MyData/Work/OSPDEG/Subversion/branches/delivery/templates_tobuild/opt/deg/IUM/appserver/flatfiles/DeviceInterface/soap/GetSubscriberDetails/GetSubscriberDetails.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\_MyData\Work\OSPDEG\Subversion\branches\delivery\templates_tobuild\opt\deg\IUM\appserver\flatfiles\DeviceInterface\soap\GetSubscriberDetails\GetSubscriberDetails.wsdl"><con:part><con:url>file:\C:\_MyData\Work\OSPDEG\Subversion\branches\delivery\templates_tobuild\opt\deg\IUM\appserver\flatfiles\DeviceInterface\soap\GetSubscriberDetails\GetSubscriberDetails.wsdl</con:url><con:content><![CDATA[<definitions name="GetSubscriberDetails" targetNamespace="http://xmlns.hpe.com/map/spml/wsdl/CustomerManagement/CustomerProfileManagement/CustomerPersonalInformationManagement/GetSubscriberDetails" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:sph="http://xmlns.hpe.com/map/spml/wsdl/Common/Header" xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0" xmlns:flt="http://xmlns.hpe.com/map/spml/Common/FaultMessage" xmlns:tns="http://xmlns.hpe.com/map/spml/wsdl/CustomerManagement/CustomerProfileManagement/CustomerPersonalInformationManagement/GetSubscriberDetails" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <import location="GetSubscriberDetails.xsd" namespace="urn:siemens:names:prov:gw:SPML:2:0"/>
+  <import location="Header.xsd" namespace="http://xmlns.hpe.com/map/spml/wsdl/Common/Header"/>
+  <import location="FaultMessage.xsd" namespace="http://xmlns.hpe.com/map/spml/Common/FaultMessage"/>
+  <message name="Request">
+    <part element="spml:searchRequest" name="part1"/>
+  </message>
+  <message name="Response">
+    <part element="spml:searchResponse" name="part1"/>
+  </message>
+  <message name="RequestHeader">
+    <part element="sph:Header" name="part1"/>
+  </message>
+  <message name="ResponseHeader">
+    <part element="sph:Header" name="part1"/>
+  </message>
+  <message name="Fault">
+    <part element="flt:Fault" name="part1"/>
+  </message>
+  <service name="Service">
+    <port name="HTTPEndpoint" binding="tns:HTTPEndpointBinding">
+      <soap:address location="http://localhost:8888/BusinessServices/CustomerManagement/CustomerProfileManagement/CustomerPersonalInformationManagement/GetSubscriberDetails/Interface/Service.serviceagent/HTTPEndpoint"/>
+    </port>
+  </service>
+  <portType name="Port">
+    <operation name="GetSubscriberDetails">
+      <input message="tns:Request"/>
+      <output message="tns:Response"/>
+      <fault message="tns:Fault" name="fault1"/>
+    </operation>
+  </portType>
+  <binding name="HTTPEndpointBinding" type="tns:Port">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetSubscriberDetails">
+      <soap:operation style="document" soapAction="GetSubscriberDetails.1"/>
+      <input>
+        <soap:body use="literal" parts="part1"/>
+        <soap:header use="literal" message="tns:RequestHeader" part="part1"/>
+      </input>
+      <output>
+        <soap:body use="literal" parts="part1"/>
+        <soap:header use="literal" message="tns:ResponseHeader" part="part1"/>
+      </output>
+      <fault name="fault1">
+        <soap:fault use="literal" name="fault1"/>
+      </fault>
+    </operation>
+  </binding>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\_MyData\Work\OSPDEG\Subversion\branches\delivery\templates_tobuild\opt\deg\IUM\appserver\flatfiles\DeviceInterface\soap\GetSubscriberDetails\GetSubscriberDetails.xsd</con:url><con:content><![CDATA[<schema targetNamespace="urn:siemens:names:prov:gw:SPML:2:0" elementFormDefault="unqualified" attributeFormDefault="unqualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:spml="urn:siemens:names:prov:gw:SPML:2:0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:obj="http://xmlns.hpe.com/map/spml/Common/Objects">
+  <import namespace="http://xmlns.hpe.com/map/spml/Common/Objects" schemaLocation="Objects.xsd"/>
+  <complexType name="searchResponse">
+    <sequence>
+      <element name="version" type="string" minOccurs="1"/>
+      <element name="errorMessage" type="string" minOccurs="0"/>
+      <element ref="obj:objects"/>
+    </sequence>
+  </complexType>
+  <element name="searchResponse" type="spml:searchResponse"/>
+  <complexType name="searchRequest">
+    <sequence>
+      <element name="version" type="string" minOccurs="1"/>
+      <element name="base" type="spml:base" minOccurs="1"/>
+      <element name="returnAttribute" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="AliasType">
+    <attribute name="name" type="string" use="required"/>
+    <attribute name="value" type="string" use="required"/>
+  </complexType>
+  <complexType name="base">
+    <sequence>
+      <element name="objectclass" type="string" minOccurs="1"/>
+      <element name="contextID" type="string" minOccurs="0"/>
+      <element name="alias" type="spml:AliasType" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <element name="searchRequest" type="spml:searchRequest"/>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\_MyData\Work\OSPDEG\Subversion\branches\delivery\templates_tobuild\opt\deg\IUM\appserver\flatfiles\DeviceInterface\soap\GetSubscriberDetails\Objects.xsd</con:url><con:content><![CDATA[<schema targetNamespace="http://xmlns.hpe.com/map/spml/Common/Objects" elementFormDefault="unqualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:obj="http://xmlns.hpe.com/map/spml/Common/Objects" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <complexType name="objects">
+    <sequence>
+      <element name="identifier" type="string" minOccurs="0"/>
+      <element name="auc" type="obj:AUC" minOccurs="0"/>
+      <element name="hlr" type="obj:HLR" minOccurs="0"/>
+      <element name="hss" type="obj:HSS" minOccurs="1"/>
+      <element name="profile" type="obj:Profile" minOccurs="0"/>
+      <element name="isVoid" type="string" minOccurs="0"/>
+      <element name="masteredBy" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="AUC">
+    <sequence>
+      <element name="imsi" type="string" minOccurs="0"/>
+      <element name="encKey" type="string" minOccurs="0"/>
+      <element name="iccId" type="string" minOccurs="0"/>
+      <element name="algoId" type="int" minOccurs="0"/>
+      <element name="cv" type="string" minOccurs="0"/>
+      <element name="hmac" type="string" minOccurs="0"/>
+      <element name="kdbId" type="string" minOccurs="0"/>
+      <element name="acsub" type="int" minOccurs="0"/>
+      <element name="amf" type="string" minOccurs="0"/>
+      <element name="sqn" type="string" minOccurs="0"/>
+      <element name="opcEncKey" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HLR">
+    <sequence>
+      <element name="imsi" type="string" minOccurs="0"/>
+      <element name="contractId" type="string" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ntype" type="string" minOccurs="0"/>
+      <element name="imsiActive" type="string" minOccurs="0"/>
+      <element name="mobileSubscriberType" type="string" minOccurs="0"/>
+      <element name="umtsSubscriber" type="obj:UmtsSubscriber" minOccurs="0"/>
+      <element name="wllSubscriber" type="string" minOccurs="0"/>
+      <element name="tifSubscriber" type="obj:TifSubscriber" minOccurs="0"/>
+      <element name="mscat" type="int" minOccurs="0"/>
+      <element name="odboc" type="int" minOccurs="0"/>
+      <element name="odbic" type="int" minOccurs="0"/>
+      <element name="odbr" type="int" minOccurs="0"/>
+      <element name="odboprc" type="int" minOccurs="0"/>
+      <element name="odbssm" type="int" minOccurs="0"/>
+      <element name="osb1" type="string" minOccurs="0"/>
+      <element name="osb2" type="string" minOccurs="0"/>
+      <element name="osb3" type="string" minOccurs="0"/>
+      <element name="osb4" type="string" minOccurs="0"/>
+      <element name="clip" type="string" minOccurs="0"/>
+      <element name="clipOverride" type="string" minOccurs="0"/>
+      <element name="clir" type="int" minOccurs="0"/>
+      <element name="colp" type="string" minOccurs="0"/>
+      <element name="colpOverride" type="string" minOccurs="0"/>
+      <element name="colr" type="string" minOccurs="0"/>
+      <element name="hold" type="string" minOccurs="0"/>
+      <element name="mpty" type="string" minOccurs="0"/>
+      <element name="aoci" type="string" minOccurs="0"/>
+      <element name="aocc" type="string" minOccurs="0"/>
+      <element name="natccbs" type="string" minOccurs="0"/>
+      <element name="natct" type="string" minOccurs="0"/>
+      <element name="natHotbill" type="string" minOccurs="0"/>
+      <element name="natFR" type="string" minOccurs="0"/>
+      <element name="natusersig1" type="string" minOccurs="0"/>
+      <element name="ccbsa" type="string" minOccurs="0"/>
+      <element name="ccbsb" type="string" minOccurs="0"/>
+      <element name="natss01" type="string" minOccurs="0"/>
+      <element name="natss02" type="string" minOccurs="0"/>
+      <element name="natss03" type="string" minOccurs="0"/>
+      <element name="natss04" type="string" minOccurs="0"/>
+      <element name="natss05" type="string" minOccurs="0"/>
+      <element name="natss06" type="string" minOccurs="0"/>
+      <element name="natss07" type="string" minOccurs="0"/>
+      <element name="natss08" type="string" minOccurs="0"/>
+      <element name="natss09" type="string" minOccurs="0"/>
+      <element name="natss10" type="string" minOccurs="0"/>
+      <element name="natss11" type="string" minOccurs="0"/>
+      <element name="natss12" type="string" minOccurs="0"/>
+      <element name="natss13" type="string" minOccurs="0"/>
+      <element name="natss14" type="string" minOccurs="0"/>
+      <element name="natss15" type="string" minOccurs="0"/>
+      <element name="statusNatss01" type="int" minOccurs="0"/>
+      <element name="statusNatss02" type="int" minOccurs="0"/>
+      <element name="statusNatss03" type="int" minOccurs="0"/>
+      <element name="statusNatss04" type="int" minOccurs="0"/>
+      <element name="statusNatss05" type="int" minOccurs="0"/>
+      <element name="statusNatss06" type="int" minOccurs="0"/>
+      <element name="statusNatss07" type="int" minOccurs="0"/>
+      <element name="statusNatss08" type="int" minOccurs="0"/>
+      <element name="statusNatss09" type="int" minOccurs="0"/>
+      <element name="statusNatss10" type="int" minOccurs="0"/>
+      <element name="statusNatss11" type="int" minOccurs="0"/>
+      <element name="statusNatss12" type="int" minOccurs="0"/>
+      <element name="statusNatss13" type="int" minOccurs="0"/>
+      <element name="statusNatss14" type="int" minOccurs="0"/>
+      <element name="statusNatss15" type="int" minOccurs="0"/>
+      <element name="subrelro" type="obj:SUBRELRO" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="nwa" type="int" minOccurs="0"/>
+      <element name="odbgprs" type="int" minOccurs="0"/>
+      <element name="rr" type="string" minOccurs="0"/>
+      <element name="sr" type="int" minOccurs="0"/>
+      <element name="vgrpid" type="obj:VGRPID" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="msp" type="string" minOccurs="0"/>
+      <element name="odbsci" type="int" minOccurs="0"/>
+      <element name="ts11" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ts21" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ts22" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ts61" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ts62" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="vgcs" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="vbs" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs20genr" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs21" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs22" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs23" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs24" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs25" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs26" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs30genr" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs31" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs32" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs33" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs34" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs40genr" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs41" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs42" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs44" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs45" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs46" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs61a" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bs81a" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="gprs" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ts21Gprs" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ts22Gprs" type="obj:TSSBSS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="cfu" type="obj:AllCCF" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="cfb" type="obj:AllCCF" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="cfnrc" type="obj:AllCCF" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="cfnry" type="obj:AllCCF" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="allccf" type="obj:AllCCF" minOccurs="0"/>
+      <element name="allcf" type="obj:AllCCF" minOccurs="0"/>
+      <element name="cfd" type="obj:CFD" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="caw" type="obj:CAW" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="cug" type="obj:CUG" minOccurs="0" maxOccurs="10"/>
+      <element name="cugbsg" type="obj:CUGBSG" minOccurs="0" maxOccurs="5"/>
+      <element name="comcb" type="obj:COMCB" minOccurs="0"/>
+      <element name="baoc" type="obj:BAOC" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="boic" type="obj:BAOC" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="boicexhc" type="obj:BAOC" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="boro" type="obj:BORO" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="baic" type="obj:BAOC" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="bicroam" type="obj:BAOC" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="emlpp" type="obj:EMLPP" minOccurs="0"/>
+      <element name="imsilink" type="string" minOccurs="0"/>
+      <element name="isActiveIMSI" type="string" minOccurs="0"/>
+      <element name="multiDevice" type="obj:MultiDeviceType" minOccurs="0"/>
+      <element name="rs" type="obj:RS" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="srf" type="obj:SRF" minOccurs="0" maxOccurs="16"/>
+      <element name="followMe" type="obj:FollowMe" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="followMeAccessMatrix" type="string" minOccurs="0" maxOccurs="5"/>
+      <element name="twincardImsi" type="string" minOccurs="0"/>
+      <element name="actIMSIGprs" type="string" minOccurs="0"/>
+      <element name="cuss" type="obj:PLMNOSS" minOccurs="0"/>
+      <element name="crelss" type="obj:PLMNOSS" minOccurs="0"/>
+      <element name="curelss" type="obj:PLMNOSS" minOccurs="0"/>
+      <element name="plmnoss" type="obj:PLMNOSS" minOccurs="0"/>
+      <element name="basicSelfLocation" type="obj:PLMNOSS" minOccurs="0"/>
+      <element name="autoSelfLocation" type="obj:PLMNOSS" minOccurs="0"/>
+      <element name="transferToThirdParty" type="obj:PLMNOSS" minOccurs="0"/>
+      <element name="callback" type="obj:CALLBACK" minOccurs="0"/>
+      <element name="obGprs" type="int" minOccurs="0"/>
+      <element name="optimalRouting" type="string" minOccurs="0"/>
+      <element name="ndcLac" type="string" minOccurs="0"/>
+      <element name="imsiTraceReference" type="int" minOccurs="0"/>
+      <element name="imsiTraceType" type="int" minOccurs="0"/>
+      <element name="expiryDate" type="string" minOccurs="0"/>
+      <element name="preferedInterexchangeCarrier" type="string" minOccurs="0"/>
+      <element name="vbsData" type="obj:VbsData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="generalChargingCharacteristics" type="obj:GeneralChargingCharacteristics" minOccurs="0"/>
+      <element name="vlrid" type="string" minOccurs="0"/>
+      <element name="pdpContext" type="obj:PDPContext" minOccurs="0" maxOccurs="50"/>
+      <element name="smscsi" type="obj:CSI" minOccurs="0"/>
+      <element name="ocsi" type="obj:CSI" minOccurs="0"/>
+      <element name="tcsi" type="obj:CSI" minOccurs="0"/>
+      <element name="ucsisub" type="obj:UCSISUB" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="ucsiserv" type="string" minOccurs="0"/>
+      <element name="gprscsi" type="obj:CSI" minOccurs="0"/>
+      <element name="sscsi" type="obj:CSI" minOccurs="0"/>
+      <element name="mcsi" type="obj:CSI" minOccurs="0"/>
+      <element name="dcsi" type="obj:CSI" minOccurs="0"/>
+      <element name="vtcsi" type="obj:CSI" minOccurs="0"/>
+      <element name="mtsmscsi" type="obj:CSI" minOccurs="0"/>
+      <element name="mgcsi" type="obj:CSI" minOccurs="0"/>
+      <element name="notifyToCSE" type="obj:NotifyToCse" minOccurs="0"/>
+      <element name="vlrMobData" type="obj:VlrMobData" minOccurs="0"/>
+      <element name="sgsnMobData" type="obj:sgsnMobData" minOccurs="0"/>
+      <element name="msgWaitData" type="obj:MsgWaitData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="changeOverIMSI" type="string" minOccurs="0"/>
+      <element name="routingCategory" type="int" minOccurs="0"/>
+      <element name="routingCategoryExtension" type="int" minOccurs="0"/>
+      <element name="imeisv" type="string" minOccurs="0"/>
+      <element name="cnap" type="string" minOccurs="0"/>
+      <element name="cnapOverride" type="string" minOccurs="0"/>
+      <element name="allbs" type="obj:BasicService" minOccurs="0"/>
+      <element name="ect" type="string" minOccurs="0"/>
+      <element name="enhsrisms" type="string" minOccurs="0"/>
+      <element name="oick" type="obj:INService" minOccurs="0"/>
+      <element name="tick" type="obj:TerminatingINService" minOccurs="0" maxOccurs="2"/>
+      <element name="eoick" type="obj:INService" minOccurs="0"/>
+      <element name="etick" type="obj:TerminatingINService" minOccurs="0" maxOccurs="2"/>
+      <element name="eoinci" type="obj:INService" minOccurs="0"/>
+      <element name="etinci" type="obj:TerminatingINService" minOccurs="0" maxOccurs="2"/>
+      <element name="odbftno" type="int" minOccurs="0"/>
+      <element name="prohibitedFtnoCategory" type="int" minOccurs="0"/>
+      <element name="odbect" type="string" minOccurs="0" maxOccurs="6"/>
+      <element name="clgPtyNumber" type="string" minOccurs="0"/>
+      <element name="clgPtyData" type="string" minOccurs="0"/>
+      <element name="lastCallTimeStamp" type="dateTime" minOccurs="0"/>
+      <element name="lcnService" type="obj:USSDService" minOccurs="0"/>
+      <element name="ownMsisdnService" type="obj:USSDService" minOccurs="0"/>
+      <element name="vlrIdService" type="obj:USSDService" minOccurs="0"/>
+      <element name="actualTimeService" type="obj:USSDService" minOccurs="0"/>
+      <element name="lastCallSimId" type="int" minOccurs="0"/>
+      <element name="multiSim" type="obj:MultiSimType" minOccurs="0"/>
+      <element name="ussdClirService" type="obj:USSDService" minOccurs="0"/>
+      <element name="ucsisubext" type="obj:UCSISUBEXT" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="roamSubscription" type="obj:ROAMSUBSCRIPTION" minOccurs="0"/>
+      <element name="profileType" type="string" minOccurs="0"/>
+      <element name="commonMSISDN" type="string" minOccurs="0"/>
+      <element name="overrideCommonCLI" type="string" minOccurs="0"/>
+      <element name="mssMultiSim" type="obj:HlrMssMultiSimType" minOccurs="0"/>
+      <element name="spatialTrigger" type="obj:SpatialTrigger" minOccurs="0"/>
+      <element name="insms" type="obj:INSMS" minOccurs="0"/>
+      <element name="arc" type="obj:ARC" minOccurs="0"/>
+      <element name="acc" type="obj:ARC" minOccurs="0"/>
+      <element name="csFallback" type="obj:HlrCSFallback" minOccurs="0"/>
+      <element name="smsSubData" type="obj:HlrSmsSubData" minOccurs="0"/>
+      <element name="ftnTransIndex" type="int" minOccurs="0"/>
+      <element name="icsIndicator" type="int" minOccurs="0"/>
+      <element name="sset" type="obj:HLRServiceType" minOccurs="0"/>
+      <element name="emoick" type="obj:HLRServiceType" minOccurs="0"/>
+      <element name="uEReachabilityReqInfo" type="obj:UEReachabilityReqInfo" minOccurs="0"/>
+      <element name="csarp" type="obj:HLRCSARP" minOccurs="0"/>
+      <element name="refFraudProfileName" type="string" minOccurs="0"/>
+      <element name="mrbt" type="string" minOccurs="0"/>
+      <element name="gsmTrace" type="obj:HLRGSMTrace" minOccurs="0"/>
+      <element name="subFraudObsInfo" type="obj:HLRFraudObservationInfo" minOccurs="0" maxOccurs="2"/>
+      <element name="simObsActive" type="string" minOccurs="0"/>
+      <element name="chbha" type="obj:HLRChargingBasedOnHomeArea" minOccurs="0"/>
+      <element name="primaryBasicService" type="string" minOccurs="0"/>
+      <element name="cf" type="obj:HLRCallForward" minOccurs="0"/>
+      <element name="rrPs" type="string" minOccurs="0"/>
+      <element name="srPs" type="int" minOccurs="0"/>
+      <element name="refHplmnAreaName" type="string" minOccurs="0"/>
+      <element name="meId" type="string" minOccurs="0"/>
+      <element name="accessRestr" type="string" minOccurs="0" maxOccurs="6"/>
+      <element name="odbBaroam" type="string" minOccurs="0"/>
+      <element name="eps" type="obj:eps" minOccurs="0"/>
+      <element name="epsPdnContext" type="obj:EPSPdnContext" minOccurs="0" maxOccurs="100"/>
+      <element name="epsRoamAreaName" type="string" minOccurs="0"/>
+      <element name="epsPsRoamAreaMmeName" type="string" minOccurs="0"/>
+      <element name="epsRoamSubscriptionInfoName" type="string" minOccurs="0"/>
+      <element name="epsCsg" type="obj:EPSCsg" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="epsTracingProfile" type="obj:EPSTracingProfile" minOccurs="0"/>
+      <element name="epsPsRszi" type="obj:EPSPsRszi" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="epsASNotificationInfo" type="obj:EPSASNotificationInfo" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="epsAdditionalHssServiceData" type="obj:EPSAdditionalHssServiceData" minOccurs="0"/>
+      <element name="epsSharedUserProfile" type="string" minOccurs="0"/>
+      <element name="epsS6dULAHostId" type="string" minOccurs="0"/>
+      <element name="sgsnIdentity" type="string" minOccurs="0"/>
+      <element name="sgsnRealm" type="string" minOccurs="0"/>
+      <element name="sgsnSupportedFeatures" type="obj:SgsnSupportedFeatures" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="refHplmnListName" type="string" minOccurs="0"/>
+      <element name="s6dSgsnNumber" type="string" minOccurs="0"/>
+      <element name="s6dCombinedFlag" type="string" minOccurs="0"/>
+      <element name="notification" type="obj:AppSrvNotificationData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="s6dLocUpdateTimestamp" type="dateTime" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="UCSISUBEXT">
+    <sequence>
+      <element name="ucsiServCodeExt" type="string" minOccurs="0"/>
+      <element name="gsmscfAddress" type="string" minOccurs="0"/>
+      <element name="origRefIndicator" type="string" minOccurs="0"/>
+      <element name="destRefIndicator" type="string" minOccurs="0"/>
+      <element name="ussdSendingOptions" type="string" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="EMLPP">
+    <sequence>
+      <element name="maxPriority" type="string" minOccurs="0"/>
+      <element name="defaultPriority" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="PLMNOSS">
+    <sequence>
+      <element name="lcsProfile" type="string" minOccurs="0"/>
+      <element name="status" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="CALLBACK">
+    <sequence>
+      <element name="status" type="int" minOccurs="0"/>
+      <element name="vmsShortCode" type="string" minOccurs="0"/>
+      <element name="cbTimer" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="VbsData">
+    <sequence>
+      <element name="broadCastId" type="string" minOccurs="0"/>
+      <element name="initPerm" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="FollowMe">
+    <sequence>
+      <element name="basicServiceGroup" type="string" minOccurs="0"/>
+      <element name="status" type="int" minOccurs="0"/>
+      <element name="followMeSupervisor" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="MultiDeviceType">
+    <sequence>
+      <element name="multiDeviceIndicator" type="string" minOccurs="0"/>
+      <element name="activePageDevice" type="string" minOccurs="0"/>
+      <element name="multiDeviceImsi" type="obj:MultiDeviceImsiType" minOccurs="0" maxOccurs="2"/>
+      <element name="multiDeviceMsisdn" type="obj:MultiDeviceMsisdnType" minOccurs="0" maxOccurs="2"/>
+    </sequence>
+  </complexType>
+  <complexType name="RS">
+    <sequence>
+      <element name="countryCode" type="string" minOccurs="0"/>
+      <element name="networkDestinationCode" type="string" minOccurs="0"/>
+      <element name="zoneCode01" type="string" minOccurs="0"/>
+      <element name="zoneCode02" type="string" minOccurs="0"/>
+      <element name="zoneCode03" type="string" minOccurs="0"/>
+      <element name="zoneCode04" type="string" minOccurs="0"/>
+      <element name="zoneCode05" type="string" minOccurs="0"/>
+      <element name="zoneCode06" type="string" minOccurs="0"/>
+      <element name="zoneCode07" type="string" minOccurs="0"/>
+      <element name="zoneCode08" type="string" minOccurs="0"/>
+      <element name="zoneCode09" type="string" minOccurs="0"/>
+      <element name="zoneCode10" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="BAOC">
+    <sequence>
+      <element name="basicServiceGroup" type="string" minOccurs="0"/>
+      <element name="status" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="BORO">
+    <sequence>
+      <element name="barrGSM" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="COMCB">
+    <sequence>
+      <element name="control" type="string" minOccurs="0"/>
+      <element name="password" type="string" minOccurs="0"/>
+      <element name="pwBlockedBN" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="CUG">
+    <sequence>
+      <element name="cugIndex" type="int" minOccurs="0"/>
+      <element name="cugInterlockCode" type="string" minOccurs="0"/>
+      <element name="dataNetworkIdentityCode" type="string" minOccurs="0"/>
+      <element name="intraCUGRestriction" type="int" minOccurs="0"/>
+      <sequence>
+        <element name="basicServiceGroup" type="string" minOccurs="0" maxOccurs="5"/>
+      </sequence>
+    </sequence>
+  </complexType>
+  <complexType name="CUGBSG">
+    <sequence>
+      <element name="basicServiceGroup" type="string"/>
+      <element name="preferentialCUGIndex" type="int" minOccurs="0"/>
+      <element name="interCUGAccessType" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="AllCCF">
+    <sequence>
+      <element name="basicServiceGroup" type="string" minOccurs="0"/>
+      <element name="isdnNumber" type="string" minOccurs="0"/>
+      <element name="status" type="int" minOccurs="0"/>
+      <element name="noReplyConditionTimer" type="int" minOccurs="0"/>
+      <element name="notifyCallingSubscriber" type="string" minOccurs="0"/>
+      <element name="notifyForwardingSubscriber" type="string" minOccurs="0"/>
+      <element name="ftnoType" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="VGRPID">
+    <sequence>
+      <element name="voiceGroupId" type="int"/>
+    </sequence>
+  </complexType>
+  <complexType name="SUBRELRO">
+    <sequence>
+      <element name="subscriberRouting" type="string"/>
+    </sequence>
+  </complexType>
+  <complexType name="TifSubscriber">
+    <sequence>
+      <element name="tifCsiActive" type="string" minOccurs="0"/>
+      <element name="tifCsiNotificationToCse" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="ROAMSUBSCRIPTION">
+    <sequence>
+      <element name="roamSubscriptionInfo" type="string"/>
+    </sequence>
+  </complexType>
+  <complexType name="HlrMssMultiSimType">
+    <sequence>
+      <element name="denyDirectSMS" type="string" minOccurs="0"/>
+      <element name="denyDirectCall" type="string" minOccurs="0"/>
+      <element name="groupMSISDN" type="string" minOccurs="0"/>
+      <element name="primarySMSTerminal" type="string" minOccurs="0"/>
+      <element name="allowSyncToGroup" type="string" minOccurs="0"/>
+      <element name="refAdvtName" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="SpatialTrigger">
+    <sequence>
+      <element name="spatialTriggerEvent" type="int" minOccurs="0"/>
+      <element name="gmlcId" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="INSMS">
+    <sequence>
+      <element name="operatorServiceName" type="string" minOccurs="0"/>
+      <element name="state" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="ARC">
+    <sequence>
+      <element name="active" type="string" minOccurs="0"/>
+      <element name="redirInd" type="int" minOccurs="0"/>
+      <element name="accountCode" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HlrCSFallback">
+    <sequence>
+      <element name="prnRetry" type="string" minOccurs="0"/>
+      <element name="mtrr" type="string" minOccurs="0"/>
+      <element name="mtrf" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HlrSmsSubData">
+    <sequence>
+      <element name="refPriorityListName" type="string" minOccurs="0"/>
+      <element name="ipSmGwAddress" type="string" minOccurs="0"/>
+      <element name="refSCAddress" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="MultiSimType">
+    <sequence>
+      <element name="subSimId" type="string" minOccurs="0"/>
+      <element name="multiSimMember" type="obj:MultiSimMemberType" minOccurs="0" maxOccurs="10"/>
+    </sequence>
+  </complexType>
+  <complexType name="MsgWaitData">
+    <sequence>
+      <element name="msisdnUsedForAlertingOfSMSServiceCentre" type="string" minOccurs="0"/>
+      <element name="mobileCapacityExceededFlag" type="string" minOccurs="0"/>
+      <element name="mobileStationNotReachableFlag" type="string" minOccurs="0"/>
+      <element name="addressOfSMSServicesCentres" type="string" minOccurs="0" maxOccurs="32"/>
+      <element name="mobileStationNotReachableFlagForGPRS" type="string" minOccurs="0"/>
+      <element name="mobileStationNotReachableReasonForGPRS" type="string" minOccurs="0"/>
+      <element name="mobileStationNotReachableReasonForGSM" type="string" minOccurs="0"/>
+      <element name="alertMsisdn" type="string" minOccurs="0" maxOccurs="32"/>
+      <element name="ueNotReachableForIP" type="string" minOccurs="0"/>
+      <element name="ueNotReachableReason" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="sgsnMobData">
+    <sequence>
+      <element name="sgsnIdValid" type="string" minOccurs="0"/>
+      <element name="isdnNumberOfSGSN" type="string" minOccurs="0"/>
+      <element name="plmnAllowed" type="string" minOccurs="0"/>
+      <element name="roamingAreaAllowed" type="string" minOccurs="0"/>
+      <element name="gprsAllowed" type="string" minOccurs="0"/>
+      <element name="supportedCAMELPhaseBySGSN" type="int" minOccurs="0"/>
+      <element name="supportedMAPVersionForLUP" type="int" minOccurs="0"/>
+      <element name="featuresNotSupportedBySGSN" type="string" minOccurs="0" maxOccurs="11"/>
+      <element name="sgsnCamelNot" type="string" minOccurs="0"/>
+      <element name="sgsnExtQos" type="string" minOccurs="0"/>
+      <element name="gprsCsiSubst" type="int" minOccurs="0"/>
+      <element name="gprsSmsCsiSubst" type="int" minOccurs="0"/>
+      <element name="gprsMtSmsCsiSubst" type="int" minOccurs="0"/>
+      <element name="mgCsiSubst" type="int" minOccurs="0"/>
+      <element name="supportedLCSCapabilitySetsForSGSN" type="int" minOccurs="0"/>
+      <element name="offeredCAMEL4CSIsForSGSN" type="int" minOccurs="0"/>
+      <element name="sgsnAddress" type="string" minOccurs="0"/>
+      <element name="previousIsdnNumberOfSGSN" type="string" minOccurs="0" maxOccurs="5"/>
+      <element name="msPurged" type="string" minOccurs="0"/>
+      <element name="sgsnAreaRestRcvd" type="string" minOccurs="0"/>
+      <element name="imsVoiceOverPS" type="string" minOccurs="0"/>
+      <element name="ueSrvccCapability" type="int" minOccurs="0"/>
+      <element name="locUpdatePSTimestamp" type="dateTime" minOccurs="0"/>
+      <element name="psTraceStatus" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="VlrMobData">
+    <sequence>
+      <element name="vlrIdValid" type="string" minOccurs="0"/>
+      <element name="isdnNumberOfVLR" type="string" minOccurs="0"/>
+      <element name="mobileTerminatingCallPossible" type="string" minOccurs="0"/>
+      <element name="plmnAllowed" type="string" minOccurs="0"/>
+      <element name="roamingAreaAllowed" type="string" minOccurs="0"/>
+      <element name="mscAreaRestrictedReceived" type="string" minOccurs="0"/>
+      <element name="msPurged" type="string" minOccurs="0"/>
+      <element name="supportedCAMELPhaseByVLR" type="int" minOccurs="0"/>
+      <element name="supportedMAPVersionForLUP" type="int" minOccurs="0"/>
+      <element name="featuresNotSupportedByVLR" type="string" minOccurs="0" maxOccurs="25"/>
+      <element name="prohFtnoUpdInVlrFail" type="string" minOccurs="0"/>
+      <element name="ts10BarrByCb" type="int" minOccurs="0"/>
+      <element name="ts20BarrByCb" type="int" minOccurs="0"/>
+      <element name="ts60BarrByCb" type="int" minOccurs="0"/>
+      <element name="bs20BarrByCb" type="int" minOccurs="0"/>
+      <element name="bs30BarrByCb" type="int" minOccurs="0"/>
+      <element name="bs40BarrByCb" type="int" minOccurs="0"/>
+      <element name="vlrSupportsLongFtno" type="string" minOccurs="0"/>
+      <element name="supportedLCSCapabilitySetsForVLR" type="int" minOccurs="0"/>
+      <element name="offeredCAMEL4CSIsForVLR" type="int" minOccurs="0"/>
+      <element name="mscNumber" type="string" minOccurs="0"/>
+      <element name="previousIsdnNumberOfVLR" type="string" minOccurs="0" maxOccurs="5"/>
+      <element name="emoickSubst" type="int" minOccurs="0"/>
+      <element name="ssetSubst" type="int" minOccurs="0"/>
+      <element name="locUpdateCSTimestamp" type="dateTime" minOccurs="0"/>
+      <element name="allowedMTRF" type="string" minOccurs="0"/>
+      <element name="csTraceStatus" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="NotifyToCse">
+    <sequence>
+      <element name="callForwardingServices" type="string" minOccurs="0"/>
+      <element name="callBarringServices" type="string" minOccurs="0"/>
+      <element name="operatorDeterminedBarringServices" type="string" minOccurs="0"/>
+      <element name="clipServices" type="string" minOccurs="0"/>
+      <element name="clirServices" type="string" minOccurs="0"/>
+      <element name="callWaitServices" type="string" minOccurs="0"/>
+      <element name="callHoldServices" type="string" minOccurs="0"/>
+      <element name="explicitCallTransferServices" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="PDPContext">
+    <sequence>
+      <element name="id" type="int" minOccurs="0"/>
+      <element name="type" type="int" minOccurs="0"/>
+      <element name="address" type="string" minOccurs="0"/>
+      <element name="qosProfile" type="string" minOccurs="0"/>
+      <element name="apn" type="string" minOccurs="0"/>
+      <element name="apnArea" type="string" minOccurs="0"/>
+      <element name="chargingCharacteristics" type="obj:GeneralChargingCharacteristics" minOccurs="0" maxOccurs="4"/>
+      <element name="chargingCharacteristicsProfile" type="int" minOccurs="0"/>
+      <element name="chargingCharacteristicsBehavior" type="int" minOccurs="0"/>
+      <element name="lipaPermission" type="string" minOccurs="0"/>
+      <element name="extType" type="int" minOccurs="0"/>
+      <element name="extAddress" type="obj:IPAddress" minOccurs="0"/>
+      <element name="refPdpContextName" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="GeneralChargingCharacteristics">
+    <sequence>
+      <element name="chargingCharacteristics" type="string" minOccurs="0" maxOccurs="4"/>
+      <element name="chargingCharacteristicsProfile" type="int" minOccurs="0"/>
+      <element name="chargingCharacteristicsBehavior" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="SRF">
+    <sequence>
+      <element name="featureId" type="int" minOccurs="0"/>
+      <element name="featureNumber" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="UmtsSubscriber">
+    <sequence>
+      <element name="accTypeGSM" type="string" minOccurs="0"/>
+      <element name="accTypeGERAN" type="string" minOccurs="0"/>
+      <element name="accTypeUTRAN" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="TSSBSS">
+    <sequence>
+      <element name="msisdn" type="string" minOccurs="0"/>
+      <element name="bcieID" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="CAW">
+    <sequence>
+      <element name="basicServiceGroup" type="string" minOccurs="0"/>
+      <element name="status" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="CFD">
+    <sequence>
+      <element name="isdnNumber" type="string" minOccurs="0"/>
+      <element name="status" type="int" minOccurs="0"/>
+      <element name="replaceCFConditional" type="int" minOccurs="0"/>
+      <element name="serviceAvailable" type="int" minOccurs="0"/>
+      <element name="ftnoType" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="CSI">
+    <sequence>
+      <element name="operatorServiceName" type="string" minOccurs="0"/>
+      <element name="csiState" type="int" minOccurs="0"/>
+      <element name="csiNotify" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="UCSISUB">
+    <sequence>
+      <element name="ucsiServCode" type="int" minOccurs="0"/>
+      <element name="gsmscfAddress" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="INService">
+    <sequence>
+      <element name="operatorServiceName" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="FlexibleMsisdnChangeOperation">
+    <sequence>
+      <element name="regularExpression" type="string" minOccurs="1" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="Property">
+    <attribute name="name" type="string"/>
+    <attribute name="value" type="string"/>
+  </complexType>
+  <complexType name="Properties">
+    <sequence>
+      <element name="property" type="obj:Property" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="SubMigrationOperation">
+    <sequence>
+      <element name="sourceDataModel" type="string"/>
+      <element name="targetDataModel" type="string"/>
+      <element name="properties" type="obj:Properties"/>
+    </sequence>
+  </complexType>
+  <complexType name="TerminatingINService">
+    <sequence>
+      <element name="operatorServiceName" type="string" minOccurs="0"/>
+      <element name="roamingType" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="MultiSimMemberType">
+    <sequence>
+      <element name="multiSimId" type="string" minOccurs="0"/>
+      <element name="multiSimImsi" type="string" minOccurs="0"/>
+      <element name="basicServiceGroup" type="string" minOccurs="0" maxOccurs="6"/>
+    </sequence>
+  </complexType>
+  <complexType name="USSDService">
+    <sequence>
+      <element name="active" type="string" minOccurs="0"/>
+      <element name="refAdvtName" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="CanMsubSubscriber">
+    <sequence>
+      <element name="vlr" type="string" minOccurs="0"/>
+      <element name="sgsn" type="string" minOccurs="0"/>
+      <element name="mme" type="string" minOccurs="0"/>
+      <element name="mmeRealm" type="string" minOccurs="0"/>
+      <element name="mmeHostId" type="string" minOccurs="0"/>
+      <element name="sgsnIdentity" type="string" minOccurs="0"/>
+      <element name="sgsnRealm" type="string" minOccurs="0"/>
+      <element name="msubPurgedGprs" type="string" minOccurs="0"/>
+      <element name="gprsDataSentIndication" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HLRServiceType">
+    <sequence>
+      <element name="operatorServiceName" type="string" minOccurs="0"/>
+      <element name="state" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="UEReachabilityReqInfo">
+    <sequence>
+      <element name="urppMME" type="string" minOccurs="0"/>
+      <element name="urppSGSN" type="string" minOccurs="0"/>
+      <element name="asAddressSh" type="string" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="asAddressMAPJ" type="string" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="HLRCSARP">
+    <sequence>
+      <element name="active" type="string" minOccurs="0"/>
+      <element name="priority" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HLRGSMTrace">
+    <sequence>
+      <element name="traceReference" type="int" minOccurs="0"/>
+      <element name="omcId" type="string" minOccurs="0"/>
+      <element name="csTraceActive" type="string" minOccurs="0"/>
+      <element name="csTraceType" type="int" minOccurs="0"/>
+      <element name="psTraceActive" type="string" minOccurs="0"/>
+      <element name="psTraceType" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HLRFraudObservationInfo">
+    <sequence>
+      <element name="observationName" type="string" minOccurs="0"/>
+      <element name="observationNumber" type="int" minOccurs="0"/>
+      <element name="samplingSlot" type="int" minOccurs="0"/>
+      <element name="currentEventCount" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HLRChargingBasedOnHomeArea">
+    <sequence>
+      <element name="chargingClass" type="string" minOccurs="0"/>
+      <element name="chargingArea" type="int" minOccurs="0" maxOccurs="3"/>
+    </sequence>
+  </complexType>
+  <complexType name="HLRCallForward">
+    <sequence>
+      <element name="refHlrFtnoProfile" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="ASSubscribedInfo">
+    <sequence>
+      <element name="subscribedInfo" type="string" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <simpleType name="IPAddress">
+    <restriction base="string">
+      <pattern value="([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])\.([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])\.([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])\.([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])"/>
+      <pattern value="([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}"/>
+      <pattern value="(([0-9A-Fa-f]{1,4}:){6})(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}"/>
+      <pattern value="::(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,6})?)"/>
+      <pattern value="([0-9A-Fa-f]{1,4})::(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,5})?)"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){1})::(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,4})?)"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){2})::(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,3})?)"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){3})::(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,2})?)"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){4})::(([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){0,1})?)"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){5})::(([0-9A-Fa-f]{1,4})?)"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){6})::"/>
+      <pattern value="::(([0-9A-Fa-f]{1,4}:){0,5})(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}"/>
+      <pattern value="([0-9A-Fa-f]{1,4})::(([0-9A-Fa-f]{1,4}:){0,4})(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}))::(([0-9A-Fa-f]{1,4}:){0,3})(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){2})::(([0-9A-Fa-f]{1,4}:){0,2})(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){3})::(([0-9A-Fa-f]{1,4}:){0,1})(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}"/>
+      <pattern value="([0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){4})::(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}"/>
+    </restriction>
+  </simpleType>
+  <complexType name="MultiDeviceImsiType">
+    <sequence>
+      <element name="mdIndicator" type="string"/>
+      <element name="mdImsi" type="string"/>
+    </sequence>
+  </complexType>
+  <complexType name="MultiDeviceMsisdnType">
+    <sequence>
+      <element name="mdIndicator" type="string"/>
+      <element name="mdMsisdn" type="string"/>
+    </sequence>
+  </complexType>
+  <complexType name="BasicService">
+    <sequence>
+      <element name="msisdn" type="string" minOccurs="0"/>
+      <element name="bcieID" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="eps">
+    <sequence>
+      <element name="defaultPdnContextId" type="int" minOccurs="0"/>
+      <element name="maxBandwidthUp" type="int" minOccurs="0"/>
+      <element name="maxBandwidthDown" type="int" minOccurs="0"/>
+      <element name="mmeIdentity" type="string" minOccurs="0"/>
+      <element name="msPurgedEps" type="string" minOccurs="0"/>
+      <element name="apnOIReplacement" type="string" minOccurs="0"/>
+      <element name="sessionTransferNumber" type="string" minOccurs="0"/>
+      <element name="vplmnId" type="string" minOccurs="0"/>
+      <element name="featuresSupportedByMME" type="int" minOccurs="0"/>
+      <element name="ueRegistered" type="string" minOccurs="0"/>
+      <element name="sessionTimeout" type="int" minOccurs="0"/>
+      <element name="aaaServerAddress" type="string" minOccurs="0"/>
+      <element name="aaaServerRealm" type="string" minOccurs="0"/>
+      <element name="currentRATType" type="string" minOccurs="0"/>
+      <element name="accessAPNEnabled" type="string" minOccurs="0"/>
+      <element name="notAllowedRATTypes" type="string" minOccurs="0"/>
+      <element name="mipFeatureVector" type="string" minOccurs="0" maxOccurs="4"/>
+      <element name="msisdn" type="string" minOccurs="0"/>
+      <element name="mmeSuppFeatures" type="obj:MmeSuppFeatures" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="odbPOAccessEps" type="string" minOccurs="0"/>
+      <element name="rfspIndex" type="string" minOccurs="0"/>
+      <element name="mmeRealm" type="string" minOccurs="0"/>
+      <element name="mmeUpdateSucceeded" type="string" minOccurs="0"/>
+      <element name="plmnStatus" type="string" minOccurs="0"/>
+      <element name="mmeHostId" type="string" minOccurs="0"/>
+      <element name="imsVoiceOverPS" type="string" minOccurs="0"/>
+      <element name="locUpdateTimestamp" type="dateTime" minOccurs="0"/>
+      <element name="refLipaAllowedVplmnListName" type="string" minOccurs="0"/>
+      <element name="isMPSEnabled" type="string" minOccurs="0"/>
+      <element name="refDeviceProfileName" type="string" minOccurs="0"/>
+      <element name="vplmnIdS6a" type="string" minOccurs="0"/>
+      <element name="s6aSgsnNumber" type="string" minOccurs="0"/>
+      <element name="s6aCombinedFlag" type="string" minOccurs="0"/>
+      <element name="virtualApnName" type="string" minOccurs="0"/>
+      <element name="epsAAARegistration" type="obj:EPSAAARegistration" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="emergencyBarringEnabled" type="string" minOccurs="0"/>
+      <element name="eUTRANCellGlobalId" type="string" minOccurs="0"/>
+      <element name="trackingAreaId" type="string" minOccurs="0"/>
+      <element name="imeiRef" type="string" minOccurs="0"/>
+      <element name="meidRef" type="string" minOccurs="0"/>
+      <element name="privateUserIdRef" type="string" minOccurs="0"/>
+      <element name="s6aULAHostId" type="string" minOccurs="0"/>
+      <element name="sGsMmeIdentity" type="string" minOccurs="0"/>
+      <element name="pdnOnDemand" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSAAARegistration">
+    <sequence>
+      <element name="aaaServerAddress" type="string" minOccurs="0"/>
+      <element name="aaaServerRealm" type="string" minOccurs="0"/>
+      <element name="RATType" type="string" minOccurs="0"/>
+      <element name="regStatus" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSPdnContext">
+    <sequence>
+      <element name="apn" type="string" minOccurs="0"/>
+      <element name="contextId" type="int" minOccurs="0"/>
+      <element name="type" type="string" minOccurs="0"/>
+      <element name="ipv4Address" type="string" minOccurs="0"/>
+      <element name="ipv6Address" type="string" minOccurs="0"/>
+      <element name="pdnGw" type="string" minOccurs="0"/>
+      <element name="pdnGwRealm" type="string" minOccurs="0"/>
+      <element name="pdnGwIPv4" type="string" minOccurs="0"/>
+      <element name="pdnGwIPv6" type="string" minOccurs="0"/>
+      <element name="pdnGwDynamicAllocation" type="string" minOccurs="0"/>
+      <element name="vplmnAddressAllowed" type="string" minOccurs="0"/>
+      <element name="maxBandwidthUp" type="int" minOccurs="0"/>
+      <element name="maxBandwidthDown" type="int" minOccurs="0"/>
+      <element name="qos" type="string" minOccurs="0"/>
+      <element name="pdnChargingCharacteristics" type="obj:GeneralChargingCharacteristics" minOccurs="0"/>
+      <element name="dynPdnInfo" type="string" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="pdnContextBlocking" type="obj:PdnContextBlocking" minOccurs="0"/>
+      <element name="lipaPermission" type="string" minOccurs="0"/>
+      <element name="restorationPriority" type="int" minOccurs="0"/>
+      <element name="virtualApnName" type="string" minOccurs="0"/>
+      <element name="refHssPdnContextName" type="string" minOccurs="0"/>
+      <element name="aaaServerAddress" type="string" minOccurs="0"/>
+      <element name="aaaServerRealm" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="PdnContextBlocking">
+    <sequence>
+      <element name="flagAPNBlockedOverS6a" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="flagAPNBlockedOverSWx" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="flagReserved2" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="flagReserved3" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="flagReserved4" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="flagReserved5" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="flagReserved6" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="flagReserved7" type="string" minOccurs="0" maxOccurs="1"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSCsg">
+    <sequence>
+      <element name="mccMnc" type="string" minOccurs="0"/>
+      <element name="csgId" type="obj:EPSCsgId" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSCsgId">
+    <sequence>
+      <element name="csgId" type="string" minOccurs="0"/>
+      <element name="apnName" type="string" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSTracingProfile">
+    <sequence>
+      <element name="reference" type="string" minOccurs="0"/>
+      <element name="depth" type="int" minOccurs="0"/>
+      <element name="neTypeList" type="string" minOccurs="0"/>
+      <element name="interfaceList" type="string" minOccurs="0"/>
+      <element name="eventList" type="string" minOccurs="0"/>
+      <element name="collectionEntityIp" type="string" minOccurs="0"/>
+      <element name="activationState" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSPsRszi">
+    <sequence>
+      <element name="mcc" type="string" minOccurs="0"/>
+      <element name="mnc" type="string" minOccurs="0"/>
+      <element name="zoneCode01" type="string" minOccurs="0"/>
+      <element name="zoneCode02" type="string" minOccurs="0"/>
+      <element name="zoneCode03" type="string" minOccurs="0"/>
+      <element name="zoneCode04" type="string" minOccurs="0"/>
+      <element name="zoneCode05" type="string" minOccurs="0"/>
+      <element name="zoneCode06" type="string" minOccurs="0"/>
+      <element name="zoneCode07" type="string" minOccurs="0"/>
+      <element name="zoneCode08" type="string" minOccurs="0"/>
+      <element name="zoneCode09" type="string" minOccurs="0"/>
+      <element name="zoneCode10" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSASNotificationInfo">
+    <sequence>
+      <element name="asHostName" type="string" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="notificationData" type="obj:EPSNotificationData" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSNotificationData">
+    <sequence>
+      <element name="notificationIdValue" type="string" minOccurs="0"/>
+      <element name="dataReferenceType" type="string" minOccurs="0"/>
+      <element name="asRealm" type="string" minOccurs="0"/>
+      <element name="serviceIndication" type="string" minOccurs="0"/>
+      <element name="expiryTime" type="string" minOccurs="0"/>
+      <element name="shUserIdentity" type="string" minOccurs="0"/>
+      <element name="shUserName" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPSAdditionalHssServiceData">
+    <sequence>
+      <element name="refScsGroupName" type="obj:RefScsGroupName" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="deviceTriggerAllowed" type="string" minOccurs="0"/>
+      <element name="refPrivacyProfileReg" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="RefScsGroupName">
+    <sequence>
+      <element name="refScsGroupName" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="MmeSuppFeatures">
+    <sequence>
+      <element name="featuredListId" type="string" minOccurs="0" maxOccurs="1"/>
+      <element name="featuredList" type="string" minOccurs="0" maxOccurs="1"/>
+    </sequence>
+  </complexType>
+  <complexType name="SgsnSupportedFeatures">
+    <sequence>
+      <element name="featureListId" type="int" minOccurs="0" maxOccurs="1"/>
+      <element name="feature" type="string" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="AppSrvNotificationData">
+    <sequence>
+      <element name="msisdn" type="string" minOccurs="0"/>
+      <element name="asHostName" type="string" minOccurs="0"/>
+      <element name="asRealm" type="string" minOccurs="0"/>
+      <element name="asSubscribedInfo" type="obj:ASSubscribedInfo" minOccurs="0"/>
+      <element name="expiryTime" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="HSS">
+    <sequence>
+      <element name="subscriptionId" type="string" minOccurs="0"/>
+      <element name="scscfDestinationRealm" type="string" minOccurs="0"/>
+      <element name="profileType" type="string" minOccurs="0"/>
+      <element name="adminBlocked" type="string" minOccurs="0"/>
+      <element name="defaultScscfRequired" type="string" minOccurs="0"/>
+      <element name="maximumPrivateIds" type="string" minOccurs="0"/>
+      <element name="maximumPublicIds" type="string" minOccurs="0"/>
+      <element name="subscriptionExpiryDate" type="string" minOccurs="0"/>
+      <element name="scscfSipAddress" type="string" minOccurs="0"/>
+      <element name="scscfHost" type="string" minOccurs="0"/>
+      <element name="sharedIFCSupport" type="string" minOccurs="0"/>
+      <element name="chargingGroupId" type="string" minOccurs="0"/>
+      <element name="ccfPrimary" type="string" minOccurs="0"/>
+      <element name="ccfSecondary" type="string" minOccurs="0"/>
+      <element name="ecfPrimary" type="string" minOccurs="0"/>
+      <element name="ecfSecondary" type="string" minOccurs="0"/>
+      <element name="directRoutingSipAddress" type="string" minOccurs="0"/>
+      <element name="commonMsisdn" type="string" minOccurs="0"/>
+      <element name="suppressAliasForImsiMsisdn" type="string" minOccurs="0"/>
+      <element name="privateUserId" type="obj:privateUserId" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="implicitRegisteredSet" type="obj:implicitRegisteredSet" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="publicUserId" type="obj:publicUserId" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="serviceProfile" type="obj:serviceProfile" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="repositoryData" type="obj:RepositoryData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="notification" type="obj:Notification" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="pprTriggerInfo" type="obj:PPRTriggerInfo" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="gussData" type="obj:GussData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="aliasGroup" type="obj:aliasGroup" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="aliasRepositoryData" type="obj:aliasRepositoryData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="refSharedUserProfile" type="string" minOccurs="0"/>
+      <element name="refCxRestrictionVPLMNId" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="Profile">
+    <sequence>
+      <element name="givenName" type="string" minOccurs="0"/>
+      <element name="surname" type="string" minOccurs="0"/>
+      <element name="username" type="string" minOccurs="0"/>
+      <element name="password" type="string" minOccurs="0"/>
+      <element name="loginPassword" type="string" minOccurs="0"/>
+      <element name="prepaid" type="string" minOccurs="0"/>
+      <element name="roamingAllowed" type="string" minOccurs="0"/>
+      <element name="notificationEmail" type="string" minOccurs="0"/>
+      <element name="preferredLanguage" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="PPRTriggerInfo">
+    <sequence>
+      <element name="privateUserId" type="string" minOccurs="0"/>
+      <element name="publicUserIds" type="string" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="GussData">
+    <sequence>
+      <element name="gussDataId" type="string" minOccurs="0"/>
+      <element name="uiccSecurityType" type="string" minOccurs="0"/>
+      <element name="keyLifetime" type="string" minOccurs="0"/>
+      <element name="gussTimeStamp" type="string" minOccurs="0"/>
+      <element name="ussData" type="obj:UssData" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="UssData">
+    <sequence>
+      <element name="ussDataId" type="string" minOccurs="0"/>
+      <element name="gsId" type="string" minOccurs="0"/>
+      <element name="activeIndication" type="string" minOccurs="0"/>
+      <element name="ussType" type="string" minOccurs="0"/>
+      <element name="refNafGroupId" type="string" minOccurs="0"/>
+      <element name="permissionListItem" type="obj:PermissionListItem" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="keySelectionId" type="string" minOccurs="0"/>
+      <element name="upiListItem" type="obj:UpiListItem" minOccurs="0" maxOccurs="45"/>
+    </sequence>
+  </complexType>
+  <complexType name="UpiListItem">
+    <sequence>
+      <element name="upi" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="RepositoryData">
+    <sequence>
+      <element name="serviceIndId" type="string" minOccurs="0"/>
+      <element name="publicUserId" type="string" minOccurs="0"/>
+      <element name="version" type="string" minOccurs="0"/>
+      <element name="asData" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="PermissionListItem">
+    <sequence>
+      <element name="permissionFlag" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="Notification">
+    <sequence>
+      <element name="asHostName" type="string" minOccurs="0"/>
+      <element name="publicUserId" type="string" minOccurs="0"/>
+      <element name="asDestinationRealm" type="string" minOccurs="0"/>
+      <element name="asSipAddress" type="string" minOccurs="0"/>
+      <element name="quiescenceStatus" type="string" minOccurs="0"/>
+      <element name="notifyScscfName" type="string" minOccurs="0"/>
+      <element name="notifyFilter" type="string" minOccurs="0"/>
+      <element name="notifyChargingInfo" type="string" minOccurs="0"/>
+      <element name="notifyPublicId" type="string" minOccurs="0"/>
+      <element name="notifyRegistration" type="string" minOccurs="0"/>
+      <element name="sessionId" type="string" minOccurs="0"/>
+      <element name="serviceIndNames" type="string" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="identitySet" type="string" minOccurs="0" maxOccurs="4"/>
+      <element name="shExpiryTime" type="string" minOccurs="0"/>
+      <element name="messageWaitIndication" type="string" minOccurs="0"/>
+      <element name="notifyServicePriorityLevel" type="string" minOccurs="0"/>
+      <element name="notifyExtendedPriority" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="privateUserId">
+    <sequence>
+      <element name="privateUserId" type="string" minOccurs="0"/>
+      <element name="imsi" type="string" minOccurs="0"/>
+      <element name="provisionedImsi" type="obj:ProvisionedImsi" minOccurs="0"/>
+      <element name="msisdn" type="string" minOccurs="0"/>
+      <element name="ipAddress" type="string" minOccurs="0"/>
+      <element name="framedIPV6Prefix" type="string" minOccurs="0"/>
+      <element name="framedInterfaceId" type="string" minOccurs="0"/>
+      <element name="httpDigestKey" type="string" minOccurs="0"/>
+      <element name="httpDigestKeyVersion" type="string" minOccurs="0"/>
+      <element name="preferredAuthenticationScheme" type="string" minOccurs="0"/>
+      <element name="usedAuthenticationScheme" type="string" minOccurs="0"/>
+      <element name="lineIdentifier" type="obj:LineIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="sgsnId" type="string" minOccurs="0"/>
+      <element name="ggsnId" type="string" minOccurs="0"/>
+      <element name="actAsVLR" type="string" minOccurs="0"/>
+      <element name="chargeId" type="string" minOccurs="0"/>
+      <element name="sessionId" type="string" minOccurs="0"/>
+      <element name="preferredDomain" type="string" minOccurs="0"/>
+      <element name="refGussDataId" type="string" minOccurs="0"/>
+      <element name="looseRoutingIndicationRequired" type="string" minOccurs="0"/>
+      <element name="digestRealm" type="string" minOccurs="0"/>
+      <element name="digestHa1" type="string" minOccurs="0"/>
+      <element name="uimId" type="string" minOccurs="0"/>
+      <element name="domainSelectionFlag" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="LineIdentifier">
+    <sequence>
+      <element name="lineIdentifier" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="ProvisionedImsi">
+    <sequence>
+      <element name="provisionedImsi" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="implicitRegisteredSet">
+    <sequence>
+      <element name="irsId" type="string" minOccurs="0"/>
+      <element name="registrationStatus" type="string" minOccurs="0"/>
+      <element name="authenticationPending" type="string" minOccurs="0"/>
+      <element name="provisionedPrivateId" type="string" minOccurs="0"/>
+      <element name="privateIds" type="string" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="visitedNetworkListId" type="int" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="emergencyRegistration" type="string" minOccurs="0"/>
+      <element name="registrationTimeStamp" type="string" minOccurs="0"/>
+      <element name="defaultRegTimeStamp" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="publicUserId">
+    <sequence>
+      <element name="publicUserId" type="string" minOccurs="0"/>
+      <element name="originalPublicUserId" type="string" minOccurs="0"/>
+      <element name="barringIndication" type="string" minOccurs="0"/>
+      <element name="defaultIndication" type="string" minOccurs="0"/>
+      <element name="serviceProfileName" type="string" minOccurs="0"/>
+      <element name="irsId" type="string" minOccurs="0"/>
+      <element name="displayName" type="string" minOccurs="0"/>
+      <element name="displayNamePrivacy" type="string" minOccurs="0"/>
+      <element name="aliasId" type="string" minOccurs="0"/>
+      <element name="isChildIMPU" type="string" minOccurs="0"/>
+      <element name="servicePriorityLevel" type="int" minOccurs="0"/>
+      <element name="sarPublicUserId" type="string" minOccurs="0"/>
+      <element name="publicIdType" type="string" minOccurs="0"/>
+      <element name="snrPublicUserId" type="string" minOccurs="0"/>
+      <element name="extendedPriority" type="obj:ExtendedPriority" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="ExtendedPriority">
+    <sequence>
+      <element name="priorityNamespace" type="string" minOccurs="0"/>
+      <element name="priorityLevel" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="serviceProfile">
+    <sequence>
+      <element name="profileName" type="string" minOccurs="0"/>
+      <element name="mandatoryCapability" type="obj:mandatoryCapability" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="optionalCapability" type="obj:OptionalCapability" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="globalFilterId" type="obj:GlobalFilterId" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="subscribedMediaProfileID" type="obj:SubscribedMediaProfileID" minOccurs="0"/>
+      <element name="userFilterCriteria" type="obj:UserFilterCriteria" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="subscribedMediaProfileId" type="int" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="OptionalCapability">
+    <sequence>
+      <element name="optionalCapability" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="mandatoryCapability">
+    <sequence>
+      <element name="mandatoryCapability" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="GlobalFilterId">
+    <sequence>
+      <element name="globalFilterId" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="SubscribedMediaProfileID">
+    <sequence>
+      <element name="sessionReleasePolicy" type="string" minOccurs="0"/>
+      <element name="forkingPolicy" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="UserFilterCriteria">
+    <sequence>
+      <element name="filterName" type="string" minOccurs="0"/>
+      <element name="asSipAddress" type="string" minOccurs="0"/>
+      <element name="priority" type="int" minOccurs="0"/>
+      <element name="triggerPoints" type="string" minOccurs="0"/>
+      <element name="serviceInformation" type="string" minOccurs="0"/>
+      <element name="handling" type="string" minOccurs="0"/>
+      <element name="profilePartIndication" type="string" minOccurs="0"/>
+      <element name="includeRegisterRequest" type="string" minOccurs="0"/>
+      <element name="includeRegisterResponse" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="aliasGroup">
+    <sequence>
+      <element name="aliasId" type="string" minOccurs="0"/>
+      <element name="serviceProfileName" type="string" minOccurs="0"/>
+      <element name="irsId" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="aliasRepositoryData">
+    <sequence>
+      <element name="serviceIndId" type="string" minOccurs="0"/>
+      <element name="version" type="string" minOccurs="0"/>
+      <element name="asData" type="string" minOccurs="0"/>
+      <element name="aliasId" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="SIP-Basic-Data">
+    <sequence>
+      <element name="group-profile-id" type="string" minOccurs="0"/>
+      <element name="msg-profile-id" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="CS-Data-Change-Notification">
+    <sequence>
+      <element name="indication" type="string" minOccurs="0"/>
+      <element name="timestamp" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="msas">
+    <sequence>
+      <element name="user-name" type="string" minOccurs="0"/>
+      <element name="service-states" type="obj:service-states" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="msan">
+    <sequence>
+      <element name="device" type="obj:device" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="msaa">
+    <sequence>
+      msaa
+      <element name="device" type="obj:device" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="NVS-Data">
+    <sequence>
+      <element name="NVS-GT-address" type="string" minOccurs="0"/>
+      <element name="NVS-UNI-FQDN" type="string" minOccurs="0"/>
+      <element name="NVS-NNI-FQDN" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="service-states">
+    <sequence>
+      <element name="service" type="obj:service" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+  <complexType name="device">
+    <sequence>
+      <element name="user-name" type="string" minOccurs="0"/>
+      <element name="notification" type="obj:notification" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="service">
+    <sequence>
+      <element name="service-name" type="string" minOccurs="0"/>
+      <element name="status" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="notification">
+    <sequence>
+      <element name="notification-name" type="string" minOccurs="0"/>
+      <element name="apns-token" type="string" minOccurs="0"/>
+      <element name="notification-enabled" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <element name="objects" type="obj:objects"/>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\_MyData\Work\OSPDEG\Subversion\branches\delivery\templates_tobuild\opt\deg\IUM\appserver\flatfiles\DeviceInterface\soap\GetSubscriberDetails\Header.xsd</con:url><con:content><![CDATA[<schema targetNamespace="http://xmlns.hpe.com/map/spml/wsdl/Common/Header" elementFormDefault="unqualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:head="http://xmlns.hpe.com/map/spml/wsdl/Common/Header" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <complexType name="Header">
+    <sequence>
+      <element name="source" type="string"/>
+      <element name="sourceTimestamp" type="dateTime"/>
+      <element name="transactionId" type="string"/>
+      <element name="application" type="string" minOccurs="0"/>
+      <element name="messageId" type="string" minOccurs="0"/>
+      <element name="originator" type="string" minOccurs="0"/>
+      <element name="destination" type="string" minOccurs="0"/>
+      <element name="version" type="string" minOccurs="0"/>
+      <element name="event" type="string" minOccurs="0"/>
+      <element name="custom" type="string" minOccurs="0"/>
+      <element name="Property" minOccurs="0" maxOccurs="unbounded">
+        <complexType>
+          <sequence>
+            <element name="name" type="string"/>
+            <element name="value" type="string"/>
+          </sequence>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="Header" type="head:Header"/>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\_MyData\Work\OSPDEG\Subversion\branches\delivery\templates_tobuild\opt\deg\IUM\appserver\flatfiles\DeviceInterface\soap\GetSubscriberDetails\FaultMessage.xsd</con:url><con:content><![CDATA[<schema targetNamespace="http://xmlns.hpe.com/map/spml/Common/FaultMessage" elementFormDefault="unqualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:flt="http://xmlns.hpe.com/map/spml/Common/FaultMessage" xmlns:obj="http://xmlns.hpe.com/map/spml/Common/Objects" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://xmlns.hpe.com/map/spml/Common/Objects" schemaLocation="Objects.xsd"/>
+  <complexType name="Fault">
+    <sequence>
+      <element name="faultcoode" type="string"/>
+      <element name="faultstring" type="string"/>
+      <element name="faultactor" type="string"/>
+      <element name="detail" type="flt:detail" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  <complexType name="detail">
+    <sequence>
+      <element ref="obj:objects"/>
+    </sequence>
+  </complexType>
+  <element name="Fault" type="flt:Fault"/>
+  <element name="objects" type="obj:objects"/>
+</schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8888/BusinessServices/CustomerManagement/CustomerProfileManagement/CustomerPersonalInformationManagement/GetSubscriberDetails/Interface/Service.serviceagent/HTTPEndpoint</con:endpoint></con:endpoints><con:operation id="87096fb6-d601-4905-b4dc-885dc7defebb" isOneWay="false" action="GetSubscriberDetails.1" name="GetSubscriberDetails" bindingOperationName="GetSubscriberDetails" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cc0a587e-b5c2-4ffa-95c6-443e9533935e" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8289/ProvisioningGateway/services/SPMLSubscriber10Service</con:endpoint><con:request><![CDATA[<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+    <env:Header><head:Header xmlns:head="http://xmlns.vodafone.co.uk/map/spml/wsdl/Common/Header"/></env:Header>
+    <env:Body>
+                <ns0:searchRequest xmlns:ns0="urn:siemens:names:prov:gw:SPML:2:0">
+                    <version>SUBSCRIBER_v10</version>
+                    <base>
+                        <objectclass>Subscriber</objectclass>
+                        <alias name="imsi" value="214035643032304"/>
+                    </base>
+                </ns0:searchRequest>
+     </env:Body>
+</env:Envelope>
+]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="GetSubscriberDetails.1"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

@@ -140,7 +140,7 @@ function process
     if [ -f ${TMP_DIR}/alarm_condition.${ALARM_LIMIT} ]
     then
       ALARM_ID="$(getConfigParam ${ALARM_LIMIT} ALARM_ID)"
-      if [ $? -lt 0 ] || [ -z "${THRESHOLD_DAYS}" ]
+      if [ $? -lt 0 ] || [ -z "${ALARM_ID}" ]
       then
         logError "Unable to get mandatory parameter 'ALARM_ID' in section '${ALARM_LIMIT}'"
         return 1
@@ -150,7 +150,7 @@ function process
       DETAILS=$(cat ${TMP_DIR}/alarm_condition.${ALARM_LIMIT} | awk -F: 'BEGIN { txt = "" } { if (txt == "") { txt = $1" (remaining days "$2")" } else { txt = txt", "$1" (remaining days "$2")" } } END { print txt }')
 
       ALARM_TEXT="$(getConfigParam ${ALARM_LIMIT} ALARM_TEXT)"
-      if [ $? -lt 0 ] || [ -z "${THRESHOLD_DAYS}" ]
+      if [ $? -lt 0 ] || [ -z "${ALARM_TEXT}" ]
       then
         logError "Unable to get mandatory parameter 'ALARM_TEXT' in section '${ALARM_LIMIT}'"
         return 1
