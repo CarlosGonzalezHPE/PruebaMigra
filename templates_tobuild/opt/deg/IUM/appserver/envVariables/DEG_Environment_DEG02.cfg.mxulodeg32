@@ -1747,14 +1747,14 @@ JOB_CERT_LOG_DIR=/var/opt/SIU_DEG02/scripts/jobs/oam/job-cert/log
 
 #{
 #
-JOB_CERT_NAME=job-dig
+JOB_DIG_NAME=job-dig
 #Configured By= Delivery Team
 #Description= Name of Process for monitoring of DNS resolution
 #}
 
 #{
 #
-JOB_CERT_LOG_DIR=/var/opt/SIU_DEG02/scripts/jobs/oam/job-dig/log
+JOB_DIG_LOG_DIR=/var/opt/SIU_DEG02/scripts/jobs/oam/job-dig/log
 #Configured By= Delivery Team
 #Description= Directory for Alarming files related to the monitoring of DNS resolution
 #}
