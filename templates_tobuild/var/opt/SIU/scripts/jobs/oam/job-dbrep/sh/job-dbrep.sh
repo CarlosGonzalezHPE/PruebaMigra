@@ -361,6 +361,25 @@ EOF
       continue
     fi
 
+    DATETIME_FIELD="$(getConfigParam ${TABLE} DATETIME_FIELD)"
+    if [ $? -lt 0 ] || [ -z "${DATETIME_FIELD}" ]
+    then
+      logError "Unable to get mandatory parameter 'DATETIME_FIELD' in section '${TABLE}'"
+      touch ${TMP_DIR}/${TABLE}.failed
+      continue
+    fi
+    logDebug "DATETIME_FIELD = ${DATETIME_FIELD}"
+
+    DATETIME_FORMAT="$(getConfigParam ${TABLE} DATETIME_FORMAT)"
+    if [ $? -lt 0 ] || [ -z "${DATETIME_FORMAT}" ]
+    then
+      logError "Unable to get mandatory parameter 'DATETIME_FORMAT' in section '${TABLE}'"
+      touch ${TMP_DIR}/${TABLE}.failed
+      > ${TMP_DIR}/${TABLE}.failed
+      continue
+    fi
+    logDebug "DATETIME_FORMAT = ${DATETIME_FORMAT}"
+
     CONFLICT_RESOLUTION_ENABLED="$(getConfigParam ${TABLE} CONFLICT_RESOLUTION_ENABLED)"
     if [ $? -lt 0 ] || [ -z "${CONFLICT_RESOLUTION_ENABLED}" ]
     then
@@ -533,13 +552,13 @@ EOF
       continue
     fi
 
-    logInfo "Updating control file for table '${TABLE}'"
+    #logInfo "Updating control file for table '${TABLE}'"
 
-    echo ${TIMESTAMP_NOW} > ${CTRL_DIR}/${TABLE}.timestamp_last_execution
-    if [ $? -ne 0 ]
-    then
-      logError "Command 'echo ${TIMESTAMP_NOW} > ${CTRL_DIR}/${TABLE}.timestamp_last_execution' failed"
-    fi
+    #echo ${TIMESTAMP_NOW} > ${CTRL_DIR}/${TABLE}.timestamp_last_execution
+    #if [ $? -ne 0 ]
+    #then
+    #  logError "Command 'echo ${TIMESTAMP_NOW} > ${CTRL_DIR}/${TABLE}.timestamp_last_execution' failed"
+    #fi
   done < ${TMP_DIR}/tables
 
   return ${RETURN_CODE}
