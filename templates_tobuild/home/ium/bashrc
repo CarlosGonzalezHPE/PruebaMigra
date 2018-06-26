@@ -38,6 +38,7 @@ alias cdj='cd /var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring'
 alias cdmon='cd /var/opt/<%SIU_INSTANCE%>/scripts/jobs/monitoring'
 alias cdeg='cd /opt/deg/IUM'
 alias cdenv='cd /opt/deg/IUM/envVariables'
+alias cdw='mkdir -p ${HOME}/hpe_support/$(date "+%Y%m%d"); cd ${HOME}/hpe_support/$(date "+%Y%m%d")'
 [#SECTION_BEGIN:MANAGER#]
 alias cdvdb='cd /var/Mariadb'
 alias mysqlapp='mysql -u root -S /var/Mariadb/DEG_APP_MD/mysql.sock -D deg_dsn_md'
