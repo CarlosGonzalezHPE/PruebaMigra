@@ -894,13 +894,6 @@ SECONDARY_RADIUS_SERVER_HOST_IP=10.192.13.172
 
 #{
 #IUM_Process=DEG_DeviceInterface
-PRIMARY_AAA_HOST_IP=10.223.6.118
-#Configured By= Carrier
-#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
-#}
-
-#{
-#IUM_Process=DEG_DeviceInterface
 PRIMARY_CREDENTIAL_ADDRESS=http://10.192.13.172:9093/ium-ManageDeviceCredentials/servlet/IUMServlet
 #Configured By= Delivery Team
 #Description= This variable is used as end point address of where the interface is running.
@@ -956,24 +949,59 @@ DEVICE_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxfuodeg31.deg.aes.orange.es
 #}
 
 #{
+#IUM_Process=DEG_DeviceInterface
+PRIMARY_AAA_HOST_IP=10.223.2.118
+#Configured By= Carrier
+#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
+#}
+
+#{
 #IUM_Process= DEG_JobsInterface
-PRIMARY_AAA_HOST_NAME=mxfuaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
+PRIMARY_AAA_HOST_NAME=mxulaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
 #Configured By= Carrier
 #Description= This variable holds the host name where the remote diameter primary AAA server will be hosted.
 #}
 
 #{
-#IUM_Process= DEG_JobsInterface
-SECONDARY_AAA_HOST_IP=10.223.2.118
+#IUM_Process=DEG_DeviceInterface
+SECONDARY_AAA_HOST_IP=10.223.2.119
 #Configured By= Carrier
-#Description= This variable holds the IP address where the secondary remote AAA server will be hosted.
+#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
 #}
 
 #{
-#IUM_Process=  DEG_JobsInterface.
-SECONDARY_AAA_HOST_NAME=mxulaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
+#IUM_Process= DEG_JobsInterface
+SECONDARY_AAA_HOST_NAME=mxulaaa02.aaa.ims.mnc003.mcc214.3gppnetwork.org
 #Configured By= Carrier
-#Description= This variable holds the host name where the secondary remote AAA server will be hosted.
+#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+TERTIARY_AAA_HOST_IP=10.223.6.118
+#Configured By= Carrier
+#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+TERTIARY_AAA_HOST_NAME=mxulaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
+#Configured By= Carrier
+#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted.
+#}
+
+#{
+#IUM_Process=DEG_DeviceInterface
+QUATERNARY_AAA_HOST_IP=10.223.6.119
+#Configured By= Carrier
+#Description= This variable holds the IP address where the remote diameter primary AAA server will be hosted.
+#}
+
+#{
+#IUM_Process= DEG_JobsInterface
+QUATERNARY_AAA_HOST_NAME=mxulaaa02.aaa.ims.mnc003.mcc214.3gppnetwork.org
+#Configured By= Carrier
+#Description= This variable holds the host name where the remote diameter primary AAA server will be hosted.
 #}
 
 #{

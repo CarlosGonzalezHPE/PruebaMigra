@@ -255,6 +255,7 @@ EOF
 
     AUX_SELECT_KEY=
     AUX_SELECT_FIELDS=
+    AUX_SELECT_FIELDS2=
     while read FIELD_LINE
     do
       FIELD_NAME=$(echo ${FIELD_LINE} | cut -d ";" -f 1)
@@ -266,11 +267,13 @@ EOF
         AUX_SELECT_KEY=${AUX_SELECT_KEY}"'"${FIELD_NAME}"=',"${FIELD_NAME}",';',"
       else
         AUX_SELECT_FIELDS=${AUX_SELECT_FIELDS}${FIELD_NAME}","
+        AUX_SELECT_FIELDS2=${AUX_SELECT_FIELDS2}"'"${FIELD_NAME}"=',"${FIELD_NAME}",';',"
       fi
     done < ${TMP_DIR}/${TABLE}.fields
 
     logDebug "AUX_SELECT_KEY = ${AUX_SELECT_KEY}"
     logDebug "AUX_SELECT_FIELDS = ${AUX_SELECT_FIELDS}"
+    logDebug "AUX_SELECT_FIELDS2 = ${AUX_SELECT_FIELDS2}"
 
     SELECT_KEY=${AUX_SELECT_KEY/%?????/}
     if [ -z "${SELECT_KEY}" ]

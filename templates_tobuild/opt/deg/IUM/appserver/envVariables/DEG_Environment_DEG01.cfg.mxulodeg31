@@ -954,6 +954,8 @@ DEVICE_DIAMETER_SERVER_HOST_NAME=client-auth-node.mxulodeg31.deg.aes.orange.es
 #Description= This is used to set Origin-Host AVP of DIAMETER messages.  Also used in forming AAA session id.  This is used by Apple initiated requests.
 #}
 
+
+
 #{
 #IUM_Process= DEG_JobsInterface
 PRIMARY_AAA_HOST_NAME=mxulaaa01.aaa.ims.mnc003.mcc214.3gppnetwork.org
