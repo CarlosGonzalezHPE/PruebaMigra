@@ -24,7 +24,7 @@ function process
   logDebug "HOSTNAME_OSS = ${HOSTNAME_OSS}"
 
   KPI_FILE_PATH=$(getConfigParam DATA KPI_FILE_PATH)
-  if [ ${?} -ne 0 ] || [ -z ${KPI_FILE_PATH} ]
+  if [ ${?} -ne 0 ] || [ -z "${KPI_FILE_PATH}" ]
   then
     logWarning "Unable to get mandatory parameter 'KPI_FILE_PATH' in section 'DATA'"
     return 1
@@ -79,13 +79,13 @@ function process
     return 1
   fi
 
-  logInfo "Computing Number of APNS pending notifications"
+  logInfo "Computing Number of pending APNS notifications"
 
   > ${TMP_DIR}/query.out_err 2>&1 ${MYSQL_PATH} -u ${DATABASE_USERNAME} -S ${DATABASE_SOKET_FILEPATH} -D ${DATABASE_NAME} --execute "select count(*) from deg_apns_message_to_be_sent"
 
-  cat ${TMP_DIR}/query-dsi-files.out_err | tail -n 1 | awk ' BEGIN { header_found = 0 } {
+  cat ${TMP_DIR}/query.out_err | awk 'BEGIN { header_found = 0 } {
     if (header_found == 0) {
-      if ($0 ~ "count(*)") {
+      if ($0 ~ "count") {
         header_found = 1;
       }
     } else {
@@ -105,11 +105,13 @@ function process
   let NUM_PENDING_NOTIFS=$(cat ${TMP_DIR}/num_pending_notifs)
   logDebug "NUM_PENDING_NOTIFS = ${NUM_PENDING_NOTIFS}"
 
-  echo > ${ACTUAL_KPI_FILE_PATH}
+  logInfo "Number of pending APNS notifications: ${NUM_PENDING_NOTIFS}"
+
+  echo ${NUM_PENDING_NOTIFS} > ${ACTUAL_KPI_FILE_PATH}
   if [ $? -ne 0 ]
   then
     RETURN_CODE=1
-    logError "Command 'echo > ${ACTUAL_KPI_FILE_PATH}' failed"
+    logError "Command 'echo ${NUM_PENDING_NOTIFS} > ${ACTUAL_KPI_FILE_PATH}' failed"
   fi
 
   getConfigSection ALARM_LIMITS > ${TMP_DIR}/alarm_limits
