@@ -536,13 +536,13 @@ DEG_ALARM_FLUSH_TIME=5m
 
 #{
 #IUM_Process= DEG_ProvisioningInterface
-PROV_INTERFACE_PROCESS_NAME=DEG_ProvisioningInterface 
+PROV_INTERFACE_PROCESS_NAME=DEG_ProvisioningInterface
 #Configured By= Product Team
 #Description=This variable is used to set the process name
 #}
 
 #{
-#IUM_Process= DEG_JobsInterface 
+#IUM_Process= DEG_JobsInterface
 JOBSINTERFACE_PROCESS_NAME=DEG_JobsInterface
 #Configured By= Product Team
 #Description=This variable is used to set the process name <JobsInterface>
@@ -645,7 +645,7 @@ SIU_DEG_02_SERVER=10.192.13.174
 #IUM_Process= DEG_FSC
 SIU_MANAGER_02_SERVER=10.192.153.189
 #Configured By= Delivery Team
-#Description= DEG_FSC is a file collection process that pulls files from application servers over password less sftp. This variable mentions the IP address in use. 
+#Description= DEG_FSC is a file collection process that pulls files from application servers over password less sftp. This variable mentions the IP address in use.
 #}
 
 #{
@@ -804,6 +804,14 @@ JOB_DBREP_NAME=job-dbrep
 JOB_DBREP_LOG_DIR=/var/opt/SIU_MANAGER/scripts/jobs/oam/job-dbrep/log/
 #Configured By= Product Team
 #Description=This variable is used to set the name for job-dbrep.
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
+JOB_APNS_NAME=job-apns
+JOB_APNS_LOG_DIR=/var/opt/SIU_MANAGER/scripts/jobs/oam/job-apns/log/
+#Configured By= Product Team
+#Description=This variable is used to set the name for job-apns.
 #}
 
 #{

@@ -808,8 +808,17 @@ JOB_DBREP_LOG_DIR=/var/opt/SIU_MANAGER/scripts/jobs/oam/job-dbrep/log/
 
 #{
 #IUM_Process = DEG_AlarmAgent
+JOB_APNS_NAME=job-apns
+JOB_APNS_LOG_DIR=/var/opt/SIU_MANAGER/scripts/jobs/oam/job-apns/log/
+#Configured By= Product Team
+#Description=This variable is used to set the name for job-apns.
+#}
+
+#{
+#IUM_Process = DEG_AlarmAgent
 DEG_SCRIPTS_NAME=scripts
 DEG_SCRIPTS_LOG_DIR=/var/opt/SIU_MANAGER/scripts/log/
 #Configured By= Product Team
 #Description=This variable is used to set the name for scripts.
 #}
+
